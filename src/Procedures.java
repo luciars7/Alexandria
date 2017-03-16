@@ -1,15 +1,8 @@
 
-public class Symptoms {
+public class Procedures {
 	int ID;
 	String name;
 	String description;
-	
-	public Symptoms(String name, String description) {
-		super();
-		this.name = name;
-		this.description = description;
-	}
-	
 	public int getID() {
 		return ID;
 	}
@@ -26,6 +19,12 @@ public class Symptoms {
 		return description;
 	}
 	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	public Procedures(String name, String description) {
+		super();
+		this.name = name;
 		this.description = description;
 	}
 	
