@@ -23,6 +23,7 @@ public void setLocation(String location) {
 public BodyParts(int ID, String name, String location){
 	this.ID = ID;
 	this.name = name;
+	//qwe
 	this.location = location;
 }
 }
