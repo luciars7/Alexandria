@@ -24,7 +24,6 @@ public class Procedures {
 	
 	public Procedures(String name, String description) {
 		super();
-		//ertyuio
 		this.name = name;
 		this.description = description;
 	}
