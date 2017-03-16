@@ -3,13 +3,6 @@ public class Author {
 	public String name;
 	public String origin;
 	public String association;
-	
-	public Author () {
-		ID = 0;
-		name = "";
-		origin = "";
-		association = "";
-	}
 
 	public Author(int iD, String name, String origin, String association) {
 		ID = iD;
