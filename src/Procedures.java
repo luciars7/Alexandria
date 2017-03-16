@@ -22,9 +22,9 @@ public class Procedures {
 		this.description = description;
 	}
 	
-	public Procedures(int iD, String name, String description) {
+	public Procedures(String name, String description) {
 		super();
-		ID = iD;
+		
 		this.name = name;
 		this.description = description;
 	}
