@@ -28,15 +28,15 @@ BodyParts bodyParts;
         this.description = description;
     }
 
-    public BodyParts getBodyPart() {
+    public BodyParts getBodyParts() {
         return bodyParts;
     }
 
-    public void setBodyPart(int bodyPart) {
+    public void setBodyPart(BodyParts bodyParts) {
         this.bodyParts = bodyParts;
     }
 
-    public Diseases(int ID, String name, String description, int bodyParts) {
+    public Diseases(int ID, String name, String description, BodyParts bodyParts) {
         this.ID = ID;
         this.name = name;
         this.description = description;
