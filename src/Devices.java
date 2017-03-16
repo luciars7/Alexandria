@@ -43,6 +43,5 @@ public class Devices {
 		this.price = price;
 		this.brand = brand;
 	}
-	//qwertygwe
 	
 }
