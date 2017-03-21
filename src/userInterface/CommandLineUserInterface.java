@@ -1,5 +1,7 @@
 package userInterface;
 
+import java.io.*;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -15,24 +17,46 @@ public class CommandLineUserInterface {
 		// Create a connection object.
 	 newConnection();
 		// Create DB_manager object.
-	 newDBManager();
-		// Show "patients".
+	 dbManager = new DBManager();
+	 
+	System.out.println("ALEXANDRIA");
+	System.out.println("**********");
+	System.out.println("\n1.) Create tables.");
+	System.out.println("2.) Add new entity.");
+	System.out.println("3.) Delete entity.");
+	System.out.println("4.) View entity.");
+	System.out.println("5.) Modify entity.");
+	System.out.println("6.) Exit.");
+	System.out.print("\nOption: ");
+	BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
+	String read = console.readLine();
+	int option = Integer.parseInt(read);
+	switch(option){
+	case 1: {
+		
+		break;}
+     case 2: {
+		
+		break;}
+     case 3: {
+ 		
+ 		break;}
+     case 4: {
+ 		
+ 		break;}
+	}
 	}
 
 	public static void newConnection(){
 	    c = null;
 		try{
 		Class.forName("org.sqlite.JDBC"); 
-		 c = DriverManager.getConnection("jdbc:sqlite:./db/company.db"); //Indicates the technology and location of the database.
+		c = DriverManager.getConnection("jdbc:sqlite:./db/company.db"); //Indicates the technology and location of the database.
 		c.createStatement().execute("PRAGMA foreign_keys=ON"); //Enables the support for foreign key constraints.
 		
 		}  catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public static void newDBManager(){
-		dbManager = new DBManager();
 	}
 	
 	public void addAuthor() {
