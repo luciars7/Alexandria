@@ -42,6 +42,5 @@ public class Author {
 	public void setAssociation(String association) {
 		this.association = association;
 	}
-	
-	
+
 }

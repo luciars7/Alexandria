@@ -5,7 +5,7 @@ public class Images {
 	public String size;
 	public String link;
 	public Paper paper_id;
-	
+
 	public Images(int iD, String description, String type, String size, String link, Paper paper_id) {
 		ID = iD;
 		this.description = description;
@@ -62,5 +62,5 @@ public class Images {
 	public void setPaper_id(Paper paper_id) {
 		this.paper_id = paper_id;
 	}
-	
+
 }

@@ -2,7 +2,7 @@ public class Paper {
 	public int ID;
 	public String title;
 	public String source;
-	
+
 	public Paper(int iD, String title, String source) {
 		ID = iD;
 		this.title = title;
@@ -32,5 +32,5 @@ public class Paper {
 	public void setSource(String source) {
 		this.source = source;
 	}
-	
+
 }
