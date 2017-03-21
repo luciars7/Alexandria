@@ -71,6 +71,9 @@ public class DBManager {
 					+ " PRIMARY KEY (report_id,employee_id))";
 			stmt4.executeUpdate(sql4);
 			stmt4.close();
+			Statement stmt5 = c.createStatement();
+			String sql5 = "CREATE TABLE body parts"
+					+ "";
 			System.out.println("Tables created.");
 			// Create table: end
 
@@ -96,4 +99,5 @@ public class DBManager {
 			e.printStackTrace();
 		}
 	}
+	
 }
