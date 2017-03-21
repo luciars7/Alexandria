@@ -1,3 +1,4 @@
+package POJOS;
 public class BodyParts {
 	int ID;
 	String name;

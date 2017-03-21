@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
-public class DB_manager {
+public class DBManager {
 	Connection c = null;
 
 	public void connect() {

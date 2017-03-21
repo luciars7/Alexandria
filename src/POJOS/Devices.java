@@ -1,3 +1,4 @@
+package POJOS;
 
 public class Devices {
 	int ID;

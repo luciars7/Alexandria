@@ -1,8 +1,15 @@
+package POJOS;
 
-public class Procedures {
+public class Symptoms {
 	int ID;
 	String name;
 	String description;
+
+	public Symptoms(String name, String description) {
+		super();
+		this.name = name;
+		this.description = description;
+	}
 
 	public int getID() {
 		return ID;
@@ -25,12 +32,6 @@ public class Procedures {
 	}
 
 	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public Procedures(String name, String description) {
-		super();
-		this.name = name;
 		this.description = description;
 	}
 
