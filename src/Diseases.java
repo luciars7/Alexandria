@@ -4,6 +4,13 @@ String name;
 String description;
 BodyParts bodyParts;
 
+	public Diseases(int ID, String name, String description, BodyParts bodyParts) {
+	    this.ID = ID;
+	    this.name = name;
+	    this.description = description;
+	    this.bodyParts = bodyParts;
+	}
+
     public int getID() {
         return ID;
     }
@@ -33,13 +40,6 @@ BodyParts bodyParts;
     }
 
     public void setBodyPart(BodyParts bodyParts) {
-        this.bodyParts = bodyParts;
-    }
-
-    public Diseases(int ID, String name, String description, BodyParts bodyParts) {
-        this.ID = ID;
-        this.name = name;
-        this.description = description;
         this.bodyParts = bodyParts;
     }
 
