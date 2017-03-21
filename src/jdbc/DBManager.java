@@ -73,7 +73,7 @@ public class DBManager {
 			stmt4.close();
 			*/
 			Statement stmt5 = c.createStatement();
-			String sql5 = "CREATE TABLE body parts" +"()";
+			String sql5 = "CREATE TABLE body parts" +"( )";
 			System.out.println("Tables created.");
 			// Create table: end
 
