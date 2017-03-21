@@ -1,48 +1,38 @@
-public class Author {
-	public int ID;
-	public String name;
-	public String origin;
-	public String association;
-
-	public Author(int iD, String name, String origin, String association) {
-		ID = iD;
+package POJOS;
+public class Symptoms {
+	int ID;
+	String name;
+	String description;
+	
+	public Symptoms(String name, String description) {
 		this.name = name;
-		this.origin = origin;
-		this.association = association;
+		this.description = description;
 	}
-
+	
 	public int getID() {
 		return ID;
 	}
-
+	
 	public void setID(int iD) {
 		ID = iD;
 	}
-
+	
 	public String getName() {
 		return name;
 	}
-
+	
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public String getOrigin() {
-		return origin;
-	}
-
-	public void setOrigin(String origin) {
-		this.origin = origin;
-	}
-
-	public String getAssociation() {
-		return association;
-	}
-
-	public void setAssociation(String association) {
-		this.association = association;
+	
+	public String getDescription() {
+		return description;
 	}
 	
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -59,7 +49,7 @@ public class Author {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Author other = (Author) obj;
+		Symptoms other = (Symptoms) obj;
 		if (ID != other.ID)
 			return false;
 		return true;

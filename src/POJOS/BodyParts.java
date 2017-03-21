@@ -1,19 +1,21 @@
-public class Procedures {
+package POJOS;
+public class BodyParts {
 	int ID;
 	String name;
-	String description;
+	String location;
 	
-	public Procedures(String name, String description) {
+	public BodyParts(int ID, String name, String location){
+		this.ID = ID;
 		this.name = name;
-		this.description = description;
+		this.location = location;
 	}
 	
 	public int getID() {
 		return ID;
 	}
-
-	public void setID(int iD) {
-		ID = iD;
+	
+	public void setID(int ID) {
+		ID = ID;
 	}
 	
 	public String getName() {
@@ -24,14 +26,14 @@ public class Procedures {
 		this.name = name;
 	}
 	
-	public String getDescription() {
-		return description;
+	public String getLocation() {
+		return location;
 	}
 	
-	public void setDescription(String description) {
-		this.description = description;
+	public void setLocation(String location) {
+		this.location = location;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -48,9 +50,9 @@ public class Procedures {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Procedures other = (Procedures) obj;
+		BodyParts other = (BodyParts) obj;
 		if (ID != other.ID)
 			return false;
 		return true;
-	}	
+	}
 }

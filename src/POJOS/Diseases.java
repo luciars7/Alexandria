@@ -1,3 +1,4 @@
+package POJOS;
 public class Diseases {
 	int ID;
 	String name;
