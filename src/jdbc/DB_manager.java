@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 
 public class DB_manager {
 	Connection c = null;
+	
+	
+	
 	public void connect(){
 	try {
 		// Open database connection
