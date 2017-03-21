@@ -1,4 +1,4 @@
-package POJOS;
+package pojos;
 public class Paper {
 	public int ID;
 	public String title;

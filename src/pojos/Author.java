@@ -1,4 +1,4 @@
-package POJOS;
+package pojos;
 public class Author {
 	public int ID;
 	public String name;

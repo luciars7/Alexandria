@@ -1,4 +1,4 @@
-package User_Interface;
+package userInterface;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -28,9 +28,11 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 	}
+	
 	public static void newDBManager(){
 		this.dbManager = new dbManager;
 	}
+	
 	public void addPatient() {
 		// Builds a patient object.
 		// I think we have to do an add method for each POJO.

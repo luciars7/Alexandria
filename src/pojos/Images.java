@@ -1,4 +1,4 @@
-package POJOS;
+package pojos;
 public class Images {
 	public int ID;
 	public String description;

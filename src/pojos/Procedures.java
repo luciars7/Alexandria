@@ -1,23 +1,18 @@
-package POJOS;
-public class Devices {
+package pojos;
+public class Procedures {
 	int ID;
 	String name;
-	String type;
-	int price;
-	String brand;
+	String description;
 	
-	public Devices(int iD, String name, String type, int price, String brand) {
-		ID = iD;
+	public Procedures(String name, String description) {
 		this.name = name;
-		this.type = type;
-		this.price = price;
-		this.brand = brand;
+		this.description = description;
 	}
 	
 	public int getID() {
 		return ID;
 	}
-	
+
 	public void setID(int iD) {
 		ID = iD;
 	}
@@ -30,28 +25,12 @@ public class Devices {
 		this.name = name;
 	}
 	
-	public String getType() {
-		return type;
+	public String getDescription() {
+		return description;
 	}
 	
-	public void setType(String type) {
-		this.type = type;
-	}
-	
-	public int getPrice() {
-		return price;
-	}
-	
-	public void setPrice(int price) {
-		this.price = price;
-	}
-	
-	public String getBrand() {
-		return brand;
-	}
-	
-	public void setBrand(String brand) {
-		this.brand = brand;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override
@@ -70,7 +49,7 @@ public class Devices {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Devices other = (Devices) obj;
+		Procedures other = (Procedures) obj;
 		if (ID != other.ID)
 			return false;
 		return true;
