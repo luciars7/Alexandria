@@ -29,7 +29,13 @@ public class CommandLineUserInterface {
 	System.out.println("6.) Exit.");
 	System.out.print("\nOption: ");
 	BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
-	String read = console.readLine();
+	String read;
+	try {
+		read = console.readLine();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 	int option = Integer.parseInt(read);
 	switch(option){
 	case 1: {
