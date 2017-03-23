@@ -5,14 +5,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 import jdbc.DBManager;
-import pojos.Author;
-import pojos.BodyParts;
-import pojos.Devices;
-import pojos.Diseases;
-import pojos.Images;
-import pojos.Paper;
-import pojos.Procedures;
-import pojos.Symptoms;
+import pojos.*;
+
 
 public class CommandLineUserInterface {
 	static Connection c = null;
@@ -51,7 +45,7 @@ public class CommandLineUserInterface {
 		int option = Integer.parseInt(read);
 		switch(option){
 		case 1: {
-			newTable();
+			newTables();
 			break;}
 	     case 2: {
 			newEntity();
@@ -120,8 +114,9 @@ public class CommandLineUserInterface {
 		
 	}
 
-	private static void newTable() {
-		// TODO Auto-generated method stub
+	private static void newTables() {
+		dbManager = new DBManager();
+		dbManager.createTables();
 		
 	}
 
@@ -140,7 +135,6 @@ public class CommandLineUserInterface {
 	//These methods should connect to the DBManager
 	public void addAuthor() {
 		Author a = new Author();// Builds a patient object.
-		// I think we have to do an add method for each POJO.
 	}
 	
 	public void showAuthor () {

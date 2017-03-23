@@ -176,8 +176,13 @@ public class DBManager {
 			stmtSeq.executeUpdate(sqlSeq);
 			sqlSeq = "INSERT INTO authors (ID,name,origin,association) VALUES (2, 'Pradeep Arora', 'USA' ,'Arora Psychiatric Consultation')";
 			stmtSeq.executeUpdate(sqlSeq);
-			sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES ('reports', 1)";
+			sqlSeq = "INSERT INTO symptoms-diseases (diseases,symptoms) VALUES (1,1)";
 			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO symptoms-diseases (diseases,symptoms) VALUES (1,5)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO symptoms-diseases (diseases,symptoms) VALUES (2,7)";
+			stmtSeq.executeUpdate(sqlSeq);
+			
 			stmtSeq.close();
 			
 			
