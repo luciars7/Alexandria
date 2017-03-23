@@ -3,6 +3,7 @@ package userInterface;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.ArrayList;
 
 import jdbc.DBManager;
 import pojos.*;
@@ -106,7 +107,7 @@ public class CommandLineUserInterface {
 	    	 break;
 	     }
 	     case 9: {
-	 		showMenu();
+	 		return;
 	 		break;}
         }
 		
@@ -115,7 +116,7 @@ public class CommandLineUserInterface {
 	private static void newTables() {
 		dbManager = new DBManager();
 		dbManager.createTables();
-		
+		return;
 	}
 
 	public static void newConnection(){
@@ -136,6 +137,18 @@ public class CommandLineUserInterface {
 	}
 	
 	public void showAuthor () {
+		read=null;
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		dbManager = new DBManager();
+		ArrayList<Author> list = dbManager.selectAuthor(read);
+		if(list==null){System.out.println("Error searching for the author(s).");}
+		else{
+			System.out.println(list);
+		}
 		
 	}
 	
