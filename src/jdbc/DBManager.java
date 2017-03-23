@@ -3,8 +3,11 @@ package jdbc;
 import java.awt.List;
 import java.sql.Connection;
 import java.sql.DriverManager;
+<<<<<<< HEAD
 import java.sql.ResultSet;
 import java.sql.SQLException;
+=======
+>>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -13,33 +16,44 @@ import pojos.*;
 public class DBManager {
 	Connection c = null;
 
+<<<<<<< HEAD
     public void DBManager(){
     	connect();
     }
 	
 	public  void connect() {
+=======
+	public void connect() {
+>>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
 		try {
 			// Open database connection
 			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:./db/company.db"); 
-			c.createStatement().execute("PRAGMA foreign_keys=ON"); 
+			c = DriverManager.getConnection("jdbc:sqlite:./db/company.db"); // Indicates
+																			// the
+																			// technology
+																			// and
+																			// location
+																			// of
+																			// the
+																			// database.
+			c.createStatement().execute("PRAGMA foreign_keys=ON"); // Enables
+																	// the
+																	// support
+																	// for
+																	// foreign
+																	// key
+																	// constraints.
 			System.out.println("Database connection opened.");
+
+			// Here is where I do things with the database
+
+			// Close database connection
+			c.close();
+			System.out.println("Database connection closed.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public void close(){
-		// Close database connection
-					try {
-						c.close();
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					System.out.println("Database connection closed.");
-	}
-	
 
 	public void createTables() {
 		try {
@@ -179,8 +193,13 @@ public class DBManager {
 			stmtSeq.executeUpdate(sqlSeq);
 			sqlSeq = "INSERT INTO authors (ID,name,origin,association) VALUES (2, 'Pradeep Arora', 'USA' ,'Arora Psychiatric Consultation')";
 			stmtSeq.executeUpdate(sqlSeq);
-			sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES ('reports', 1)";
+			sqlSeq = "INSERT INTO symptoms-diseases (diseases,symptoms) VALUES (1,1)";
 			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO symptoms-diseases (diseases,symptoms) VALUES (1,5)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO symptoms-diseases (diseases,symptoms) VALUES (2,7)";
+			stmtSeq.executeUpdate(sqlSeq);
+			
 			stmtSeq.close();
 			
 			
