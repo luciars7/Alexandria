@@ -135,6 +135,7 @@ public class CommandLineUserInterface {
 		}
 	}
 	
+	//These methods should connect to the DBManager
 	public void addAuthor() {
 		Author a = new Author();// Builds a patient object.
 		// I think we have to do an add method for each POJO.
