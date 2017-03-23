@@ -133,6 +133,11 @@ public class CommandLineUserInterface {
 	//These methods should connect to the DBManager
 	public void addAuthor() {
 		Author a = new Author();// Builds a patient object.
+		DBManager db = new DBManager ();
+		String name="pepe";
+		String origin = "uk";
+		String association = "lolo";
+		db.insertIntoAuthors(name, origin, association);
 	}
 	
 	public void showAuthor () {

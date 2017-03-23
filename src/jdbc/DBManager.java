@@ -1,5 +1,6 @@
 package jdbc;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -7,6 +8,10 @@ import java.sql.Statement;
 public class DBManager {
 	Connection c = null;
 
+	public void DBManager(){
+		connect();
+	}
+	
 	public void connect() {
 		try {
 			// Open database connection
@@ -178,17 +183,44 @@ public class DBManager {
 			stmtSeq.executeUpdate(sqlSeq);
 			sqlSeq = "INSERT INTO symptoms-diseases (diseases,symptoms) VALUES (1,1)";
 			stmtSeq.executeUpdate(sqlSeq);
-			sqlSeq = "INSERT INTO symptoms-diseases (diseases,symptoms) VALUES (1,5)";
+			sqlSeq = "INSERT INTO symptoms-diseases (diseases,symptoms) VALUES (5,1)";
 			stmtSeq.executeUpdate(sqlSeq);
 			sqlSeq = "INSERT INTO symptoms-diseases (diseases,symptoms) VALUES (2,7)";
 			stmtSeq.executeUpdate(sqlSeq);
-			
+			sqlSeq = "INSERT INTO papers (ID,title,source) VALUES (1, 'Breast cancer', 'www.medicalnewstoday.com/articles/37136.php')";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO papers (ID,title,source) VALUES (2, 'Chronic kidney disease', 'http://emedicine.medscape.com/article/238798-overview')";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO papers-authors (papers,authors) VALUES (1,1)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO papers-authors (papers,authors) VALUES (2,2)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO papers-authors (papers,authors) VALUES (3,3)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO papers-diseases (papers,diseases) VALUES (1,4)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO papers-diseases (papers,diseases) VALUES (2,3)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO papers-diseases (papers,diseases) VALUES (3,2)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO images-diseases (images,diseases) VALUES (1,1)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO images-diseases (images,diseases) VALUES (6,2)";
+			stmtSeq.executeUpdate(sqlSeq);
 			stmtSeq.close();
-			
-			
 			System.out.println("Database connection closed.");
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	public void insertIntoAuthors (String name, String origin, String association){
+		try{
+		Statement stmtSeq = c.createStatement();
+		 String sqlSeq = "INSERT INTO images-diseases (name,origin,association) VALUES (" + name + "," + origin + "," + association + ")";
+		stmtSeq.executeUpdate(sqlSeq);
+	}
+		catch (SQLException ex){
+			ex.printStackTrace();
 		}
 	}
 }
