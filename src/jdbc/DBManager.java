@@ -164,7 +164,7 @@ public class DBManager {
 			stmt13.close();
 			// Create table: end
 
-			
+			//
 			// - Set initial values for the Primary Keys
 			// - Don't try to understand this until JPA is explained
 			// This is usually not needed, since the initial values
