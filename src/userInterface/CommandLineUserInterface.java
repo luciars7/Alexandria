@@ -177,7 +177,7 @@ public class CommandLineUserInterface {
 	}
 	
 	public void addPaper () {
-		Paper pp = new Paper();
+		Paper pp = new Paper(); 
 	}
 	
 	public void showPaper () {
