@@ -26,7 +26,9 @@ public class CommandLineUserInterface {
 		// Create DB_manager object.
 		dbManager = new DBManager();
 	 
-	 while(true){showMenu();}
+	 while(true){
+		 showMenu();
+	 }
 	
 	}
 	
