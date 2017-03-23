@@ -1,4 +1,4 @@
-package User_Interface;
+package userInterface;
 
 import java.io.*;
 import java.sql.Connection;
@@ -22,9 +22,9 @@ public class CommandLineUserInterface {
 	
 	public static void main(String args[]) {
 		// Create a connection object.
-	 newConnection();
+		newConnection();
 		// Create DB_manager object.
-	 dbManager = new DBManager();
+		dbManager = new DBManager();
 	 
 	 while(true){showMenu();}
 	
