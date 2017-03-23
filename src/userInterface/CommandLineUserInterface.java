@@ -1,4 +1,4 @@
-package User_Interface;
+package userInterface;
 
 import java.io.*;
 import java.sql.Connection;
@@ -89,11 +89,28 @@ public class CommandLineUserInterface {
 			addAuthor();
 			break;}
 	     case 2: {
-			newEntity();
+	    	 addBodyParts();
 			break;}
 	     case 3: {
-	 		
+	    	 addDevices();
 	 		break;}
+	     case 4: {
+	    	 addDiseases();
+	 		break;}
+	     case 5: {
+	    	 addImages();
+	 		break;}
+	     case 6: {
+	    	 addPaper();
+	 		break;}
+	     case 7:{
+	    	 addProcedures();
+	    	 break;
+	     }
+	     case 8:{
+	    	 addSymptoms();
+	    	 break;
+	     }
 	     case 9: {
 	 		showMenu();
 	 		break;}
