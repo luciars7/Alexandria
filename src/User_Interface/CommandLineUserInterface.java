@@ -5,6 +5,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 import jdbc.DBManager;
+import pojos.Author;
+import pojos.BodyParts;
+import pojos.Devices;
+import pojos.Diseases;
+import pojos.Images;
+import pojos.Paper;
+import pojos.Procedures;
+import pojos.Symptoms;
 
 public class CommandLineUserInterface {
 	static Connection c = null;
@@ -110,9 +118,69 @@ public class CommandLineUserInterface {
 		}
 	}
 	
-	public void addPatient() {
-		// Builds a patient object.
+	public void addAuthor() {
+		Author a = new Author();// Builds a patient object.
 		// I think we have to do an add method for each POJO.
+	}
+	
+	public void showAuthor () {
+		
+	}
+	
+	public void addBodyParts () {
+		BodyParts bp = new BodyParts();
+	}
+	
+	public void showBodyPart () {
+		
+	}
+	
+	public void addDevices () {
+		Devices dv = new Devices();
+	}
+	
+	public void showDevices () {
+		
+	}
+	
+	public void addDiseases () {
+		Diseases ds = new Diseases();
+	}
+	
+	public void showDiseases () {
+		
+	}
+	
+	public void addImages () {
+		Images i = new Images();
+	}
+	
+	public void showImages () {
+		
+	}
+	
+	public void addPaper () {
+		Paper pp = new Paper();
+	}
+	
+	public void showPaper () {
+		
+	}
+	
+	public void addProcedures () {
+		Procedures pc = new Procedures();
+	}
+	
+	public void showProcedures () {
+		
+	}
+	
+	public void addSymptoms () {
+		Symptoms s = new Symptoms();
+	}
+	
+	public void showSymptoms () {
+		
 	}
 	
 	
