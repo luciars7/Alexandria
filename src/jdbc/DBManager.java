@@ -1,19 +1,45 @@
 package jdbc;
 
+<<<<<<< HEAD
 import java.io.IOException;
+=======
+import java.awt.List;
+>>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
 import java.sql.Connection;
 import java.sql.DriverManager;
+<<<<<<< HEAD
 import java.sql.SQLException;
+=======
+<<<<<<< HEAD
+import java.sql.ResultSet;
+import java.sql.SQLException;
+=======
+>>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
+>>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
 import java.sql.Statement;
+import java.util.ArrayList;
+
+import pojos.*;
 
 public class DBManager {
 	Connection c = null;
 
+<<<<<<< HEAD
 	public void DBManager(){
 		connect();
 	}
 	
+=======
+<<<<<<< HEAD
+    public void DBManager(){
+    	connect();
+    }
+	
+	public  void connect() {
+=======
+>>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
 	public void connect() {
+>>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
 		try {
 			// Open database connection
 			Class.forName("org.sqlite.JDBC");
@@ -214,6 +240,7 @@ public class DBManager {
 			e.printStackTrace();
 		}
 	}
+<<<<<<< HEAD
 	public void insertIntoAuthors (String name, String origin, String association){
 		try{
 		Statement stmtSeq = c.createStatement();
@@ -225,3 +252,33 @@ public class DBManager {
 		}
 	}
 }
+=======
+	
+
+	public ArrayList<Author> selectAuthor(String NAME) {
+		ArrayList<Author> list = null;
+		try {
+			// Retrieve data: begin
+			list = new ArrayList<Author>();
+			Statement stmt = c.createStatement();
+			String sql = "SELECT *  FROM authors WHERE name IN "+NAME;
+			ResultSet rs = stmt.executeQuery(sql); //Works as an iterator.
+			while (rs.next()) {
+				int id = rs.getInt("ID");
+				String name = rs.getString("name");
+				String origin = rs.getString("origin");
+				String association = rs.getString("association");
+				list.add(new Author(id, name, origin, association));
+			}
+			rs.close();
+			stmt.close();
+			System.out.println("Search finished.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			return list;
+		}
+	}
+}
+	
+>>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
