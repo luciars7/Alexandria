@@ -1,13 +1,26 @@
 package pojos;
 public class Images {
+<<<<<<< HEAD
 	public int ID;
 	public String description;
 	public String type;
 	public String size;
 	public String link;
 	public Paper paper;
+=======
+	private int ID;
+	private String description;
+	private String type;
+	private String size;
+	private String link;
+	private Paper paper_id;
+>>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
 	
+<<<<<<< HEAD
 	public Images(int iD, String description, String type, String size, String link, Paper paper) {
+=======
+	public Images(int iD, String description, String type, String size, String link, Paper paper_id) {
+>>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
 		ID = iD;
 		this.description = description;
 		this.type = type;
@@ -57,11 +70,20 @@ public class Images {
 	}
 
 	public Paper getPaper_id() {
+<<<<<<< HEAD
 		return paper;
+=======
+		return paper_id;
+>>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
 	}
 
+<<<<<<< HEAD
 	public void setPaper_id(Paper paper) {
 		this.paper = paper;
+=======
+	public void setPaper_id(Paper paper_id) {
+		this.paper_id = paper_id;
+>>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
 	}
 	
 	@Override

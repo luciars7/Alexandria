@@ -1,8 +1,8 @@
 package pojos;
 public class Symptoms {
-	int ID;
-	String name;
-	String description;
+	private int ID;
+	private String name;
+	private String description;
 	
 	public Symptoms(String name, String description) {
 		this.name = name;
