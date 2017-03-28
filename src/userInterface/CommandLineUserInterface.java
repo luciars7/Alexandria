@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import jdbc.DBManager;
 import pojos.*;
 
-
 public class CommandLineUserInterface {
 	static Connection c = null;
 	static DBManager dbManager = null;
@@ -83,33 +82,34 @@ public class CommandLineUserInterface {
         Integer option = Integer.parseInt(read);
         switch(option){
         case 1: {
-			addAuthor();
+			//addAuthor();
+        	
 			break;}
 	     case 2: {
-	    	 addBodyParts();
+	    	 //addBodyParts();
 			break;}
 	     case 3: {
-	    	 addDevices();
+	    	 //addDevices();
 	 		break;}
 	     case 4: {
-	    	 addDiseases();
+	    	 //addDiseases();
 	 		break;}
 	     case 5: {
-	    	 addImages();
+	    	 //addImages();
 	 		break;}
 	     case 6: {
-	    	 addPaper();
+	    	 //addPaper();
 	 		break;}
 	     case 7:{
-	    	 addProcedures();
+	    	 //addProcedures();
 	    	 break;
 	     }
 	     case 8:{
-	    	 addSymptoms();
+	    	 //addSymptoms();
 	    	 break;
 	     }
 	     case 9: {
-	 		return;
+///	 		return;
 	 		break;}
         }
 		
@@ -135,7 +135,7 @@ public class CommandLineUserInterface {
 	
 	//These methods should connect to the DBManager
 	public void addAuthor() {
-		Author a = new Author();// Builds a patient object.
+		//Author a = new Author();// Builds a patient object.
 		DBManager db = new DBManager ();
 		String name="pepe";
 		String origin = "uk";
@@ -160,7 +160,7 @@ public class CommandLineUserInterface {
 	}
 	
 	public void addBodyParts () {
-		BodyParts bp = new BodyParts();
+		//BodyParts bp = new BodyParts();
 	}
 	
 	public void showBodyPart () {
@@ -168,7 +168,7 @@ public class CommandLineUserInterface {
 	}
 	
 	public void addDevices () {
-		Devices dv = new Devices();
+		//Devices dv = new Devices();
 	}
 	
 	public void showDevices () {
@@ -176,7 +176,7 @@ public class CommandLineUserInterface {
 	}
 	
 	public void addDiseases () {
-		Diseases ds = new Diseases();
+		//Diseases ds = new Diseases();
 	}
 	
 	public void showDiseases () {
@@ -184,7 +184,7 @@ public class CommandLineUserInterface {
 	}
 	
 	public void addImages () {
-		Images i = new Images();
+		//Images i = new Images();
 	}
 	
 	public void showImages () {
@@ -192,7 +192,7 @@ public class CommandLineUserInterface {
 	}
 	
 	public void addPaper () {
-		Paper pp = new Paper(); 
+		//Paper pp = new Paper(); 
 	}
 	
 	public void showPaper () {
@@ -200,7 +200,7 @@ public class CommandLineUserInterface {
 	}
 	
 	public void addProcedures () {
-		Procedures pc = new Procedures();
+		//Procedures pc = new Procedures();
 	}
 	
 	public void showProcedures () {
@@ -208,7 +208,7 @@ public class CommandLineUserInterface {
 	}
 	
 	public void addSymptoms () {
-		Symptoms s = new Symptoms();
+	//	Symptoms s = new Symptoms();
 	}
 	
 	public void showSymptoms () {

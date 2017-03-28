@@ -52,7 +52,7 @@ public class DBManager {
 		try {
 			// Open database connection
 			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:./db/company.db"); // Indicates
+			c = DriverManager.getConnection("jdbc:sqlite:./db/alexandria.db"); // Indicates
 																			// the
 																			// technology
 																			// and
@@ -249,7 +249,7 @@ public class DBManager {
 			e.printStackTrace();
 		}
 	}
-	public void insertIntoAuthors (String name, String origin, String association){
+	public void addAuthors (String name, String origin, String association){
 		try{
 		Statement stmtSeq = c.createStatement();
 		 String sqlSeq = "INSERT INTO images-diseases (name,origin,association) VALUES (" + name + "," + origin + "," + association + ")";
