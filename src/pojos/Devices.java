@@ -1,12 +1,12 @@
 package pojos;
 public class Devices {
-	int ID;
-	String name;
-	String type;
-	int price;
-	String brand;
+	private int ID;
+	private String name;
+	private String type;
+	private float price;
+	private String brand;
 	
-	public Devices(int iD, String name, String type, int price, String brand) {
+	public Devices(int iD, String name, String type, float price, String brand) {
 		ID = iD;
 		this.name = name;
 		this.type = type;
@@ -38,7 +38,7 @@ public class Devices {
 		this.type = type;
 	}
 	
-	public int getPrice() {
+	public float getPrice() {
 		return price;
 	}
 	

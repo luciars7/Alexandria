@@ -5,9 +5,9 @@ public class Images {
 	public String type;
 	public String size;
 	public String link;
-	public Paper paper_id;
+	public int paper_id;
 	
-	public Images(int iD, String description, String type, String size, String link, Paper paper_id) {
+	public Images(int iD, String description, String type, String size, String link, int paper_id) {
 		ID = iD;
 		this.description = description;
 		this.type = type;
@@ -56,11 +56,11 @@ public class Images {
 		this.link = link;
 	}
 
-	public Paper getPaper_id() {
+	public int getPaper_id() {
 		return paper_id;
 	}
 
-	public void setPaper_id(Paper paper_id) {
+	public void setPaper_id(int paper_id) {
 		this.paper_id = paper_id;
 	}
 	

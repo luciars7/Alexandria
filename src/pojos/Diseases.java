@@ -1,11 +1,11 @@
 package pojos;
 public class Diseases {
-	int ID;
-	String name;
-	String description;
-	BodyParts bodyParts;
+	private int ID;
+	private String name;
+	private String description;
+	private int bodyParts;
 	
-	public Diseases(int ID, String name, String description, BodyParts bodyParts) {
+	public Diseases(int ID, String name, String description, int bodyParts) {
 	    this.ID = ID;
 	    this.name = name;
 	    this.description = description;
@@ -36,11 +36,11 @@ public class Diseases {
         this.description = description;
     }
 
-    public BodyParts getBodyParts() {
+    public int getBodyParts() {
         return bodyParts;
     }
 
-    public void setBodyPart(BodyParts bodyParts) {
+    public void setBodyPart(int bodyParts) {
         this.bodyParts = bodyParts;
     }
     
