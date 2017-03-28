@@ -14,6 +14,10 @@ public class Devices {
 		this.brand = brand;
 	}
 	
+	public Devices() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getID() {
 		return ID;
 	}

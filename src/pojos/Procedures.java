@@ -9,6 +9,10 @@ public class Procedures {
 		this.description = description;
 	}
 	
+	public Procedures() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getID() {
 		return ID;
 	}

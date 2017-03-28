@@ -18,6 +18,10 @@ public class Images {
 		this.paper_id = paper;
 	}	
 
+	public Images() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getID() {
 		return ID;
 	}

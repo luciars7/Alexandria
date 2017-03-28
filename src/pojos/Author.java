@@ -12,6 +12,10 @@ public class Author {
 		this.association = association;
 	}
 
+	public Author() {
+
+	}
+
 	public int getID() {
 		return ID;
 	}

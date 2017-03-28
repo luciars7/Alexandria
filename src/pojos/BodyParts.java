@@ -10,6 +10,10 @@ public class BodyParts {
 		this.location = location;
 	}
 	
+	public BodyParts() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getID() {
 		return ID;
 	}

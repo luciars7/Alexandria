@@ -9,6 +9,10 @@ public class Symptoms {
 		this.description = description;
 	}
 	
+	public Symptoms() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getID() {
 		return ID;
 	}

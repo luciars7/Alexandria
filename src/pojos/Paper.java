@@ -10,6 +10,10 @@ public class Paper {
 		this.source = source;
 	}
 
+	public Paper() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getID() {
 		return ID;
 	}

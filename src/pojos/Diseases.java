@@ -12,6 +12,10 @@ public class Diseases {
 	    this.bodyParts = bodyParts;
 	}
 
+	public Diseases() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getID() {
         return ID;
     }
