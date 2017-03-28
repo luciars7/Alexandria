@@ -3,9 +3,9 @@ public class Diseases {
 	private int ID;
 	private String name;
 	private String description;
-	private int bodyParts;
+	private BodyParts bodyParts;
 	
-	public Diseases(int ID, String name, String description, int bodyParts) {
+	public Diseases(int ID, String name, String description, BodyParts bodyParts) {
 	    this.ID = ID;
 	    this.name = name;
 	    this.description = description;
@@ -36,11 +36,11 @@ public class Diseases {
         this.description = description;
     }
 
-    public int getBodyParts() {
+    public BodyParts getBodyParts() {
         return bodyParts;
     }
 
-    public void setBodyPart(int bodyParts) {
+    public void setBodyPart(BodyParts bodyParts) {
         this.bodyParts = bodyParts;
     }
     

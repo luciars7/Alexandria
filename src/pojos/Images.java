@@ -5,15 +5,15 @@ public class Images {
 	public String type;
 	public String size;
 	public String link;
-	public int paper_id;
+	public Paper paper;
 	
-	public Images(int iD, String description, String type, String size, String link, int paper_id) {
+	public Images(int iD, String description, String type, String size, String link, Paper paper) {
 		ID = iD;
 		this.description = description;
 		this.type = type;
 		this.size = size;
 		this.link = link;
-		this.paper_id = paper_id;
+		this.paper = paper;
 	}	
 
 	public int getID() {
@@ -56,12 +56,12 @@ public class Images {
 		this.link = link;
 	}
 
-	public int getPaper_id() {
-		return paper_id;
+	public Paper getPaper_id() {
+		return paper;
 	}
 
-	public void setPaper_id(int paper_id) {
-		this.paper_id = paper_id;
+	public void setPaper_id(Paper paper) {
+		this.paper = paper;
 	}
 	
 	@Override
