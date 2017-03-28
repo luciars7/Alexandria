@@ -1,18 +1,18 @@
 package pojos;
-public class Diseases {
+public class Disease {
 	private int ID;
 	private String name;
 	private String description;
-	private BodyParts bodyParts;
+	private BodyPart bodyParts;
 	
-	public Diseases(int ID, String name, String description, BodyParts bodyParts) {
+	public Disease(int ID, String name, String description, BodyPart bodyParts) {
 	    this.ID = ID;
 	    this.name = name;
 	    this.description = description;
 	    this.bodyParts = bodyParts;
 	}
 
-	public Diseases() {
+	public Disease() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -40,11 +40,11 @@ public class Diseases {
         this.description = description;
     }
 
-    public BodyParts getBodyParts() {
+    public BodyPart getBodyParts() {
         return bodyParts;
     }
 
-    public void setBodyPart(BodyParts bodyParts) {
+    public void setBodyPart(BodyPart bodyParts) {
         this.bodyParts = bodyParts;
     }
     
@@ -64,7 +64,7 @@ public class Diseases {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Diseases other = (Diseases) obj;
+		Disease other = (Disease) obj;
 		if (ID != other.ID)
 			return false;
 		return true;

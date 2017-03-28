@@ -1,15 +1,15 @@
 package pojos;
-public class Symptoms {
+public class Symptom {
 	private int ID;
 	private String name;
 	private String description;
 	
-	public Symptoms(String name, String description) {
+	public Symptom(String name, String description) {
 		this.name = name;
 		this.description = description;
 	}
 	
-	public Symptoms() {
+	public Symptom() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -53,7 +53,7 @@ public class Symptoms {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Symptoms other = (Symptoms) obj;
+		Symptom other = (Symptom) obj;
 		if (ID != other.ID)
 			return false;
 		return true;

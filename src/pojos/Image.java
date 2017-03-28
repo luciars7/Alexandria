@@ -1,5 +1,5 @@
 package pojos;
-public class Images {
+public class Image {
 
 	private int ID;
 	private String description;
@@ -8,7 +8,7 @@ public class Images {
 	private String link;
 	private Paper paper_id;
 
-	public Images(int iD, String description, String type, String size, String link, Paper paper) {
+	public Image(int iD, String description, String type, String size, String link, Paper paper) {
 
 		ID = iD;
 		this.description = description;
@@ -18,7 +18,7 @@ public class Images {
 		this.paper_id = paper;
 	}	
 
-	public Images() {
+	public Image() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -89,7 +89,7 @@ public class Images {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Images other = (Images) obj;
+		Image other = (Image) obj;
 		if (ID != other.ID)
 			return false;
 		return true;

@@ -1,24 +1,25 @@
 package pojos;
-public class Procedures {
+public class BodyPart {
 	private int ID;
 	private String name;
-	private String description;
+	private String location;
 	
-	public Procedures(String name, String description) {
+	public BodyPart(int ID, String name, String location){
+		this.ID = ID;
 		this.name = name;
-		this.description = description;
+		this.location = location;
 	}
 	
-	public Procedures() {
+	public BodyPart() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public int getID() {
 		return ID;
 	}
-
-	public void setID(int iD) {
-		ID = iD;
+	
+	public void setID(int ID) {
+		this.ID = ID;
 	}
 	
 	public String getName() {
@@ -29,14 +30,14 @@ public class Procedures {
 		this.name = name;
 	}
 	
-	public String getDescription() {
-		return description;
+	public String getLocation() {
+		return location;
 	}
 	
-	public void setDescription(String description) {
-		this.description = description;
+	public void setLocation(String location) {
+		this.location = location;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -53,9 +54,9 @@ public class Procedures {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Procedures other = (Procedures) obj;
+		BodyPart other = (BodyPart) obj;
 		if (ID != other.ID)
 			return false;
 		return true;
-	}	
+	}
 }

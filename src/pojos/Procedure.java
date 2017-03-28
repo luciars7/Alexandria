@@ -1,27 +1,22 @@
 package pojos;
-public class Devices {
+public class Procedure {
 	private int ID;
 	private String name;
-	private String type;
-	private float price;
-	private String brand;
+	private String description;
 	
-	public Devices(int iD, String name, String type, float price, String brand) {
-		ID = iD;
+	public Procedure(String name, String description) {
 		this.name = name;
-		this.type = type;
-		this.price = price;
-		this.brand = brand;
+		this.description = description;
 	}
 	
-	public Devices() {
+	public Procedure() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public int getID() {
 		return ID;
 	}
-	
+
 	public void setID(int iD) {
 		ID = iD;
 	}
@@ -34,28 +29,12 @@ public class Devices {
 		this.name = name;
 	}
 	
-	public String getType() {
-		return type;
+	public String getDescription() {
+		return description;
 	}
 	
-	public void setType(String type) {
-		this.type = type;
-	}
-	
-	public float getPrice() {
-		return price;
-	}
-	
-	public void setPrice(int price) {
-		this.price = price;
-	}
-	
-	public String getBrand() {
-		return brand;
-	}
-	
-	public void setBrand(String brand) {
-		this.brand = brand;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override
@@ -74,7 +53,7 @@ public class Devices {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Devices other = (Devices) obj;
+		Procedure other = (Procedure) obj;
 		if (ID != other.ID)
 			return false;
 		return true;
