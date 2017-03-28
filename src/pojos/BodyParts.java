@@ -1,8 +1,8 @@
 package pojos;
 public class BodyParts {
-	int ID;
-	String name;
-	String location;
+	private int ID;
+	private String name;
+	private String location;
 	
 	public BodyParts(int ID, String name, String location){
 		this.ID = ID;

@@ -1,9 +1,9 @@
 package pojos;
 public class Author {
-	public int ID;
-	public String name;
-	public String origin;
-	public String association;
+	private int ID;
+	private String name;
+	private String origin;
+	private String association;
 
 	public Author(int iD, String name, String origin, String association) {
 		ID = iD;
