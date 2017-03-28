@@ -19,11 +19,7 @@ public class CommandLineUserInterface {
 		newConnection();
 		// Create DB_manager object.
 		dbManager = new DBManager();
-	 
-	 while(true){
 		 showMenu();
-	 }
-	
 	}
 	
 	private static void showMenu() {
