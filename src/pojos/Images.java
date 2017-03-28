@@ -1,11 +1,11 @@
 package pojos;
 public class Images {
-	public int ID;
-	public String description;
-	public String type;
-	public String size;
-	public String link;
-	public Paper paper_id;
+	private int ID;
+	private String description;
+	private String type;
+	private String size;
+	private String link;
+	private Paper paper_id;
 	
 	public Images(int iD, String description, String type, String size, String link, Paper paper_id) {
 		ID = iD;

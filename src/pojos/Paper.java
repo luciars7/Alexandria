@@ -1,8 +1,8 @@
 package pojos;
 public class Paper {
-	public int ID;
-	public String title;
-	public String source;
+	private int ID;
+	private String title;
+	private String source;
 	
 	public Paper(int iD, String title, String source) {
 		ID = iD;
