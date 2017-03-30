@@ -1,6 +1,5 @@
 package jdbc;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -13,7 +12,7 @@ import pojos.Author;
 public class DBManager {
 	Connection c = null;
 
-	public void DBManager(){
+	public DBManager(){
 		connect();
 	}
 	
@@ -249,7 +248,7 @@ public class DBManager {
 			e.printStackTrace();
 		}
 	}
-	public void addAuthors (String name, String origin, String association){
+	/*public void addAuthors (String name, String origin, String association){
 		try{
 		Statement stmtSeq = c.createStatement();
 		 String sqlSeq = "INSERT INTO images-diseases (name,origin,association) VALUES (" + name + "," + origin + "," + association + ")";
@@ -258,5 +257,19 @@ public class DBManager {
 		catch (SQLException ex){
 			ex.printStackTrace();
 		}
+	}
+*/
+
+
+	public void insertIntoAuthors(String name, String origin, String association) {
+		try{
+			Statement stmtSeq = c.createStatement();
+			 String sqlSeq = "INSERT INTO images-diseases (name,origin,association) VALUES (" + name + "," + origin + "," + association + ")";
+			stmtSeq.executeUpdate(sqlSeq);
+		}
+			catch (SQLException ex){
+				ex.printStackTrace();
+			}
+		
 	}
 }
