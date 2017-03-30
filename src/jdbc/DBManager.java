@@ -67,11 +67,6 @@ public class DBManager {
 																	// key
 																	// constraints.
 			System.out.println("Database connection opened.");
-
-			// Here is where I do things with the database
-
-			// Close database connection
-			c.close();
 			System.out.println("Database connection closed.");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -90,7 +85,7 @@ public class DBManager {
            
 		
 			Statement stmt1 = c.createStatement();
-			String sql1 = "CREATE TABLE papers "
+			String sql1 = "CREATE TABLE papers"
 					+ "(ID INTEGER PRIMARY KEY,"
 					+ " title  TEXT,"
 					+ "source TEXT)";
@@ -99,7 +94,7 @@ public class DBManager {
 			System.out.println("Tables created.");
 			
 			Statement stmt2 = c.createStatement();
-			String sql2 = "CREATE TABLE body parts "
+			String sql2 = "CREATE TABLE body parts"
 					+ "(ID     INTEGER PRIMARY KEY,"
 					+ " name  TEXT,"
 					+ "location TEXT)";
@@ -107,7 +102,7 @@ public class DBManager {
 			stmt2.close();
 			
 			Statement stmt3 = c.createStatement();
-			String sql3 = "CREATE TABLE diseases "
+			String sql3 = "CREATE TABLE diseases"
 					+ "(ID     INTEGER PRIMARY KEY,"
 					+ " name  TEXT,"
 					+ "description TEXT,"
@@ -116,7 +111,7 @@ public class DBManager {
 			stmt3.close();
 			
 			Statement stmt4 = c.createStatement();
-			String sql4 = "CREATE TABLE authors "
+			String sql4 = "CREATE TABLE authors"
 					+ "(ID     INTEGER PRIMARY KEY,"
 					+ " name  TEXT,"
 					+ "origin TEXT,"
@@ -125,7 +120,7 @@ public class DBManager {
 			stmt4.close();
 			
 			Statement stmt5 = c.createStatement();
-			String sql5 = "CREATE TABLE devices "
+			String sql5 = "CREATE TABLE devices"
 					+ "(ID     INTEGER PRIMARY KEY,"
 					+ " name  TEXT,"
 					+ "type TEXT ,"
@@ -137,7 +132,7 @@ public class DBManager {
 			stmt5.close();
 			
 			Statement stmt6 = c.createStatement();
-			String sql6 = "CREATE TABLE images "
+			String sql6 = "CREATE TABLE images"
 					+ "(ID     INTEGER PRIMARY KEY,"
 					+ " description,"
 					+ "type TEXT,"
@@ -148,7 +143,7 @@ public class DBManager {
 			stmt6.close();
 			
 			Statement stmt7 = c.createStatement();
-			String sql7 = "CREATE TABLE symptoms "
+			String sql7 = "CREATE TABLE symptoms"
 					+ "(ID     INTEGER PRIMARY KEY,"
 					+ " name TEXT,"
 					+ "description TEXT)";
@@ -211,7 +206,7 @@ public class DBManager {
 			// are set when the first row is inserted, but since we
 			// are using JPA and JDBC in the same project, and JPA
 			// needs an initial value, we do this.
-			Statement stmtSeq = c.createStatement();
+			/*Statement stmtSeq = c.createStatement();
 			String sqlSeq = "INSERT INTO authors (ID,name,origin,association) VALUES (1, 'Christian Nordqvist', 'UK' ,'Medical News Today')";
 			stmtSeq.executeUpdate(sqlSeq);
 			sqlSeq = "INSERT INTO authors (ID,name,origin,association) VALUES (2, 'Pradeep Arora', 'USA' ,'Arora Psychiatric Consultation')";
@@ -242,7 +237,7 @@ public class DBManager {
 			stmtSeq.executeUpdate(sqlSeq);
 			sqlSeq = "INSERT INTO images-diseases (images,diseases) VALUES (6,2)";
 			stmtSeq.executeUpdate(sqlSeq);
-			stmtSeq.close();
+			stmtSeq.close();*/
 			System.out.println("Database connection closed.");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -261,15 +256,20 @@ public class DBManager {
 */
 
 
-	public void insertIntoAuthors(String name, String origin, String association) {
+
+
+
+
+	public void insertIntoAuthor(String name, String origin, String association) {
 		try{
+			connect();
 			Statement stmtSeq = c.createStatement();
-			 String sqlSeq = "INSERT INTO images-diseases (name,origin,association) VALUES (" + name + "," + origin + "," + association + ")";
+			 String sqlSeq = "INSERT INTO authors (name,origin,association) VALUES (" + name + "," + origin + "," + association + ")";
 			stmtSeq.executeUpdate(sqlSeq);
+			c.close();
 		}
 			catch (SQLException ex){
 				ex.printStackTrace();
-			}
-		
+			}		
 	}
 }

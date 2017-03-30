@@ -19,10 +19,10 @@ public class CommandLineUserInterface {
 		newConnection();
 		// Create DB_manager object.
 		dbManager = new DBManager();
-		 showMenu();
+		showMenu();
 	}
 	
-	private static void showMenu() {
+	private static  void showMenu() {
 		System.out.println("ALEXANDRIA");
 		System.out.println("**********");
 		System.out.println("\n1.) Create tables.");
@@ -53,11 +53,12 @@ public class CommandLineUserInterface {
 	 		
 	 		break;}
 		}
+		return;
 		}
 		
 	
 	
-	private static void newEntity() {
+	private static  void newEntity() {
 		System.out.print("\nPlease, select the type of item you want to create: ");
 		System.out.println("\n1.) Author");
 		System.out.println("2.) Body part");
@@ -68,7 +69,7 @@ public class CommandLineUserInterface {
 		System.out.println("7.) Procedure or treatment");
 		System.out.println("8.) Symptom");
 		System.out.println("9.) Return to the main menu...");
-		
+		System.out.print("\nOption: ");
 		try {
 			read = console.readLine();
 		} catch (IOException e) {
@@ -78,7 +79,7 @@ public class CommandLineUserInterface {
         Integer option = Integer.parseInt(read);
         switch(option){
         case 1: {
-			//addAuthor();
+			addAuthor();
         	
 			break;}
 	     case 2: {
@@ -130,13 +131,29 @@ public class CommandLineUserInterface {
 	}
 	
 	//These methods should connect to the DBManager
-	public void addAuthor() {
-		//Author a = new Author();// Builds a patient object.
-		DBManager db = new DBManager ();
-		String name="pepe";
-		String origin = "uk";
-		String association = "lolo";
-		db.insertIntoAuthors(name, origin, association);
+	public static void addAuthor() {
+		System.out.print("Name: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String name=read;
+		System.out.print("Nationality: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String origin=read;
+		System.out.print("Association: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String association=read;
+		dbManager.insertIntoAuthor(name, origin, association);
 	}
 	
 	public void showAuthor () {
