@@ -82,13 +82,13 @@ public class CommandLineUserInterface {
 			addAuthor();     	
 			break;}
 	     case 2: {
-	    	 //addBodyParts();
+	    	 addBodyParts();
 			break;}
 	     case 3: {
-	    	 //addDevices();
+	    	 addDevices();
 	 		break;}
 	     case 4: {
-	    	 //addDiseases();
+	    	 addDiseases();
 	 		break;}
 	     case 5: {
 	    	 //addImages();
@@ -171,24 +171,67 @@ public class CommandLineUserInterface {
 		
 	}
 	
-	public void addBodyParts () {
-		//BodyParts bp = new BodyParts();
+	public static void addBodyParts () {
+		System.out.print("Name: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String name=read;
+		System.out.print("Location: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String location=read;
+		dbManager.insertIntoBodyParts(name, location);
 	}
 	
 	public void showBodyPart () {
 		
 	}
 	
-	public void addDevices () {
-		//Devices dv = new Devices();
+	public static void addDevices () {
+		System.out.print("Name: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String name=read;
+		System.out.print("Type: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String type=read;
+		System.out.print("Price($): ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		float price=Float.parseFloat(read);
+		System.out.print("Brand: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String brand=read;
+		
+		dbManager.insertIntoDevices(name, type, price, brand);
 	}
 	
 	public void showDevices () {
 		
 	}
 	
-	public void addDiseases () {
-		//Diseases ds = new Diseases();
+	public static void addDiseases () {
+		//TODO Continue working here.
 	}
 	
 	public void showDiseases () {
