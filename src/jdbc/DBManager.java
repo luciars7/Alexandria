@@ -238,7 +238,7 @@ public class DBManager {
 		try{
 			connect();
 			Statement stmtSeq = c.createStatement();
-			 String sqlSeq = "INSERT INTO authors (name,origin,association) VALUES (" + name + "," + origin + "," + association + ")";
+			 String sqlSeq = "INSERT INTO authors (name,origin,association) VALUES ('" + name + "','" + origin + "','" + association + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 			c.close();
 		}
