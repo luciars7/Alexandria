@@ -71,10 +71,9 @@ public class DBManager {
 					+ "source TEXT)";
 			stmt1.executeUpdate(sql1);
 			stmt1.close();
-			System.out.println("Tables created.");
 			
 			Statement stmt2 = c.createStatement();
-			String sql2 = "CREATE TABLE body parts"
+			String sql2 = "CREATE TABLE bodyparts"
 					+ "(ID INTEGER PRIMARY KEY,"
 					+ "name TEXT,"
 					+ "location TEXT)";
@@ -86,7 +85,7 @@ public class DBManager {
 					+ "(ID INTEGER PRIMARY KEY,"
 					+ "name TEXT,"
 					+ "description TEXT,"
-					+ "body parts TEXT REFERENCES body parts (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
+					+ "bodyparts TEXT REFERENCES bodyparts (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 			stmt3.executeUpdate(sql3);
 			stmt3.close();
 			
@@ -106,7 +105,7 @@ public class DBManager {
 					+ "type TEXT ,"
 					+ "price($) FLOAT,"
 					+ "brand TEXT,"
-					+ "med procedures INTEGER REFERENCES procedures (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
+					+ "medprocedures INTEGER REFERENCES procedures (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "papers INTEGER REFERENCES papers (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 			stmt5.executeUpdate(sql5);
 			stmt5.close();
