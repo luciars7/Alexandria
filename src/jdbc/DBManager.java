@@ -74,7 +74,7 @@ public class DBManager {
 			System.out.println("Tables created.");
 			
 			Statement stmt2 = c.createStatement();
-			String sql2 = "CREATE TABLE body parts"
+			String sql2 = "CREATE TABLE bodyparts"
 					+ "(ID INTEGER PRIMARY KEY,"
 					+ "name TEXT,"
 					+ "location TEXT)";
@@ -86,7 +86,7 @@ public class DBManager {
 					+ "(ID INTEGER PRIMARY KEY,"
 					+ "name TEXT,"
 					+ "description TEXT,"
-					+ "body parts TEXT REFERENCES body parts (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
+					+ "bodyparts TEXT REFERENCES bodyparts (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 			stmt3.executeUpdate(sql3);
 			stmt3.close();
 			
