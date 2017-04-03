@@ -79,8 +79,7 @@ public class CommandLineUserInterface {
         Integer option = Integer.parseInt(read);
         switch(option){
         case 1: {
-			addAuthor();
-        	
+			addAuthor();     	
 			break;}
 	     case 2: {
 	    	 //addBodyParts();
@@ -122,7 +121,7 @@ public class CommandLineUserInterface {
 	    c = null;
 		try{
 		Class.forName("org.sqlite.JDBC"); 
-		c = DriverManager.getConnection("jdbc:sqlite:./db/company.db"); //Indicates the technology and location of the database.
+		c = DriverManager.getConnection("jdbc:sqlite:./db/alexandria.db"); //Indicates the technology and location of the database.
 		c.createStatement().execute("PRAGMA foreign_keys=ON"); //Enables the support for foreign key constraints.
 		
 		}  catch (Exception e) {
@@ -153,7 +152,7 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String association=read;
-		dbManager.insertIntoAuthor(name, origin, association);
+		dbManager.insertIntoAuthors(name, origin, association);
 	}
 	
 	public void showAuthor () {
