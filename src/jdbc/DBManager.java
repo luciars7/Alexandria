@@ -51,23 +51,9 @@ public class DBManager {
 		try {
 			// Open database connection
 			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:./db/alexandria.db"); // Indicates
-																			// the
-																			// technology
-																			// and
-																			// location
-																			// of
-																			// the
-																			// database.
-			c.createStatement().execute("PRAGMA foreign_keys=ON"); // Enables
-																	// the
-																	// support
-																	// for
-																	// foreign
-																	// key
-																	// constraints.
+			c = DriverManager.getConnection("jdbc:sqlite:./db/alexandria.db"); 
+			c.createStatement().execute("PRAGMA foreign_keys=ON"); 
 			System.out.println("Database connection opened.");
-			System.out.println("Database connection closed.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -76,18 +62,12 @@ public class DBManager {
 	public void createTables() {
 		try {
 			// Open database connection
-			Class.forName("org.sqlite.JDBC");
-			Connection c = DriverManager.getConnection("jdbc:sqlite:./db/company.db");
-			c.createStatement().execute("PRAGMA foreign_keys=ON");
-			System.out.println("Database connection opened.");
-
+			connect();
 			// Create tables: begin
-           
-		
 			Statement stmt1 = c.createStatement();
 			String sql1 = "CREATE TABLE papers"
 					+ "(ID INTEGER PRIMARY KEY,"
-					+ " title  TEXT,"
+					+ "title TEXT,"
 					+ "source TEXT)";
 			stmt1.executeUpdate(sql1);
 			stmt1.close();
@@ -95,16 +75,16 @@ public class DBManager {
 			
 			Statement stmt2 = c.createStatement();
 			String sql2 = "CREATE TABLE body parts"
-					+ "(ID     INTEGER PRIMARY KEY,"
-					+ " name  TEXT,"
+					+ "(ID INTEGER PRIMARY KEY,"
+					+ "name TEXT,"
 					+ "location TEXT)";
 			stmt2.executeUpdate(sql2);
 			stmt2.close();
 			
 			Statement stmt3 = c.createStatement();
 			String sql3 = "CREATE TABLE diseases"
-					+ "(ID     INTEGER PRIMARY KEY,"
-					+ " name  TEXT,"
+					+ "(ID INTEGER PRIMARY KEY,"
+					+ "name TEXT,"
 					+ "description TEXT,"
 					+ "body parts TEXT REFERENCES body parts (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 			stmt3.executeUpdate(sql3);
@@ -112,8 +92,8 @@ public class DBManager {
 			
 			Statement stmt4 = c.createStatement();
 			String sql4 = "CREATE TABLE authors"
-					+ "(ID     INTEGER PRIMARY KEY,"
-					+ " name  TEXT,"
+					+ "(ID INTEGER PRIMARY KEY,"
+					+ " name TEXT,"
 					+ "origin TEXT,"
 					+ "association TEXT)";
 			stmt4.executeUpdate(sql4);
@@ -121,8 +101,8 @@ public class DBManager {
 			
 			Statement stmt5 = c.createStatement();
 			String sql5 = "CREATE TABLE devices"
-					+ "(ID     INTEGER PRIMARY KEY,"
-					+ " name  TEXT,"
+					+ "(ID INTEGER PRIMARY KEY,"
+					+ " name TEXT,"
 					+ "type TEXT ,"
 					+ "price($) FLOAT,"
 					+ "brand TEXT,"
@@ -133,7 +113,7 @@ public class DBManager {
 			
 			Statement stmt6 = c.createStatement();
 			String sql6 = "CREATE TABLE images"
-					+ "(ID     INTEGER PRIMARY KEY,"
+					+ "(ID INTEGER PRIMARY KEY,"
 					+ " description,"
 					+ "type TEXT,"
 					+ "size TEXT,"
@@ -144,8 +124,8 @@ public class DBManager {
 			
 			Statement stmt7 = c.createStatement();
 			String sql7 = "CREATE TABLE symptoms"
-					+ "(ID     INTEGER PRIMARY KEY,"
-					+ " name TEXT,"
+					+ "(ID INTEGER PRIMARY KEY,"
+					+ "name TEXT,"
 					+ "description TEXT)";
 			stmt7.executeUpdate(sql7);
 			stmt7.close();
@@ -153,7 +133,7 @@ public class DBManager {
 			Statement stmt8 = c.createStatement();
 			String sql8 = "CREATE TABLE procedures"
 					+ "(ID INTEGER PRIMARY KEY,"
-					+ " name TEXT,"
+					+ "name TEXT,"
 					+ "description TEXT)";
 			stmt8.executeUpdate(sql8);
 			stmt8.close();
@@ -161,7 +141,7 @@ public class DBManager {
 			Statement stmt9 = c.createStatement();
 			String sql9 = "CREATE TABLE symptoms-diseases"
 					+ "(diseases INTEGER REFERENCES diseases (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-					+ " symptoms INTEGER REFERENCES symptoms (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
+					+ "symptoms INTEGER REFERENCES symptoms (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "PRIMARY KEY (diseases,symptoms))";
 			stmt9.executeUpdate(sql9);
 			stmt9.close();
@@ -169,7 +149,7 @@ public class DBManager {
 			Statement stmt10 = c.createStatement();
 			String sql10 = "CREATE TABLE papers-authors"
 					+ "(papers INTEGER REFERENCES papers (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-					+ " authors INTEGER REFERENCES authors (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
+					+ "authors INTEGER REFERENCES authors (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "PRIMARY KEY (papers,authors))";
 			stmt10.executeUpdate(sql10);
 			stmt10.close();
@@ -177,7 +157,7 @@ public class DBManager {
 			Statement stmt11 = c.createStatement();
 			String sql11 = "CREATE TABLE papers-diseases"
 					+ "(papers INTEGER REFERENCES papers (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-					+ " diseases INTEGER REFERENCES diseases (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
+					+ "diseases INTEGER REFERENCES diseases (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "PRIMARY KEY (papers,diseases))";
 			stmt11.executeUpdate(sql11);
 			stmt11.close();
@@ -185,7 +165,7 @@ public class DBManager {
 			Statement stmt12 = c.createStatement();
 			String sql12 = "CREATE TABLE images-diseases"
 					+ "(images INTEGER REFERENCES images (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-					+ " diseases INTEGER REFERENCES diseases (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
+					+ "diseases INTEGER REFERENCES diseases (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "PRIMARY KEY (images,diseases))";
 			stmt12.executeUpdate(sql12);
 			stmt12.close();
@@ -193,7 +173,7 @@ public class DBManager {
 			Statement stmt13 = c.createStatement();
 			String sql13 = "CREATE TABLE procedures-diseases"
 					+ "(procedures INTEGER REFERENCES procedures (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-					+ " diseases INTEGER REFERENCES diseases (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
+					+ "diseases INTEGER REFERENCES diseases (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "PRIMARY KEY (procedures,diseases))";
 			stmt13.executeUpdate(sql13);
 			stmt13.close();
@@ -255,12 +235,7 @@ public class DBManager {
 	}
 */
 
-
-
-
-
-
-	public void insertIntoAuthor(String name, String origin, String association) {
+	public void insertIntoAuthors(String name, String origin, String association) {
 		try{
 			connect();
 			Statement stmtSeq = c.createStatement();
