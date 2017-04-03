@@ -71,7 +71,6 @@ public class DBManager {
 					+ "source TEXT)";
 			stmt1.executeUpdate(sql1);
 			stmt1.close();
-			System.out.println("Tables created.");
 			
 			Statement stmt2 = c.createStatement();
 			String sql2 = "CREATE TABLE bodyparts"
@@ -93,7 +92,7 @@ public class DBManager {
 			Statement stmt4 = c.createStatement();
 			String sql4 = "CREATE TABLE authors"
 					+ "(ID INTEGER PRIMARY KEY,"
-					+ " name TEXT,"
+					+ "name TEXT,"
 					+ "origin TEXT,"
 					+ "association TEXT)";
 			stmt4.executeUpdate(sql4);
@@ -102,11 +101,11 @@ public class DBManager {
 			Statement stmt5 = c.createStatement();
 			String sql5 = "CREATE TABLE devices"
 					+ "(ID INTEGER PRIMARY KEY,"
-					+ " name TEXT,"
+					+ "name TEXT,"
 					+ "type TEXT ,"
-					+ "price($) FLOAT,"
+					+ "price$ FLOAT,"
 					+ "brand TEXT,"
-					+ "med procedures INTEGER REFERENCES procedures (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
+					+ "medprocedures INTEGER REFERENCES procedures (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "papers INTEGER REFERENCES papers (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 			stmt5.executeUpdate(sql5);
 			stmt5.close();
@@ -114,7 +113,7 @@ public class DBManager {
 			Statement stmt6 = c.createStatement();
 			String sql6 = "CREATE TABLE images"
 					+ "(ID INTEGER PRIMARY KEY,"
-					+ " description,"
+					+ "description TEXT,"
 					+ "type TEXT,"
 					+ "size TEXT,"
 					+ "image BLOOB,"
@@ -139,7 +138,7 @@ public class DBManager {
 			stmt8.close();
 			
 			Statement stmt9 = c.createStatement();
-			String sql9 = "CREATE TABLE symptoms-diseases"
+			String sql9 = "CREATE TABLE symptomsdiseases"
 					+ "(diseases INTEGER REFERENCES diseases (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "symptoms INTEGER REFERENCES symptoms (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "PRIMARY KEY (diseases,symptoms))";
@@ -147,7 +146,7 @@ public class DBManager {
 			stmt9.close();
 			
 			Statement stmt10 = c.createStatement();
-			String sql10 = "CREATE TABLE papers-authors"
+			String sql10 = "CREATE TABLE papersauthors"
 					+ "(papers INTEGER REFERENCES papers (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "authors INTEGER REFERENCES authors (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "PRIMARY KEY (papers,authors))";
@@ -155,7 +154,7 @@ public class DBManager {
 			stmt10.close();
 			
 			Statement stmt11 = c.createStatement();
-			String sql11 = "CREATE TABLE papers-diseases"
+			String sql11 = "CREATE TABLE papersdiseases"
 					+ "(papers INTEGER REFERENCES papers (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "diseases INTEGER REFERENCES diseases (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "PRIMARY KEY (papers,diseases))";
@@ -163,7 +162,7 @@ public class DBManager {
 			stmt11.close();
 			
 			Statement stmt12 = c.createStatement();
-			String sql12 = "CREATE TABLE images-diseases"
+			String sql12 = "CREATE TABLE imagesdiseases"
 					+ "(images INTEGER REFERENCES images (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "diseases INTEGER REFERENCES diseases (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "PRIMARY KEY (images,diseases))";
@@ -171,7 +170,7 @@ public class DBManager {
 			stmt12.close();
 			
 			Statement stmt13 = c.createStatement();
-			String sql13 = "CREATE TABLE procedures-diseases"
+			String sql13 = "CREATE TABLE proceduresdiseases"
 					+ "(procedures INTEGER REFERENCES procedures (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "diseases INTEGER REFERENCES diseases (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "PRIMARY KEY (procedures,diseases))";
