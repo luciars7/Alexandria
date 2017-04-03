@@ -24,7 +24,7 @@ public class CommandLineUserInterface {
 	
 	private static  void showMenu() {
 		System.out.println("ALEXANDRIA");
-		System.out.println("**********");
+		System.out.println("***********************");
 		System.out.println("\n1.) Create tables.");
 		System.out.println("2.) Add new item.");
 		System.out.println("3.) Delete item.");
