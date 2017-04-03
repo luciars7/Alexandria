@@ -50,7 +50,7 @@ public class CommandLineUserInterface {
 	 		
 	 		break;}
 	     case 4: {
-	 		
+	 		showEntity();
 	 		break;}
 		}
 		return;
@@ -80,6 +80,59 @@ public class CommandLineUserInterface {
         switch(option){
         case 1: {
 			addAuthor();     	
+			break;}
+	     case 2: {
+	    	 //addBodyParts();
+			break;}
+	     case 3: {
+	    	 //addDevices();
+	 		break;}
+	     case 4: {
+	    	 //addDiseases();
+	 		break;}
+	     case 5: {
+	    	 //addImages();
+	 		break;}
+	     case 6: {
+	    	 //addPaper();
+	 		break;}
+	     case 7:{
+	    	 //addProcedures();
+	    	 break;
+	     }
+	     case 8:{
+	    	 //addSymptoms();
+	    	 break;
+	     }
+	     case 9: {
+///	 		return;
+	 		break;}
+        }
+		
+	}
+	
+	public static void showEntity(){
+		System.out.print("\nPlease, select the type of item you want to create: ");
+		System.out.println("\n1.) Author");
+		System.out.println("2.) Body part");
+		System.out.println("3.) Device");
+		System.out.println("4.) Disease or pathology");
+		System.out.println("5.) Image");
+		System.out.println("6.) Paper or article");
+		System.out.println("7.) Procedure or treatment");
+		System.out.println("8.) Symptom");
+		System.out.println("9.) Return to the main menu...");
+		System.out.print("\nOption: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+        Integer option = Integer.parseInt(read);
+        switch(option){
+        case 1: {
+			showAuthor();     	
 			break;}
 	     case 2: {
 	    	 addBodyParts();
@@ -155,14 +208,14 @@ public class CommandLineUserInterface {
 		dbManager.insertIntoAuthors(name, origin, association);
 	}
 	
-	public void showAuthor () {
-		read=null;
+	public static void showAuthor () {
+		System.out.print("Name: ");
 		try {
 			read = console.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		dbManager = new DBManager();
+		String name=read;
 		ArrayList<Author> list = dbManager.selectAuthor(read);
 		if(list==null){System.out.println("Error searching for the author(s).");}
 		else{
