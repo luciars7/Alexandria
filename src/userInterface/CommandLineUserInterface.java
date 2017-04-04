@@ -275,6 +275,7 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String brand=read;
+		//Bodypart missing. The user must select from all the existent.
 		
 		dbManager.insertIntoDevices(name, type, price, brand);
 	}
@@ -284,23 +285,97 @@ public class CommandLineUserInterface {
 	}
 	
 	public static void addDiseases () {
-		//TODO Continue working here.
-	}
+		System.out.print("Name: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String name=read;
+		System.out.print("Description: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String description=read;
+		//Bodypart missing. The user must select from all the existent.
+		
+		dbManager.insertIntoDevices(name, description);	
+		}
 	
 	public void showDiseases () {
 		
 	}
 	
 	public void addImages () {
-		//Images i = new Images();
-	}
+		System.out.print("Name: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String name=read;
+		System.out.print("Description: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String description=read;
+		System.out.print("Type: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String type=read;
+		System.out.print("Size (Ex.: microscopic): ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String size=read;
+		System.out.print("Please, write the adress of the file you want to upload: ");
+		try {
+			read = console.readLine();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String imageAdress = read;
+		//Paper missing. The user must select from all the existent.
+
+		dbManager.insertIntoDevices(name, description);		}
 	
 	public void showImages () {
 		
 	}
 	
 	public void addPaper () {
-		//Paper pp = new Paper(); 
+		System.out.print("Name: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String name=read;
+		System.out.print("Title: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String title=read;
+		System.out.print("Source: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String source=read;
+		dbManager.insertIntoPapers(name, title, source);
 	}
 	
 	public void showPaper () {
@@ -308,7 +383,21 @@ public class CommandLineUserInterface {
 	}
 	
 	public void addProcedures () {
-		//Procedures pc = new Procedures();
+		System.out.print("Name: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String name=read;
+		System.out.print("Description: ");
+		try {
+            read=console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String description=read;
+		dbManager.insertIntoProcedures(name, description);
 	}
 	
 	public void showProcedures () {
@@ -316,7 +405,21 @@ public class CommandLineUserInterface {
 	}
 	
 	public void addSymptoms () {
-	//	Symptoms s = new Symptoms();
+		System.out.print("Name: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String name=read;
+		System.out.print("Description: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String description=read;
+		dbManager.insertIntoSymptoms(name, description);
 	}
 	
 	public void showSymptoms () {
