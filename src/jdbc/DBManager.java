@@ -47,7 +47,32 @@ public class DBManager {
 	
 	
 	
-	
+	public ArrayList<Author> selectAuthor() {
+ 		ArrayList<Author> list = null;
+ 		try {
+ 			connect();
+ 			// Retrieve data: begin
+ 			list = new ArrayList<Author>();
+ 			Statement stmt = c.createStatement();
+ 			String sql = "SELECT * FROM authors";
+ 			ResultSet rs = stmt.executeQuery(sql);//Works as an iterator.
+ 			while (rs.next()) {
+ 				int id = rs.getInt("ID");
+ 				String name = rs.getString("name");
+ 				String origin = rs.getString("origin");
+ 				String association = rs.getString("association");
+ 				list.add(new Author(id, name, origin, association));
+ 				//System.out.println(name +" "+origin+" "+association);
+ 			}
+ 			rs.close();
+ 			stmt.close();
+ 			System.out.println("Search finished.");
+ 		} catch (Exception e) {
+ 			e.printStackTrace();
+ 		}finally{
+ 			return list;
+ 		}
+ 	}
 	
 	public void connect() {
 		try {

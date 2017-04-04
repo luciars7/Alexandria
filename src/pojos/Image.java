@@ -7,7 +7,6 @@ public class Image {
 	private String size;
 	private byte[] image ;
 	private Paper paper;
-
 	public Image(int iD, String description, String type, String size, byte[] image, Paper paper) {
 
 		ID = iD;
@@ -68,10 +67,9 @@ public class Image {
 
 	}
 
-
 	public void setPaper(Paper paper) {
 		this.paper = paper;
-	}
+}
 	
 	@Override
 	public int hashCode() {
