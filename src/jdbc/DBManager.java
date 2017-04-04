@@ -19,7 +19,6 @@ public class DBManager {
 	public DBManager() {
 		connect();
 	}
-<<<<<<< HEAD
 
 	public ArrayList<Author> selectAuthor(String NAME) {
 		ArrayList<Author> list = null;
@@ -46,42 +45,10 @@ public class DBManager {
 		// }
 	}
 
-=======
+
 	
 	
 	
-	public ArrayList<Author> selectAuthor() {
-		 		ArrayList<Author> list = null;
-		 		try {
-		 			connect();
-		 			// Retrieve data: begin
-		 			list = new ArrayList<Author>();
-		 			Statement stmt = c.createStatement();
-		 			String sql = "SELECT * FROM authors";
-		 			ResultSet rs = stmt.executeQuery(sql);//Works as an iterator.
-		 			while (rs.next()) {
-		 				int id = rs.getInt("ID");
-		 				String name = rs.getString("name");
-		 				String origin = rs.getString("origin");
-		 				String association = rs.getString("association");
-		 				list.add(new Author(id, name, origin, association));
-		 				//System.out.println(name +" "+origin+" "+association);
-		 			}
-		 			rs.close();
-		 			stmt.close();
-		 			System.out.println("Search finished.");
-		 		} catch (Exception e) {
-		 			e.printStackTrace();
-		 		}finally{
-		 			return list;
-		 		}
-		 	}
-	
-	
-	
-	
-	
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria
 	public void connect() {
 		try {
 			// Open database connection
@@ -116,47 +83,26 @@ public class DBManager {
 			stmt3.close();
 
 			Statement stmt4 = c.createStatement();
-<<<<<<< HEAD
 			String sql4 = "CREATE TABLE authors" + "(ID INTEGER PRIMARY KEY," + " name TEXT," + "origin TEXT,"
-=======
-			String sql4 = "CREATE TABLE authors"
-					+ "(ID INTEGER PRIMARY KEY,"
-					+ "name TEXT,"
-					+ "origin TEXT,"
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria
+
 					+ "association TEXT)";
 			stmt4.executeUpdate(sql4);
 			stmt4.close();
 
 			Statement stmt5 = c.createStatement();
-<<<<<<< HEAD
+
 			String sql5 = "CREATE TABLE devices" + "(ID INTEGER PRIMARY KEY," + " name TEXT," + "type TEXT ,"
 					+ "price($) FLOAT," + "brand TEXT,"
-=======
-			String sql5 = "CREATE TABLE devices"
-					+ "(ID INTEGER PRIMARY KEY,"
-					+ "name TEXT,"
-					+ "type TEXT ,"
-					+ "price$ FLOAT,"
-					+ "brand TEXT,"
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria
+
 					+ "medprocedures INTEGER REFERENCES procedures (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "papers INTEGER REFERENCES papers (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 			stmt5.executeUpdate(sql5);
 			stmt5.close();
 
 			Statement stmt6 = c.createStatement();
-<<<<<<< HEAD
+
 			String sql6 = "CREATE TABLE images" + "(ID INTEGER PRIMARY KEY," + " description," + "type TEXT,"
 					+ "size TEXT," + "image BLOOB,"
-=======
-			String sql6 = "CREATE TABLE images"
-					+ "(ID INTEGER PRIMARY KEY,"
-					+ "description TEXT,"
-					+ "type TEXT,"
-					+ "size TEXT,"
-					+ "image BLOOB,"
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria
 					+ "paper INTEGER REFERENCES papers (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 			stmt6.executeUpdate(sql6);
 			stmt6.close();
@@ -234,11 +180,8 @@ public class DBManager {
 		try {
 			connect();
 			Statement stmtSeq = c.createStatement();
-<<<<<<< HEAD
 			String sqlSeq = "INSERT INTO authors (name, location) VALUES (" + name + "," + location + ")";
-=======
-			 String sqlSeq = "INSERT INTO authors (name,origin,association) VALUES ('" + name + "','" + origin + "','" + association + "')";
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria
+
 			stmtSeq.executeUpdate(sqlSeq);
 			c.close();
 		} catch (SQLException ex) {
@@ -319,8 +262,7 @@ public class DBManager {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
-	}
-
+	
 	// DELETIONS
 	try {
 		/*// Open database connection
