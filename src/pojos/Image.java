@@ -6,7 +6,7 @@ public class Image {
 	private String type;
 	private String size;
 	private String link;
-	private Paper paper_id;
+	private Paper paper;
 
 	public Image(int iD, String description, String type, String size, String link, Paper paper) {
 
@@ -15,7 +15,7 @@ public class Image {
 		this.type = type;
 		this.size = size;
 		this.link = link;
-		this.paper_id = paper;
+		this.paper = paper;
 	}	
 
 	public Image() {
@@ -62,15 +62,15 @@ public class Image {
 		this.link = link;
 	}
 
-	public Paper getPaper_id() {
+	public Paper getPaper() {
 
-		return paper_id;
+		return paper;
 
 	}
 
 
-	public void setPaper_id(Paper paper_id) {
-		this.paper_id = paper_id;
+	public void setPaper(Paper _paper) {
+		this.paper = _paper;
 	}
 	
 	@Override

@@ -152,7 +152,7 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String association=read;
-		dbManager.insertIntoAuthors(name, origin, association);
+		dbManager.insertIntoAuthor(name, origin, association);
 	}
 	
 	public void showAuthor () {
