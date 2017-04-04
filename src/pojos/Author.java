@@ -69,4 +69,10 @@ public class Author {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Author [ID=" + ID + ", name=" + name + ", origin=" + origin + ", association=" + association + "]";
+	}
+	
 }
