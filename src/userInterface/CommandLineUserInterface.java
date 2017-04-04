@@ -50,7 +50,7 @@ public class CommandLineUserInterface {
 	 		
 	 		break;}
 	     case 4: {
-	 		
+	 		showEntity();
 	 		break;}
 		}
 		return;
@@ -89,6 +89,59 @@ public class CommandLineUserInterface {
 	 		break;}
 	     case 4: {
 	    	 //addDiseases();
+	 		break;}
+	     case 5: {
+	    	 //addImages();
+	 		break;}
+	     case 6: {
+	    	 //addPaper();
+	 		break;}
+	     case 7:{
+	    	 //addProcedures();
+	    	 break;
+	     }
+	     case 8:{
+	    	 //addSymptoms();
+	    	 break;
+	     }
+	     case 9: {
+///	 		return;
+	 		break;}
+        }
+		
+	}
+	
+	public static void showEntity(){
+		System.out.print("\nPlease, select the type of item you want to create: ");
+		System.out.println("\n1.) Author");
+		System.out.println("2.) Body part");
+		System.out.println("3.) Device");
+		System.out.println("4.) Disease or pathology");
+		System.out.println("5.) Image");
+		System.out.println("6.) Paper or article");
+		System.out.println("7.) Procedure or treatment");
+		System.out.println("8.) Symptom");
+		System.out.println("9.) Return to the main menu...");
+		System.out.print("\nOption: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+        Integer option = Integer.parseInt(read);
+        switch(option){
+        case 1: {
+			showAuthor();     	
+			break;}
+	     case 2: {
+	    	 addBodyParts();
+			break;}
+	     case 3: {
+	    	 addDevices();
+	 		break;}
+	     case 4: {
+	    	 addDiseases();
 	 		break;}
 	     case 5: {
 	    	 //addImages();
@@ -155,40 +208,85 @@ public class CommandLineUserInterface {
 		dbManager.insertIntoAuthor(name, origin, association);
 	}
 	
-	public void showAuthor () {
-		read=null;
+	public static void showAuthor () {
+		/*System.out.print("Name: ");
 		try {
 			read = console.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		dbManager = new DBManager();
-		ArrayList<Author> list = dbManager.selectAuthor(read);
+		String name=read;*/
+		ArrayList<Author> list = dbManager.selectAuthor();
 		if(list==null){System.out.println("Error searching for the author(s).");}
 		else{
-			System.out.println(list);
+			for(Author author:list){
+				System.out.println(author);
+			}
 		}
 		
 	}
 	
-	public void addBodyParts () {
-		//BodyParts bp = new BodyParts();
+	public static void addBodyParts () {
+		System.out.print("Name: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String name=read;
+		System.out.print("Location: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String location=read;
+		dbManager.insertIntoBodyParts(name, location);
 	}
 	
 	public void showBodyPart () {
 		
 	}
 	
-	public void addDevices () {
-		//Devices dv = new Devices();
+	public static void addDevices () {
+		System.out.print("Name: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String name=read;
+		System.out.print("Type: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String type=read;
+		System.out.print("Price($): ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		float price=Float.parseFloat(read);
+		System.out.print("Brand: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String brand=read;
+		
+		dbManager.insertIntoDevices(name, type, price, brand);
 	}
 	
 	public void showDevices () {
 		
 	}
 	
-	public void addDiseases () {
-		//Diseases ds = new Diseases();
+	public static void addDiseases () {
+		//TODO Continue working here.
 	}
 	
 	public void showDiseases () {
