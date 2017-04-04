@@ -209,17 +209,19 @@ public class CommandLineUserInterface {
 	}
 	
 	public static void showAuthor () {
-		System.out.print("Name: ");
+		/*System.out.print("Name: ");
 		try {
 			read = console.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		String name=read;
-		ArrayList<Author> list = dbManager.selectAuthor(read);
+		String name=read;*/
+		ArrayList<Author> list = dbManager.selectAuthor();
 		if(list==null){System.out.println("Error searching for the author(s).");}
 		else{
-			System.out.println(list);
+			for(Author author:list){
+				System.out.println(author);
+			}
 		}
 		
 	}
