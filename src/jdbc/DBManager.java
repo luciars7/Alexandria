@@ -167,7 +167,7 @@ public class DBManager {
 		try {
 			connect();
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO authors (name, origin, association) VALUES (" + name + "," + origin + ","
+			String sqlSeq = "INSERT INTO Authors (name, origin, association) VALUES (" + name + "," + origin + ","
 					+ association + ")";
 			stmtSeq.executeUpdate(sqlSeq);
 			c.close();
@@ -180,7 +180,7 @@ public class DBManager {
 		try {
 			connect();
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO authors (name, location) VALUES (" + name + "," + location + ")";
+			String sqlSeq = "INSERT INTO BodyPart (name, location) VALUES (" + name + "," + location + ")";
 
 			stmtSeq.executeUpdate(sqlSeq);
 			c.close();
@@ -193,7 +193,7 @@ public class DBManager {
 		try {
 			connect();
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO authors (name, type, price, brand) VALUES (" + name + "," + type + "," + price
+			String sqlSeq = "INSERT INTO Device (name, type, price, brand) VALUES (" + name + "," + type + "," + price
 					+ "," + brand + ")";
 			stmtSeq.executeUpdate(sqlSeq);
 			c.close();
@@ -206,7 +206,7 @@ public class DBManager {
 		try {
 			connect();
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO authors (name, description, bodyParts) VALUES (" + name + "," + description
+			String sqlSeq = "INSERT INTO Disease (name, description, bodyParts) VALUES (" + name + "," + description
 					+ "," + bodyParts + ")";
 			stmtSeq.executeUpdate(sqlSeq);
 			c.close();
@@ -219,7 +219,7 @@ public class DBManager {
 		try {
 			connect();
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO authors (description, type, size, link, paper) VALUES (" + description + ","
+			String sqlSeq = "INSERT INTO Image (description, type, size, link, paper) VALUES (" + description + ","
 					+ type + "," + size + "," + link + "," + paper + ")";
 			stmtSeq.executeUpdate(sqlSeq);
 			c.close();
@@ -232,7 +232,7 @@ public class DBManager {
 		try {
 			connect();
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO authors (title, source) VALUES (" + title + "," + source + ")";
+			String sqlSeq = "INSERT INTO Paper (title, source) VALUES (" + title + "," + source + ")";
 			stmtSeq.executeUpdate(sqlSeq);
 			c.close();
 		} catch (SQLException ex) {
@@ -244,7 +244,7 @@ public class DBManager {
 		try {
 			connect();
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO authors (name, description) VALUES (" + name + "," + description + ")";
+			String sqlSeq = "INSERT INTO Procedure (name, description) VALUES (" + name + "," + description + ")";
 			stmtSeq.executeUpdate(sqlSeq);
 			c.close();
 		} catch (SQLException ex) {
@@ -263,14 +263,14 @@ public class DBManager {
 			ex.printStackTrace();
 		}
 	
-	// DELETIONS
+	 /*// DELETIONS
 	try {
-		/*// Open database connection
+		// Open database connection
 		Class.forName("org.sqlite.JDBC");
 		// Note that we are using the class' connection
 		c = DriverManager.getConnection("jdbc:sqlite:./db/company.db");
 		c.createStatement().execute("PRAGMA foreign_keys=ON");
-		System.out.println("Database connection opened.");*/
+		System.out.println("Database connection opened.");
 		connect();
 		Statement stmtSeq = c.createStatement();
 		String sqlSeq = "DELETE FROM author (";
@@ -293,6 +293,6 @@ public class DBManager {
 	} catch (Exception e) {
 		System.out.println(e.getMessage());
 	}
-
+*/
 
 }
