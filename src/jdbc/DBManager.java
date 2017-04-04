@@ -15,9 +15,32 @@ public class DBManager {
 	public DBManager(){
 		connect();
 	}
-	
-	
-	
+
+	public ArrayList<Author> selectAuthor(String NAME) {
+		ArrayList<Author> list = null;
+		try {
+			// Retrieve data: begin
+			list = new ArrayList<Author>();
+			Statement stmt = c.createStatement();
+			String sql = "SELECT *  FROM authors WHERE name IN " + NAME;
+			ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
+			while (rs.next()) {
+				int id = rs.getInt("ID");
+				String name = rs.getString("name");
+				String origin = rs.getString("origin");
+				String association = rs.getString("association");
+				list.add(new Author(id, name, origin, association));
+			}
+			rs.close();
+			stmt.close();
+			System.out.println("Search finished.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} // finally{
+		return list;
+		// }
+	}
+
 	public ArrayList<Author> selectAuthor() {
 		 		ArrayList<Author> list = null;
 		 		try {
@@ -44,35 +67,6 @@ public class DBManager {
 		 			return list;
 		 		}
 		 	}
-	
-	
-	
-	public ArrayList<Author> selectAuthor() {
- 		ArrayList<Author> list = null;
- 		try {
- 			connect();
- 			// Retrieve data: begin
- 			list = new ArrayList<Author>();
- 			Statement stmt = c.createStatement();
- 			String sql = "SELECT * FROM authors";
- 			ResultSet rs = stmt.executeQuery(sql);//Works as an iterator.
- 			while (rs.next()) {
- 				int id = rs.getInt("ID");
- 				String name = rs.getString("name");
- 				String origin = rs.getString("origin");
- 				String association = rs.getString("association");
- 				list.add(new Author(id, name, origin, association));
- 				//System.out.println(name +" "+origin+" "+association);
- 			}
- 			rs.close();
- 			stmt.close();
- 			System.out.println("Search finished.");
- 		} catch (Exception e) {
- 			e.printStackTrace();
- 		}finally{
- 			return list;
- 		}
- 	}
 	
 	public void connect() {
 		try {
@@ -126,12 +120,14 @@ public class DBManager {
 			stmt4.close();
 			
 			Statement stmt5 = c.createStatement();
+
 			String sql5 = "CREATE TABLE devices"
 					+ "(ID INTEGER PRIMARY KEY,"
 					+ "name TEXT,"
 					+ "type TEXT ,"
 					+ "price$ FLOAT,"
 					+ "brand TEXT,"
+			
 					+ "medprocedures INTEGER REFERENCES procedures (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "papers INTEGER REFERENCES papers (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 			stmt5.executeUpdate(sql5);
@@ -249,8 +245,122 @@ public class DBManager {
 			e.printStackTrace();
 		}
 	}
+
 	/*public void addAuthors (String name, String origin, String association){
 		try{
+=======
+
+	// INSERTS
+	public void insertIntoAuthor(String name, String origin, String association) {
+		try {
+			connect();
+			Statement stmtSeq = c.createStatement();
+			String sqlSeq = "INSERT INTO Authors (name, origin, association) VALUES (" + name + "," + origin + ","
+					+ association + ")";
+			stmtSeq.executeUpdate(sqlSeq);
+			c.close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	public void insertIntoBodyPart(String name, String location) {
+		try {
+			connect();
+			Statement stmtSeq = c.createStatement();
+			String sqlSeq = "INSERT INTO BodyPart (name, location) VALUES (" + name + "," + location + ")";
+
+			stmtSeq.executeUpdate(sqlSeq);
+			c.close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	public void insertIntoDevice(String name, String type, float price, String brand) {
+		try {
+			connect();
+			Statement stmtSeq = c.createStatement();
+			String sqlSeq = "INSERT INTO Device (name, type, price, brand) VALUES (" + name + "," + type + "," + price
+					+ "," + brand + ")";
+			stmtSeq.executeUpdate(sqlSeq);
+			c.close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	public void insertIntoDisease(String name, String description, BodyPart bodyParts) {
+		try {
+			connect();
+			Statement stmtSeq = c.createStatement();
+			String sqlSeq = "INSERT INTO Disease (name, description, bodyParts) VALUES (" + name + "," + description
+					+ "," + bodyParts + ")";
+			stmtSeq.executeUpdate(sqlSeq);
+			c.close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	public void insertIntoImage(String description, String type, String size, String link, Paper paper) {
+		try {
+			connect();
+			Statement stmtSeq = c.createStatement();
+			String sqlSeq = "INSERT INTO Image (description, type, size, link, paper) VALUES (" + description + ","
+					+ type + "," + size + "," + link + "," + paper + ")";
+			stmtSeq.executeUpdate(sqlSeq);
+			c.close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	public void insertIntoPaper (String title, String source) {
+		try {
+			connect();
+			Statement stmtSeq = c.createStatement();
+			String sqlSeq = "INSERT INTO Paper (title, source) VALUES (" + title + "," + source + ")";
+			stmtSeq.executeUpdate(sqlSeq);
+			c.close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	public void insertIntoProcedure (String name, String description) {
+		try {
+			connect();
+			Statement stmtSeq = c.createStatement();
+			String sqlSeq = "INSERT INTO Procedure (name, description) VALUES (" + name + "," + description + ")";
+			stmtSeq.executeUpdate(sqlSeq);
+			c.close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	public void insertIntoSymptom (String name, String description) {
+		try {
+			connect();
+			Statement stmtSeq = c.createStatement();
+			String sqlSeq = "INSERT INTO authors (name, description) VALUES (" + name + "," + description + ")";
+			stmtSeq.executeUpdate(sqlSeq);
+			c.close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+	
+	 /*
+	try {
+		// Open database connection
+		Class.forName("org.sqlite.JDBC");
+		// Note that we are using the class' connection
+		c = DriverManager.getConnection("jdbc:sqlite:./db/company.db");
+		c.createStatement().execute("PRAGMA foreign_keys=ON");
+		System.out.println("Database connection opened.");
+		connect();
+>>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
 		Statement stmtSeq = c.createStatement();
 		 String sqlSeq = "INSERT INTO images-diseases (name,origin,association) VALUES (" + name + "," + origin + "," + association + ")";
 		stmtSeq.executeUpdate(sqlSeq);
