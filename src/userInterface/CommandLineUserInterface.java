@@ -113,7 +113,7 @@ public class CommandLineUserInterface {
 	}
 	
 	public static void showEntity(){
-		System.out.print("\nPlease, select the type of item you want to create: ");
+		System.out.print("\nPlease, select the type of item you want to view: ");
 		System.out.println("\n1.) Author");
 		System.out.println("2.) Body part");
 		System.out.println("3.) Device");
@@ -138,7 +138,7 @@ public class CommandLineUserInterface {
 			}
         //Change methods to the show ones. Maybe in another class.
 	     case 2: {
-	    	 addBodyParts();
+	    	 showBodyPart();
 	    	 return;}
 	     case 3: {
 	    	 addDevices();
@@ -213,14 +213,14 @@ public class CommandLineUserInterface {
 	}
 	
 	public static void showAuthor () {
-		/*System.out.print("Name: ");
+	System.out.print("Please, provide a name or write «all» to view every author: ");
 		try {
 			read = console.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		String name=read;*/
-		ArrayList<Author> list = dbManager.selectAuthor();
+		String name=read;
+		ArrayList<Author> list = dbManager.selectAuthor(name);
 		if(list==null){System.out.println("Error searching for the author(s).");}
 		else{
 			for(Author author:list){
@@ -245,11 +245,25 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String location=read;
-		dbManager.insertIntoBodyParts(name, location);
+		dbManager.insertIntoBodyPart(name, location);
+		System.out.println("Body part inserted correctly.");
 	}
 	
-	public void showBodyPart () {
-		
+	public static void showBodyPart () {
+		System.out.print("Please, provide a name or write «all» to view every body part: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String name=read;
+		ArrayList<BodyPart> list = dbManager.selectBodyPart(name);
+		if(list==null){System.out.println("Error searching for the body part(s).");}
+		else{
+			for(BodyPart bodyPart:list){
+				System.out.println(bodyPart);
+			}
+		}
 	}
 	
 	public static void addDevices () {

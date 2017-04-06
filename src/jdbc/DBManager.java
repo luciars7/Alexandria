@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import pojos.Author;
+import pojos.BodyPart;
 
 public class DBManager {
 	Connection c = null;
@@ -22,51 +23,74 @@ public class DBManager {
 			// Retrieve data: begin
 			list = new ArrayList<Author>();
 			Statement stmt = c.createStatement();
-			String sql = "SELECT *  FROM authors WHERE name IN " + NAME;
-			ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
-			while (rs.next()) {
-				int id = rs.getInt("ID");
-				String name = rs.getString("name");
-				String origin = rs.getString("origin");
-				String association = rs.getString("association");
-				list.add(new Author(id, name, origin, association));
-			}
-			rs.close();
+			if(NAME.equalsIgnoreCase("all")){
+	 			String sql = "SELECT * FROM authors";
+	 			ResultSet rs = stmt.executeQuery(sql);//Works as an iterator.
+	 			while (rs.next()) {
+	 				int id = rs.getInt("ID");
+	 				String name = rs.getString("name");
+	 				String origin = rs.getString("origin");
+	 				String association = rs.getString("association");
+	 				list.add(new Author(id, name, origin, association));
+			}rs.close();
+	 			}
+	 			else{
+	 				
+	 				String sql = "SELECT * FROM authors WHERE name = '"+NAME+"'";
+	 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
+	 				while (rs.next()) {
+	 					int id = rs.getInt("ID");
+	 					String name = rs.getString("name");
+	 					String origin = rs.getString("origin");
+	 					String association = rs.getString("association");
+	 					list.add(new Author(id, name, origin, association));
+	 				
+	 			}rs.close();
+	 			}
 			stmt.close();
 			System.out.println("Search finished.");
 		} catch (Exception e) {
 			e.printStackTrace();
-		} // finally{
+		} 
 		return list;
-		// }
 	}
 
-	public ArrayList<Author> selectAuthor() {
-		 		ArrayList<Author> list = null;
-		 		try {
-		 			connect();
-		 			// Retrieve data: begin
-		 			list = new ArrayList<Author>();
-		 			Statement stmt = c.createStatement();
-		 			String sql = "SELECT * FROM authors";
-		 			ResultSet rs = stmt.executeQuery(sql);//Works as an iterator.
-		 			while (rs.next()) {
-		 				int id = rs.getInt("ID");
+	
+	public ArrayList<BodyPart> selectBodyPart(String NAME) {
+		ArrayList<BodyPart> list = null;
+		try {
+			// Retrieve data: begin
+			list = new ArrayList<BodyPart>();
+			Statement stmt = c.createStatement();
+			if(NAME.equalsIgnoreCase("all")){
+	 			String sql = "SELECT * FROM bodyparts";
+	 			ResultSet rs = stmt.executeQuery(sql);//Works as an iterator.
+	 			while (rs.next()) {
+	 				int id = rs.getInt("ID");
+	 				String name = rs.getString("name");
+	 				String location = rs.getString("location");
+	 				list.add(new BodyPart(id, name, location));
+			}rs.close();
+	 			}
+	 			else{
+	 				
+	 				String sql = "SELECT * FROM bodyparts WHERE name = '"+NAME+"'";
+	 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
+	 				while (rs.next()) {
+	 					int id = rs.getInt("ID");
 		 				String name = rs.getString("name");
-		 				String origin = rs.getString("origin");
-		 				String association = rs.getString("association");
-		 				list.add(new Author(id, name, origin, association));
-		 				//System.out.println(name +" "+origin+" "+association);
-		 			}
-		 			rs.close();
-		 			stmt.close();
-		 			System.out.println("Search finished.");
-		 		} catch (Exception e) {
-		 			e.printStackTrace();
-		 		}finally{
-		 			return list;
-		 		}
-		 	}
+		 				String location = rs.getString("location");
+		 				list.add(new BodyPart(id, name, location));
+	 				
+	 			}rs.close();
+	 			}
+			stmt.close();
+			System.out.println("Search finished.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return list;
+ 	}
 	
 	public void connect() {
 		try {
@@ -246,30 +270,25 @@ public class DBManager {
 		}
 	}
 
-	/*public void addAuthors (String name, String origin, String association){
-		try{
-=======
-
 	// INSERTS
-	public void insertIntoAuthor(String name, String origin, String association) {
-		try {
+	public void insertIntoAuthors(String name, String origin, String association) {
+		try{
 			connect();
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO Authors (name, origin, association) VALUES (" + name + "," + origin + ","
-					+ association + ")";
+			 String sqlSeq = "INSERT INTO authors (name,origin,association) VALUES ('" + name + "','" + origin + "','" + association + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 			c.close();
-		} catch (SQLException ex) {
-			ex.printStackTrace();
 		}
+			catch (SQLException ex){
+				ex.printStackTrace();
+			}		
 	}
 
 	public void insertIntoBodyPart(String name, String location) {
 		try {
 			connect();
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO BodyPart (name, location) VALUES (" + name + "," + location + ")";
-
+			String sqlSeq = "INSERT INTO bodyparts (name, location) VALUES ('" + name + "','" + location + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 			c.close();
 		} catch (SQLException ex) {
@@ -350,7 +369,8 @@ public class DBManager {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
-	
+	}
+}
 	 /*
 	try {
 		// Open database connection
@@ -371,18 +391,6 @@ public class DBManager {
 	}
 */
 
-	public void insertIntoAuthors(String name, String origin, String association) {
-		try{
-			connect();
-			Statement stmtSeq = c.createStatement();
-			 String sqlSeq = "INSERT INTO authors (name,origin,association) VALUES ('" + name + "','" + origin + "','" + association + "')";
-			stmtSeq.executeUpdate(sqlSeq);
-			c.close();
-		}
-			catch (SQLException ex){
-				ex.printStackTrace();
-			}		
-	}
+	
 
 
-}
