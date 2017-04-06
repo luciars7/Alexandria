@@ -23,7 +23,7 @@ public class CommandLineUserInterface {
 	}
 	
 	private static  void showMenu() {
-		System.out.println("ALEXANDRIA");
+		System.out.println("\n\n\n\nALEXANDRIA");
 		System.out.println("***********************");
 		System.out.println("\n1.) Create tables.");
 		System.out.println("2.) Add new item.");
@@ -53,7 +53,7 @@ public class CommandLineUserInterface {
 	 		showEntity();
 	 		break;}
 		}
-		return;
+		showMenu();
 		}
 		
 	
@@ -79,34 +79,35 @@ public class CommandLineUserInterface {
         Integer option = Integer.parseInt(read);
         switch(option){
         case 1: {
-			addAuthor();     	
-			break;}
+			addAuthor();   
+			return;
+			}
 	     case 2: {
-	    	 //addBodyParts();
-			break;}
+	    	 addBodyParts();
+	    	 return;}
 	     case 3: {
-	    	 //addDevices();
-	 		break;}
+	    	 addDevices();
+	    	 return;}
 	     case 4: {
-	    	 //addDiseases();
-	 		break;}
+	    	 addDiseases();
+	    	 return;}
 	     case 5: {
-	    	 //addImages();
-	 		break;}
+	    	 addImages();
+	    	 return;}
 	     case 6: {
-	    	 //addPaper();
-	 		break;}
+	    	 addPaper();
+	    	 return;}
 	     case 7:{
-	    	 //addProcedures();
-	    	 break;
+	    	 addProcedures();
+	    	 return;
 	     }
 	     case 8:{
-	    	 //addSymptoms();
-	    	 break;
+	    	 addSymptoms();
+	    	 return;
 	     }
 	     case 9: {
-///	 		return;
-	 		break;}
+             return;
+	 		}
         }
 		
 	}
@@ -132,34 +133,36 @@ public class CommandLineUserInterface {
         Integer option = Integer.parseInt(read);
         switch(option){
         case 1: {
-			showAuthor();     	
-			break;}
+			showAuthor();   
+			return;
+			}
+        //Change methods to the show ones. Maybe in another class.
 	     case 2: {
 	    	 addBodyParts();
-			break;}
+	    	 return;}
 	     case 3: {
 	    	 addDevices();
-	 		break;}
+	    	 return;}
 	     case 4: {
 	    	 addDiseases();
-	 		break;}
+	    	 return;}
 	     case 5: {
-	    	 //addImages();
-	 		break;}
+	    	 addImages();
+	    	 return;}
 	     case 6: {
-	    	 //addPaper();
-	 		break;}
+	    	 addPaper();
+	    	 return;}
 	     case 7:{
-	    	 //addProcedures();
-	    	 break;
+	    	 addProcedures();
+	    	 return;
 	     }
 	     case 8:{
-	    	 //addSymptoms();
-	    	 break;
+	    	 addSymptoms();
+	    	 return;
 	     }
 	     case 9: {
-///	 		return;
-	 		break;}
+             return;
+	 		}
         }
 		
 	}
@@ -205,7 +208,8 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String association=read;
-		dbManager.insertIntoAuthor(name, origin, association);
+		dbManager.insertIntoAuthors(name, origin, association);
+		System.out.println("Author inserted correctly.");
 	}
 	
 	public static void showAuthor () {
@@ -310,7 +314,7 @@ public class CommandLineUserInterface {
 		
 	}
 	
-	public void addImages () {
+	public static void addImages () {
 		System.out.print("Name: ");
 		try {
 			read = console.readLine();
@@ -355,7 +359,7 @@ public class CommandLineUserInterface {
 		
 	}
 	
-	public void addPaper () {
+	public static void addPaper () {
 		System.out.print("Name: ");
 		try {
 			read = console.readLine();
@@ -384,7 +388,7 @@ public class CommandLineUserInterface {
 		
 	}
 	
-	public void addProcedures () {
+	public static void addProcedures () {
 		System.out.print("Name: ");
 		try {
 			read = console.readLine();
@@ -406,7 +410,7 @@ public class CommandLineUserInterface {
 		
 	}
 	
-	public void addSymptoms () {
+	public static void addSymptoms () {
 		System.out.print("Name: ");
 		try {
 			read = console.readLine();
