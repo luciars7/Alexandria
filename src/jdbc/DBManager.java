@@ -238,7 +238,7 @@ public class DBManager {
 	public void insertIntoBodyPart (String name, String location) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO bodyPart (name, location) VALUES ('" + name + "', '" + location + "')";
+			String sqlSeq = "INSERT INTO bodyparts (name, location) VALUES ('" + name + "', '" + location + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -248,7 +248,7 @@ public class DBManager {
 	public void insertIntoDevice (String name, String type, float price, String brand) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO Device (name, type, price, brand) VALUES ('" + name + "', '" + type + "', '" + price
+			String sqlSeq = "INSERT INTO devices (name, type, price, brand) VALUES ('" + name + "', '" + type + "', '" + price
 					+ "', '" + brand + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
@@ -259,7 +259,7 @@ public class DBManager {
 	public void insertIntoDisease (String name, String description, BodyPart bodyParts) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO Disease (name, description, bodyParts) VALUES ('" + name + "', '" + description
+			String sqlSeq = "INSERT INTO diseases (name, description, bodyParts) VALUES ('" + name + "', '" + description
 					+ "', '" + bodyParts + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
@@ -270,7 +270,7 @@ public class DBManager {
 	public void insertIntoImage (String description, String type, String size, String link, Paper paper) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO Image (description, type, size, link, paper) VALUES ('" + description + "', '"
+			String sqlSeq = "INSERT INTO images (description, type, size, link, paper) VALUES ('" + description + "', '"
 					+ type + "', '" + size + "', '" + link + "', '" + paper + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
@@ -281,7 +281,7 @@ public class DBManager {
 	public void insertIntoPaper (String title, String source) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO Paper (title, source) VALUES ('" + title + "', '" + source + "')";
+			String sqlSeq = "INSERT INTO papers (title, source) VALUES ('" + title + "', '" + source + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -291,7 +291,7 @@ public class DBManager {
 	public void insertIntoProcedure (String name, String description) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO Procedure (name, description) VALUES ('" + name + "', '" + description + "')";
+			String sqlSeq = "INSERT INTO procedures (name, description) VALUES ('" + name + "', '" + description + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -301,7 +301,7 @@ public class DBManager {
 	public void insertIntoSymptom (String name, String description) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO Symptom (name, description) VALUES ('" + name + "', '" + description + "')";
+			String sqlSeq = "INSERT INTO symptoms (name, description) VALUES ('" + name + "', '" + description + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -330,7 +330,7 @@ public class DBManager {
 // DELETIONS ------------------------------------------------------------------------------------------------
 	public void deleteAuthor (int author_id) {
 		try {
-			String sql = "DELETE FROM Author WHERE id=?";
+			String sql = "DELETE FROM authors WHERE id=?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, author_id);
 			prep.executeUpdate();
@@ -342,7 +342,7 @@ public class DBManager {
 	
 	public void deleteBodyPart (int bodypart_id) {
 		try {
-			String sql = "DELETE FROM BodyPart WHERE id=?";
+			String sql = "DELETE FROM bodyparts WHERE id=?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, bodypart_id);
 			prep.executeUpdate();

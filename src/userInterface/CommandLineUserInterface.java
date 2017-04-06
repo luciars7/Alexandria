@@ -47,7 +47,7 @@ public class CommandLineUserInterface {
 			newEntity();
 			break;}
 	     case 3: {
-	 		
+	 		deleteEntity();
 	 		break;}
 	     case 4: {
 	 		showEntity();
@@ -166,6 +166,62 @@ public class CommandLineUserInterface {
         }
 		
 	}
+
+	private static  void deleteEntity() {
+		System.out.print("\nPlease, select the type of item you want to delete: ");
+		System.out.println("\n1.) Author");
+		System.out.println("2.) Body part");
+		System.out.println("3.) Device");
+		System.out.println("4.) Disease or pathology");
+		System.out.println("5.) Image");
+		System.out.println("6.) Paper or article");
+		System.out.println("7.) Procedure or treatment");
+		System.out.println("8.) Symptom");
+		System.out.println("9.) Return to the main menu...");
+		System.out.print("\nOption: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+        Integer option = Integer.parseInt(read);
+        switch(option){
+        case 1: {
+			deleteAuthor();   
+			return;
+			}
+	     case 2: {
+	    	 addBodyParts();
+	    	 return;}
+	     case 3: {
+	    	 addDevices();
+	    	 return;}
+	     case 4: {
+	    	 addDiseases();
+	    	 return;}
+	     case 5: {
+	    	 addImages();
+	    	 return;}
+	     case 6: {
+	    	 addPaper();
+	    	 return;}
+	     case 7:{
+	    	 addProcedures();
+	    	 return;
+	     }
+	     case 8:{
+	    	 addSymptoms();
+	    	 return;
+	     }
+	     case 9: {
+             return;
+	 		}
+        }
+		
+	}
+	
+	
 
 	private static void newTables() {
 		dbManager = new DBManager();
@@ -446,6 +502,24 @@ public class CommandLineUserInterface {
 		
 	}
 	
-	
+	private static void deleteAuthor() {
+		ArrayList<Author> list = dbManager.selectAuthor("all");
+		if(list==null){System.out.println("Error searching for the authors.");}
+		else{
+			for(Author author:list){
+				System.out.println(author);
+			}
+			System.out.print("\nPlease, write the ID of the author you want to delete. Write «0» to go back: ");
+			try {
+				read = console.readLine();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			int id=Integer.parseInt(read);
+			if(id==0){return;}else{
+				dbManager.deleteAuthor(id);
+			}
+		}	
+	}
 
 }
