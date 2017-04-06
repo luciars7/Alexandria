@@ -1,13 +1,8 @@
 package jdbc;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
-
-import pojos.Author;
+import pojos.*;
 
 public class DBManager {
 	Connection c = null;
@@ -41,7 +36,7 @@ public class DBManager {
 		// }
 	}
 
-	public ArrayList<Author> selectAuthor() {
+	public ArrayList<Author> selectAuthor() { // Select all authors
 		 		ArrayList<Author> list = null;
 		 		try {
 		 			connect();
@@ -63,9 +58,11 @@ public class DBManager {
 		 			System.out.println("Search finished.");
 		 		} catch (Exception e) {
 		 			e.printStackTrace();
-		 		}finally{
-		 			return list;
-		 		}
+		 		}/*finally{
+		 			return list;       // IS THIS 'FINALLY' OKAY?
+		 		}*/
+		 		
+		 		return list;
 		 	}
 	
 	public void connect() {
@@ -199,118 +196,61 @@ public class DBManager {
 					+ "PRIMARY KEY (procedures,diseases))";
 			stmt13.executeUpdate(sql13);
 			stmt13.close();
-			// Create table: end
-
-			//
-			// - Set initial values for the Primary Keys
-			// - Don't try to understand this until JPA is explained
-			// This is usually not needed, since the initial values
-			// are set when the first row is inserted, but since we
-			// are using JPA and JDBC in the same project, and JPA
-			// needs an initial value, we do this.
-			/*Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO authors (ID,name,origin,association) VALUES (1, 'Christian Nordqvist', 'UK' ,'Medical News Today')";
-			stmtSeq.executeUpdate(sqlSeq);
-			sqlSeq = "INSERT INTO authors (ID,name,origin,association) VALUES (2, 'Pradeep Arora', 'USA' ,'Arora Psychiatric Consultation')";
-			stmtSeq.executeUpdate(sqlSeq);
-			sqlSeq = "INSERT INTO symptoms-diseases (diseases,symptoms) VALUES (1,1)";
-			stmtSeq.executeUpdate(sqlSeq);
-			sqlSeq = "INSERT INTO symptoms-diseases (diseases,symptoms) VALUES (5,1)";
-			stmtSeq.executeUpdate(sqlSeq);
-			sqlSeq = "INSERT INTO symptoms-diseases (diseases,symptoms) VALUES (2,7)";
-			stmtSeq.executeUpdate(sqlSeq);
-			sqlSeq = "INSERT INTO papers (ID,title,source) VALUES (1, 'Breast cancer', 'www.medicalnewstoday.com/articles/37136.php')";
-			stmtSeq.executeUpdate(sqlSeq);
-			sqlSeq = "INSERT INTO papers (ID,title,source) VALUES (2, 'Chronic kidney disease', 'http://emedicine.medscape.com/article/238798-overview')";
-			stmtSeq.executeUpdate(sqlSeq);
-			sqlSeq = "INSERT INTO papers-authors (papers,authors) VALUES (1,1)";
-			stmtSeq.executeUpdate(sqlSeq);
-			sqlSeq = "INSERT INTO papers-authors (papers,authors) VALUES (2,2)";
-			stmtSeq.executeUpdate(sqlSeq);
-			sqlSeq = "INSERT INTO papers-authors (papers,authors) VALUES (3,3)";
-			stmtSeq.executeUpdate(sqlSeq);
-			sqlSeq = "INSERT INTO papers-diseases (papers,diseases) VALUES (1,4)";
-			stmtSeq.executeUpdate(sqlSeq);
-			sqlSeq = "INSERT INTO papers-diseases (papers,diseases) VALUES (2,3)";
-			stmtSeq.executeUpdate(sqlSeq);
-			sqlSeq = "INSERT INTO papers-diseases (papers,diseases) VALUES (3,2)";
-			stmtSeq.executeUpdate(sqlSeq);
-			sqlSeq = "INSERT INTO images-diseases (images,diseases) VALUES (1,1)";
-			stmtSeq.executeUpdate(sqlSeq);
-			sqlSeq = "INSERT INTO images-diseases (images,diseases) VALUES (6,2)";
-			stmtSeq.executeUpdate(sqlSeq);
-			stmtSeq.close();*/
-			System.out.println("Database connection closed.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	/*public void addAuthors (String name, String origin, String association){
-		try{
-=======
-
-	// INSERTS
-	public void insertIntoAuthor(String name, String origin, String association) {
+	// INSERTS ------------------------------------------------------------------------------------------------
+	public void insertIntoAuthor (String name, String origin, String association) {
 		try {
-			connect();
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO Authors (name, origin, association) VALUES (" + name + "," + origin + ","
-					+ association + ")";
+			String sqlSeq = "INSERT INTO Authors (name, origin, association) VALUES ('" + name + "', '" + origin + "', '"
+					+ association + "')";
 			stmtSeq.executeUpdate(sqlSeq);
-			c.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 	}
 
-	public void insertIntoBodyPart(String name, String location) {
+	public void insertIntoBodyPart (String name, String location) {
 		try {
-			connect();
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO BodyPart (name, location) VALUES (" + name + "," + location + ")";
-
+			String sqlSeq = "INSERT INTO BodyPart (name, location) VALUES ('" + name + "', '" + location + "')";
 			stmtSeq.executeUpdate(sqlSeq);
-			c.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 	}
 
-	public void insertIntoDevice(String name, String type, float price, String brand) {
+	public void insertIntoDevice (String name, String type, float price, String brand) {
 		try {
-			connect();
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO Device (name, type, price, brand) VALUES (" + name + "," + type + "," + price
-					+ "," + brand + ")";
+			String sqlSeq = "INSERT INTO Device (name, type, price, brand) VALUES ('" + name + "', '" + type + "', '" + price
+					+ "', '" + brand + "')";
 			stmtSeq.executeUpdate(sqlSeq);
-			c.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 	}
 
-	public void insertIntoDisease(String name, String description, BodyPart bodyParts) {
+	public void insertIntoDisease (String name, String description, BodyPart bodyParts) {
 		try {
-			connect();
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO Disease (name, description, bodyParts) VALUES (" + name + "," + description
-					+ "," + bodyParts + ")";
+			String sqlSeq = "INSERT INTO Disease (name, description, bodyParts) VALUES ('" + name + "', '" + description
+					+ "', '" + bodyParts + "')";
 			stmtSeq.executeUpdate(sqlSeq);
-			c.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 	}
 
-	public void insertIntoImage(String description, String type, String size, String link, Paper paper) {
+	public void insertIntoImage (String description, String type, String size, String link, Paper paper) {
 		try {
-			connect();
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO Image (description, type, size, link, paper) VALUES (" + description + ","
-					+ type + "," + size + "," + link + "," + paper + ")";
+			String sqlSeq = "INSERT INTO Image (description, type, size, link, paper) VALUES ('" + description + "', '"
+					+ type + "', '" + size + "', '" + link + "', '" + paper + "')";
 			stmtSeq.executeUpdate(sqlSeq);
-			c.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -318,11 +258,9 @@ public class DBManager {
 
 	public void insertIntoPaper (String title, String source) {
 		try {
-			connect();
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO Paper (title, source) VALUES (" + title + "," + source + ")";
+			String sqlSeq = "INSERT INTO Paper (title, source) VALUES ('" + title + "', '" + source + "')";
 			stmtSeq.executeUpdate(sqlSeq);
-			c.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -330,11 +268,9 @@ public class DBManager {
 	
 	public void insertIntoProcedure (String name, String description) {
 		try {
-			connect();
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO Procedure (name, description) VALUES (" + name + "," + description + ")";
+			String sqlSeq = "INSERT INTO Procedure (name, description) VALUES ('" + name + "', '" + description + "')";
 			stmtSeq.executeUpdate(sqlSeq);
-			c.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -342,47 +278,36 @@ public class DBManager {
 	
 	public void insertIntoSymptom (String name, String description) {
 		try {
-			connect();
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO authors (name, description) VALUES (" + name + "," + description + ")";
+			String sqlSeq = "INSERT INTO Symptom (name, description) VALUES ('" + name + "', '" + description + "')";
 			stmtSeq.executeUpdate(sqlSeq);
-			c.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+	}
+
+	// DELETIONS ------------------------------------------------------------------------------------------------
+	public void deleteAuthor (int author_id) {
+		try {
+			String sql = "DELETE FROM Author WHERE id=?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setInt(1, author_id);
+			prep.executeUpdate();
+			System.out.println("Deletion finished.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
 	
-	 /*
-	try {
-		// Open database connection
-		Class.forName("org.sqlite.JDBC");
-		// Note that we are using the class' connection
-		c = DriverManager.getConnection("jdbc:sqlite:./db/company.db");
-		c.createStatement().execute("PRAGMA foreign_keys=ON");
-		System.out.println("Database connection opened.");
-		connect();
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
-		Statement stmtSeq = c.createStatement();
-		 String sqlSeq = "INSERT INTO images-diseases (name,origin,association) VALUES (" + name + "," + origin + "," + association + ")";
-		stmtSeq.executeUpdate(sqlSeq);
-	}
-		catch (SQLException ex){
-			ex.printStackTrace();
+	public void deleteBodyPart (int bodypart_id) {
+		try {
+			String sql = "DELETE FROM BodyPart WHERE id=?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setInt(1, bodypart_id);
+			prep.executeUpdate();
+			System.out.println("Deletion finished.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 	}
-*/
-
-	public void insertIntoAuthors(String name, String origin, String association) {
-		try{
-			connect();
-			Statement stmtSeq = c.createStatement();
-			 String sqlSeq = "INSERT INTO authors (name,origin,association) VALUES ('" + name + "','" + origin + "','" + association + "')";
-			stmtSeq.executeUpdate(sqlSeq);
-			c.close();
-		}
-			catch (SQLException ex){
-				ex.printStackTrace();
-			}		
-	}
-
-
 }
