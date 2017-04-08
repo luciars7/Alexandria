@@ -351,4 +351,76 @@ public class DBManager {
 			System.out.println(e.getMessage());
 		}
 	}
+	
+	public void deleteDevice (int device_id) {
+		try {
+			String sql = "DELETE FROM devices WHERE id=?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setInt(1, device_id);
+			prep.executeUpdate();
+			System.out.println("Deletion finished.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void deleteDisease (int disease_id) {
+		try {
+			String sql = "DELETE FROM diseases WHERE id=?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setInt(1, disease_id);
+			prep.executeUpdate();
+			System.out.println("Deletion finished.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void deleteImage (int image_id) {
+		try {
+			String sql = "DELETE FROM images WHERE id=?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setInt(1, image_id);
+			prep.executeUpdate();
+			System.out.println("Deletion finished.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void deletePaper (int paper_id) {
+		try {
+			String sql = "DELETE FROM papers WHERE id=?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setInt(1, paper_id);
+			prep.executeUpdate();
+			System.out.println("Deletion finished.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void deleteProcedure (int procedure_id) {
+		try {
+			String sql = "DELETE FROM procedures WHERE id=?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setInt(1, procedure_id);
+			prep.executeUpdate();
+			System.out.println("Deletion finished.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void deleteSymptom (int symptom_id) {
+		try {
+			String sql = "DELETE FROM symptoms WHERE id=?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setInt(1, symptom_id);
+			prep.executeUpdate();
+			System.out.println("Deletion finished.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
 }
