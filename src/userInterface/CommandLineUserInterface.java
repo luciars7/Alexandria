@@ -521,5 +521,137 @@ public class CommandLineUserInterface {
 			}
 		}	
 	}
-
+	private static void deleteBodyPart() {
+		ArrayList<BodyPart> list = dbManager.selectBodyPart("all");
+		if(list==null){System.out.println("Error searching for the body parts.");}
+		else{
+			for(BodyPart bodypart:list){
+				System.out.println(bodypart);
+			}
+			System.out.print("\nPlease, write the ID of the body part you want to delete. Write «0» to go back: ");
+			try {
+				read = console.readLine();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			int id=Integer.parseInt(read);
+			if(id==0){return;}else{
+				dbManager.deleteBodyPart(id);
+			}
+		}		
+	}
+	private static void deleteDevice() {
+		ArrayList<Device> list = dbManager.selectDevice("all");
+		if(list==null){System.out.println("Error searching for the devices.");}
+		else{
+			for(Device device:list){
+				System.out.println(device);
+			}
+			System.out.print("\nPlease, write the ID of the device you want to delete. Write «0» to go back: ");
+			try {
+				read = console.readLine();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			int id=Integer.parseInt(read);
+			if(id==0){return;}else{
+				dbManager.deleteDevice(id);
+			}
+		}	
+         }
+	private static void deleteDisease() {
+		ArrayList<Disease> list = dbManager.selectDisease("all");
+		if(list==null){System.out.println("Error searching for the diseases.");}
+		else{
+			for(Disease disease:list){
+				System.out.println(disease);
+			}
+			System.out.print("\nPlease, write the ID of the disease you want to delete. Write «0» to go back: ");
+			try {
+				read = console.readLine();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			int id=Integer.parseInt(read);
+			if(id==0){return;}else{
+				dbManager.deleteDisease(id);
+			}
+		}	
+         }
+	private static void deleteImage() {
+		ArrayList<Image> list = dbManager.selectImage("all");
+		if(list==null){System.out.println("Error searching for the images.");}
+		else{
+			for(Image image:list){
+				System.out.println(image);
+			}
+			System.out.print("\nPlease, write the ID of the image you want to delete. Write «0» to go back: ");
+			try {
+				read = console.readLine();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			int id=Integer.parseInt(read);
+			if(id==0){return;}else{
+				dbManager.deleteImage(id);
+			}
+		}	
+         }
+	private static void deletePaper() {
+		ArrayList<Paper> list = dbManager.selectPaper("all");
+		if(list==null){System.out.println("Error searching for the papers.");}
+		else{
+			for(Paper paper:list){
+				System.out.println(paper);
+			}
+			System.out.print("\nPlease, write the ID of the paper you want to delete. Write «0» to go back: ");
+			try {
+				read = console.readLine();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			int id=Integer.parseInt(read);
+			if(id==0){return;}else{
+				dbManager.deletePaper(id);
+			}
+		}	
+         }
+	private static void deleteProcedure() {
+		ArrayList<Procedure> list = dbManager.selectProcedure("all");
+		if(list==null){System.out.println("Error searching for the procedures.");}
+		else{
+			for(Procedure procedure:list){
+				System.out.println(procedure);
+			}
+			System.out.print("\nPlease, write the ID of the procedure you want to delete. Write «0» to go back: ");
+			try {
+				read = console.readLine();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			int id=Integer.parseInt(read);
+			if(id==0){return;}else{
+				dbManager.deleteProcedure(id);
+			}
+		}	
+         }
+	private static void deleteSymptom() {
+		ArrayList<Symptom> list = dbManager.selectSymptom("all");
+		if(list==null){System.out.println("Error searching for the symptoms.");}
+		else{
+			for(Symptom symptom:list){
+				System.out.println(symptom);
+			}
+			System.out.print("\nPlease, write the ID of the symptom you want to delete. Write «0» to go back: ");
+			try {
+				read = console.readLine();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			int id=Integer.parseInt(read);
+			if(id==0){return;}else{
+				dbManager.deleteSymptom(id);
+			}
+		}	
+         }
 }
