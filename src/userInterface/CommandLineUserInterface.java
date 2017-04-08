@@ -192,26 +192,26 @@ public class CommandLineUserInterface {
 			return;
 			}
 	     case 2: {
-	    	 addBodyParts();
+	    	 deleteBodyPart(); 
 	    	 return;}
 	     case 3: {
-	    	 addDevices();
+	    	 deleteDevice(); 
 	    	 return;}
 	     case 4: {
-	    	 addDiseases();
+	    	 deleteDisease(); 
 	    	 return;}
 	     case 5: {
-	    	 addImages();
+	    	 deleteImage(); 
 	    	 return;}
 	     case 6: {
 	    	 addPaper();
 	    	 return;}
 	     case 7:{
-	    	 addProcedures();
+	    	 deleteProcedure(); 
 	    	 return;
 	     }
 	     case 8:{
-	    	 addSymptoms();
+	    	 deleteSymptom(); 
 	    	 return;
 	     }
 	     case 9: {
