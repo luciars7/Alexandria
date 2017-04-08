@@ -12,6 +12,7 @@ public class DBManager {
 		connect();
 	}
 
+	// SELECTS ------------------------------------------------------------------------------------------------
 	public ArrayList<Author> selectAuthor(String NAME) {
 		ArrayList<Author> list = null;
 		try {
@@ -86,6 +87,228 @@ public class DBManager {
 		return list;
  	}
 
+	public ArrayList<Device> selectDevice(String NAME) {
+		ArrayList<Device> list = null;
+		try {
+			// Retrieve data: begin
+			list = new ArrayList<Device>();
+			Statement stmt = c.createStatement();
+			if(NAME.equalsIgnoreCase("all")){
+	 			String sql = "SELECT * FROM devices";
+	 			ResultSet rs = stmt.executeQuery(sql);//Works as an iterator.
+	 			while (rs.next()) {
+	 				int id = rs.getInt("ID");
+	 				String name = rs.getString("name");
+	 				String type = rs.getString("type");
+	 				float price = rs.getFloat("price");
+	 				String brand = rs.getString("brand");
+	 				list.add(new Device(id, name, type, price, brand));
+			}rs.close();
+	 			}
+	 			else{
+	 				
+	 				String sql = "SELECT * FROM devices WHERE name = '"+NAME+"'";
+	 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
+	 				while (rs.next()) {
+	 					int id = rs.getInt("ID");
+		 				String name = rs.getString("name");
+		 				String type = rs.getString("type");
+		 				float price = rs.getFloat("price");
+		 				String brand = rs.getString("brand");
+		 				list.add(new Device(id, name, type, price, brand));
+	 				
+	 			}rs.close();
+	 			}
+			stmt.close();
+			System.out.println("Search finished.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return list;
+	}
+	
+	public ArrayList<Disease> selectDisease(String NAME) {
+		ArrayList<Disease> list = null;
+		try {
+			// Retrieve data: begin
+			list = new ArrayList<Disease>();
+			Statement stmt = c.createStatement();
+			if(NAME.equalsIgnoreCase("all")){
+	 			String sql = "SELECT * FROM diseases";
+	 			ResultSet rs = stmt.executeQuery(sql);//Works as an iterator.
+	 			while (rs.next()) {
+	 				int id = rs.getInt("ID");
+	 				String name = rs.getString("name");
+	 				String description = rs.getString("description");
+	 				BodyPart bodypart = (BodyPart) rs.getObject("bodyParts");
+	 				list.add(new Disease(id, name, description, bodypart));
+			}rs.close();
+	 			}
+	 			else{
+	 				
+	 				String sql = "SELECT * FROM diseases WHERE name = '"+NAME+"'";
+	 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
+	 				while (rs.next()) {
+	 					int id = rs.getInt("ID");
+		 				String name = rs.getString("name");
+		 				String description = rs.getString("description");
+		 				BodyPart bodypart = (BodyPart) rs.getObject("bodyParts");
+		 				list.add(new Disease(id, name, description, bodypart));
+	 			}rs.close();
+	 			}
+			stmt.close();
+			System.out.println("Search finished.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return list;
+	}
+	
+	public ArrayList<Image> selectImage(String NAME) {
+		ArrayList<Image> list = null;
+		try {
+			// Retrieve data: begin
+			list = new ArrayList<Image>();
+			Statement stmt = c.createStatement();
+			if(NAME.equalsIgnoreCase("all")){
+	 			String sql = "SELECT * FROM images";
+	 			ResultSet rs = stmt.executeQuery(sql);//Works as an iterator.
+	 			while (rs.next()) {
+	 				int id = rs.getInt("ID");
+	 				String description = rs.getString("description");
+	 				String type = rs.getString("type");
+	 				String size = rs.getString("size");
+	 				byte[] image = rs.getBytes("image");
+	 				Paper paper = (Paper) rs.getObject("paper");
+	 				list.add(new Image(id, description, type, size, image, paper));
+			}rs.close();
+	 			}
+	 			else{
+	 				
+	 				String sql = "SELECT * FROM images WHERE name = '"+NAME+"'";
+	 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
+	 				while (rs.next()) {
+	 					int id = rs.getInt("ID");
+		 				String description = rs.getString("description");
+		 				String type = rs.getString("type");
+		 				String size = rs.getString("size");
+		 				byte[] image = rs.getBytes("image");
+		 				Paper paper = (Paper) rs.getObject("paper");
+		 				list.add(new Image(id, description, type, size, image, paper));
+	 			}rs.close();
+	 			}
+			stmt.close();
+			System.out.println("Search finished.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return list;
+	}
+	
+	public ArrayList<Paper> selectPaper(String NAME) {
+		ArrayList<Paper> list = null;
+		try {
+			// Retrieve data: begin
+			list = new ArrayList<Paper>();
+			Statement stmt = c.createStatement();
+			if(NAME.equalsIgnoreCase("all")){
+	 			String sql = "SELECT * FROM papers";
+	 			ResultSet rs = stmt.executeQuery(sql);//Works as an iterator.
+	 			while (rs.next()) {
+	 				int id = rs.getInt("ID");
+	 				String title = rs.getString("title");
+	 				String source = rs.getString("source");
+	 				list.add(new Paper(id, title, source));
+			}rs.close();
+	 			}
+	 			else{
+	 				
+	 				String sql = "SELECT * FROM papers WHERE name = '"+NAME+"'";
+	 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
+	 				while (rs.next()) {
+	 					int id = rs.getInt("ID");
+		 				String title = rs.getString("title");
+		 				String source = rs.getString("source");
+		 				list.add(new Paper(id, title, source));
+	 			}rs.close();
+	 			}
+			stmt.close();
+			System.out.println("Search finished.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return list;
+	}
+	
+	public ArrayList<Procedure> selectProcedure(String NAME) {
+		ArrayList<Procedure> list = null;
+		try {
+			// Retrieve data: begin
+			list = new ArrayList<Procedure>();
+			Statement stmt = c.createStatement();
+			if(NAME.equalsIgnoreCase("all")){
+	 			String sql = "SELECT * FROM procedures";
+	 			ResultSet rs = stmt.executeQuery(sql);//Works as an iterator.
+	 			while (rs.next()) {
+	 				int id = rs.getInt("ID");
+	 				String name = rs.getString("name");
+	 				String description = rs.getString("description");
+	 				list.add(new Procedure(id, name, description));
+			}rs.close();
+	 			}
+	 			else{
+	 				
+	 				String sql = "SELECT * FROM procedures WHERE name = '"+NAME+"'";
+	 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
+	 				while (rs.next()) {
+	 					int id = rs.getInt("ID");
+		 				String name = rs.getString("name");
+		 				String description = rs.getString("description");
+		 				list.add(new Procedure(id, name, description));
+	 			}rs.close();
+	 			}
+			stmt.close();
+			System.out.println("Search finished.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return list;
+	}
+	
+	public ArrayList<Symptom> selectSymptom(String NAME) {
+		ArrayList<Symptom> list = null;
+		try {
+			// Retrieve data: begin
+			list = new ArrayList<Symptom>();
+			Statement stmt = c.createStatement();
+			if(NAME.equalsIgnoreCase("all")){
+	 			String sql = "SELECT * FROM symptoms";
+	 			ResultSet rs = stmt.executeQuery(sql);//Works as an iterator.
+	 			while (rs.next()) {
+	 				int id = rs.getInt("ID");
+	 				String name = rs.getString("name");
+	 				String description = rs.getString("description");
+	 				list.add(new Symptom(id, name, description));
+			}rs.close();
+	 			}
+	 			else{
+	 				
+	 				String sql = "SELECT * FROM symptoms WHERE name = '"+NAME+"'";
+	 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
+	 				while (rs.next()) {
+	 					int id = rs.getInt("ID");
+		 				String name = rs.getString("name");
+		 				String description = rs.getString("description");
+		 				list.add(new Symptom(id, name, description));
+	 			}rs.close();
+	 			}
+			stmt.close();
+			System.out.println("Search finished.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return list;
+	}
 	
 	public void connect() {
 		try {
