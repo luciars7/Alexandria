@@ -72,7 +72,7 @@ public class Disease {
 
 	@Override
 	public String toString() {
-		return "[ID=" + ID + ", name=" + name + ", description=" + description + ", bodyParts=" + bodyParts
+		return "[ID=" + ID + ", name=" + name + ", description=" + description + ", bodyParts=" + bodyParts.getName()
 				+ "]";
 	}
 	

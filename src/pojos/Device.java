@@ -82,7 +82,7 @@ public class Device {
 
 	@Override
 	public String toString() {
-		return "[ID=" + ID + ", name=" + name + ", type=" + type + ", price=" + price + ", brand=" + brand + "]";
+		return "[ID=" + ID + ", name=" + name + ", type=" + type + ", price($) =" + price + ", brand=" + brand + "]";
 	}	
 	
 	

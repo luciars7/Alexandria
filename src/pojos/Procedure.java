@@ -67,7 +67,7 @@ public class Procedure {
 
 	@Override
 	public String toString() {
-		return "Procedure [ID=" + ID + ", name=" + name + ", description=" + description + "]";
+		return "[ID=" + ID + ", name=" + name + ", description=" + description + "]";
 	}
 	
 	

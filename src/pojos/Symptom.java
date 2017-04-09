@@ -64,4 +64,11 @@ public class Symptom {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "[ID=" + ID + ", name=" + name + ", description=" + description + "]";
+	}
+	
+	
 }

@@ -99,7 +99,7 @@ public class Image {
 	@Override
 	public String toString() {
 		return "[ID=" + ID + ", description=" + description + ", type=" + type + ", size=" + size + ", image="
-				+ Arrays.toString(image) + ", paper=" + paper + "]";
+				+ Arrays.toString(image) + ", paper=" + paper.getTitle() + "]";
 	}
 	
 	

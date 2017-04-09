@@ -136,28 +136,27 @@ public class CommandLineUserInterface {
 			showAuthor();   
 			return;
 			}
-        //Change methods to the show ones. Maybe in another class.
 	     case 2: {
 	    	 showBodyPart();
 	    	 return;}
 	     case 3: {
-	    	 addDevices();
+	    	 showDevices();
 	    	 return;}
 	     case 4: {
-	    	 addDiseases();
+	    	 showDiseases();
 	    	 return;}
 	     case 5: {
-	    	 addImages();
+	    	 showImages();
 	    	 return;}
 	     case 6: {
-	    	 addPaper();
+	    	 showPaper();
 	    	 return;}
 	     case 7:{
-	    	 addProcedures();
+	    	 showProcedures();
 	    	 return;
 	     }
 	     case 8:{
-	    	 addSymptoms();
+	    	 showSymptoms();
 	    	 return;
 	     }
 	     case 9: {
@@ -204,7 +203,7 @@ public class CommandLineUserInterface {
 	    	 deleteImage(); 
 	    	 return;}
 	     case 6: {
-	    	 addPaper();
+	    	 deletePaper();
 	    	 return;}
 	     case 7:{
 	    	 deleteProcedure(); 
@@ -356,8 +355,21 @@ public class CommandLineUserInterface {
 		dbManager.insertIntoDevices(name, type, price, brand);
 	}
 	
-	public void showDevices () {
-		
+	public static void showDevices () {
+		System.out.print("Please, provide a name or write «all» to view every device: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String name=read;
+		ArrayList<Device> list = dbManager.selectDevice(name);
+		if(list==null){System.out.println("Error searching for the device(s).");}
+		else{
+			for(Device device:list){
+				System.out.println(device);
+			}
+		}
 	}
 	
 	public static void addDiseases () {
@@ -380,8 +392,21 @@ public class CommandLineUserInterface {
 		dbManager.insertIntoDevices(name, description);	
 		}
 	
-	public void showDiseases () {
-		
+	public static void showDiseases () {
+		System.out.print("Please, provide a name or write «all» to view every disease: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String name=read;
+		ArrayList<Disease> list = dbManager.selectDisease(name);
+		if(list==null){System.out.println("Error searching for the disease(s).");}
+		else{
+			for(Disease disease:list){
+				System.out.println(disease);
+			}
+		}
 	}
 	
 	public static void addImages () {
@@ -425,8 +450,21 @@ public class CommandLineUserInterface {
 
 		dbManager.insertIntoDevices(name, description);		}
 	
-	public void showImages () {
-		
+	public static void showImages () {
+		System.out.print("Please, provide a name or write «all» to view every image: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String name=read;
+		ArrayList<Image> list = dbManager.selectImage(name);
+		if(list==null){System.out.println("Error searching for the image(s).");}
+		else{
+			for(Image image:list){
+				System.out.println(image);
+			}
+		}
 	}
 	
 	public static void addPaper () {
@@ -454,8 +492,21 @@ public class CommandLineUserInterface {
 		dbManager.insertIntoPapers(name, title, source);
 	}
 	
-	public void showPaper () {
-		
+	public static void showPaper () {
+		System.out.print("Please, provide a name or write «all» to view every paper: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String name=read;
+		ArrayList<Paper> list = dbManager.selectPaper(name);
+		if(list==null){System.out.println("Error searching for the paper(s).");}
+		else{
+			for(Paper paper:list){
+				System.out.println(paper);
+			}
+		}
 	}
 	
 	public static void addProcedures () {
@@ -476,8 +527,21 @@ public class CommandLineUserInterface {
 		dbManager.insertIntoProcedures(name, description);
 	}
 	
-	public void showProcedures () {
-		
+	public static void showProcedures () {
+		System.out.print("Please, provide a name or write «all» to view every procedure: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String name=read;
+		ArrayList<Procedure> list = dbManager.selectProcedure(name);
+		if(list==null){System.out.println("Error searching for the procedure(s).");}
+		else{
+			for(Procedure procedure:list){
+				System.out.println(procedure);
+			}
+		}
 	}
 	
 	public static void addSymptoms () {
@@ -498,8 +562,21 @@ public class CommandLineUserInterface {
 		dbManager.insertIntoSymptoms(name, description);
 	}
 	
-	public void showSymptoms () {
-		
+	public static void showSymptoms () {
+		System.out.print("Please, provide a name or write «all» to view every symptom: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String name=read;
+		ArrayList<Symptom> list = dbManager.selectSymptom(name);
+		if(list==null){System.out.println("Error searching for the author(s).");}
+		else{
+			for(Symptom symptom:list){
+				System.out.println(symptom);
+			}
+		}
 	}
 	
 	private static void deleteAuthor() {
