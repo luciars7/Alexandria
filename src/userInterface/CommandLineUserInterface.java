@@ -22,7 +22,7 @@ public class CommandLineUserInterface {
 		showMenu();
 	}
 	
-	private static  void showMenu() {
+	private static void showMenu() {
 		System.out.println("\n\n\n\nALEXANDRIA");
 		System.out.println("***********************");
 		System.out.println("\n1.) Create tables.");
@@ -55,10 +55,9 @@ public class CommandLineUserInterface {
 		}
 		showMenu();
 		}
-		
+
 	
-	
-	private static  void newEntity() {
+	private static void newEntity() {
 		System.out.print("\nPlease, select the type of item you want to create: ");
 		System.out.println("\n1.) Author");
 		System.out.println("2.) Body part");

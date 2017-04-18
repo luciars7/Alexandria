@@ -1,5 +1,7 @@
 package jdbc;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.sql.*;
 import java.util.ArrayList;
 import pojos.*;
@@ -75,6 +77,10 @@ public class DBManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void disconnect () {
+		
 	}
 
 	public void createTables() {
@@ -309,5 +315,95 @@ public class DBManager {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+	}
+	
+	public void deleteDevice (int device_id) {
+		try {
+			String sql = "DELETE FROM device WHERE id=?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setInt(1, device_id);
+			prep.executeUpdate();
+			System.out.println("Deletion finished.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void deleteDisease (int disease_id) {
+		try {
+			String sql = "DELETE FROM disease WHERE id=?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setInt(1, disease_id);
+			prep.executeUpdate();
+			System.out.println("Deletion finished.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void deleteImage (int image_id) {
+		try {
+			String sql = "DELETE FROM BodyPart WHERE id=?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setInt(1, image_id);
+			prep.executeUpdate();
+			System.out.println("Deletion finished.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void deletePaper (int paper_id) {
+		try {
+			String sql = "DELETE FROM BodyPart WHERE id=?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setInt(1, paper_id);
+			prep.executeUpdate();
+			System.out.println("Deletion finished.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void deleteProcedure (int procedure_id) {
+		try {
+			String sql = "DELETE FROM BodyPart WHERE id=?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setInt(1, procedure_id);
+			prep.executeUpdate();
+			System.out.println("Deletion finished.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void deleteSymptom (int symptom_id) {
+		try {
+			String sql = "DELETE FROM BodyPart WHERE id=?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setInt(1, symptom_id);
+			prep.executeUpdate();
+			System.out.println("Deletion finished.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	// UPDATES
+	try { 
+		System.out.println("Choose an entity, type its ID: ");
+		printDepartments();
+		int dep_id = Integer.parseInt(reader.readLine());
+		System.out.print("Type the new department's location: ");
+		String newLocation = reader.readLine();
+		String sql = "UPDATE departments SET address=? WHERE id=?";
+		// Question marks are for later use numbers to refer to those.
+		PreparedStatement prep = c.prepareStatement(sql);
+		prep.setString(1, newLocation);
+		prep.setInt(2, dep_id);
+		prep.executeUpdate();
+		System.out.println("Update finished.");
+	} catch (Exception e) {
+		System.out.println(e.getMessage());
 	}
 }
