@@ -13,6 +13,12 @@ public class Symptom {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Symptom(int id2, String name2, String description2) {
+		this.setID(id2);
+		this.setName(name2);
+		this.setDescription(description2);
+	}
+
 	public int getID() {
 		return ID;
 	}
@@ -58,4 +64,11 @@ public class Symptom {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "[ID=" + ID + ", name=" + name + ", description=" + description + "]";
+	}
+	
+	
 }

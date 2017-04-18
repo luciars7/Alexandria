@@ -78,5 +78,12 @@ public class Device {
 		if (ID != other.ID)
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "[ID=" + ID + ", name=" + name + ", type=" + type + ", price($) =" + price + ", brand=" + brand + "]";
 	}	
+	
+	
 }

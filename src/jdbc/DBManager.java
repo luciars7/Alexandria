@@ -6,6 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import pojos.*;
 
+
 public class DBManager {
 	Connection c = null;
 
@@ -13,59 +14,303 @@ public class DBManager {
 		connect();
 	}
 
+	// SELECTS ------------------------------------------------------------------------------------------------
 	public ArrayList<Author> selectAuthor(String NAME) {
 		ArrayList<Author> list = null;
 		try {
 			// Retrieve data: begin
 			list = new ArrayList<Author>();
 			Statement stmt = c.createStatement();
-			String sql = "SELECT *  FROM authors WHERE name IN " + NAME;
-			ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
-			while (rs.next()) {
-				int id = rs.getInt("ID");
-				String name = rs.getString("name");
-				String origin = rs.getString("origin");
-				String association = rs.getString("association");
-				list.add(new Author(id, name, origin, association));
-			}
-			rs.close();
+			if(NAME.equalsIgnoreCase("all")){
+	 			String sql = "SELECT * FROM authors";
+	 			ResultSet rs = stmt.executeQuery(sql);//Works as an iterator.
+	 			while (rs.next()) {
+	 				int id = rs.getInt("ID");
+	 				String name = rs.getString("name");
+	 				String origin = rs.getString("origin");
+	 				String association = rs.getString("association");
+	 				list.add(new Author(id, name, origin, association));
+			}rs.close();
+	 			}
+	 			else{
+	 				
+	 				String sql = "SELECT * FROM authors WHERE name = '"+NAME+"'";
+	 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
+	 				while (rs.next()) {
+	 					int id = rs.getInt("ID");
+	 					String name = rs.getString("name");
+	 					String origin = rs.getString("origin");
+	 					String association = rs.getString("association");
+	 					list.add(new Author(id, name, origin, association));
+	 				
+	 			}rs.close();
+	 			}
 			stmt.close();
 			System.out.println("Search finished.");
 		} catch (Exception e) {
 			e.printStackTrace();
-		} // finally{
+		} 
 		return list;
-		// }
 	}
-
-	public ArrayList<Author> selectAuthor() { // Select all authors
-		 		ArrayList<Author> list = null;
-		 		try {
-		 			connect();
-		 			// Retrieve data: begin
-		 			list = new ArrayList<Author>();
-		 			Statement stmt = c.createStatement();
-		 			String sql = "SELECT * FROM authors";
-		 			ResultSet rs = stmt.executeQuery(sql);//Works as an iterator.
-		 			while (rs.next()) {
-		 				int id = rs.getInt("ID");
+	
+	public ArrayList<BodyPart> selectBodyPart(String NAME) {
+		ArrayList<BodyPart> list = null;
+		try {
+			// Retrieve data: begin
+			list = new ArrayList<BodyPart>();
+			Statement stmt = c.createStatement();
+			if(NAME.equalsIgnoreCase("all")){
+	 			String sql = "SELECT * FROM bodyparts";
+	 			ResultSet rs = stmt.executeQuery(sql);//Works as an iterator.
+	 			while (rs.next()) {
+	 				int id = rs.getInt("ID");
+	 				String name = rs.getString("name");
+	 				String location = rs.getString("location");
+	 				list.add(new BodyPart(id, name, location));
+			}rs.close();
+	 			}
+	 			else{
+	 				
+	 				String sql = "SELECT * FROM bodyparts WHERE name = '"+NAME+"'";
+	 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
+	 				while (rs.next()) {
+	 					int id = rs.getInt("ID");
 		 				String name = rs.getString("name");
-		 				String origin = rs.getString("origin");
-		 				String association = rs.getString("association");
-		 				list.add(new Author(id, name, origin, association));
-		 				//System.out.println(name +" "+origin+" "+association);
-		 			}
-		 			rs.close();
-		 			stmt.close();
-		 			System.out.println("Search finished.");
-		 		} catch (Exception e) {
-		 			e.printStackTrace();
-		 		}/*finally{
-		 			return list;       // IS THIS 'FINALLY' OKAY?
-		 		}*/
-		 		
-		 		return list;
-		 	}
+		 				String location = rs.getString("location");
+		 				list.add(new BodyPart(id, name, location));
+	 				
+	 			}rs.close();
+	 			}
+			stmt.close();
+			System.out.println("Search finished.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return list;
+ 	}
+
+	public ArrayList<Device> selectDevice(String NAME) {
+		ArrayList<Device> list = null;
+		try {
+			// Retrieve data: begin
+			list = new ArrayList<Device>();
+			Statement stmt = c.createStatement();
+			if(NAME.equalsIgnoreCase("all")){
+	 			String sql = "SELECT * FROM devices";
+	 			ResultSet rs = stmt.executeQuery(sql);//Works as an iterator.
+	 			while (rs.next()) {
+	 				int id = rs.getInt("ID");
+	 				String name = rs.getString("name");
+	 				String type = rs.getString("type");
+	 				float price = rs.getFloat("price");
+	 				String brand = rs.getString("brand");
+	 				list.add(new Device(id, name, type, price, brand));
+			}rs.close();
+	 			}
+	 			else{
+	 				
+	 				String sql = "SELECT * FROM devices WHERE name = '"+NAME+"'";
+	 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
+	 				while (rs.next()) {
+	 					int id = rs.getInt("ID");
+		 				String name = rs.getString("name");
+		 				String type = rs.getString("type");
+		 				float price = rs.getFloat("price");
+		 				String brand = rs.getString("brand");
+		 				list.add(new Device(id, name, type, price, brand));
+	 				
+	 			}rs.close();
+	 			}
+			stmt.close();
+			System.out.println("Search finished.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return list;
+	}
+	
+	public ArrayList<Disease> selectDisease(String NAME) {
+		ArrayList<Disease> list = null;
+		try {
+			// Retrieve data: begin
+			list = new ArrayList<Disease>();
+			Statement stmt = c.createStatement();
+			if(NAME.equalsIgnoreCase("all")){
+	 			String sql = "SELECT * FROM diseases";
+	 			ResultSet rs = stmt.executeQuery(sql);//Works as an iterator.
+	 			while (rs.next()) {
+	 				int id = rs.getInt("ID");
+	 				String name = rs.getString("name");
+	 				String description = rs.getString("description");
+	 				BodyPart bodypart = (BodyPart) rs.getObject("bodyParts");
+	 				list.add(new Disease(id, name, description, bodypart));
+			}rs.close();
+	 			}
+	 			else{
+	 				
+	 				String sql = "SELECT * FROM diseases WHERE name = '"+NAME+"'";
+	 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
+	 				while (rs.next()) {
+	 					int id = rs.getInt("ID");
+		 				String name = rs.getString("name");
+		 				String description = rs.getString("description");
+		 				BodyPart bodypart = (BodyPart) rs.getObject("bodyParts");
+		 				list.add(new Disease(id, name, description, bodypart));
+	 			}rs.close();
+	 			}
+			stmt.close();
+			System.out.println("Search finished.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return list;
+	}
+	
+	public ArrayList<Image> selectImage(String NAME) {
+		ArrayList<Image> list = null;
+		try {
+			// Retrieve data: begin
+			list = new ArrayList<Image>();
+			Statement stmt = c.createStatement();
+			if(NAME.equalsIgnoreCase("all")){
+	 			String sql = "SELECT * FROM images";
+	 			ResultSet rs = stmt.executeQuery(sql);//Works as an iterator.
+	 			while (rs.next()) {
+	 				int id = rs.getInt("ID");
+	 				String description = rs.getString("description");
+	 				String type = rs.getString("type");
+	 				String size = rs.getString("size");
+	 				byte[] image = rs.getBytes("image");
+	 				Paper paper = (Paper) rs.getObject("paper");
+	 				list.add(new Image(id, description, type, size, image, paper));
+			}rs.close();
+	 			}
+	 			else{
+	 				
+	 				String sql = "SELECT * FROM images WHERE name = '"+NAME+"'";
+	 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
+	 				while (rs.next()) {
+	 					int id = rs.getInt("ID");
+		 				String description = rs.getString("description");
+		 				String type = rs.getString("type");
+		 				String size = rs.getString("size");
+		 				byte[] image = rs.getBytes("image");
+		 				Paper paper = (Paper) rs.getObject("paper");
+		 				list.add(new Image(id, description, type, size, image, paper));
+	 			}rs.close();
+	 			}
+			stmt.close();
+			System.out.println("Search finished.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return list;
+	}
+	
+	public ArrayList<Paper> selectPaper(String NAME) {
+		ArrayList<Paper> list = null;
+		try {
+			// Retrieve data: begin
+			list = new ArrayList<Paper>();
+			Statement stmt = c.createStatement();
+			if(NAME.equalsIgnoreCase("all")){
+	 			String sql = "SELECT * FROM papers";
+	 			ResultSet rs = stmt.executeQuery(sql);//Works as an iterator.
+	 			while (rs.next()) {
+	 				int id = rs.getInt("ID");
+	 				String title = rs.getString("title");
+	 				String source = rs.getString("source");
+	 				list.add(new Paper(id, title, source));
+			}rs.close();
+	 			}
+	 			else{
+	 				
+	 				String sql = "SELECT * FROM papers WHERE name = '"+NAME+"'";
+	 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
+	 				while (rs.next()) {
+	 					int id = rs.getInt("ID");
+		 				String title = rs.getString("title");
+		 				String source = rs.getString("source");
+		 				list.add(new Paper(id, title, source));
+	 			}rs.close();
+	 			}
+			stmt.close();
+			System.out.println("Search finished.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return list;
+	}
+	
+	public ArrayList<Procedure> selectProcedure(String NAME) {
+		ArrayList<Procedure> list = null;
+		try {
+			// Retrieve data: begin
+			list = new ArrayList<Procedure>();
+			Statement stmt = c.createStatement();
+			if(NAME.equalsIgnoreCase("all")){
+	 			String sql = "SELECT * FROM procedures";
+	 			ResultSet rs = stmt.executeQuery(sql);//Works as an iterator.
+	 			while (rs.next()) {
+	 				int id = rs.getInt("ID");
+	 				String name = rs.getString("name");
+	 				String description = rs.getString("description");
+	 				list.add(new Procedure(id, name, description));
+			}rs.close();
+	 			}
+	 			else{
+	 				
+	 				String sql = "SELECT * FROM procedures WHERE name = '"+NAME+"'";
+	 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
+	 				while (rs.next()) {
+	 					int id = rs.getInt("ID");
+		 				String name = rs.getString("name");
+		 				String description = rs.getString("description");
+		 				list.add(new Procedure(id, name, description));
+	 			}rs.close();
+	 			}
+			stmt.close();
+			System.out.println("Search finished.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return list;
+	}
+	
+	public ArrayList<Symptom> selectSymptom(String NAME) {
+		ArrayList<Symptom> list = null;
+		try {
+			// Retrieve data: begin
+			list = new ArrayList<Symptom>();
+			Statement stmt = c.createStatement();
+			if(NAME.equalsIgnoreCase("all")){
+	 			String sql = "SELECT * FROM symptoms";
+	 			ResultSet rs = stmt.executeQuery(sql);//Works as an iterator.
+	 			while (rs.next()) {
+	 				int id = rs.getInt("ID");
+	 				String name = rs.getString("name");
+	 				String description = rs.getString("description");
+	 				list.add(new Symptom(id, name, description));
+			}rs.close();
+	 			}
+	 			else{
+	 				
+	 				String sql = "SELECT * FROM symptoms WHERE name = '"+NAME+"'";
+	 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
+	 				while (rs.next()) {
+	 					int id = rs.getInt("ID");
+		 				String name = rs.getString("name");
+		 				String description = rs.getString("description");
+		 				list.add(new Symptom(id, name, description));
+	 			}rs.close();
+	 			}
+			stmt.close();
+			System.out.println("Search finished.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return list;
+	}
 	
 	public void connect() {
 		try {
@@ -203,17 +448,17 @@ public class DBManager {
 			stmt13.executeUpdate(sql13);
 			stmt13.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace();}
 		}
-	}
+
 
 	// INSERTS ------------------------------------------------------------------------------------------------
 	public void insertIntoAuthor (String name, String origin, String association) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO Authors (name, origin, association) VALUES ('" + name + "', '" + origin + "', '"
-					+ association + "')";
-			stmtSeq.executeUpdate(sqlSeq);
+			 String sqlSeq = "INSERT INTO authors (name,origin,association) VALUES ('" + name + "','" + origin + "','" + association + "')";
+		stmtSeq.executeUpdate(sqlSeq);
+			c.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -222,7 +467,7 @@ public class DBManager {
 	public void insertIntoBodyPart (String name, String location) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO BodyPart (name, location) VALUES ('" + name + "', '" + location + "')";
+			String sqlSeq = "INSERT INTO bodyparts (name, location) VALUES ('" + name + "', '" + location + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -232,7 +477,7 @@ public class DBManager {
 	public void insertIntoDevice (String name, String type, float price, String brand) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO Device (name, type, price, brand) VALUES ('" + name + "', '" + type + "', '" + price
+			String sqlSeq = "INSERT INTO devices (name, type, price, brand) VALUES ('" + name + "', '" + type + "', '" + price
 					+ "', '" + brand + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
@@ -243,7 +488,7 @@ public class DBManager {
 	public void insertIntoDisease (String name, String description, BodyPart bodyParts) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO Disease (name, description, bodyParts) VALUES ('" + name + "', '" + description
+			String sqlSeq = "INSERT INTO diseases (name, description, bodyParts) VALUES ('" + name + "', '" + description
 					+ "', '" + bodyParts + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
@@ -254,7 +499,7 @@ public class DBManager {
 	public void insertIntoImage (String description, String type, String size, String link, Paper paper) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO Image (description, type, size, link, paper) VALUES ('" + description + "', '"
+			String sqlSeq = "INSERT INTO images (description, type, size, link, paper) VALUES ('" + description + "', '"
 					+ type + "', '" + size + "', '" + link + "', '" + paper + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
@@ -265,7 +510,7 @@ public class DBManager {
 	public void insertIntoPaper (String title, String source) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO Paper (title, source) VALUES ('" + title + "', '" + source + "')";
+			String sqlSeq = "INSERT INTO papers (title, source) VALUES ('" + title + "', '" + source + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -275,7 +520,7 @@ public class DBManager {
 	public void insertIntoProcedure (String name, String description) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO Procedure (name, description) VALUES ('" + name + "', '" + description + "')";
+			String sqlSeq = "INSERT INTO procedures (name, description) VALUES ('" + name + "', '" + description + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -285,17 +530,36 @@ public class DBManager {
 	public void insertIntoSymptom (String name, String description) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO Symptom (name, description) VALUES ('" + name + "', '" + description + "')";
+			String sqlSeq = "INSERT INTO symptoms (name, description) VALUES ('" + name + "', '" + description + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 	}
 
-	// DELETIONS ------------------------------------------------------------------------------------------------
+
+	 /*
+	try {
+		// Open database connection
+		Class.forName("org.sqlite.JDBC");
+		// Note that we are using the class' connection
+		c = DriverManager.getConnection("jdbc:sqlite:./db/company.db");
+		c.createStatement().execute("PRAGMA foreign_keys=ON");
+		System.out.println("Database connection opened.");
+		connect();
+>>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
+		Statement stmtSeq = c.createStatement();
+		 String sqlSeq = "INSERT INTO images-diseases (name,origin,association) VALUES (" + name + "," + origin + "," + association + ")";
+		stmtSeq.executeUpdate(sqlSeq);
+	}
+		catch (SQLException ex){
+			ex.printStackTrace();
+=======
+*/
+// DELETIONS ------------------------------------------------------------------------------------------------
 	public void deleteAuthor (int author_id) {
 		try {
-			String sql = "DELETE FROM Author WHERE id=?";
+			String sql = "DELETE FROM authors WHERE id=?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, author_id);
 			prep.executeUpdate();
@@ -307,9 +571,81 @@ public class DBManager {
 	
 	public void deleteBodyPart (int bodypart_id) {
 		try {
-			String sql = "DELETE FROM BodyPart WHERE id=?";
+			String sql = "DELETE FROM bodyparts WHERE id=?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, bodypart_id);
+			prep.executeUpdate();
+			System.out.println("Deletion finished.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void deleteDevice (int device_id) {
+		try {
+			String sql = "DELETE FROM devices WHERE id=?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setInt(1, device_id);
+			prep.executeUpdate();
+			System.out.println("Deletion finished.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void deleteDisease (int disease_id) {
+		try {
+			String sql = "DELETE FROM diseases WHERE id=?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setInt(1, disease_id);
+			prep.executeUpdate();
+			System.out.println("Deletion finished.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void deleteImage (int image_id) {
+		try {
+			String sql = "DELETE FROM images WHERE id=?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setInt(1, image_id);
+			prep.executeUpdate();
+			System.out.println("Deletion finished.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void deletePaper (int paper_id) {
+		try {
+			String sql = "DELETE FROM papers WHERE id=?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setInt(1, paper_id);
+			prep.executeUpdate();
+			System.out.println("Deletion finished.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void deleteProcedure (int procedure_id) {
+		try {
+			String sql = "DELETE FROM procedures WHERE id=?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setInt(1, procedure_id);
+			prep.executeUpdate();
+			System.out.println("Deletion finished.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void deleteSymptom (int symptom_id) {
+		try {
+			String sql = "DELETE FROM symptoms WHERE id=?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setInt(1, symptom_id);
 			prep.executeUpdate();
 			System.out.println("Deletion finished.");
 		} catch (Exception e) {

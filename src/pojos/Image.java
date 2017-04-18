@@ -1,4 +1,7 @@
 package pojos;
+
+import java.util.Arrays;
+
 public class Image {
 
 	private int ID;
@@ -7,8 +10,8 @@ public class Image {
 	private String size;
 	private byte[] image ;
 	private Paper paper;
+	
 	public Image(int iD, String description, String type, String size, byte[] image, Paper paper) {
-
 		ID = iD;
 		this.description = description;
 		this.type = type;
@@ -92,4 +95,12 @@ public class Image {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "[ID=" + ID + ", description=" + description + ", type=" + type + ", size=" + size + ", image="
+				+ Arrays.toString(image) + ", paper=" + paper.getTitle() + "]";
+	}
+	
+	
 }

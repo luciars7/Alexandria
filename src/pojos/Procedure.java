@@ -13,6 +13,12 @@ public class Procedure {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Procedure(int id, String name, String description) {
+		this.setID(id);
+		this.name = name;
+		this.description = description;
+	}
+
 	public int getID() {
 		return ID;
 	}
@@ -57,5 +63,13 @@ public class Procedure {
 		if (ID != other.ID)
 			return false;
 		return true;
-	}	
+	}
+
+	@Override
+	public String toString() {
+		return "[ID=" + ID + ", name=" + name + ", description=" + description + "]";
+	}
+	
+	
+	
 }
