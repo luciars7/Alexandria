@@ -256,7 +256,7 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String association=read;
-		dbManager.insertIntoAuthors(name, origin, association);
+		dbManager.insertIntoAuthor(name, origin, association);
 	}
 	
 	public static void showAuthor () {
@@ -269,7 +269,8 @@ public class CommandLineUserInterface {
 		String name=read;*/
 		
 		//Print all authors
-		ArrayList<Author> list = dbManager.selectAuthor();
+		String name=read;
+		ArrayList<Author> list = dbManager.selectAuthor(name);
 		if(list==null){System.out.println("Error searching for the author(s).");}
 		else{
 			for(Author author:list){
@@ -294,7 +295,7 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String location=read;
-		dbManager.insertIntoBodyParts(name, location);
+		dbManager.insertIntoBodyPart(name, location);
 	}
 	
 	public void showBodyPart () {
@@ -331,7 +332,7 @@ public class CommandLineUserInterface {
 		}
 		String brand=read;
 		
-		dbManager.insertIntoDevices(name, type, price, brand);
+		dbManager.insertIntoDevice(name, type, price, brand);
 	}
 	
 	public void showDevices () {

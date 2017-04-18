@@ -59,4 +59,8 @@ public class BodyPart {
 			return false;
 		return true;
 	}
+	@Override
+	public String toString() {
+		return "Body part [ID=" + ID + ", name=" + name + ", location=" + location + "]";
+	}
 }

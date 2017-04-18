@@ -59,4 +59,11 @@ public class Paper {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "[ID=" + ID + ", title=" + title + ", source=" + source + "]";
+	}
+	
+	
 }

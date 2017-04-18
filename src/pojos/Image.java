@@ -1,21 +1,23 @@
 package pojos;
+
+import java.util.Arrays;
+
 public class Image {
 
 	private int ID;
 	private String description;
 	private String type;
 	private String size;
-	private String link;
-	private Paper paper_id;
-
-	public Image(int iD, String description, String type, String size, String link, Paper paper) {
-
+	private byte[] image ;
+	private Paper paper;
+	
+	public Image(int iD, String description, String type, String size, byte[] image, Paper paper) {
 		ID = iD;
 		this.description = description;
 		this.type = type;
 		this.size = size;
-		this.link = link;
-		this.paper_id = paper;
+		this.image = image;
+		this.paper = paper;
 	}	
 
 	public Image() {
@@ -54,24 +56,23 @@ public class Image {
 		this.size = size;
 	}
 
-	public String getLink() {
-		return link;
+	public byte[] getImage() {
+		return image;
 	}
 
-	public void setLink(String link) {
-		this.link = link;
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 
-	public Paper getPaper_id() {
+	public Paper getPaper() {
 
-		return paper_id;
+		return paper;
 
 	}
 
-
-	public void setPaper_id(Paper paper_id) {
-		this.paper_id = paper_id;
-	}
+	public void setPaper(Paper paper) {
+		this.paper = paper;
+}
 	
 	@Override
 	public int hashCode() {
@@ -94,4 +95,12 @@ public class Image {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "[ID=" + ID + ", description=" + description + ", type=" + type + ", size=" + size + ", image="
+				+ Arrays.toString(image) + ", paper=" + paper.getTitle() + "]";
+	}
+	
+	
 }
