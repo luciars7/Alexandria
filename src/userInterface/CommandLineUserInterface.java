@@ -190,23 +190,23 @@ public class CommandLineUserInterface {
 	    	 DeleteInterface.deleteBodyPart();
 			break;}
 	     case 3: {
-	    	 addDevices();
+	    	 DeleteInterface.deleteDevice();
 	 		break;}
 	     case 4: {
-	    	 addDiseases();
-	 		break;}
+	    	 DeleteInterface.deleteDisease();
+	    	 break;}
 	     case 5: {
-	    	 //addImages();
+	    	 DeleteInterface.deleteImage();
 	 		break;}
 	     case 6: {
-	    	 //addPaper();
+	    	 DeleteInterface.deletePaper();
 	 		break;}
 	     case 7:{
-	    	 //addProcedures();
+	    	 DeleteInterface.deleteProcedures();
 	    	 break;
 	     }
 	     case 8:{
-	    	 //addSymptoms();
+	    	 DeleteInterface.deleteSymptom();
 	    	 break;
 	     }
 	     case 9: {
@@ -267,6 +267,8 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String name=read;*/
+		
+		//Print all authors
 		ArrayList<Author> list = dbManager.selectAuthor();
 		if(list==null){System.out.println("Error searching for the author(s).");}
 		else{
