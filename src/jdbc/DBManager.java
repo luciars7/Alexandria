@@ -348,7 +348,7 @@ public class DBManager {
 					+ "(ID INTEGER PRIMARY KEY,"
 					+ "name TEXT,"
 					+ "description TEXT,"
-					+ "bodyparts TEXT REFERENCES bodyparts (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
+					+ "bodyparts INTEGER REFERENCES bodyparts (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 			stmt3.executeUpdate(sql3);
 			stmt3.close();
 			
@@ -452,7 +452,6 @@ public class DBManager {
 			Statement stmtSeq = c.createStatement();
 			 String sqlSeq = "INSERT INTO authors (name,origin,association) VALUES ('" + name + "','" + origin + "','" + association + "')";
 		stmtSeq.executeUpdate(sqlSeq);
-			c.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -471,19 +470,18 @@ public class DBManager {
 	public void insertIntoDevice (String name, String type, float price, String brand) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO devices (name, type, price, brand) VALUES ('" + name + "', '" + type + "', '" + price
-					+ "', '" + brand + "')";
+			String sqlSeq = "INSERT INTO devices (name, type, price, brand) VALUES ('" + name + "', '" + type + "', ' + price + ', '" + brand + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 	}
 
-	public void insertIntoDisease (String name, String description, BodyPart bodyParts) {
+	public void insertIntoDisease (String name, String description, Integer bodyparts) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO diseases (name, description, bodyParts) VALUES ('" + name + "', '" + description
-					+ "', '" + bodyParts + "')";
+			String sqlSeq = "INSERT INTO diseases (name, description, bodyparts) VALUES ('" + name + "', '" + description
+					+ "', " + bodyparts + ")";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
