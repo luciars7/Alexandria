@@ -352,8 +352,16 @@ public class DBManager {
 			stmt2.close();
 
 			Statement stmt3 = c.createStatement();
+<<<<<<< HEAD
 			String sql3 = "CREATE TABLE diseases" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "description TEXT,"
 					+ "bodyparts TEXT REFERENCES bodyparts (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
+=======
+			String sql3 = "CREATE TABLE diseases"
+					+ "(ID INTEGER PRIMARY KEY,"
+					+ "name TEXT,"
+					+ "description TEXT,"
+					+ "bodyparts INTEGER REFERENCES bodyparts (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
+>>>>>>> branch 'master' of https://github.com/luciars7/Alexandria
 			stmt3.executeUpdate(sql3);
 			stmt3.close();
 
@@ -430,7 +438,22 @@ public class DBManager {
 			stmt13.executeUpdate(sql13);
 			stmt13.close();
 		} catch (Exception e) {
+<<<<<<< HEAD
 			e.printStackTrace();
+=======
+			e.printStackTrace();}
+		}
+
+
+	// INSERTS ------------------------------------------------------------------------------------------------
+	public void insertIntoAuthor (String name, String origin, String association) {
+		try {
+			Statement stmtSeq = c.createStatement();
+			 String sqlSeq = "INSERT INTO authors (name,origin,association) VALUES ('" + name + "','" + origin + "','" + association + "')";
+		stmtSeq.executeUpdate(sqlSeq);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+>>>>>>> branch 'master' of https://github.com/luciars7/Alexandria
 		}
 	}
 
@@ -439,8 +462,12 @@ public class DBManager {
 	public void insertIntoAuthor(String name, String origin, String association) {
 		try {
 			Statement stmtSeq = c.createStatement();
+<<<<<<< HEAD
 			String sqlSeq = "INSERT INTO authors (name,origin,association) VALUES ('" + name + "','" + origin + "','"
 					+ association + "')";
+=======
+			String sqlSeq = "INSERT INTO devices (name, type, price, brand) VALUES ('" + name + "', '" + type + "', ' + price + ', '" + brand + "')";
+>>>>>>> branch 'master' of https://github.com/luciars7/Alexandria
 			stmtSeq.executeUpdate(sqlSeq);
 			c.close();
 		} catch (SQLException ex) {
@@ -448,10 +475,19 @@ public class DBManager {
 		}
 	}
 
+<<<<<<< HEAD
 	public void insertIntoBodyPart(String name, String location) {
+=======
+	public void insertIntoDisease (String name, String description, Integer bodyparts) {
+>>>>>>> branch 'master' of https://github.com/luciars7/Alexandria
 		try {
 			Statement stmtSeq = c.createStatement();
+<<<<<<< HEAD
 			String sqlSeq = "INSERT INTO bodyparts (name, location) VALUES ('" + name + "', '" + location + "')";
+=======
+			String sqlSeq = "INSERT INTO diseases (name, description, bodyparts) VALUES ('" + name + "', '" + description
+					+ "', " + bodyparts + ")";
+>>>>>>> branch 'master' of https://github.com/luciars7/Alexandria
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();

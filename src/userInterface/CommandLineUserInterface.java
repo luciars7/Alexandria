@@ -321,6 +321,8 @@ public class CommandLineUserInterface {
 	}
 	
 	public static void addDevices () {
+		int procedure_id;
+		int paper_id;
 		System.out.print("Name: ");
 		try {
 			read = console.readLine();
@@ -349,9 +351,48 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String brand=read;
-		//Bodypart missing. The user must select from all the existent.
+		ArrayList<Procedure> list = dbManager.selectProcedure("all");
+		if(list==null){System.out.println("Error searching for the medical procedure(s).");}
+		else{
+			for(Procedure procedure:list){
+				System.out.println(procedure.getID()+": "+procedure.getName());
+			}	
+		System.out.print("Please, select wich of the medical procedures is related («none» for none): ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String NAME = read;
+		if(NAME.equals("none")){
+			procedure_id = (Integer) null;
+		}else{
+		ArrayList<BodyPart> bodyPart = dbManager.selectBodyPart(NAME);
+		procedure_id= bodyPart.get(0).getID();	
+		}
+		}
+		//CONTINUAR AQUÍ
+		ArrayList<Procedure> list2 = dbManager.selectProcedure("all");
+		if(list==null){System.out.println("Error searching for the medical procedure(s).");}
+		else{
+			for(Procedure procedure:list){
+				System.out.println(procedure.getID()+": "+procedure.getName());
+			}	
+		System.out.print("Please, select wich of the medical procedures is related («none» for none): ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String NAME = read;
+		if(NAME.equals("none")){
+			procedure_id = (Integer) null;
+		}else{
+		ArrayList<BodyPart> bodyPart = dbManager.selectBodyPart(NAME);
+		procedure_id= bodyPart.get(0).getID();	
+		}
+		}
 		
-		dbManager.insertIntoDevices(name, type, price, brand);
 	}
 	
 	public static void showDevices () {
@@ -386,10 +427,31 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String description=read;
-		//Bodypart missing. The user must select from all the existent.
-		
-		dbManager.insertIntoDevices(name, description);	
+		ArrayList<BodyPart> list = dbManager.selectBodyPart("all");
+		if(list==null){System.out.println("Error searching for the body part(s).");}
+		else{
+			for(BodyPart bodypart:list){
+				System.out.println(bodypart.getID()+": "+bodypart.getName());
+			}	
+		System.out.print("Please, select wich of the listed body parts is affected («none» for none): ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		String NAME = read;
+		if(NAME.equals("none")){
+			dbManager.insertIntoDisease(name, description, null);
+		}else{
+		ArrayList<BodyPart> bodyPart = dbManager.selectBodyPart(NAME);
+		dbManager.insertIntoDisease(name, description, bodyPart.get(0).getID());	
+		}
+		}
+		//TODO Continue working here.
+	}
+	
+	
+	
 	
 	public static void showDiseases () {
 		System.out.print("Please, provide a name or write «all» to view every disease: ");
