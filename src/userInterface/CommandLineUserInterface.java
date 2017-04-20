@@ -52,6 +52,12 @@ public class CommandLineUserInterface {
 	     case 4: {
 	 		showEntity();
 	 		break;}
+	     case 5:{
+	    	 
+	    	 break;}
+	     case 6:{
+	    	 System.exit(0);
+	    	 break;}
 		}
 		showMenu();
 		}
@@ -108,6 +114,9 @@ public class CommandLineUserInterface {
 	     case 9: {
              return;
 	 		}
+	     default: {
+	    	 return;
+	     }
         }
 		
 	}
@@ -162,6 +171,9 @@ public class CommandLineUserInterface {
 	     case 9: {
              return;
 	 		}
+	     default: {
+	    	 return;
+	     }
         }
 		
 	}
@@ -216,6 +228,9 @@ public class CommandLineUserInterface {
 	     case 9: {
              return;
 	 		}
+	     default: {
+	    	 return;
+	     }
         }
 		
 	}
