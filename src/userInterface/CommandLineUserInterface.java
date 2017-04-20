@@ -448,7 +448,11 @@ public class CommandLineUserInterface {
 		dbManager.insertIntoDisease(name, description, bodyPart.get(0).getID());	
 		}
 		}
+		//TODO Continue working here.
 	}
+	
+	
+	
 	
 	public static void showDiseases () {
 		System.out.print("Please, provide a name or write «all» to view every disease: ");
