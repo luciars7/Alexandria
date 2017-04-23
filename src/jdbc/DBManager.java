@@ -1,7 +1,5 @@
 package jdbc;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.sql.*;
 import java.util.ArrayList;
 import pojos.*;
@@ -13,8 +11,7 @@ public class DBManager {
 		connect();
 	}
 
-	// SELECTS
-	// ------------------------------------------------------------------------------------------------
+	// SELECTS ------------------------------------------------------------------------------------------------
 	public ArrayList<Author> selectAuthor(String NAME) {
 		ArrayList<Author> list = null;
 		try {
@@ -333,7 +330,11 @@ public class DBManager {
 	}
 
 	public void disconnect() {
-
+		try {
+			c.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void createTables() {
@@ -352,16 +353,11 @@ public class DBManager {
 			stmt2.close();
 
 			Statement stmt3 = c.createStatement();
-<<<<<<< HEAD
-			String sql3 = "CREATE TABLE diseases" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "description TEXT,"
-					+ "bodyparts TEXT REFERENCES bodyparts (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
-=======
 			String sql3 = "CREATE TABLE diseases"
 					+ "(ID INTEGER PRIMARY KEY,"
 					+ "name TEXT,"
 					+ "description TEXT,"
 					+ "bodyparts INTEGER REFERENCES bodyparts (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria
 			stmt3.executeUpdate(sql3);
 			stmt3.close();
 
@@ -438,56 +434,26 @@ public class DBManager {
 			stmt13.executeUpdate(sql13);
 			stmt13.close();
 		} catch (Exception e) {
-<<<<<<< HEAD
 			e.printStackTrace();
-=======
-			e.printStackTrace();}
 		}
-
+	}
 
 	// INSERTS ------------------------------------------------------------------------------------------------
 	public void insertIntoAuthor (String name, String origin, String association) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			 String sqlSeq = "INSERT INTO authors (name,origin,association) VALUES ('" + name + "','" + origin + "','" + association + "')";
-		stmtSeq.executeUpdate(sqlSeq);
-		} catch (SQLException ex) {
-			ex.printStackTrace();
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria
-		}
-	}
-
-	// INSERTS
-	// ------------------------------------------------------------------------------------------------
-	public void insertIntoAuthor(String name, String origin, String association) {
-		try {
-			Statement stmtSeq = c.createStatement();
-<<<<<<< HEAD
-			String sqlSeq = "INSERT INTO authors (name,origin,association) VALUES ('" + name + "','" + origin + "','"
-					+ association + "')";
-=======
-			String sqlSeq = "INSERT INTO devices (name, type, price, brand) VALUES ('" + name + "', '" + type + "', ' + price + ', '" + brand + "')";
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria
+			String sqlSeq = "INSERT INTO authors (name,origin,association) VALUES ('" + name + "','" + origin +
+							"','" + association + "')";
 			stmtSeq.executeUpdate(sqlSeq);
-			c.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 	}
-
-<<<<<<< HEAD
-	public void insertIntoBodyPart(String name, String location) {
-=======
-	public void insertIntoDisease (String name, String description, Integer bodyparts) {
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria
+	
+	public void insertIntoBodyPart (String name, String location) {
 		try {
 			Statement stmtSeq = c.createStatement();
-<<<<<<< HEAD
-			String sqlSeq = "INSERT INTO bodyparts (name, location) VALUES ('" + name + "', '" + location + "')";
-=======
-			String sqlSeq = "INSERT INTO diseases (name, description, bodyparts) VALUES ('" + name + "', '" + description
-					+ "', " + bodyparts + ")";
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria
+			String sqlSeq = "INSERT INTO bodyPart (name, location) VALUES ('" + name + "', '" + location + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -498,7 +464,7 @@ public class DBManager {
 		try {
 			Statement stmtSeq = c.createStatement();
 			String sqlSeq = "INSERT INTO devices (name, type, price, brand) VALUES ('" + name + "', '" + type + "', '"
-					+ price + "', '" + brand + "')";
+							+ price + "', '" + brand + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -509,7 +475,7 @@ public class DBManager {
 		try {
 			Statement stmtSeq = c.createStatement();
 			String sqlSeq = "INSERT INTO diseases (name, description, bodyParts) VALUES ('" + name + "', '"
-					+ description + "', '" + bodyParts + "')";
+							+ description + "', '" + bodyParts + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -520,7 +486,7 @@ public class DBManager {
 		try {
 			Statement stmtSeq = c.createStatement();
 			String sqlSeq = "INSERT INTO images (description, type, size, link, paper) VALUES ('" + description + "', '"
-					+ type + "', '" + size + "', '" + link + "', '" + paper + "')";
+							+ type + "', '" + size + "', '" + link + "', '" + paper + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -540,7 +506,8 @@ public class DBManager {
 	public void insertIntoProcedure(String name, String description) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO procedures (name, description) VALUES ('" + name + "', '" + description + "')";
+			String sqlSeq = "INSERT INTO procedures (name, description) VALUES ('" + name + "', '" + description +
+							"')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -557,8 +524,7 @@ public class DBManager {
 		}
 	}
 
-	// DELETIONS
-	// ------------------------------------------------------------------------------------------------
+	// DELETIONS ------------------------------------------------------------------------------------------------
 	public void deleteAuthor(int author_id) {
 		try {
 			String sql = "DELETE FROM authors WHERE id=?";
@@ -655,16 +621,10 @@ public class DBManager {
 		}
 	}
 
-	// UPDATES
-	public void updateAuthor () {
+	// UPDATES ------------------------------------------------------------------------------------------------
+	public void updateAuthor (Integer author_id, String newAssociation) {
 		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-			System.out.println("Choose an author, type its ID: ");
-			// printDepartments();
-			int author_id = Integer.parseInt(reader.readLine());
-			System.out.print("Type the new author's association: ");
-			String newAssociation = reader.readLine();
-			String sql = "UPDATE Author SET association=? WHERE ID=?";
+			String sql = "UPDATE Author SET association = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, newAssociation);
 			prep.setInt(2, author_id);
@@ -675,22 +635,74 @@ public class DBManager {
 		}
 	}
 	
-	/*public void updateAuthor () {
+	// Entity 'BodyPart' doesn't need an 'update' method as what is going to be changed is the foreign key
+	// attribute that refers to it. For example: if a disease (which has 'BodyPart' as a foreign key) goes
+	// under research and it is found out that the body part in which it happens is different, in the database
+	// what is going to be changed is the attribute in 'BodyPart' foreign key of entity 'disease'.
+	
+	public void updateDevice (Integer device_id, Float newPrice, String newBrand) {
 		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-			System.out.println("Choose an author, type its ID: ");
-			// printDepartments();
-			int author_id = Integer.parseInt(reader.readLine());
-			System.out.print("Type the new author's association: ");
-			String newAssociation = reader.readLine();
-			String sql = "UPDATE Author SET association=? WHERE ID=?";
+			String sql = "UPDATE Device SET price = ? AND brand = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
-			prep.setString(1, newAssociation);
-			prep.setInt(2, author_id);
+			prep.setFloat(1, newPrice);
+			prep.setString(2, newBrand);
+			prep.setInt(3, device_id);
 			prep.executeUpdate();
 			System.out.println("Update finished.");
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
-	}*/
+	}
+	
+	public void updateDisease (Integer disease_id, String newDescription, Integer newBodyPart) {
+		try {
+			String sql = "UPDATE Disease SET description = ? AND BodyPart = ? WHERE ID = ?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setString(1, newDescription);
+			prep.setInt(2, newBodyPart);
+			prep.setInt(3, disease_id);
+			prep.executeUpdate();
+			System.out.println("Update finished.");
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void updateImage (Integer image_id, String newDescription, String newType, String newSize,
+							 byte[] newImage, Integer newPaper) {
+		try {
+			String sql = "UPDATE Image SET description = ? AND type = ? AND size = ? AND image = ? " +
+						 "AND paper = ? WHERE ID = ?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setString(1, newDescription);
+			prep.setString(2, newType);
+			prep.setString(3, newSize);
+			prep.setBytes(4, newImage);
+			prep.setInt(5, newPaper);
+			prep.executeUpdate();
+			System.out.println("Update finished.");
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	// A paper is always going to be the same, its title is not going to change and the link of the page
+	// found is neither going to change. The only thing that could happen to it, it is to be deleted. 
+	
+	public void updateProcedure (Integer procedure_id, String newName, String newDescription) {
+		try {
+			String sql = "UPDATE Procedure SET name = ? AND description = ? WHERE ID = ?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setString(1, newName);
+			prep.setString(2, newDescription);
+			prep.setInt(3, procedure_id);
+			prep.executeUpdate();
+			System.out.println("Update finished.");
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	// Symptoms will always be symptoms. If they change the old ones are going to be deleted and new ones
+	// will be created. They aren't going to be modified.
 }

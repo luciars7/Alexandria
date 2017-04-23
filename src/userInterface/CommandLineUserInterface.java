@@ -281,7 +281,6 @@ public class CommandLineUserInterface {
 				System.out.println(author);
 			}
 		}
-		
 	}
 	
 	public static void addBodyParts () {
@@ -792,4 +791,11 @@ public class CommandLineUserInterface {
 			}
 		}	
          }
+	
+	/*BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+	System.out.println("Choose an author, type its ID: ");
+	printDepartments();
+	int author_id = Integer.parseInt(reader.readLine());
+	System.out.print("Type the new author's association: ");
+	String newAssociation = reader.readLine();*/
 }
