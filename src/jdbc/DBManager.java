@@ -439,7 +439,7 @@ public class DBManager {
 	}
 
 	// INSERTS ------------------------------------------------------------------------------------------------
-	public void insertIntoAuthor (String name, String origin, String assdisociation) {
+	public void insertIntoAuthor (String name, String origin, String association) {
 		try {
 			Statement stmtSeq = c.createStatement();
 			String sqlSeq = "INSERT INTO authors (name,origin,association) VALUES ('" + name + "','" + origin +
@@ -524,13 +524,9 @@ public class DBManager {
 		}
 	}
 
-<<<<<<< HEAD
-// DELETIONS ------------------------------------------------------------------------------------------------
-	public void deleteAuthor (int author_id) {
-=======
+
 	// DELETIONS ------------------------------------------------------------------------------------------------
 	public void deleteAuthor(int author_id) {
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria
 		try {
 			String sql = "DELETE FROM authors WHERE id=?";
 			PreparedStatement prep = c.prepareStatement(sql);
