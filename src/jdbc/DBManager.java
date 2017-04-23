@@ -343,26 +343,14 @@ public class DBManager {
 			connect();
 			// Create tables: begin
 			Statement stmt1 = c.createStatement();
-<<<<<<< HEAD
-			String sql1 = "CREATE TABLE papers"
-					+ "(ID INTEGER PRIMARY KEY NULL,"
-					+ "title TEXT,"
-					+ "source TEXT)";
-=======
+
 			String sql1 = "CREATE TABLE papers" + "(ID INTEGER PRIMARY KEY," + "title TEXT," + "source TEXT)";
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
 			stmt1.executeUpdate(sql1);
 			stmt1.close();
 
 			Statement stmt2 = c.createStatement();
-<<<<<<< HEAD
-			String sql2 = "CREATE TABLE bodyparts"
-					+ "(ID INTEGER PRIMARY KEY NULL,"
-					+ "name TEXT,"
-					+ "location TEXT)";
-=======
+
 			String sql2 = "CREATE TABLE bodyparts" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "location TEXT)";
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
 			stmt2.executeUpdate(sql2);
 			stmt2.close();
 
@@ -376,76 +364,36 @@ public class DBManager {
 			stmt3.close();
 
 			Statement stmt4 = c.createStatement();
-<<<<<<< HEAD
-			String sql4 = "CREATE TABLE authors"
-					+ "(ID INTEGER PRIMARY KEY NULL,"
-					+ "name TEXT,"
-					+ "origin TEXT,"
-=======
-			String sql4 = "CREATE TABLE authors" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "origin TEXT,"
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
-					+ "association TEXT)";
+
+			String sql4 = "CREATE TABLE authors" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "origin TEXT,"+ "association TEXT)";
 			stmt4.executeUpdate(sql4);
 			stmt4.close();
 
 			Statement stmt5 = c.createStatement();
-<<<<<<< HEAD
-
-			String sql5 = "CREATE TABLE devices"
-					+ "(ID INTEGER PRIMARY KEY NULL,"
-					+ "name TEXT,"
-					+ "type TEXT ,"
-					+ "price$ FLOAT,"
-					+ "brand TEXT,"
-			
-=======
 
 			String sql5 = "CREATE TABLE devices" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "type TEXT ,"
 					+ "price$ FLOAT," + "brand TEXT,"
-
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
 					+ "medprocedures INTEGER REFERENCES procedures (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "papers INTEGER REFERENCES papers (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 			stmt5.executeUpdate(sql5);
 			stmt5.close();
 
 			Statement stmt6 = c.createStatement();
-<<<<<<< HEAD
-			String sql6 = "CREATE TABLE images"
-					+ "(ID INTEGER PRIMARY KEY NULL,"
-					+ "description TEXT,"
-					+ "type TEXT,"
-					+ "size TEXT,"
-					+ "image BLOOB,"
-=======
 			String sql6 = "CREATE TABLE images" + "(ID INTEGER PRIMARY KEY," + "description TEXT," + "type TEXT,"
 					+ "size TEXT," + "image BLOOB,"
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
 					+ "paper INTEGER REFERENCES papers (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 			stmt6.executeUpdate(sql6);
 			stmt6.close();
 
 			Statement stmt7 = c.createStatement();
-<<<<<<< HEAD
-			String sql7 = "CREATE TABLE symptoms"
-					+ "(ID INTEGER PRIMARY KEY NULL,"
-					+ "name TEXT,"
-					+ "description TEXT)";
-=======
+
 			String sql7 = "CREATE TABLE symptoms" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "description TEXT)";
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
 			stmt7.executeUpdate(sql7);
 			stmt7.close();
 
 			Statement stmt8 = c.createStatement();
-<<<<<<< HEAD
-			String sql8 = "CREATE TABLE procedures"
-					+ "(ID INTEGER PRIMARY KEY NULL,"
-					+ "name TEXT,"
-					+ "description TEXT)";
-=======
 			String sql8 = "CREATE TABLE procedures" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "description TEXT)";
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
+
 			stmt8.executeUpdate(sql8);
 			stmt8.close();
 
@@ -515,14 +463,10 @@ public class DBManager {
 		}
 	}
 
-<<<<<<< HEAD
 	public void insertIntoDevice (String name, String type, float price, String brand, int medprocedures, int papers) {
-=======
-	public void insertIntoDevice(String name, String type, float price, String brand) {
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
+
 		try {
 			Statement stmtSeq = c.createStatement();
-<<<<<<< HEAD
 			String sqlSeq="";
 			if(medprocedures==0&&papers==0){
 				 sqlSeq = "INSERT INTO devices (name, type, price$, brand, medprocedures, papers) VALUES ('" + name + "', '" + type + "', '" + price + "', '" + brand + "', 'NULL', 'NULL')";
@@ -539,10 +483,6 @@ public class DBManager {
 			 sqlSeq = "INSERT INTO devices (name, type, price$, brand, medprocedures, papers) VALUES ('" + name + "', '" + type + "', '" + price + "', '" + brand + "', '" + medprocedures + "', '" + papers+ "')";
 			 System.out.println("4");
 			}
-=======
-			String sqlSeq = "INSERT INTO devices (name, type, price, brand) VALUES ('" + name + "', '" + type + "', '"
-							+ price + "', '" + brand + "')";
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -602,14 +542,8 @@ public class DBManager {
 		}
 	}
 
-<<<<<<< HEAD
 // DELETIONS ------------------------------------------------------------------------------------------------
 	public void deleteAuthor (int author_id) {
-=======
-
-	// DELETIONS ------------------------------------------------------------------------------------------------
-	public void deleteAuthor(int author_id) {
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
 		try {
 			String sql = "DELETE FROM authors WHERE id=?";
 			PreparedStatement prep = c.prepareStatement(sql);

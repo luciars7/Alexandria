@@ -856,4 +856,64 @@ public class CommandLineUserInterface {
 			}
 		}
 	}
+	
+	private static void updateMenu() {
+		System.out.print("\nPlease, select the type of item you want to modify: ");
+		System.out.println("\n1.) Author");
+		System.out.println("2.) Body part");
+		System.out.println("3.) Device");
+		System.out.println("4.) Disease or pathology");
+		System.out.println("5.) Image");
+		System.out.println("6.) Paper or article");
+		System.out.println("7.) Procedure or treatment");
+		System.out.println("8.) Symptom");
+		System.out.println("9.) Return to the main menu...");
+		System.out.print("\nOption: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		Integer option = Integer.parseInt(read);
+		switch (option) {
+		case 1: {
+			modifyAuthor();
+			return;
+		}
+		case 2: {
+			modifyBodyParts();
+			return;
+		}
+		case 3: {
+			modifyDevices();
+			return;
+		}
+		case 4: {
+			modifyDiseases();
+			return;
+		}
+		case 5: {
+			modifyImages();
+			return;
+		}
+		case 6: {
+			modifyPaper();
+			return;
+		}
+		case 7: {
+			modifyProcedures();
+			return;
+		}
+		case 8: {
+			modifySymptoms();
+			return;
+		}
+		case 9: {
+			return;
+		}
+		}
+
+	}
+
 }
