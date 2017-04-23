@@ -329,7 +329,7 @@ public class DBManager {
 			// Create tables: begin
 			Statement stmt1 = c.createStatement();
 			String sql1 = "CREATE TABLE papers"
-					+ "(ID INTEGER PRIMARY KEY,"
+					+ "(ID INTEGER PRIMARY KEY NULL,"
 					+ "title TEXT,"
 					+ "source TEXT)";
 			stmt1.executeUpdate(sql1);
@@ -337,7 +337,7 @@ public class DBManager {
 			
 			Statement stmt2 = c.createStatement();
 			String sql2 = "CREATE TABLE bodyparts"
-					+ "(ID INTEGER PRIMARY KEY,"
+					+ "(ID INTEGER PRIMARY KEY NULL,"
 					+ "name TEXT,"
 					+ "location TEXT)";
 			stmt2.executeUpdate(sql2);
@@ -345,7 +345,7 @@ public class DBManager {
 			
 			Statement stmt3 = c.createStatement();
 			String sql3 = "CREATE TABLE diseases"
-					+ "(ID INTEGER PRIMARY KEY,"
+					+ "(ID INTEGER PRIMARY KEY NULL,"
 					+ "name TEXT,"
 					+ "description TEXT,"
 					+ "bodyparts INTEGER REFERENCES bodyparts (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
@@ -354,7 +354,7 @@ public class DBManager {
 			
 			Statement stmt4 = c.createStatement();
 			String sql4 = "CREATE TABLE authors"
-					+ "(ID INTEGER PRIMARY KEY,"
+					+ "(ID INTEGER PRIMARY KEY NULL,"
 					+ "name TEXT,"
 					+ "origin TEXT,"
 					+ "association TEXT)";
@@ -364,7 +364,7 @@ public class DBManager {
 			Statement stmt5 = c.createStatement();
 
 			String sql5 = "CREATE TABLE devices"
-					+ "(ID INTEGER PRIMARY KEY,"
+					+ "(ID INTEGER PRIMARY KEY NULL,"
 					+ "name TEXT,"
 					+ "type TEXT ,"
 					+ "price$ FLOAT,"
@@ -377,7 +377,7 @@ public class DBManager {
 			
 			Statement stmt6 = c.createStatement();
 			String sql6 = "CREATE TABLE images"
-					+ "(ID INTEGER PRIMARY KEY,"
+					+ "(ID INTEGER PRIMARY KEY NULL,"
 					+ "description TEXT,"
 					+ "type TEXT,"
 					+ "size TEXT,"
@@ -388,7 +388,7 @@ public class DBManager {
 			
 			Statement stmt7 = c.createStatement();
 			String sql7 = "CREATE TABLE symptoms"
-					+ "(ID INTEGER PRIMARY KEY,"
+					+ "(ID INTEGER PRIMARY KEY NULL,"
 					+ "name TEXT,"
 					+ "description TEXT)";
 			stmt7.executeUpdate(sql7);
@@ -396,7 +396,7 @@ public class DBManager {
 			
 			Statement stmt8 = c.createStatement();
 			String sql8 = "CREATE TABLE procedures"
-					+ "(ID INTEGER PRIMARY KEY,"
+					+ "(ID INTEGER PRIMARY KEY NULL,"
 					+ "name TEXT,"
 					+ "description TEXT)";
 			stmt8.executeUpdate(sql8);
@@ -467,10 +467,25 @@ public class DBManager {
 		}
 	}
 
-	public void insertIntoDevice (String name, String type, float price, String brand) {
+	public void insertIntoDevice (String name, String type, float price, String brand, int medprocedures, int papers) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO devices (name, type, price, brand) VALUES ('" + name + "', '" + type + "', ' + price + ', '" + brand + "')";
+			String sqlSeq="";
+			if(medprocedures==0&&papers==0){
+				 sqlSeq = "INSERT INTO devices (name, type, price$, brand, medprocedures, papers) VALUES ('" + name + "', '" + type + "', '" + price + "', '" + brand + "', 'NULL', 'NULL')";
+			System.out.println("1");
+			}
+			if(medprocedures==0&&papers!=0){ 
+				sqlSeq = "INSERT INTO devices (name, type, price$, brand, medprocedures, papers) VALUES ('" + name + "', '" + type + "', '" + price + "', '" + brand + "', '" + null + "', '" + papers + "')";
+				System.out.println("2");
+			}
+			if(medprocedures!=0&&papers==0){
+				 sqlSeq = "INSERT INTO devices (name, type, price$, brand, medprocedures, papers) VALUES ('" + name + "', '" + type + "', '" + price + "', '" + brand + "', '" + medprocedures + "', '" + null + "')";
+				 System.out.println("3");
+			}else{
+			 sqlSeq = "INSERT INTO devices (name, type, price$, brand, medprocedures, papers) VALUES ('" + name + "', '" + type + "', '" + price + "', '" + brand + "', '" + medprocedures + "', '" + papers+ "')";
+			 System.out.println("4");
+			}
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -530,24 +545,6 @@ public class DBManager {
 	}
 
 
-	 /*
-	try {
-		// Open database connection
-		Class.forName("org.sqlite.JDBC");
-		// Note that we are using the class' connection
-		c = DriverManager.getConnection("jdbc:sqlite:./db/company.db");
-		c.createStatement().execute("PRAGMA foreign_keys=ON");
-		System.out.println("Database connection opened.");
-		connect();
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
-		Statement stmtSeq = c.createStatement();
-		 String sqlSeq = "INSERT INTO images-diseases (name,origin,association) VALUES (" + name + "," + origin + "," + association + ")";
-		stmtSeq.executeUpdate(sqlSeq);
-	}
-		catch (SQLException ex){
-			ex.printStackTrace();
-=======
-*/
 // DELETIONS ------------------------------------------------------------------------------------------------
 	public void deleteAuthor (int author_id) {
 		try {
