@@ -8,7 +8,7 @@ public class Image {
 	private String description;
 	private String type;
 	private String size;
-	private byte[] image ;
+	private byte[] image;
 	private Paper paper;
 	
 	public Image(int iD, String description, String type, String size, byte[] image, Paper paper) {
