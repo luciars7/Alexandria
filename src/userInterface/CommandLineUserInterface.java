@@ -535,7 +535,7 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String imageAdress = read;
-		// Paper missing. The user must select from all the existent.
+		// Paper missing. The user must select from all the existent
 
 		dbManager.insertIntoDevices(name, description,);
 	}
