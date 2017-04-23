@@ -10,14 +10,19 @@
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
  
 		<!-- Entity Class, that is going to be a table -->
-		<class>sample.db.pojos.Employee</class>
-		<class>sample.db.pojos.Department</class>
-		<class>sample.db.pojos.Report</class>
+		<class>sample.db.pojos.Author</class>
+		<class>sample.db.pojos.BodyPart</class>
+		<class>sample.db.pojos.Device</class>
+		<class>sample.db.pojos.Disease</class>
+		<class>sample.db.pojos.Image</class>
+		<class>sample.db.pojos.Paper</class>
+		<class>sample.db.pojos.Procedure</class>
+		<class>sample.db.pojos.Symptom</class>
  
 		<properties>	
 			<!-- Connection properties -->
 			<property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC" />
-		    <property name="javax.persistence.jdbc.url"	value="jdbc:sqlite:./db/company.db" />
+		    <property name="javax.persistence.jdbc.url"	value="jdbc:sqlite:./db/alexandria.db" />
 			<!-- Fill if we need user and password -->
 			<property name="javax.persistence.jdbc.user" value="" />
 			<property name="javax.persistence.jdbc.password" value="" />
