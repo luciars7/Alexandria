@@ -370,8 +370,8 @@ public class CommandLineUserInterface {
 	}
 
 	public static void addDevices() {
-		int procedure_id;
-		int paper_id;
+		int procedure_id = 0;
+		int paper_id = 0;
 		System.out.print("Name: ");
 		try {
 			read = console.readLine();
@@ -421,7 +421,6 @@ public class CommandLineUserInterface {
 				procedure_id = bodyPart.get(0).getID();
 			}
 		}
-		// CONTINUAR AQUÍ
 		ArrayList<Procedure> list2 = dbManager.selectProcedure("all");
 		if (list == null) {
 			System.out.println("Error searching for the medical procedure(s).");
@@ -560,7 +559,7 @@ public class CommandLineUserInterface {
 		String imageAdress = read;
 		// Paper missing. The user must select from all the existent.
 
-		dbManager.insertIntoDevices(name, description);
+		dbManager.insertIntoDevice(name, description);
 	}
 
 	public static void showImages() {
