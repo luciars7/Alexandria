@@ -447,7 +447,7 @@ public class DBManager {
 
 
 	// INSERTS ------------------------------------------------------------------------------------------------
-	public void insertIntoAuthor (String name, String origin, String association) {
+	public void insertIntoAuthor (String name, String origin, String assdisociation) {
 		try {
 			Statement stmtSeq = c.createStatement();
 			 String sqlSeq = "INSERT INTO authors (name,origin,association) VALUES ('" + name + "','" + origin + "','" + association + "')";
@@ -529,25 +529,6 @@ public class DBManager {
 		}
 	}
 
-
-	 /*
-	try {
-		// Open database connection
-		Class.forName("org.sqlite.JDBC");
-		// Note that we are using the class' connection
-		c = DriverManager.getConnection("jdbc:sqlite:./db/company.db");
-		c.createStatement().execute("PRAGMA foreign_keys=ON");
-		System.out.println("Database connection opened.");
-		connect();
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
-		Statement stmtSeq = c.createStatement();
-		 String sqlSeq = "INSERT INTO images-diseases (name,origin,association) VALUES (" + name + "," + origin + "," + association + ")";
-		stmtSeq.executeUpdate(sqlSeq);
-	}
-		catch (SQLException ex){
-			ex.printStackTrace();
-=======
-*/
 // DELETIONS ------------------------------------------------------------------------------------------------
 	public void deleteAuthor (int author_id) {
 		try {
