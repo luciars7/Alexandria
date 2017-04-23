@@ -61,6 +61,7 @@ public class CommandLineUserInterface {
 			break;
 		}
 		case 6: {
+			dbManager.disconnect();
 			System.exit(0);
 			break;
 		}
