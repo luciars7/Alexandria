@@ -4,10 +4,10 @@ import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.ArrayList;
-
+ 
 import jdbc.DBManager;
 import pojos.*;
-
+ 
 public class CommandLineUserInterface {
 	static Connection c = null;
 	static DBManager dbManager = null;
@@ -62,8 +62,8 @@ public class CommandLineUserInterface {
 		}
 		case 6: {
 			dbManager.disconnect();
+			System.out.println("BYE!");
 			System.exit(0);
-			break;
 		}
 
 		}
