@@ -863,14 +863,11 @@ public class CommandLineUserInterface {
 	private static void updateMenu() {
 		System.out.print("\nPlease, select the type of item you want to modify: ");
 		System.out.println("\n1.) Author");
-		System.out.println("2.) Body part");
-		System.out.println("3.) Device");
-		System.out.println("4.) Disease or pathology");
-		System.out.println("5.) Image");
-		System.out.println("6.) Paper or article");
-		System.out.println("7.) Procedure or treatment");
-		System.out.println("8.) Symptom");
-		System.out.println("9.) Return to the main menu...");
+		System.out.println("2.) Device");
+		System.out.println("3.) Disease or pathology");
+		System.out.println("4.) Image");
+		System.out.println("5.) Procedure or treatment");
+		System.out.println("6.) Return to the main menu...");
 		System.out.print("\nOption: ");
 		try {
 			read = console.readLine();
@@ -885,34 +882,22 @@ public class CommandLineUserInterface {
 			return;
 		}
 		case 2: {
-			modifyBodyPart();
-			return;
-		}
-		case 3: {
 			modifyDevice();
 			return;
 		}
-		case 4: {
+		case 3: {
 			modifyDisease();
 			return;
 		}
-		case 5: {
+		case 4: {
 			modifyImage();
 			return;
 		}
-		case 6: {
-			modifyPaper();
-			return;
-		}
-		case 7: {
+		case 5: {
 			modifyProcedure();
 			return;
 		}
-		case 8: {
-			modifySymptom();
-			return;
-		}
-		case 9: {
+		case 6: {
 			return;
 		}
 		}
@@ -948,7 +933,7 @@ public class CommandLineUserInterface {
 		}
 	}
 	
-	private static void modifyDiseases(){
+	private static void modifyDisease(){
 		try {
 			System.out.println("Which is the Disease that you want to modify?" + "\nWrite its ID number:");
 			String read = console.readLine();
@@ -963,7 +948,7 @@ public class CommandLineUserInterface {
 		}
 	}
 	
-	private static void modifyImages(){
+	private static void modifyImage(){
 		try {
 			System.out.println("Which is the Image that you want to modify?" + "\nWrite its ID number:");
 			String read = console.readLine();
@@ -977,6 +962,7 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 	}
+	
 	private static void modifyProcedure() {
 		try {
 			System.out.println("Which is the procedure that you want to modify?" + "\nWrite its ID number:");
