@@ -878,4 +878,35 @@ public class CommandLineUserInterface {
 			}
 		}
 	}
+	
+	private static void modifyAuthor() {
+		try {
+			System.out.println("Which is the author that you want to modify?" +
+							   "\nWrite its ID number:");
+			String read = console.readLine();
+			Integer authorId = Integer.parseInt(read);
+			System.out.println("Write the new author's association:");
+			String newAssociation = console.readLine();
+			dbManager.updateAuthor(authorId, newAssociation);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static void modifyDevice() {
+		try {
+			System.out.println("Which is the device that you want to modify?" +
+							   "\nWrite its ID number:");
+			String read = console.readLine();
+			Integer deviceId = Integer.parseInt(read);
+			System.out.println("Write the new devices's price:");
+			read = console.readLine();
+			Float newPrice = Float.parseFloat(read);
+			System.out.println("Write the new device's brand name:");
+			String newBrand = console.readLine();
+			dbManager.updateDevice(deviceId, newPrice, newBrand);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
