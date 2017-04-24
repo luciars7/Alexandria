@@ -20,7 +20,7 @@ public class DBManager {
 			list = new ArrayList<Author>();
 			Statement stmt = c.createStatement();
 			if (NAME.equalsIgnoreCase("all")) {
-				String sql = "SELECT * FROM authors";
+				String sql = "SELECT * FROM author";
 				ResultSet rs = stmt.executeQuery(sql);// Works as an iterator.
 				while (rs.next()) {
 					int id = rs.getInt("ID");
@@ -32,7 +32,7 @@ public class DBManager {
 				rs.close();
 			} else {
 
-				String sql = "SELECT * FROM authors WHERE name = '" + NAME + "'";
+				String sql = "SELECT * FROM author WHERE name = '" + NAME + "'";
 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
 				while (rs.next()) {
 					int id = rs.getInt("ID");
@@ -59,7 +59,7 @@ public class DBManager {
 			list = new ArrayList<BodyPart>();
 			Statement stmt = c.createStatement();
 			if (NAME.equalsIgnoreCase("all")) {
-				String sql = "SELECT * FROM bodyparts";
+				String sql = "SELECT * FROM bodypart";
 				ResultSet rs = stmt.executeQuery(sql);// Works as an iterator.
 				while (rs.next()) {
 					int id = rs.getInt("ID");
@@ -70,7 +70,7 @@ public class DBManager {
 				rs.close();
 			} else {
 
-				String sql = "SELECT * FROM bodyparts WHERE name = '" + NAME + "'";
+				String sql = "SELECT * FROM bodypart WHERE name = '" + NAME + "'";
 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
 				while (rs.next()) {
 					int id = rs.getInt("ID");
@@ -96,7 +96,7 @@ public class DBManager {
 			list = new ArrayList<Device>();
 			Statement stmt = c.createStatement();
 			if (NAME.equalsIgnoreCase("all")) {
-				String sql = "SELECT * FROM devices";
+				String sql = "SELECT * FROM device";
 				ResultSet rs = stmt.executeQuery(sql);// Works as an iterator.
 				while (rs.next()) {
 					int id = rs.getInt("ID");
@@ -109,7 +109,7 @@ public class DBManager {
 				rs.close();
 			} else {
 
-				String sql = "SELECT * FROM devices WHERE name = '" + NAME + "'";
+				String sql = "SELECT * FROM device WHERE name = '" + NAME + "'";
 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
 				while (rs.next()) {
 					int id = rs.getInt("ID");
@@ -137,25 +137,25 @@ public class DBManager {
 			list = new ArrayList<Disease>();
 			Statement stmt = c.createStatement();
 			if (NAME.equalsIgnoreCase("all")) {
-				String sql = "SELECT * FROM diseases";
+				String sql = "SELECT * FROM disease";
 				ResultSet rs = stmt.executeQuery(sql);// Works as an iterator.
 				while (rs.next()) {
 					int id = rs.getInt("ID");
 					String name = rs.getString("name");
 					String description = rs.getString("description");
-					BodyPart bodypart = (BodyPart) rs.getObject("bodyParts");
+					BodyPart bodypart = (BodyPart) rs.getObject("bodyPart");
 					list.add(new Disease(id, name, description, bodypart));
 				}
 				rs.close();
 			} else {
 
-				String sql = "SELECT * FROM diseases WHERE name = '" + NAME + "'";
+				String sql = "SELECT * FROM disease WHERE name = '" + NAME + "'";
 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
 				while (rs.next()) {
 					int id = rs.getInt("ID");
 					String name = rs.getString("name");
 					String description = rs.getString("description");
-					BodyPart bodypart = (BodyPart) rs.getObject("bodyParts");
+					BodyPart bodypart = (BodyPart) rs.getObject("bodyPart");
 					list.add(new Disease(id, name, description, bodypart));
 				}
 				rs.close();
@@ -175,7 +175,7 @@ public class DBManager {
 			list = new ArrayList<Image>();
 			Statement stmt = c.createStatement();
 			if (NAME.equalsIgnoreCase("all")) {
-				String sql = "SELECT * FROM images";
+				String sql = "SELECT * FROM image";
 				ResultSet rs = stmt.executeQuery(sql);// Works as an iterator.
 				while (rs.next()) {
 					int id = rs.getInt("ID");
@@ -189,7 +189,7 @@ public class DBManager {
 				rs.close();
 			} else {
 
-				String sql = "SELECT * FROM images WHERE name = '" + NAME + "'";
+				String sql = "SELECT * FROM image WHERE name = '" + NAME + "'";
 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
 				while (rs.next()) {
 					int id = rs.getInt("ID");
@@ -217,7 +217,7 @@ public class DBManager {
 			list = new ArrayList<Paper>();
 			Statement stmt = c.createStatement();
 			if (NAME.equalsIgnoreCase("all")) {
-				String sql = "SELECT * FROM papers";
+				String sql = "SELECT * FROM paper";
 				ResultSet rs = stmt.executeQuery(sql);// Works as an iterator.
 				while (rs.next()) {
 					int id = rs.getInt("ID");
@@ -228,7 +228,7 @@ public class DBManager {
 				rs.close();
 			} else {
 
-				String sql = "SELECT * FROM papers WHERE name = '" + NAME + "'";
+				String sql = "SELECT * FROM paper WHERE name = '" + NAME + "'";
 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
 				while (rs.next()) {
 					int id = rs.getInt("ID");
@@ -253,7 +253,7 @@ public class DBManager {
 			list = new ArrayList<Procedure>();
 			Statement stmt = c.createStatement();
 			if (NAME.equalsIgnoreCase("all")) {
-				String sql = "SELECT * FROM procedures";
+				String sql = "SELECT * FROM procedure";
 				ResultSet rs = stmt.executeQuery(sql);// Works as an iterator.
 				while (rs.next()) {
 					int id = rs.getInt("ID");
@@ -264,7 +264,7 @@ public class DBManager {
 				rs.close();
 			} else {
 
-				String sql = "SELECT * FROM procedures WHERE name = '" + NAME + "'";
+				String sql = "SELECT * FROM procedure WHERE name = '" + NAME + "'";
 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
 				while (rs.next()) {
 					int id = rs.getInt("ID");
@@ -289,7 +289,7 @@ public class DBManager {
 			list = new ArrayList<Symptom>();
 			Statement stmt = c.createStatement();
 			if (NAME.equalsIgnoreCase("all")) {
-				String sql = "SELECT * FROM symptoms";
+				String sql = "SELECT * FROM symptom";
 				ResultSet rs = stmt.executeQuery(sql);// Works as an iterator.
 				while (rs.next()) {
 					int id = rs.getInt("ID");
@@ -300,7 +300,7 @@ public class DBManager {
 				rs.close();
 			} else {
 
-				String sql = "SELECT * FROM symptoms WHERE name = '" + NAME + "'";
+				String sql = "SELECT * FROM symptom WHERE name = '" + NAME + "'";
 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
 				while (rs.next()) {
 					int id = rs.getInt("ID");
@@ -344,95 +344,91 @@ public class DBManager {
 			connect();
 			// Create tables: begin
 			Statement stmt1 = c.createStatement();
-
-			String sql1 = "CREATE TABLE papers" + "(ID INTEGER PRIMARY KEY," + "title TEXT," + "source TEXT)";
+			Statement stmt2 = c.createStatement();
+			String sql1 = "CREATE TABLE paper" + "(ID INTEGER PRIMARY KEY," + "title TEXT," + "source TEXT)";
 			stmt1.executeUpdate(sql1);
 			stmt1.close();
 
-			Statement stmt2 = c.createStatement();
 
-			String sql2 = "CREATE TABLE bodyparts" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "location TEXT)";
+			String sql2 = "CREATE TABLE bodypart" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "location TEXT)";
 			stmt2.executeUpdate(sql2);
 			stmt2.close();
 
+
 			Statement stmt3 = c.createStatement();
-			String sql3 = "CREATE TABLE diseases" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "description TEXT,"
-					+ "bodyparts INTEGER REFERENCES bodyparts (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
+			String sql3 = "CREATE TABLE disease" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "description TEXT,"
+					+ "bodypart INTEGER REFERENCES bodypart (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 			stmt3.executeUpdate(sql3);
 			stmt3.close();
 
 			Statement stmt4 = c.createStatement();
-
-			String sql4 = "CREATE TABLE authors" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "origin TEXT,"
+			String sql4 = "CREATE TABLE author" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "origin TEXT,"
 					+ "association TEXT)";
 			stmt4.executeUpdate(sql4);
 			stmt4.close();
 
 			Statement stmt5 = c.createStatement();
-
-			String sql5 = "CREATE TABLE devices" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "type TEXT ,"
+			String sql5 = "CREATE TABLE device" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "type TEXT ,"
 					+ "price$ FLOAT," + "brand TEXT,"
-					+ "medprocedures INTEGER REFERENCES procedures (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-					+ "papers INTEGER REFERENCES papers (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
+					+ "medprocedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
+					+ "paper INTEGER REFERENCES paper (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 			stmt5.executeUpdate(sql5);
 			stmt5.close();
 
 			Statement stmt6 = c.createStatement();
-			String sql6 = "CREATE TABLE images" + "(ID INTEGER PRIMARY KEY," + "description TEXT," + "type TEXT,"
+			String sql6 = "CREATE TABLE image" + "(ID INTEGER PRIMARY KEY," + "description TEXT," + "type TEXT,"
 					+ "size TEXT," + "image BLOOB,"
-					+ "paper INTEGER REFERENCES papers (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
+					+ "paper INTEGER REFERENCES paper (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 			stmt6.executeUpdate(sql6);
 			stmt6.close();
 
 			Statement stmt7 = c.createStatement();
-
-			String sql7 = "CREATE TABLE symptoms" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "description TEXT)";
+			String sql7 = "CREATE TABLE symptom" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "description TEXT)";
 			stmt7.executeUpdate(sql7);
 			stmt7.close();
 
 			Statement stmt8 = c.createStatement();
-			String sql8 = "CREATE TABLE procedures" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "description TEXT)";
-
+			String sql8 = "CREATE TABLE procedure" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "description TEXT)";
 			stmt8.executeUpdate(sql8);
 			stmt8.close();
 
 			Statement stmt9 = c.createStatement();
-			String sql9 = "CREATE TABLE symptomsdiseases"
-					+ "(diseases INTEGER REFERENCES diseases (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-					+ "symptoms INTEGER REFERENCES symptoms (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-					+ "PRIMARY KEY (diseases,symptoms))";
+			String sql9 = "CREATE TABLE symptomdisease"
+					+ "(disease INTEGER REFERENCES disease (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
+					+ "symptom INTEGER REFERENCES symptom (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
+					+ "PRIMARY KEY (disease, symptom))";
 			stmt9.executeUpdate(sql9);
 			stmt9.close();
 
 			Statement stmt10 = c.createStatement();
-			String sql10 = "CREATE TABLE papersauthors"
-					+ "(papers INTEGER REFERENCES papers (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-					+ "authors INTEGER REFERENCES authors (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-					+ "PRIMARY KEY (papers,authors))";
+			String sql10 = "CREATE TABLE paperauthor"
+					+ "(paper INTEGER REFERENCES paper (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
+					+ "author INTEGER REFERENCES author (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
+					+ "PRIMARY KEY (paper, author))";
 			stmt10.executeUpdate(sql10);
 			stmt10.close();
 
 			Statement stmt11 = c.createStatement();
-			String sql11 = "CREATE TABLE papersdiseases"
-					+ "(papers INTEGER REFERENCES papers (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-					+ "diseases INTEGER REFERENCES diseases (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-					+ "PRIMARY KEY (papers,diseases))";
+			String sql11 = "CREATE TABLE paperdisease"
+					+ "(paper INTEGER REFERENCES paper (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
+					+ "disease INTEGER REFERENCES disease (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
+					+ "PRIMARY KEY (paper, disease))";
 			stmt11.executeUpdate(sql11);
 			stmt11.close();
 
 			Statement stmt12 = c.createStatement();
-			String sql12 = "CREATE TABLE imagesdiseases"
-					+ "(images INTEGER REFERENCES images (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-					+ "diseases INTEGER REFERENCES diseases (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-					+ "PRIMARY KEY (images,diseases))";
+			String sql12 = "CREATE TABLE imagedisease"
+					+ "(image INTEGER REFERENCES image (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
+					+ "disease INTEGER REFERENCES disease (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
+					+ "PRIMARY KEY (image, disease))";
 			stmt12.executeUpdate(sql12);
 			stmt12.close();
 
 			Statement stmt13 = c.createStatement();
-			String sql13 = "CREATE TABLE proceduresdiseases"
-					+ "(procedures INTEGER REFERENCES procedures (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-					+ "diseases INTEGER REFERENCES diseases (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-					+ "PRIMARY KEY (procedures,diseases))";
+			String sql13 = "CREATE TABLE proceduredisease"
+					+ "(procedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
+					+ "disease INTEGER REFERENCES disease (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
+					+ "PRIMARY KEY (procedure, disease))";
 			stmt13.executeUpdate(sql13);
 			stmt13.close();
 		} catch (Exception e) {
@@ -513,7 +509,8 @@ public class DBManager {
 	public void insertIntoImage(String description, String type, String size, String link, Paper paper) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO images (description, type, size, link, paper) VALUES ('" + description + "', '"
+
+			String sqlSeq = "INSERT INTO image (description, type, size, link, paper) VALUES ('" + description + "', '"
 					+ type + "', '" + size + "', '" + link + "', '" + paper + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
@@ -524,7 +521,7 @@ public class DBManager {
 	public void insertIntoPaper(String title, String source) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO papers (title, source) VALUES ('" + title + "', '" + source + "')";
+			String sqlSeq = "INSERT INTO paper (title, source) VALUES ('" + title + "', '" + source + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -534,7 +531,8 @@ public class DBManager {
 	public void insertIntoProcedure(String name, String description) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO procedures (name, description) VALUES ('" + name + "', '" + description + "')";
+
+			String sqlSeq = "INSERT INTO procedure (name, description) VALUES ('" + name + "', '" + description + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -544,7 +542,7 @@ public class DBManager {
 	public void insertIntoSymptom(String name, String description) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO symptoms (name, description) VALUES ('" + name + "', '" + description + "')";
+			String sqlSeq = "INSERT INTO symptom (name, description) VALUES ('" + name + "', '" + description + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -555,7 +553,7 @@ public class DBManager {
 	// ------------------------------------------------------------------------------------------------
 	public void deleteAuthor(int author_id) {
 		try {
-			String sql = "DELETE FROM authors WHERE id=?";
+			String sql = "DELETE FROM author WHERE id=?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, author_id);
 			prep.executeUpdate();
@@ -567,7 +565,7 @@ public class DBManager {
 
 	public void deleteBodyPart(int bodypart_id) {
 		try {
-			String sql = "DELETE FROM bodyparts WHERE id=?";
+			String sql = "DELETE FROM bodypart WHERE id=?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, bodypart_id);
 			prep.executeUpdate();
@@ -591,7 +589,7 @@ public class DBManager {
 
 	public void deleteImage(int image_id) {
 		try {
-			String sql = "DELETE FROM images WHERE id=?";
+			String sql = "DELETE FROM image WHERE id=?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, image_id);
 			prep.executeUpdate();
@@ -603,7 +601,7 @@ public class DBManager {
 
 	public void deletePaper(int paper_id) {
 		try {
-			String sql = "DELETE FROM papers WHERE id=?";
+			String sql = "DELETE FROM paper WHERE id=?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, paper_id);
 			prep.executeUpdate();
@@ -615,7 +613,7 @@ public class DBManager {
 
 	public void deleteProcedure(int procedure_id) {
 		try {
-			String sql = "DELETE FROM procedures WHERE id=?";
+			String sql = "DELETE FROM procedure WHERE id=?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, procedure_id);
 			prep.executeUpdate();
@@ -639,7 +637,7 @@ public class DBManager {
 
 	public void deleteSymptom(int symptom_id) {
 		try {
-			String sql = "DELETE FROM symptoms WHERE id=?";
+			String sql = "DELETE FROM symptom WHERE id=?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, symptom_id);
 			prep.executeUpdate();
@@ -653,7 +651,7 @@ public class DBManager {
 	// ------------------------------------------------------------------------------------------------
 	public void updateAuthor(Integer author_id, String newAssociation) {
 		try {
-			String sql = "UPDATE authors SET association = ? WHERE ID = ?";
+			String sql = "UPDATE author SET association = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, newAssociation);
 			prep.setInt(2, author_id);
@@ -675,7 +673,7 @@ public class DBManager {
 
 	public void updateDevice(Integer device_id, Float newPrice, String newBrand) {
 		try {
-			String sql = "UPDATE Device SET price = ? AND brand = ? WHERE ID = ?";
+			String sql = "UPDATE device SET price = ? AND brand = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setFloat(1, newPrice);
 			prep.setString(2, newBrand);
@@ -689,7 +687,7 @@ public class DBManager {
 
 	public void updateDisease(Integer disease_id, String newDescription, Integer newBodyPart) {
 		try {
-			String sql = "UPDATE Disease SET description = ? AND BodyPart = ? WHERE ID = ?";
+			String sql = "UPDATE disease SET description = ? AND BodyPart = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, newDescription);
 			prep.setInt(2, newBodyPart);
@@ -701,17 +699,13 @@ public class DBManager {
 		}
 	}
 
-	public void updateImage(Integer image_id, String newDescription, String newType, String newSize, byte[] newImage,
-			Integer newPaper) {
+	
+	public void updateImage (Integer image_id, String newDescription, Integer newPaper) {
 		try {
-			String sql = "UPDATE Image SET description = ? AND type = ? AND size = ? AND image = ? "
-					+ "AND paper = ? WHERE ID = ?";
+			String sql = "UPDATE image SET description = ? AND paper = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, newDescription);
-			prep.setString(2, newType);
-			prep.setString(3, newSize);
-			prep.setBytes(4, newImage);
-			prep.setInt(5, newPaper);
+			prep.setInt(2,newPaper);
 			prep.executeUpdate();
 			System.out.println("Update finished.");
 		} catch (Exception e) {
@@ -719,18 +713,18 @@ public class DBManager {
 		}
 	}
 
+
 	// A paper is always going to be the same, its title is not going to change
 	// and the link of the page
 	// found is neither going to change. The only thing that could happen to it,
 	// it is to be deleted.
 
-	public void updateProcedure(Integer procedure_id, String newName, String newDescription) {
+	public void updateProcedure (Integer procedure_id, String newDescription) {
 		try {
-			String sql = "UPDATE Procedure SET name = ? AND description = ? WHERE ID = ?";
+			String sql = "UPDATE procedure SET name = ? AND description = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
-			prep.setString(1, newName);
-			prep.setString(2, newDescription);
-			prep.setInt(3, procedure_id);
+			prep.setString(1, newDescription);
+			prep.setInt(2, procedure_id);
 			prep.executeUpdate();
 			System.out.println("Update finished.");
 		} catch (Exception e) {
