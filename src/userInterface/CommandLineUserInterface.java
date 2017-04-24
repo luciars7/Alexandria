@@ -56,7 +56,6 @@ public class CommandLineUserInterface {
 			showEntity();
 			break;
 		}
-<<<<<<< HEAD
 		case 5: {
 
 			break;
@@ -66,8 +65,7 @@ public class CommandLineUserInterface {
 			System.exit(0);
 			break;
 		}
-=======
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria
+
 		}
 		showMenu();
 	}
