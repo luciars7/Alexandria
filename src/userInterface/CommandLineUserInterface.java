@@ -547,7 +547,7 @@ public class CommandLineUserInterface {
 		String imageAdress = read;
 		// Paper missing. The user must select from all the existent
 
-		dbManager.insertIntoDevices(name, description,);
+		dbManager.insertIntoImage(name, description);
 	}
 
 	public static void showImages() {
@@ -590,7 +590,7 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String source = read;
-		dbManager.insertIntoPapers(name, title, source);
+		dbManager.insertIntoPaper(title, source);
 	}
 
 	public static void showPaper() {
@@ -626,7 +626,7 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String description = read;
-		dbManager.insertIntoProcedures(name, description);
+		dbManager.insertIntoProcedure(name, description);
 	}
 
 	public static void showProcedures() {
@@ -662,7 +662,7 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String description = read;
-		dbManager.insertIntoSymptoms(name, description);
+		dbManager.insertIntoSymptom(name, description);
 	}
 
 	public static void showSymptoms() {
