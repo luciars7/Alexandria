@@ -954,4 +954,16 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 	}
+	private static void modifyProcedure() {
+		try {
+			System.out.println("Which is the procedure that you want to modify?" + "\nWrite its ID number:");
+			String read = console.readLine();
+			Integer procedureId = Integer.parseInt(read);
+			System.out.println("Write the new procedure´s description:");
+			String newDescription = console.readLine();
+			dbManager.updateProcedure(procedureId, newDescription);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
