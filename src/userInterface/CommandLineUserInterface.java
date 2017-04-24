@@ -21,7 +21,7 @@ public class CommandLineUserInterface {
 		dbManager = new DBManager();
 		showMenu();
 	}
-
+ 
 	private static void showMenu() {
 		System.out.println("\n\n\n\nALEXANDRIA");
 		System.out.println("***********************");
