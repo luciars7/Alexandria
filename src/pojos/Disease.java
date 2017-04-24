@@ -3,13 +3,11 @@ public class Disease {
 	private int ID;
 	private String name;
 	private String description;
-	private BodyPart bodyParts;
 	
 	public Disease(int ID, String name, String description, BodyPart bodyParts) {
 	    this.ID = ID;
 	    this.name = name;
 	    this.description = description;
-	    this.bodyParts = bodyParts;
 	}
 
 	public Disease() {
@@ -39,14 +37,6 @@ public class Disease {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public BodyPart getBodyParts() {
-        return bodyParts;
-    }
-
-    public void setBodyPart(BodyPart bodyParts) {
-        this.bodyParts = bodyParts;
-    }
     
 	@Override
 	public int hashCode() {
@@ -72,8 +62,7 @@ public class Disease {
 
 	@Override
 	public String toString() {
-		return "[ID=" + ID + ", name=" + name + ", description=" + description + ", bodyParts=" + bodyParts.getName()
-				+ "]";
+		return "[ID=" + ID + ", name=" + name + ", description=" + description + "]";
 	}
 	
 	
