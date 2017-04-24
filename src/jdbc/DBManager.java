@@ -686,17 +686,12 @@ public class DBManager {
 		}
 	}
 	
-	public void updateImage (Integer image_id, String newDescription, String newType, String newSize,
-							 byte[] newImage, Integer newPaper) {
+	public void updateImage (Integer image_id, String newDescription, Integer newPaper) {
 		try {
-			String sql = "UPDATE Image SET description = ? AND type = ? AND size = ? AND image = ? " +
-						 "AND paper = ? WHERE ID = ?";
+			String sql = "UPDATE Image SET description = ? AND paper = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, newDescription);
-			prep.setString(2, newType);
-			prep.setString(3, newSize);
-			prep.setBytes(4, newImage);
-			prep.setInt(5, newPaper);
+			prep.setInt(2,newPaper);
 			prep.executeUpdate();
 			System.out.println("Update finished.");
 		} catch(Exception e) {

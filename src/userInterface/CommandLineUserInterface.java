@@ -954,4 +954,34 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 	}
+	
+	private static void modifyDiseases(){
+		try {
+			System.out.println("Which is the Disease that you want to modify?" + "\nWrite its ID number:");
+			String read = console.readLine();
+			Integer disease_id = Integer.parseInt(read);
+			System.out.println("Write the new descrption:");
+			String newDescrption = console.readLine();
+			System.out.println("Write the ID_bodypart");
+			Integer newBodyPart = Integer.parseInt(read);
+			dbManager.updateDisease(disease_id, newDescrption, newBodyPart);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static void modifyImages(){
+		try {
+			System.out.println("Which is the Image that you want to modify?" + "\nWrite its ID number:");
+			String read = console.readLine();
+			Integer image_id = Integer.parseInt(read);
+			System.out.println("Write the new descrption:");
+			String newDescription = console.readLine();
+			System.out.println("Wrtite the ID_paper that is referenced");
+			Integer newPaper = Integer.parseInt(read);
+			dbManager.updateImage(image_id, newDescription, newPaper);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
