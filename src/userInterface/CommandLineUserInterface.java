@@ -57,7 +57,7 @@ public class CommandLineUserInterface {
 			break;
 		}
 		case 5: {
-
+			updateMenu();
 			break;
 		}
 		case 6: {
@@ -482,7 +482,7 @@ public class CommandLineUserInterface {
 			}
 			String NAME = read;
 			if (NAME.equals("none")) {
-				dbManager.insertIntoDisease(name, description, null);
+				dbManager.insertIntoDisease(name, description, 0);
 			} else {
 				ArrayList<BodyPart> bodyPart = dbManager.selectBodyPart(NAME);
 				dbManager.insertIntoDisease(name, description, bodyPart.get(0).getID());
@@ -891,7 +891,7 @@ public class CommandLineUserInterface {
 			modifyAuthor();
 			return;
 		}
-		case 2: {
+		/*case 2: {
 			modifyBodyParts();
 			return;
 		}
@@ -921,7 +921,7 @@ public class CommandLineUserInterface {
 		}
 		case 9: {
 			return;
-		}
+		}*/
 		}
 
 	}

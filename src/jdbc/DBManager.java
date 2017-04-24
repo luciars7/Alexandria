@@ -11,7 +11,8 @@ public class DBManager {
 		connect();
 	}
 
-	// SELECTS ------------------------------------------------------------------------------------------------
+	// SELECTS
+	// ------------------------------------------------------------------------------------------------
 	public ArrayList<Author> selectAuthor(String NAME) {
 		ArrayList<Author> list = null;
 		try {
@@ -101,7 +102,7 @@ public class DBManager {
 					int id = rs.getInt("ID");
 					String name = rs.getString("name");
 					String type = rs.getString("type");
-					float price = rs.getFloat("price");
+					float price = rs.getFloat("price$");
 					String brand = rs.getString("brand");
 					list.add(new Device(id, name, type, price, brand));
 				}
@@ -114,7 +115,7 @@ public class DBManager {
 					int id = rs.getInt("ID");
 					String name = rs.getString("name");
 					String type = rs.getString("type");
-					float price = rs.getFloat("price");
+					float price = rs.getFloat("price$");
 					String brand = rs.getString("brand");
 					list.add(new Device(id, name, type, price, brand));
 
@@ -355,17 +356,15 @@ public class DBManager {
 			stmt2.close();
 
 			Statement stmt3 = c.createStatement();
-			String sql3 = "CREATE TABLE diseases"
-					+ "(ID INTEGER PRIMARY KEY NULL,"
-					+ "name TEXT,"
-					+ "description TEXT,"
+			String sql3 = "CREATE TABLE diseases" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "description TEXT,"
 					+ "bodyparts INTEGER REFERENCES bodyparts (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 			stmt3.executeUpdate(sql3);
 			stmt3.close();
 
 			Statement stmt4 = c.createStatement();
 
-			String sql4 = "CREATE TABLE authors" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "origin TEXT,"+ "association TEXT)";
+			String sql4 = "CREATE TABLE authors" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "origin TEXT,"
+					+ "association TEXT)";
 			stmt4.executeUpdate(sql4);
 			stmt4.close();
 
@@ -441,19 +440,20 @@ public class DBManager {
 		}
 	}
 
-	// INSERTS ------------------------------------------------------------------------------------------------
-	public void insertIntoAuthor (String name, String origin, String association) {
+	// INSERTS
+	// ------------------------------------------------------------------------------------------------
+	public void insertIntoAuthor(String name, String origin, String association) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO authors (name,origin,association) VALUES ('" + name + "','" + origin +
-							"','" + association + "')";
+			String sqlSeq = "INSERT INTO authors (name,origin,association) VALUES ('" + name + "','" + origin + "','"
+					+ association + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 	}
-	
-	public void insertIntoBodyPart (String name, String location) {
+
+	public void insertIntoBodyPart(String name, String location) {
 		try {
 			Statement stmtSeq = c.createStatement();
 			String sqlSeq = "INSERT INTO bodyPart (name, location) VALUES ('" + name + "', '" + location + "')";
@@ -463,25 +463,30 @@ public class DBManager {
 		}
 	}
 
-	public void insertIntoDevice (String name, String type, float price, String brand, int medprocedures, int papers) {
+	public void insertIntoDevice(String name, String type, float price, String brand, int medprocedures, int papers) {
 
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq="";
-			if(medprocedures==0&&papers==0){
-				 sqlSeq = "INSERT INTO devices (name, type, price$, brand, medprocedures, papers) VALUES ('" + name + "', '" + type + "', '" + price + "', '" + brand + "', 'NULL', 'NULL')";
-			System.out.println("1");
+			String sqlSeq = "";
+			if (medprocedures == 0 && papers == 0) {
+				sqlSeq = "INSERT INTO devices (name, type, price$, brand) VALUES ('" + name + "', '" + type + "', '"
+						+ price + "', '" + brand + "')";
+				System.out.println("1");
 			}
-			if(medprocedures==0&&papers!=0){ 
-				sqlSeq = "INSERT INTO devices (name, type, price$, brand, medprocedures, papers) VALUES ('" + name + "', '" + type + "', '" + price + "', '" + brand + "', '" + null + "', '" + papers + "')";
+			if (medprocedures == 0 && papers != 0) {
+				sqlSeq = "INSERT INTO devices (name, type, price$, brand, papers) VALUES ('" + name + "', '" + type
+						+ "', '" + price + "', '" + brand + "', " + papers + ")";
 				System.out.println("2");
 			}
-			if(medprocedures!=0&&papers==0){
-				 sqlSeq = "INSERT INTO devices (name, type, price$, brand, medprocedures, papers) VALUES ('" + name + "', '" + type + "', '" + price + "', '" + brand + "', '" + medprocedures + "', '" + null + "')";
-				 System.out.println("3");
-			}else{
-			 sqlSeq = "INSERT INTO devices (name, type, price$, brand, medprocedures, papers) VALUES ('" + name + "', '" + type + "', '" + price + "', '" + brand + "', '" + medprocedures + "', '" + papers+ "')";
-			 System.out.println("4");
+			if (medprocedures != 0 && papers == 0) {
+				sqlSeq = "INSERT INTO devices (name, type, price$, brand, medprocedures) VALUES ('" + name + "', '"
+						+ type + "', '" + price + "', '" + brand + "', " + medprocedures + ")";
+				System.out.println("3");
+			}
+			if (medprocedures != 0 && papers != 0) {
+				sqlSeq = "INSERT INTO devices (name, type, price$, brand, medprocedures, papers) VALUES ('" + name
+						+ "', '" + type + "', '" + price + "', '" + brand + "', " + medprocedures + ", " + papers + ")";
+				System.out.println("4");
 			}
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
@@ -489,11 +494,16 @@ public class DBManager {
 		}
 	}
 
-	public void insertIntoDisease(String name, String description, BodyPart bodyParts) {
+	public void insertIntoDisease(String name, String description, int bodyParts) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO diseases (name, description, bodyParts) VALUES ('" + name + "', '"
-							+ description + "', '" + bodyParts + "')";
+			String sqlSeq = "";
+			if(bodyParts==0){
+			sqlSeq = "INSERT INTO diseases (name, description) VALUES ('" + name + "', '" + description + "')";
+			}
+			else{
+				sqlSeq = "INSERT INTO diseases (name, description, bodyParts) VALUES ('" + name + "', '" + description + ", " + bodyParts + ")";
+			}
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -504,7 +514,7 @@ public class DBManager {
 		try {
 			Statement stmtSeq = c.createStatement();
 			String sqlSeq = "INSERT INTO images (description, type, size, link, paper) VALUES ('" + description + "', '"
-							+ type + "', '" + size + "', '" + link + "', '" + paper + "')";
+					+ type + "', '" + size + "', '" + link + "', '" + paper + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -524,8 +534,7 @@ public class DBManager {
 	public void insertIntoProcedure(String name, String description) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO procedures (name, description) VALUES ('" + name + "', '" + description +
-							"')";
+			String sqlSeq = "INSERT INTO procedures (name, description) VALUES ('" + name + "', '" + description + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -542,8 +551,9 @@ public class DBManager {
 		}
 	}
 
-// DELETIONS ------------------------------------------------------------------------------------------------
-	public void deleteAuthor (int author_id) {
+	// DELETIONS
+	// ------------------------------------------------------------------------------------------------
+	public void deleteAuthor(int author_id) {
 		try {
 			String sql = "DELETE FROM authors WHERE id=?";
 			PreparedStatement prep = c.prepareStatement(sql);
@@ -627,7 +637,7 @@ public class DBManager {
 		}
 	}
 
-	public void deleteSymptom (int symptom_id) {
+	public void deleteSymptom(int symptom_id) {
 		try {
 			String sql = "DELETE FROM symptoms WHERE id=?";
 			PreparedStatement prep = c.prepareStatement(sql);
@@ -639,26 +649,31 @@ public class DBManager {
 		}
 	}
 
-	// UPDATES ------------------------------------------------------------------------------------------------
-	public void updateAuthor (Integer author_id, String newAssociation) {
+	// UPDATES
+	// ------------------------------------------------------------------------------------------------
+	public void updateAuthor(Integer author_id, String newAssociation) {
 		try {
-			String sql = "UPDATE Author SET association = ? WHERE ID = ?";
+			String sql = "UPDATE authors SET association = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, newAssociation);
 			prep.setInt(2, author_id);
 			prep.executeUpdate();
 			System.out.println("Update finished.");
-		} catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
-	
-	// Entity 'BodyPart' doesn't need an 'update' method as what is going to be changed is the foreign key
-	// attribute that refers to it. For example: if a disease (which has 'BodyPart' as a foreign key) goes
-	// under research and it is found out that the body part in which it happens is different, in the database
-	// what is going to be changed is the attribute in 'BodyPart' foreign key of entity 'disease'.
-	
-	public void updateDevice (Integer device_id, Float newPrice, String newBrand) {
+
+	// Entity 'BodyPart' doesn't need an 'update' method as what is going to be
+	// changed is the foreign key
+	// attribute that refers to it. For example: if a disease (which has
+	// 'BodyPart' as a foreign key) goes
+	// under research and it is found out that the body part in which it happens
+	// is different, in the database
+	// what is going to be changed is the attribute in 'BodyPart' foreign key of
+	// entity 'disease'.
+
+	public void updateDevice(Integer device_id, Float newPrice, String newBrand) {
 		try {
 			String sql = "UPDATE Device SET price = ? AND brand = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
@@ -667,12 +682,12 @@ public class DBManager {
 			prep.setInt(3, device_id);
 			prep.executeUpdate();
 			System.out.println("Update finished.");
-		} catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
-	
-	public void updateDisease (Integer disease_id, String newDescription, Integer newBodyPart) {
+
+	public void updateDisease(Integer disease_id, String newDescription, Integer newBodyPart) {
 		try {
 			String sql = "UPDATE Disease SET description = ? AND BodyPart = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
@@ -681,16 +696,16 @@ public class DBManager {
 			prep.setInt(3, disease_id);
 			prep.executeUpdate();
 			System.out.println("Update finished.");
-		} catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
-	
-	public void updateImage (Integer image_id, String newDescription, String newType, String newSize,
-							 byte[] newImage, Integer newPaper) {
+
+	public void updateImage(Integer image_id, String newDescription, String newType, String newSize, byte[] newImage,
+			Integer newPaper) {
 		try {
-			String sql = "UPDATE Image SET description = ? AND type = ? AND size = ? AND image = ? " +
-						 "AND paper = ? WHERE ID = ?";
+			String sql = "UPDATE Image SET description = ? AND type = ? AND size = ? AND image = ? "
+					+ "AND paper = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, newDescription);
 			prep.setString(2, newType);
@@ -699,15 +714,17 @@ public class DBManager {
 			prep.setInt(5, newPaper);
 			prep.executeUpdate();
 			System.out.println("Update finished.");
-		} catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
-	
-	// A paper is always going to be the same, its title is not going to change and the link of the page
-	// found is neither going to change. The only thing that could happen to it, it is to be deleted. 
-	
-	public void updateProcedure (Integer procedure_id, String newName, String newDescription) {
+
+	// A paper is always going to be the same, its title is not going to change
+	// and the link of the page
+	// found is neither going to change. The only thing that could happen to it,
+	// it is to be deleted.
+
+	public void updateProcedure(Integer procedure_id, String newName, String newDescription) {
 		try {
 			String sql = "UPDATE Procedure SET name = ? AND description = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
@@ -716,11 +733,12 @@ public class DBManager {
 			prep.setInt(3, procedure_id);
 			prep.executeUpdate();
 			System.out.println("Update finished.");
-		} catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
-	
-	// Symptoms will always be symptoms. If they change the old ones are going to be deleted and new ones
+
+	// Symptoms will always be symptoms. If they change the old ones are going
+	// to be deleted and new ones
 	// will be created. They aren't going to be modified.
 }
