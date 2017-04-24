@@ -61,9 +61,11 @@ public class CommandLineUserInterface {
 			break;
 		}
 		case 6: {
+			dbManager.disconnect();
 			System.exit(0);
 			break;
 		}
+
 		}
 		showMenu();
 	}
@@ -121,9 +123,6 @@ public class CommandLineUserInterface {
 			return;
 		}
 		case 9: {
-			return;
-		}
-		default: {
 			return;
 		}
 		}
@@ -185,9 +184,6 @@ public class CommandLineUserInterface {
 		case 9: {
 			return;
 		}
-		default: {
-			return;
-		}
 		}
 
 	}
@@ -245,9 +241,6 @@ public class CommandLineUserInterface {
 			return;
 		}
 		case 9: {
-			return;
-		}
-		default: {
 			return;
 		}
 		}
@@ -365,7 +358,6 @@ public class CommandLineUserInterface {
 			for (BodyPart bodyPart : list) {
 				System.out.println(bodyPart);
 			}
-
 		}
 	}
 
@@ -407,42 +399,39 @@ public class CommandLineUserInterface {
 			for (Procedure procedure : list) {
 				System.out.println(procedure.getID() + ": " + procedure.getName());
 			}
-			System.out.print("Please, select wich of the medical procedures is related («none» for none): ");
+			System.out.print("Please, select which of the medical procedures is related («none» for none): ");
 			try {
 				read = console.readLine();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			String NAME = read;
-			if (NAME.equals("none")) {
-				procedure_id = (Integer) null;
-			} else {
+			if (!NAME.equals("none")) {
 				ArrayList<BodyPart> bodyPart = dbManager.selectBodyPart(NAME);
 				procedure_id = bodyPart.get(0).getID();
 			}
-		}
-		ArrayList<Procedure> list2 = dbManager.selectProcedure("all");
-		if (list == null) {
-			System.out.println("Error searching for the medical procedure(s).");
-		} else {
-			for (Procedure procedure : list) {
-				System.out.println(procedure.getID() + ": " + procedure.getName());
-			}
-			System.out.print("Please, select wich of the medical procedures is related («none» for none): ");
-			try {
-				read = console.readLine();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			String NAME = read;
-			if (NAME.equals("none")) {
-				procedure_id = (Integer) null;
+			ArrayList<Paper> list2 = dbManager.selectPaper("all");
+			if (list2 == null) {
+				System.out.println("Error searching for the paper(s).");
 			} else {
-				ArrayList<BodyPart> bodyPart = dbManager.selectBodyPart(NAME);
-				procedure_id = bodyPart.get(0).getID();
-			}
-		}
+				for (Paper paper : list2) {
+					System.out.println(paper.getID() + ": " + paper.getTitle());
+				}
+				System.out.print("Please, select which of the papers is related («none» for none): ");
+				try {
+					read = console.readLine();
+				} catch (IOException e) {
+					e.printStackTrace();
+					String NAME2 = read;
+					if (!NAME2.equals("none")) {
+						ArrayList<Paper> paper = dbManager.selectPaper(NAME2);
+						paper_id = paper.get(0).getID();
+					}
 
+				}
+			}
+		}
+		dbManager.insertIntoDevice(name, type, price, brand, procedure_id, paper_id);
 	}
 
 	public static void showDevices() {
@@ -499,7 +488,6 @@ public class CommandLineUserInterface {
 				dbManager.insertIntoDisease(name, description, bodyPart.get(0).getID());
 			}
 		}
-		// TODO Continue working here.
 	}
 
 	public static void showDiseases() {
@@ -559,7 +547,7 @@ public class CommandLineUserInterface {
 		String imageAdress = read;
 		// Paper missing. The user must select from all the existent
 
-		dbManager.insertIntoDevice(name, description);
+		dbManager.insertIntoDevices(name, description,);
 	}
 
 	public static void showImages() {
@@ -878,11 +866,69 @@ public class CommandLineUserInterface {
 			}
 		}
 	}
-	
+
+	private static void updateMenu() {
+		System.out.print("\nPlease, select the type of item you want to modify: ");
+		System.out.println("\n1.) Author");
+		System.out.println("2.) Body part");
+		System.out.println("3.) Device");
+		System.out.println("4.) Disease or pathology");
+		System.out.println("5.) Image");
+		System.out.println("6.) Paper or article");
+		System.out.println("7.) Procedure or treatment");
+		System.out.println("8.) Symptom");
+		System.out.println("9.) Return to the main menu...");
+		System.out.print("\nOption: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		Integer option = Integer.parseInt(read);
+		switch (option) {
+		case 1: {
+			modifyAuthor();
+			return;
+		}
+		case 2: {
+			modifyBodyParts();
+			return;
+		}
+		case 3: {
+			modifyDevices();
+			return;
+		}
+		case 4: {
+			modifyDiseases();
+			return;
+		}
+		case 5: {
+			modifyImages();
+			return;
+		}
+		case 6: {
+			modifyPaper();
+			return;
+		}
+		case 7: {
+			modifyProcedures();
+			return;
+		}
+		case 8: {
+			modifySymptoms();
+			return;
+		}
+		case 9: {
+			return;
+		}
+		}
+
+	}
+
 	private static void modifyAuthor() {
 		try {
-			System.out.println("Which is the author that you want to modify?" +
-							   "\nWrite its ID number:");
+			System.out.println("Which is the author that you want to modify?" + "\nWrite its ID number:");
 			String read = console.readLine();
 			Integer authorId = Integer.parseInt(read);
 			System.out.println("Write the new author's association:");
@@ -892,11 +938,10 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 	}
-	
-	private static void modifyDevice() {
+
+	private static void modifyDevices() {
 		try {
-			System.out.println("Which is the device that you want to modify?" +
-							   "\nWrite its ID number:");
+			System.out.println("Which is the device that you want to modify?" + "\nWrite its ID number:");
 			String read = console.readLine();
 			Integer deviceId = Integer.parseInt(read);
 			System.out.println("Write the new devices's price:");
