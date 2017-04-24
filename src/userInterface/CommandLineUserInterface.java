@@ -57,13 +57,13 @@ public class CommandLineUserInterface {
 			break;
 		}
 		case 5: {
-
+			updateMenu();
 			break;
 		}
 		case 6: {
 			dbManager.disconnect();
+			System.out.println("BYE!");
 			System.exit(0);
-			break;
 		}
 
 		}
