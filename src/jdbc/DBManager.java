@@ -538,18 +538,6 @@ public class DBManager {
 		}
 	}
 
-	public void insertIntoSymptomDisease(String symp, String disease){
-		try {
-			Statement stmtSeq = c.createStatement();
-			int s = 
-			String sqlSeq = "INSERT INTO symptomsdiseases (diseases, symptoms) VALUES ('" + symp + "', '" + disease + "')";
-			stmtSeq.executeUpdate(sqlSeq);
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		}
-		
-	}
-
 	// DELETIONS
 	// ------------------------------------------------------------------------------------------------
 	public void deleteAuthor(int author_id) {
@@ -699,18 +687,13 @@ public class DBManager {
 			System.out.println(e.getMessage());
 		}
 	}
-
-	public void updateImage(Integer image_id, String newDescription, String newType, String newSize, byte[] newImage,
-			Integer newPaper) {
+	
+	public void updateImage (Integer image_id, String newDescription, Integer newPaper) {
 		try {
-			String sql = "UPDATE image SET description = ? AND type = ? AND size = ? AND image = ? "
-					+ "AND paper = ? WHERE ID = ?";
+			String sql = "UPDATE Image SET description = ? AND paper = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, newDescription);
-			prep.setString(2, newType);
-			prep.setString(3, newSize);
-			prep.setBytes(4, newImage);
-			prep.setInt(5, newPaper);
+			prep.setInt(2,newPaper);
 			prep.executeUpdate();
 			System.out.println("Update finished.");
 		} catch (Exception e) {
