@@ -62,7 +62,7 @@ public class CommandLineUserInterface {
 		}
 		case 6: {
 			dbManager.disconnect();
-			System.out.println("Database disconnected");
+			System.out.println("BYE!");
 			System.exit(0);
 			break;
 		}
@@ -548,7 +548,7 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		int paper = Integer.parseInt(read);
-		// Paper missing. The user must select from all the existent
+		// Paper finished
 
 		dbManager.insertIntoImage(description, type, size, imageAdress, paper);
 	}
