@@ -102,7 +102,7 @@ public class DBManager {
 					int id = rs.getInt("ID");
 					String name = rs.getString("name");
 					String type = rs.getString("type");
-					float price = rs.getFloat("price");
+					float price = rs.getFloat("price$");
 					String brand = rs.getString("brand");
 					list.add(new Device(id, name, type, price, brand));
 				}
@@ -115,7 +115,7 @@ public class DBManager {
 					int id = rs.getInt("ID");
 					String name = rs.getString("name");
 					String type = rs.getString("type");
-					float price = rs.getFloat("price");
+					float price = rs.getFloat("price$");
 					String brand = rs.getString("brand");
 					list.add(new Device(id, name, type, price, brand));
 
@@ -344,14 +344,16 @@ public class DBManager {
 			connect();
 			// Create tables: begin
 			Statement stmt1 = c.createStatement();
+			Statement stmt2 = c.createStatement();
 			String sql1 = "CREATE TABLE paper" + "(ID INTEGER PRIMARY KEY," + "title TEXT," + "source TEXT)";
 			stmt1.executeUpdate(sql1);
 			stmt1.close();
 
-			Statement stmt2 = c.createStatement();
+
 			String sql2 = "CREATE TABLE bodypart" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "location TEXT)";
 			stmt2.executeUpdate(sql2);
 			stmt2.close();
+
 
 			Statement stmt3 = c.createStatement();
 			String sql3 = "CREATE TABLE disease" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "description TEXT,"
@@ -457,27 +459,29 @@ public class DBManager {
 		}
 	}
 
-	public void insertIntoDevice(String name, String type, float price, String brand, int medprocedure, int paper) {
+	public void insertIntoDevice(String name, String type, float price, String brand, int medprocedures, int papers) {
+
 		try {
 			Statement stmtSeq = c.createStatement();
 			String sqlSeq = "";
-			if (medprocedure == 0 && paper == 0) {
-				sqlSeq = "INSERT INTO device (name, type, price$, brand, medprocedure, paper) VALUES ('" + name + "', '"
-						+ type + "', '" + price + "', '" + brand + "', 'NULL', 'NULL')";
+			if (medprocedures == 0 && papers == 0) {
+				sqlSeq = "INSERT INTO device (name, type, price$, brand) VALUES ('" + name + "', '" + type + "', '"
+						+ price + "', '" + brand + "')";
 				System.out.println("1");
 			}
-			if (medprocedure == 0 && paper != 0) {
-				sqlSeq = "INSERT INTO device (name, type, price$, brand, medprocedure, paper) VALUES ('" + name + "', '"
-						+ type + "', '" + price + "', '" + brand + "', '" + null + "', '" + paper + "')";
+			if (medprocedures == 0 && papers != 0) {
+				sqlSeq = "INSERT INTO device (name, type, price$, brand, papers) VALUES ('" + name + "', '" + type
+						+ "', '" + price + "', '" + brand + "', " + papers + ")";
 				System.out.println("2");
 			}
-			if (medprocedure != 0 && paper == 0) {
-				sqlSeq = "INSERT INTO device (name, type, price$, brand, medprocedure, paper) VALUES ('" + name + "', '"
-						+ type + "', '" + price + "', '" + brand + "', '" + medprocedure + "', '" + null + "')";
+			if (medprocedures != 0 && papers == 0) {
+				sqlSeq = "INSERT INTO device (name, type, price$, brand, medprocedures) VALUES ('" + name + "', '"
+						+ type + "', '" + price + "', '" + brand + "', " + medprocedures + ")";
 				System.out.println("3");
-			} else {
-				sqlSeq = "INSERT INTO device (name, type, price$, brand, medprocedure, paper) VALUES ('" + name + "', '"
-						+ type + "', '" + price + "', '" + brand + "', '" + medprocedure + "', '" + paper + "')";
+			}
+			if (medprocedures != 0 && papers != 0) {
+				sqlSeq = "INSERT INTO device (name, type, price$, brand, medprocedures, papers) VALUES ('" + name
+						+ "', '" + type + "', '" + price + "', '" + brand + "', " + medprocedures + ", " + papers + ")";
 				System.out.println("4");
 			}
 			stmtSeq.executeUpdate(sqlSeq);
@@ -486,20 +490,26 @@ public class DBManager {
 		}
 	}
 
-	public void insertIntoDisease(String name, String description, BodyPart bodyPart) {
+	public void insertIntoDisease(String name, String description, int bodyParts) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO disease (name, description, bodyPart) VALUES ('" + name + "', '" + description
-					+ "', '" + bodyPart + "')";
+			String sqlSeq = "";
+			if(bodyParts==0){
+			sqlSeq = "INSERT INTO disease (name, description) VALUES ('" + name + "', '" + description + "')";
+			}
+			else{
+				sqlSeq = "INSERT INTO disease (name, description, bodyParts) VALUES ('" + name + "', '" + description + ", " + bodyParts + ")";
+			}
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 	}
 
-	public void insertIntoImage(String description, String type, String size, String link, Paper paper) {
+	public void insertIntoImage(String description, String type, String size, String link, int paper) {
 		try {
 			Statement stmtSeq = c.createStatement();
+
 			String sqlSeq = "INSERT INTO image (description, type, size, link, paper) VALUES ('" + description + "', '"
 					+ type + "', '" + size + "', '" + link + "', '" + paper + "')";
 			stmtSeq.executeUpdate(sqlSeq);
@@ -521,6 +531,7 @@ public class DBManager {
 	public void insertIntoProcedure(String name, String description) {
 		try {
 			Statement stmtSeq = c.createStatement();
+
 			String sqlSeq = "INSERT INTO procedure (name, description) VALUES ('" + name + "', '" + description + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
@@ -687,10 +698,11 @@ public class DBManager {
 			System.out.println(e.getMessage());
 		}
 	}
+
 	
 	public void updateImage (Integer image_id, String newDescription, Integer newPaper) {
 		try {
-			String sql = "UPDATE Image SET description = ? AND paper = ? WHERE ID = ?";
+			String sql = "UPDATE image SET description = ? AND paper = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, newDescription);
 			prep.setInt(2,newPaper);
@@ -700,6 +712,7 @@ public class DBManager {
 			System.out.println(e.getMessage());
 		}
 	}
+
 
 	// A paper is always going to be the same, its title is not going to change
 	// and the link of the page
@@ -714,7 +727,7 @@ public class DBManager {
 			prep.setInt(2, procedure_id);
 			prep.executeUpdate();
 			System.out.println("Update finished.");
-		} catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
