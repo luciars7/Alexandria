@@ -20,6 +20,10 @@ public class Device {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Device(String name2, String type2, float price2, String brand2, int procedure_id, int paper_id) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getID() {
 		return ID;
 	}

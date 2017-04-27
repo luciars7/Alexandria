@@ -14,6 +14,10 @@ public class Paper {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Paper(String title2, String source2) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getID() {
 		return ID;
 	}

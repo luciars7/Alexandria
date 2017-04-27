@@ -302,7 +302,8 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String association = read;
-		dbManager.insertIntoAuthor(name, origin, association);
+		Author author = new Author (name, origin, association);
+		dbManager.insertIntoAuthor(author);
 		System.out.println("Author inserted correctly.");
 	}
 
@@ -340,7 +341,8 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String location = read;
-		dbManager.insertIntoBodyPart(name, location);
+		BodyPart bodyPart = new BodyPart (name,location);
+		dbManager.insertIntoBodyPart(bodyPart);
 		System.out.println("Body part inserted correctly.");
 	}
 
@@ -432,7 +434,8 @@ public class CommandLineUserInterface {
 				}
 			}
 		}
-		dbManager.insertIntoDevice(name, type, price, brand, procedure_id, paper_id);
+		Device device = new Device (name, type, price, brand, procedure_id, paper_id);
+		dbManager.insertIntoDevice(device);
 	}
 
 	public static void showDevices() {
@@ -483,10 +486,12 @@ public class CommandLineUserInterface {
 			}
 			String NAME = read;
 			if (NAME.equals("none")) {
-				dbManager.insertIntoDisease(name, description, 0);
+				Disease disease1 = new Disease (name, description, null);
+				dbManager.insertIntoDisease(disease1);
 			} else {
 				ArrayList<BodyPart> bodyPart = dbManager.selectBodyPart(NAME);
-				dbManager.insertIntoDisease(name, description, bodyPart.get(0).getID());
+				Disease disease1 = new Disease (name, description,bodyPart.get(0).getID());
+				dbManager.insertIntoDisease(disease1);
 			}
 		}
 	}
@@ -538,7 +543,7 @@ public class CommandLineUserInterface {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		String imageAdress = read;
+		String imageAddress = read;
 		
 		showPaper(); //show all paper for the user to select 1
 		System.out.println("Paper_ID");
@@ -549,8 +554,8 @@ public class CommandLineUserInterface {
 		}
 		int paper = Integer.parseInt(read);
 		// Paper finished
-
-		dbManager.insertIntoDevice(name, description);
+		Image image = new Image (name, description);
+		dbManager.insertIntoDevice(image);
 
 	}
 
@@ -594,7 +599,8 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String source = read;
-		dbManager.insertIntoPaper(title, source);
+		Paper paper = new Paper (title, source);
+		dbManager.insertIntoPaper(paper);
 	}
 
 	public static void showPaper() {
@@ -630,7 +636,8 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String description = read;
-		dbManager.insertIntoProcedure(name, description);
+		Procedure procedure = new Procedure (name, description);
+		dbManager.insertIntoProcedure(procedure);
 	}
 
 	public static void showProcedures() {
@@ -666,7 +673,8 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String description = read;
-		dbManager.insertIntoSymptom(name, description);
+		Symptom symptom = new Symptom (name, description);
+		dbManager.insertIntoSymptom(symptom);
 	}
 
 	public static void showSymptoms() {

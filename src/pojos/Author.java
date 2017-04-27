@@ -16,6 +16,10 @@ public class Author {
 
 	}
 
+	public Author(String name2, String origin2, String association2) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getID() {
 		return ID;
 	}
