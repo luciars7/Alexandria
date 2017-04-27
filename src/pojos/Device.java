@@ -5,6 +5,7 @@ public class Device {
 	private String type;
 	private float price;
 	private String brand;
+	//private Procedure p; notprint
 	
 	public Device(int iD, String name, String type, float price, String brand) {
 		ID = iD;

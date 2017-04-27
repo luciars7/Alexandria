@@ -42,7 +42,7 @@ public class CommandLineUserInterface {
 		switch (option) {
 		case 1: {
 			// Missing: checking if tables are created or not
-			// try catch w select or insert and the exception that's thrown means tables aren't created
+			// try-catch w select or insert and the exception that's thrown means tables aren't created
 			newTables();
 			break;
 		}
