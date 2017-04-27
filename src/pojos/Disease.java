@@ -3,7 +3,16 @@ public class Disease {
 	private int ID;
 	private String name;
 	private String description;
+	private BodyPart bodyPart;
 	
+	public BodyPart getBodyPart() {
+		return bodyPart;
+	}
+
+	public void setBodyPart(BodyPart bodyPart) {
+		this.bodyPart = bodyPart;
+	}
+
 	public Disease(int ID, String name, String description, BodyPart bodyParts) {
 	    this.ID = ID;
 	    this.name = name;

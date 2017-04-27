@@ -552,7 +552,8 @@ public class CommandLineUserInterface {
 		int paper = Integer.parseInt(read);
 		// Paper finished
 
-		dbManager.insertIntoImage(description, type, size, imageAdress, paper);
+		dbManager.insertIntoDevice(name, description);
+
 	}
 
 	public static void showImages() {
