@@ -4,10 +4,10 @@ import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.ArrayList;
- 
+
 import jdbc.DBManager;
 import pojos.*;
- 
+
 public class CommandLineUserInterface {
 	static Connection c = null;
 	static DBManager dbManager = null;
@@ -870,14 +870,11 @@ public class CommandLineUserInterface {
 	private static void updateMenu() {
 		System.out.print("\nPlease, select the type of item you want to modify: ");
 		System.out.println("\n1.) Author");
-		System.out.println("2.) Body part");
-		System.out.println("3.) Device");
-		System.out.println("4.) Disease or pathology");
-		System.out.println("5.) Image");
-		System.out.println("6.) Paper or article");
-		System.out.println("7.) Procedure or treatment");
-		System.out.println("8.) Symptom");
-		System.out.println("9.) Return to the main menu...");
+		System.out.println("2.) Device");
+		System.out.println("3.) Disease or pathology");
+		System.out.println("4.) Image");
+		System.out.println("5.) Procedure or treatment");
+		System.out.println("6.) Return to the main menu...");
 		System.out.print("\nOption: ");
 		try {
 			read = console.readLine();
@@ -891,43 +888,32 @@ public class CommandLineUserInterface {
 			modifyAuthor();
 			return;
 		}
-		/*case 2: {
-			modifyBodyParts();
-			return;
-		}
-		case 3: {
+		case 2: {
 			modifyDevices();
 			return;
 		}
+		case 3: {
+			modifyDisease();
+			return;
+		}
 		case 4: {
-			modifyDiseases();
+			modifyImage();
 			return;
 		}
 		case 5: {
-			modifyImages();
+			modifyProcedure();
 			return;
 		}
 		case 6: {
-			modifyPaper();
 			return;
 		}
-		case 7: {
-			modifyProcedures();
-			return;
-		}
-		case 8: {
-			modifySymptoms();
-			return;
-		}
-		case 9: {
-			return;
-		}*/
 		}
 
 	}
 
 	private static void modifyAuthor() {
 		try {
+			ArrayList<Author> list = dbManager.selectAuthor("all");
 			System.out.println("Which is the author that you want to modify?" + "\nWrite its ID number:");
 			String read = console.readLine();
 			Integer authorId = Integer.parseInt(read);
@@ -941,6 +927,7 @@ public class CommandLineUserInterface {
 
 	private static void modifyDevices() {
 		try {
+			ArrayList<Device> list = dbManager.selectDevice("all");
 			System.out.println("Which is the device that you want to modify?" + "\nWrite its ID number:");
 			String read = console.readLine();
 			Integer deviceId = Integer.parseInt(read);
@@ -950,6 +937,58 @@ public class CommandLineUserInterface {
 			System.out.println("Write the new device's brand name:");
 			String newBrand = console.readLine();
 			dbManager.updateDevice(deviceId, newPrice, newBrand);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static void modifyDisease() {
+		try {
+			ArrayList<Disease> listD = dbManager.selectDisease("all");
+			System.out.println("Which is the disease that you want to modify?" + "\nWrite its ID number:");
+			String read = console.readLine();
+			Integer diseaseId = Integer.parseInt(read);
+			System.out.println("Write the new disease's procedure:");
+			String newProcedure = console.readLine();
+			System.out.println("Write the new disease's body part:");
+			ArrayList<BodyPart> listBP = dbManager.selectBodyPart("all");
+			System.out.println("Which is the body part related to this disease?" + "\nWrite its ID number:");
+			read = console.readLine();
+			Integer newBodyPart = Integer.parseInt(read);
+			dbManager.updateDisease(diseaseId, newProcedure, newBodyPart);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static void modifyImage() {
+		try {
+			ArrayList<Image> listI = dbManager.selectImage("all");
+			System.out.println("Which is the image that you want to modify?" + "\nWrite its ID number:");
+			String read = console.readLine();
+			Integer imageId = Integer.parseInt(read);
+			System.out.println("Write the new image's description:");
+			String newDescription = console.readLine();
+			System.out.println("Write the new disease's paper:");
+			ArrayList<Paper> listP = dbManager.selectPaper("all");
+			System.out.println("Which is the paper related to this disease?" + "\nWrite its ID number:");
+			read = console.readLine();
+			Integer newPaper = Integer.parseInt(read);
+			dbManager.updateImage(imageId, newDescription, newPaper);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static void modifyProcedure() {
+		try {
+			ArrayList<Disease> list = dbManager.selectDisease("all");
+			System.out.println("Which is the procedure that you want to modify?" + "\nWrite its ID number:");
+			String read = console.readLine();
+			Integer procedureId = Integer.parseInt(read);
+			System.out.println("Write the new procedure's description:");
+			String newDescription = console.readLine();
+			dbManager.updateProcedure(procedureId, newDescription);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
