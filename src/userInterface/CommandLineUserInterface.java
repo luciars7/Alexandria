@@ -64,6 +64,7 @@ public class CommandLineUserInterface {
 			dbManager.disconnect();
 			System.out.println("BYE!");
 			System.exit(0);
+			break;
 		}
 
 		}
@@ -509,13 +510,6 @@ public class CommandLineUserInterface {
 	}
 
 	public static void addImages() {
-		System.out.print("Name: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String name = read;
 		System.out.print("Description: ");
 		try {
 			read = console.readLine();
@@ -545,9 +539,18 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String imageAdress = read;
-		// Paper missing. The user must select from all the existent
+		
+		showPaper(); //show all paper for the user to select 1
+		System.out.println("Paper_ID");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		int paper = Integer.parseInt(read);
+		// Paper finished
 
-		dbManager.insertIntoDevices(name, description,);
+		dbManager.insertIntoImage(description, type, size, imageAdress, paper);
 	}
 
 	public static void showImages() {
@@ -590,7 +593,7 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String source = read;
-		dbManager.insertIntoPapers(name, title, source);
+		dbManager.insertIntoPaper(title, source);
 	}
 
 	public static void showPaper() {
@@ -626,7 +629,7 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String description = read;
-		dbManager.insertIntoProcedures(name, description);
+		dbManager.insertIntoProcedure(name, description);
 	}
 
 	public static void showProcedures() {
@@ -662,7 +665,7 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String description = read;
-		dbManager.insertIntoSymptoms(name, description);
+		dbManager.insertIntoSymptom(name, description);
 	}
 
 	public static void showSymptoms() {
