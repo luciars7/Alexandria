@@ -41,6 +41,8 @@ public class CommandLineUserInterface {
 		int option = Integer.parseInt(read);
 		switch (option) {
 		case 1: {
+			// Missing: checking if tables are created or not
+			// try catch w select or insert and the exception that's thrown means tables aren't created
 			newTables();
 			break;
 		}
