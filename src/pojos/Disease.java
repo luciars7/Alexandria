@@ -23,6 +23,10 @@ public class Disease {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Disease(String name2, String description2, Object object) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getID() {
         return ID;
     }
