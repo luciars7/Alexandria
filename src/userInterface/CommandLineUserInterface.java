@@ -547,7 +547,7 @@ public class CommandLineUserInterface {
 		String imageAdress = read;
 		// Paper missing. The user must select from all the existent
 
-		dbManager.insertIntoDevice(name, description, );
+		dbManager.insertIntoDevice(name, descriptionf );
 	}
 
 	public static void showImage() {
