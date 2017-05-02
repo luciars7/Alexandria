@@ -4,10 +4,10 @@ import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.ArrayList;
- 
+
 import jdbc.DBManager;
 import pojos.*;
- 
+
 public class CommandLineUserInterface {
 	static Connection c = null;
 	static DBManager dbManager = null;
@@ -891,37 +891,13 @@ public class CommandLineUserInterface {
 			modifyAuthor();
 			return;
 		}
-		/*case 2: {
-			modifyBodyParts();
-			return;
-		}
-		case 3: {
-			modifyDevices();
-			return;
-		}
-		case 4: {
-			modifyDiseases();
-			return;
-		}
-		case 5: {
-			modifyImages();
-			return;
-		}
-		case 6: {
-			modifyPaper();
-			return;
-		}
-		case 7: {
-			modifyProcedures();
-			return;
-		}
-		case 8: {
-			modifySymptoms();
-			return;
-		}
-		case 9: {
-			return;
-		}*/
+		/*
+		 * case 2: { modifyBodyParts(); return; } case 3: { modifyDevices();
+		 * return; } case 4: { modifyDiseases(); return; } case 5: {
+		 * modifyImages(); return; } case 6: { modifyPaper(); return; } case 7:
+		 * { modifyProcedures(); return; } case 8: { modifySymptoms(); return; }
+		 * case 9: { return; }
+		 */
 		}
 
 	}
