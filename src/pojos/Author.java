@@ -4,16 +4,29 @@ public class Author {
 	private String name;
 	private String origin;
 	private String association;
+private Paper paper;
 
-	public Author(int iD, String name, String origin, String association) {
-		ID = iD;
-		this.name = name;
-		this.origin = origin;
-		this.association = association;
-	}
+public Author(int iD, String name, String origin, String association) {
+	ID = iD;
+	this.name = name;
+	this.origin = origin;
+	this.association = association;
+}
+	
+	public Paper getPaper() {
+	return paper;
+}
+
+public void setPaper(Paper paper) {
+	this.paper = paper;
+}
 
 	public Author() {
 
+	}
+
+	public Author(String name2, String origin2, String association2) {
+		// TODO Auto-generated constructor stub
 	}
 
 	public int getID() {

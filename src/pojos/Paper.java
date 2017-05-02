@@ -3,14 +3,36 @@ public class Paper {
 	private int ID;
 	private String title;
 	private String source;
+	private Author author;
+	private Disease disease;
 	
 	public Paper(int iD, String title, String source) {
 		ID = iD;
 		this.title = title;
 		this.source = source;
 	}
+	
+	public Disease getDisease() {
+		return disease;
+	}
+
+	public void setDisease(Disease disease) {
+		this.disease = disease;
+	}
+	
+	public Author getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(Author author) {
+		this.author = author;
+	}
 
 	public Paper() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Paper(String title2, String source2) {
 		// TODO Auto-generated constructor stub
 	}
 

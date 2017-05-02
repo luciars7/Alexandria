@@ -3,7 +3,22 @@ public class Symptom {
 	private int ID;
 	private String name;
 	private String description;
+	private Disease disease;
 	
+	public Symptom(int id2, String name2, String description2) {
+		this.setID(id2);
+		this.setName(name2);
+		this.setDescription(description2);
+	}
+	
+	public Disease getDisease() {
+		return disease;
+	}
+
+	public void setDisease(Disease disease) {
+		this.disease = disease;
+	}
+
 	public Symptom(String name, String description) {
 		this.name = name;
 		this.description = description;
@@ -11,12 +26,6 @@ public class Symptom {
 	
 	public Symptom() {
 		// TODO Auto-generated constructor stub
-	}
-
-	public Symptom(int id2, String name2, String description2) {
-		this.setID(id2);
-		this.setName(name2);
-		this.setDescription(description2);
 	}
 
 	public int getID() {

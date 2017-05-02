@@ -10,6 +10,7 @@ public class Image {
 	private String size;
 	private byte[] image;
 	private Paper paper;
+	private Disease disease;
 	
 	public Image(int iD, String description, String type, String size, byte[] image, Paper paper) {
 		ID = iD;
@@ -19,6 +20,14 @@ public class Image {
 		this.image = image;
 		this.paper = paper;
 	}	
+	
+	public Disease getDisease() {
+		return disease;
+	}
+
+	public void setDisease(Disease disease) {
+		this.disease = disease;
+	}
 
 	public Image() {
 		// TODO Auto-generated constructor stub

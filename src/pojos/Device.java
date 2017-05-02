@@ -5,6 +5,8 @@ public class Device {
 	private String type;
 	private float price;
 	private String brand;
+	private Procedure procedure;
+	private Paper Paper;
 	
 	public Device(int iD, String name, String type, float price, String brand) {
 		ID = iD;
@@ -18,10 +20,34 @@ public class Device {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Device(String name2, String type2, float price2, String brand2, int procedure_id, int paper_id) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getID() {
 		return ID;
 	}
 	
+	public Procedure getProcedure() {
+		return procedure;
+	}
+
+	public void setProcedure(Procedure procedure) {
+		this.procedure = procedure;
+	}
+
+	public Paper getPaper() {
+		return Paper;
+	}
+
+	public void setPaper(Paper paper) {
+		Paper = paper;
+	}
+
+	public void setPrice(float price) {
+		this.price = price;
+	}
+
 	public void setID(int iD) {
 		ID = iD;
 	}
