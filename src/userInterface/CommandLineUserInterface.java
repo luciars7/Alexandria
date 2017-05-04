@@ -585,13 +585,6 @@ public class CommandLineUserInterface {
 	}
 
 	public static void addPaper() {
-		System.out.print("Name: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String name = read;
 		System.out.print("Title: ");
 		try {
 			read = console.readLine();
