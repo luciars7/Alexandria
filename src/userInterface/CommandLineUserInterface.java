@@ -99,19 +99,19 @@ public class CommandLineUserInterface {
 			return;
 		}
 		case 2: {
-			addBodyParts();
+			addBodyPart();
 			return;
 		}
 		case 3: {
-			addDevices();
+			addDevice();
 			return;
 		}
 		case 4: {
-			addDiseases();
+			addDisease();
 			return;
 		}
 		case 5: {
-			addImages();
+			addImage();
 			return;
 		}
 		case 6: {
@@ -119,11 +119,11 @@ public class CommandLineUserInterface {
 			return;
 		}
 		case 7: {
-			addProcedures();
+			addProcedure();
 			return;
 		}
 		case 8: {
-			addSymptoms();
+			addSymptom();
 			return;
 		}
 		case 9: {
@@ -162,15 +162,15 @@ public class CommandLineUserInterface {
 			return;
 		}
 		case 3: {
-			showDevices();
+			showDevice();
 			return;
 		}
 		case 4: {
-			showDiseases();
+			showDisease();
 			return;
 		}
 		case 5: {
-			showImages();
+			showImage();
 			return;
 		}
 		case 6: {
@@ -178,11 +178,11 @@ public class CommandLineUserInterface {
 			return;
 		}
 		case 7: {
-			showProcedures();
+			showProcedure();
 			return;
 		}
 		case 8: {
-			showSymptoms();
+			showSymptom();
 			return;
 		}
 		case 9: {
@@ -329,7 +329,7 @@ public class CommandLineUserInterface {
 
 	}
 
-	public static void addBodyParts() {
+	public static void addBodyPart() {
 		System.out.print("Name: ");
 		try {
 			read = console.readLine();
@@ -367,7 +367,7 @@ public class CommandLineUserInterface {
 		}
 	}
 
-	public static void addDevices() {
+	public static void addDevice() {
 		int procedure_id = 0;
 		int paper_id = 0;
 		System.out.print("Name: ");
@@ -413,8 +413,8 @@ public class CommandLineUserInterface {
 			}
 			String NAME = read;
 			if (!NAME.equals("none")) {
-				ArrayList<BodyPart> bodyPart = dbManager.selectBodyPart(NAME);
-				procedure_id = bodyPart.get(0).getID();
+				ArrayList<Procedure> procedure = dbManager.selectProcedure(NAME);
+				procedure_id = procedure.get(0).getID();
 			}
 			ArrayList<Paper> list2 = dbManager.selectPaper("all");
 			if (list2 == null) {
@@ -441,7 +441,7 @@ public class CommandLineUserInterface {
 		dbManager.insertIntoDevice(device);
 	}
 
-	public static void showDevices() {
+	public static void showDevice() {
 		System.out.print("Please, provide a name or write «all» to view every device: ");
 		try {
 			read = console.readLine();
@@ -459,7 +459,7 @@ public class CommandLineUserInterface {
 		}
 	}
 
-	public static void addDiseases() {
+	public static void addDisease() {
 		System.out.print("Name: ");
 		try {
 			read = console.readLine();
@@ -499,7 +499,7 @@ public class CommandLineUserInterface {
 		}
 	}
 
-	public static void showDiseases() {
+	public static void showDisease() {
 		System.out.print("Please, provide a name or write «all» to view every disease: ");
 		try {
 			read = console.readLine();
@@ -517,7 +517,7 @@ public class CommandLineUserInterface {
 		}
 	}
 
-	public static void addImages() {
+	public static void addImage() {
 		System.out.print("Description: ");
 		try {
 			read = console.readLine();
@@ -566,7 +566,7 @@ public class CommandLineUserInterface {
 
 	}
 
-	public static void showImages() {
+	public static void showImage() {
 		System.out.print("Please, provide a name or write «all» to view every image: ");
 		try {
 			read = console.readLine();
@@ -585,13 +585,6 @@ public class CommandLineUserInterface {
 	}
 
 	public static void addPaper() {
-		System.out.print("Name: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String name = read;
 		System.out.print("Title: ");
 		try {
 			read = console.readLine();
@@ -628,7 +621,7 @@ public class CommandLineUserInterface {
 		}
 	}
 
-	public static void addProcedures() {
+	public static void addProcedure() {
 		System.out.print("Name: ");
 		try {
 			read = console.readLine();
@@ -647,7 +640,7 @@ public class CommandLineUserInterface {
 		dbManager.insertIntoProcedure(procedure);
 	}
 
-	public static void showProcedures() {
+	public static void showProcedure() {
 		System.out.print("Please, provide a name or write «all» to view every procedure: ");
 		try {
 			read = console.readLine();
@@ -665,7 +658,7 @@ public class CommandLineUserInterface {
 		}
 	}
 
-	public static void addSymptoms() {
+	public static void addSymptom() {
 		System.out.print("Name: ");
 		try {
 			read = console.readLine();
@@ -684,7 +677,7 @@ public class CommandLineUserInterface {
 		dbManager.insertIntoSymptom(symptom);
 	}
 
-	public static void showSymptoms() {
+	public static void showSymptom() {
 		System.out.print("Please, provide a name or write «all» to view every symptom: ");
 		try {
 			read = console.readLine();
@@ -908,7 +901,7 @@ public class CommandLineUserInterface {
 			return;
 		}
 		case 2: {
-			modifyDevices();
+			modifyDevice();
 			return;
 		}
 		case 3: {
@@ -952,7 +945,7 @@ public class CommandLineUserInterface {
 		}
 	}
 
-	private static void modifyDevices() {
+	private static void modifyDevice() {
 		try {
 			ArrayList<Device> list = dbManager.selectDevice("all");
 			if (list == null) {
