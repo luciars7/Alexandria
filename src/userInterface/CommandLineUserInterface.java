@@ -927,6 +927,7 @@ public class CommandLineUserInterface {
 
 	private static void modifyAuthor() {
 		try {
+			// change lists to 'show_()' methods
 			ArrayList<Author> list = dbManager.selectAuthor("all");
 			System.out.println("Which is the author that you want to modify?" + "\nWrite its ID number:");
 			String read = console.readLine();
