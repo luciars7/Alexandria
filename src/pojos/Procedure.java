@@ -3,10 +3,19 @@ public class Procedure {
 	private int ID;
 	private String name;
 	private String description;
+	private Disease disease;
 	
 	public Procedure(String name, String description) {
 		this.name = name;
 		this.description = description;
+	}
+	
+	public Disease getDisease() {
+		return disease;
+	}
+
+	public void setDisease(Disease disease) {
+		this.disease = disease;
 	}
 	
 	public Procedure() {

@@ -4,19 +4,55 @@ public class Disease {
 	private String name;
 	private String description;
 	private BodyPart bodyPart;
+	private Symptom symptom;
+	private Paper paper;
+	private Image image;
+	private Procedure procedure;
+
+	public Disease(int ID, String name, String description, BodyPart bodyParts) {
+	    this.ID = ID;
+	    this.name = name;
+	    this.description = description;
+	}
 	
+	public Procedure getProcedure() {
+		return procedure;
+	}
+
+	public void setProcedure(Procedure procedure) {
+		this.procedure = procedure;
+	}
+	
+	public Image getImage() {
+		return image;
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
+	}
+	
+	public Paper getPaper() {
+		return paper;
+	}
+
+	public void setPaper(Paper paper) {
+		this.paper = paper;
+	}
+
+	public Symptom getSymptom() {
+		return symptom;
+	}
+
+	public void setSymptom(Symptom symptom) {
+		this.symptom = symptom;
+	}
+
 	public BodyPart getBodyPart() {
 		return bodyPart;
 	}
 
 	public void setBodyPart(BodyPart bodyPart) {
 		this.bodyPart = bodyPart;
-	}
-
-	public Disease(int ID, String name, String description, BodyPart bodyParts) {
-	    this.ID = ID;
-	    this.name = name;
-	    this.description = description;
 	}
 
 	public Disease() {

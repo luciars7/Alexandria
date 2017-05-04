@@ -42,7 +42,8 @@ public class CommandLineUserInterface {
 		switch (option) {
 		case 1: {
 			// Missing: checking if tables are created or not
-			// try-catch w select or insert and the exception that's thrown means tables aren't created
+			// try-catch w select or insert and the exception that's thrown
+			// means tables aren't created
 			newTables();
 			break;
 		}
@@ -304,7 +305,7 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String association = read;
-		Author author = new Author (name, origin, association);
+		Author author = new Author(name, origin, association);
 		dbManager.insertIntoAuthor(author);
 		System.out.println("Author inserted correctly.");
 	}
@@ -343,7 +344,7 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String location = read;
-		BodyPart bodyPart = new BodyPart (name,location);
+		BodyPart bodyPart = new BodyPart(name, location);
 		dbManager.insertIntoBodyPart(bodyPart);
 		System.out.println("Body part inserted correctly.");
 	}
@@ -436,7 +437,7 @@ public class CommandLineUserInterface {
 				}
 			}
 		}
-		Device device = new Device (name, type, price, brand, procedure_id, paper_id);
+		Device device = new Device(name, type, price, brand, procedure_id, paper_id);
 		dbManager.insertIntoDevice(device);
 	}
 
@@ -488,11 +489,11 @@ public class CommandLineUserInterface {
 			}
 			String NAME = read;
 			if (NAME.equals("none")) {
-				Disease disease1 = new Disease (name, description, null);
+				Disease disease1 = new Disease(name, description, null);
 				dbManager.insertIntoDisease(disease1);
 			} else {
 				ArrayList<BodyPart> bodyPart = dbManager.selectBodyPart(NAME);
-				Disease disease1 = new Disease (name, description,bodyPart.get(0).getID());
+				Disease disease1 = new Disease(name, description, bodyPart.get(0).getID());
 				dbManager.insertIntoDisease(disease1);
 			}
 		}
@@ -545,9 +546,13 @@ public class CommandLineUserInterface {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		String imageAdress = read;
+		// Paper missing. The user must select from all the existent
+
+		dbManager.insertIntoImage(name, description);
 		String imageAddress = read;
-		
-		showPaper(); //show all paper for the user to select 1
+
+		showPaper(); // show all paper for the user to select 1
 		System.out.println("Paper_ID");
 		try {
 			read = console.readLine();
@@ -556,7 +561,7 @@ public class CommandLineUserInterface {
 		}
 		int paper = Integer.parseInt(read);
 		// Paper finished
-		Image image = new Image (name, description);
+		Image image = new Image(name, description);
 		dbManager.insertIntoDevice(image);
 
 	}
@@ -601,7 +606,7 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String source = read;
-		Paper paper = new Paper (title, source);
+		Paper paper = new Paper(title, source);
 		dbManager.insertIntoPaper(paper);
 	}
 
@@ -638,7 +643,7 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String description = read;
-		Procedure procedure = new Procedure (name, description);
+		Procedure procedure = new Procedure(name, description);
 		dbManager.insertIntoProcedure(procedure);
 	}
 
@@ -675,7 +680,7 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String description = read;
-		Symptom symptom = new Symptom (name, description);
+		Symptom symptom = new Symptom(name, description);
 		dbManager.insertIntoSymptom(symptom);
 	}
 
@@ -929,12 +934,19 @@ public class CommandLineUserInterface {
 		try {
 			// change lists to 'show_()' methods
 			ArrayList<Author> list = dbManager.selectAuthor("all");
-			System.out.println("Which is the author that you want to modify?" + "\nWrite its ID number:");
-			String read = console.readLine();
-			Integer authorId = Integer.parseInt(read);
-			System.out.println("Write the new author's association:");
-			String newAssociation = console.readLine();
-			dbManager.updateAuthor(authorId, newAssociation);
+			if (list == null) {
+				System.out.println("Error searching for the authors.");
+			} else {
+				for (Author author : list) {
+					System.out.println(author);
+				}
+				System.out.println("Which is the author that you want to modify?" + "\nWrite its ID number:");
+				String read = console.readLine();
+				Integer authorId = Integer.parseInt(read);
+				System.out.println("Write the new author's association:");
+				String newAssociation = console.readLine();
+				dbManager.updateAuthor(authorId, newAssociation);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -943,6 +955,12 @@ public class CommandLineUserInterface {
 	private static void modifyDevices() {
 		try {
 			ArrayList<Device> list = dbManager.selectDevice("all");
+			if (list == null) {
+				System.out.println("Error searching for the symptoms.");
+			} else {
+				for (Device device : list) {
+					System.out.println(device);
+				}
 			System.out.println("Which is the device that you want to modify?" + "\nWrite its ID number:");
 			String read = console.readLine();
 			Integer deviceId = Integer.parseInt(read);
@@ -951,15 +969,21 @@ public class CommandLineUserInterface {
 			Float newPrice = Float.parseFloat(read);
 			System.out.println("Write the new device's brand name:");
 			String newBrand = console.readLine();
-			dbManager.updateDevice(deviceId, newPrice, newBrand);
+			dbManager.updateDevice(deviceId, newPrice, newBrand);}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private static void modifyDisease() {
 		try {
 			ArrayList<Disease> listD = dbManager.selectDisease("all");
+			if (listD == null) {
+				System.out.println("Error searching for the symptoms.");
+			} else {
+				for (Disease disease : listD) {
+					System.out.println(disease);
+				}
 			System.out.println("Which is the disease that you want to modify?" + "\nWrite its ID number:");
 			String read = console.readLine();
 			Integer diseaseId = Integer.parseInt(read);
@@ -967,18 +991,30 @@ public class CommandLineUserInterface {
 			String newProcedure = console.readLine();
 			System.out.println("Write the new disease's body part:");
 			ArrayList<BodyPart> listBP = dbManager.selectBodyPart("all");
+			if (listBP == null) {
+				System.out.println("Error searching for the symptoms.");
+			} else {
+				for (BodyPart bodypart : listBP) {
+					System.out.println(bodypart);
+				}
 			System.out.println("Which is the body part related to this disease?" + "\nWrite its ID number:");
 			read = console.readLine();
 			Integer newBodyPart = Integer.parseInt(read);
-			dbManager.updateDisease(diseaseId, newProcedure, newBodyPart);
+			dbManager.updateDisease(diseaseId, newProcedure, newBodyPart);}}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private static void modifyImage() {
 		try {
 			ArrayList<Image> listI = dbManager.selectImage("all");
+			if (listI == null) {
+				System.out.println("Error searching for the symptoms.");
+			} else {
+				for (Image image : listI) {
+					System.out.println(image);
+				}
 			System.out.println("Which is the image that you want to modify?" + "\nWrite its ID number:");
 			String read = console.readLine();
 			Integer imageId = Integer.parseInt(read);
@@ -989,21 +1025,27 @@ public class CommandLineUserInterface {
 			System.out.println("Which is the paper related to this disease?" + "\nWrite its ID number:");
 			read = console.readLine();
 			Integer newPaper = Integer.parseInt(read);
-			dbManager.updateImage(imageId, newDescription, newPaper);
+			dbManager.updateImage(imageId, newDescription, newPaper);}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private static void modifyProcedure() {
 		try {
-			ArrayList<Disease> list = dbManager.selectDisease("all");
+			ArrayList<Procedure> list = dbManager.selectProcedure("all");
+			if (list == null) {
+				System.out.println("Error searching for the symptoms.");
+			} else {
+				for (Procedure procedure : list) {
+					System.out.println(procedure);
+				}
 			System.out.println("Which is the procedure that you want to modify?" + "\nWrite its ID number:");
 			String read = console.readLine();
 			Integer procedureId = Integer.parseInt(read);
 			System.out.println("Write the new procedure's description:");
 			String newDescription = console.readLine();
-			dbManager.updateProcedure(procedureId, newDescription);
+			dbManager.updateProcedure(procedureId, newDescription);}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
