@@ -925,6 +925,7 @@ public class CommandLineUserInterface {
 
 	private static void modifyAuthor() {
 		try {
+			// change lists to 'show_()' methods
 			ArrayList<Author> list = dbManager.selectAuthor("all");
 			if (list == null) {
 				System.out.println("Error searching for the authors.");
