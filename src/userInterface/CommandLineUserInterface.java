@@ -557,7 +557,7 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String size = read;
-		System.out.print("Please, write the adress of the file you want to upload: ");
+		System.out.print("Please, write the address of the file you want to upload: ");
 		try {
 			read = console.readLine();
 
@@ -565,22 +565,46 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String imageAdress = read;
-		// Paper missing. The user must select from all the existent
-
-		dbManager.insertIntoImage(name, description);
-		String imageAddress = read;
-		showPaper(askForName()); // show all paper for the user to select 1
-		System.out.println("Paper_ID");
+		File photo = new File(imageAdress);
+		byte[] p = dbManager.stringtobyte(photo);
+		
+		
+		showPaper("all");
+		System.out.println("Paper name:");
 		try {
 			read = console.readLine();
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		int paper = Integer.parseInt(read);
-		// Paper finished
-		Image image = new Image(name, description);
-		dbManager.insertIntoDevice(image);
+		String name = read;
+		ArrayList<Paper> list = dbManager.selectPaper(name);		
+		Paper paper;
+		for(Paper pap: list){
+			paper = pap;
+		}
+		
+		
+		showDisease("all");
+		System.out.print("Disease name:");
+		try {
+			read = console.readLine();
 
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String disease_name = read;
+		ArrayList<Disease> disease_list = dbManager.selectDisease(disease_name);		
+		Disease disease;
+		for(Disease dis: disease_list){
+			disease = dis;
+		}
+		
+		// Paper missing. The user must select from all the existent
+		
+		Image image1 = new Image(description, type, size, p, paper, disease);
+		dbManager.insertIntoImage(image1);
+		String imageAddress = read;
 	}
 
 	public static void showImage(String name) {
@@ -595,6 +619,13 @@ public class CommandLineUserInterface {
 	}
 
 	public static void addPaper() {
+		System.out.print("Name: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String name = read;
 		System.out.print("Title: ");
 		try {
 			read = console.readLine();

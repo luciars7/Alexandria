@@ -1,5 +1,6 @@
 package jdbc;
 
+import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import pojos.*;
@@ -510,14 +511,30 @@ public class DBManager {
 		try {
 			Statement stmtSeq = c.createStatement();
 
+			/*
+			prep.setBytes(6, bytesBlob);*/
 			String sqlSeq = "INSERT INTO image (description, type, size, link, paper) VALUES ('" + image.getDescription() + "', '"
 					+ image.getType() + "', '" + image.getSize() + "', '" + image.getPaper() + "')";
+			
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 	}
 
+	public byte[] stringtobyte (File p){
+		try {
+			InputStream streamBlob = new FileInputStream(p);
+			byte[] bytesBlob = new byte[streamBlob.available()];
+			streamBlob.read(bytesBlob);
+			streamBlob.close();
+			
+			return bytesBlob;
+		} catch (IOException e) {
+			System.out.println("Something went wrong...");
+			return null;
+		}
+	}
 	public void insertIntoPaper(Paper paper) {
 		try {
 			Statement stmtSeq = c.createStatement();
