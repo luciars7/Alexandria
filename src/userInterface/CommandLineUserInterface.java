@@ -16,7 +16,9 @@ public class CommandLineUserInterface {
 
 	public static void main(String args[]) {
 		// Create a connection object.
+		System.out.println("Establishing a connection with ALEXANDRIA...");
 		newConnection();
+		System.out.println("New conncetion stablished.");
 		// Create DB_manager object.
 		dbManager = new DBManager();
 		showMenu();
@@ -64,14 +66,36 @@ public class CommandLineUserInterface {
 			break;
 		}
 		case 6: {
-			dbManager.disconnect();
-			System.out.println("BYE!");
-			System.exit(0);
+			Exit();
 			break;
 		}
 
 		}
 		showMenu();
+	}
+
+	private static void Exit() {
+		System.out.println("Proceeding to close the connection to ALEXANDRIA.");
+		System.out.println("Are you sure you want to continue? (Y/N)");
+		System.out.print("Option: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String option = read;
+		switch (option) {
+		case "Y": {
+			dbManager.disconnect();
+			System.out.println("Connection closed.");
+			System.out.println("BYE!");
+			System.exit(0);
+			break;
+		}
+		case "N": {
+			return;
+		}
+		}
 	}
 
 	private static void newEntity() {
@@ -154,34 +178,42 @@ public class CommandLineUserInterface {
 		Integer option = Integer.parseInt(read);
 		switch (option) {
 		case 1: {
+			System.out.println("Which author do you want to see?");
 			showAuthor(askForName());
 			return;
 		}
 		case 2: {
+			System.out.println("Which body part do you want to see?");
 			showBodyPart(askForName());
 			return;
 		}
 		case 3: {
+			System.out.println("Which device do you want to see?");
 			showDevice(askForName());
 			return;
 		}
 		case 4: {
+			System.out.println("Which disease do you want to see?");
 			showDisease(askForName());
 			return;
 		}
 		case 5: {
+			System.out.println("Which image do you want to see?");
 			showImage(askForName());
 			return;
 		}
 		case 6: {
+			System.out.println("Which paper do you want to see?");
 			showPaper(askForName());
 			return;
 		}
 		case 7: {
+			System.out.println("Which procedure do you want to see?");
 			showProcedure(askForName());
 			return;
 		}
 		case 8: {
+			System.out.println("Which symptom do you want to see?");
 			showSymptom(askForName());
 			return;
 		}
@@ -282,17 +314,17 @@ public class CommandLineUserInterface {
 		}
 	}
 
-	public static String askForName(){
-	System.out.print("Please, provide a name or write «all» to view: ");
-	try {
-		read = console.readLine();
-	} catch (IOException e) {
-		e.printStackTrace();
+	public static String askForName() {
+		System.out.print("Please, provide a name or write «all» to view: ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String name = read;
+		return name;
 	}
-	String name = read;
-	return name;
-	}
-	
+
 	// These methods should connect to the DBManager
 	public static void addAuthor() {
 		System.out.print("Name: ");
@@ -887,7 +919,9 @@ public class CommandLineUserInterface {
 				for (Author author : list) {
 					System.out.println(author);
 				}
-				showAuthor("all");//Change the show methods to receive the argument. Make the queries to the user in the previuos method.
+				showAuthor("all");// Change the show methods to receive the
+									// argument. Make the queries to the user in
+									// the previuos method.
 				System.out.println("Which is the author that you want to modify?" + "\nWrite its ID number:");
 				String read = console.readLine();
 				Integer authorId = Integer.parseInt(read);
@@ -909,15 +943,16 @@ public class CommandLineUserInterface {
 				for (Device device : list) {
 					System.out.println(device);
 				}
-			System.out.println("Which is the device that you want to modify?" + "\nWrite its ID number:");
-			String read = console.readLine();
-			Integer deviceId = Integer.parseInt(read);
-			System.out.println("Write the new devices's price:");
-			read = console.readLine();
-			Float newPrice = Float.parseFloat(read);
-			System.out.println("Write the new device's brand name:");
-			String newBrand = console.readLine();
-			dbManager.updateDevice(deviceId, newPrice, newBrand);}
+				System.out.println("Which is the device that you want to modify?" + "\nWrite its ID number:");
+				String read = console.readLine();
+				Integer deviceId = Integer.parseInt(read);
+				System.out.println("Write the new devices's price:");
+				read = console.readLine();
+				Float newPrice = Float.parseFloat(read);
+				System.out.println("Write the new device's brand name:");
+				String newBrand = console.readLine();
+				dbManager.updateDevice(deviceId, newPrice, newBrand);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -932,23 +967,25 @@ public class CommandLineUserInterface {
 				for (Disease disease : listD) {
 					System.out.println(disease);
 				}
-			System.out.println("Which is the disease that you want to modify?" + "\nWrite its ID number:");
-			String read = console.readLine();
-			Integer diseaseId = Integer.parseInt(read);
-			System.out.println("Write the new disease's procedure:");
-			String newProcedure = console.readLine();
-			System.out.println("Write the new disease's body part:");
-			ArrayList<BodyPart> listBP = dbManager.selectBodyPart("all");
-			if (listBP == null) {
-				System.out.println("Error searching for the symptoms.");
-			} else {
-				for (BodyPart bodypart : listBP) {
-					System.out.println(bodypart);
+				System.out.println("Which is the disease that you want to modify?" + "\nWrite its ID number:");
+				String read = console.readLine();
+				Integer diseaseId = Integer.parseInt(read);
+				System.out.println("Write the new disease's procedure:");
+				String newProcedure = console.readLine();
+				System.out.println("Write the new disease's body part:");
+				ArrayList<BodyPart> listBP = dbManager.selectBodyPart("all");
+				if (listBP == null) {
+					System.out.println("Error searching for the symptoms.");
+				} else {
+					for (BodyPart bodypart : listBP) {
+						System.out.println(bodypart);
+					}
+					System.out.println("Which is the body part related to this disease?" + "\nWrite its ID number:");
+					read = console.readLine();
+					Integer newBodyPart = Integer.parseInt(read);
+					dbManager.updateDisease(diseaseId, newProcedure, newBodyPart);
 				}
-			System.out.println("Which is the body part related to this disease?" + "\nWrite its ID number:");
-			read = console.readLine();
-			Integer newBodyPart = Integer.parseInt(read);
-			dbManager.updateDisease(diseaseId, newProcedure, newBodyPart);}}
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -963,17 +1000,18 @@ public class CommandLineUserInterface {
 				for (Image image : listI) {
 					System.out.println(image);
 				}
-			System.out.println("Which is the image that you want to modify?" + "\nWrite its ID number:");
-			String read = console.readLine();
-			Integer imageId = Integer.parseInt(read);
-			System.out.println("Write the new image's description:");
-			String newDescription = console.readLine();
-			System.out.println("Write the new disease's paper:");
-			ArrayList<Paper> listP = dbManager.selectPaper("all");
-			System.out.println("Which is the paper related to this disease?" + "\nWrite its ID number:");
-			read = console.readLine();
-			Integer newPaper = Integer.parseInt(read);
-			dbManager.updateImage(imageId, newDescription, newPaper);}
+				System.out.println("Which is the image that you want to modify?" + "\nWrite its ID number:");
+				String read = console.readLine();
+				Integer imageId = Integer.parseInt(read);
+				System.out.println("Write the new image's description:");
+				String newDescription = console.readLine();
+				System.out.println("Write the new disease's paper:");
+				ArrayList<Paper> listP = dbManager.selectPaper("all");
+				System.out.println("Which is the paper related to this disease?" + "\nWrite its ID number:");
+				read = console.readLine();
+				Integer newPaper = Integer.parseInt(read);
+				dbManager.updateImage(imageId, newDescription, newPaper);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -988,12 +1026,13 @@ public class CommandLineUserInterface {
 				for (Procedure procedure : list) {
 					System.out.println(procedure);
 				}
-			System.out.println("Which is the procedure that you want to modify?" + "\nWrite its ID number:");
-			String read = console.readLine();
-			Integer procedureId = Integer.parseInt(read);
-			System.out.println("Write the new procedure's description:");
-			String newDescription = console.readLine();
-			dbManager.updateProcedure(procedureId, newDescription);}
+				System.out.println("Which is the procedure that you want to modify?" + "\nWrite its ID number:");
+				String read = console.readLine();
+				Integer procedureId = Integer.parseInt(read);
+				System.out.println("Write the new procedure's description:");
+				String newDescription = console.readLine();
+				dbManager.updateProcedure(procedureId, newDescription);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
