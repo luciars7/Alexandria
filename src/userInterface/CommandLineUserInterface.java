@@ -154,35 +154,35 @@ public class CommandLineUserInterface {
 		Integer option = Integer.parseInt(read);
 		switch (option) {
 		case 1: {
-			showAuthor();
+			showAuthor(askForName());
 			return;
 		}
 		case 2: {
-			showBodyPart();
+			showBodyPart(askForName());
 			return;
 		}
 		case 3: {
-			showDevice();
+			showDevice(askForName());
 			return;
 		}
 		case 4: {
-			showDisease();
+			showDisease(askForName());
 			return;
 		}
 		case 5: {
-			showImage();
+			showImage(askForName());
 			return;
 		}
 		case 6: {
-			showPaper();
+			showPaper(askForName());
 			return;
 		}
 		case 7: {
-			showProcedure();
+			showProcedure(askForName());
 			return;
 		}
 		case 8: {
-			showSymptom();
+			showSymptom(askForName());
 			return;
 		}
 		case 9: {
@@ -282,6 +282,17 @@ public class CommandLineUserInterface {
 		}
 	}
 
+	public static String askForName(){
+	System.out.print("Please, provide a name or write «all» to view: ");
+	try {
+		read = console.readLine();
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+	String name = read;
+	return name;
+	}
+	
 	// These methods should connect to the DBManager
 	public static void addAuthor() {
 		System.out.print("Name: ");
@@ -310,14 +321,7 @@ public class CommandLineUserInterface {
 		System.out.println("Author inserted correctly.");
 	}
 
-	public static void showAuthor() {
-		System.out.print("Please, provide a name or write «all» to view every author: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String name = read;
+	public static void showAuthor(String name) {
 		ArrayList<Author> list = dbManager.selectAuthor(name);
 		if (list == null) {
 			System.out.println("Error searching for the author(s).");
@@ -349,14 +353,7 @@ public class CommandLineUserInterface {
 		System.out.println("Body part inserted correctly.");
 	}
 
-	public static void showBodyPart() {
-		System.out.print("Please, provide a name or write «all» to view every body part: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String name = read;
+	public static void showBodyPart(String name) {
 		ArrayList<BodyPart> list = dbManager.selectBodyPart(name);
 		if (list == null) {
 			System.out.println("Error searching for the body part(s).");
@@ -441,14 +438,7 @@ public class CommandLineUserInterface {
 		dbManager.insertIntoDevice(device);
 	}
 
-	public static void showDevice() {
-		System.out.print("Please, provide a name or write «all» to view every device: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String name = read;
+	public static void showDevice(String name) {
 		ArrayList<Device> list = dbManager.selectDevice(name);
 		if (list == null) {
 			System.out.println("Error searching for the device(s).");
@@ -499,14 +489,7 @@ public class CommandLineUserInterface {
 		}
 	}
 
-	public static void showDisease() {
-		System.out.print("Please, provide a name or write «all» to view every disease: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String name = read;
+	public static void showDisease(String name) {
 		ArrayList<Disease> list = dbManager.selectDisease(name);
 		if (list == null) {
 			System.out.println("Error searching for the disease(s).");
@@ -551,8 +534,7 @@ public class CommandLineUserInterface {
 
 		dbManager.insertIntoImage(name, description);
 		String imageAddress = read;
-
-		showPaper(); // show all paper for the user to select 1
+		showPaper(askForName()); // show all paper for the user to select 1
 		System.out.println("Paper_ID");
 		try {
 			read = console.readLine();
@@ -566,14 +548,7 @@ public class CommandLineUserInterface {
 
 	}
 
-	public static void showImage() {
-		System.out.print("Please, provide a name or write «all» to view every image: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String name = read;
+	public static void showImage(String name) {
 		ArrayList<Image> list = dbManager.selectImage(name);
 		if (list == null) {
 			System.out.println("Error searching for the image(s).");
@@ -603,14 +578,7 @@ public class CommandLineUserInterface {
 		dbManager.insertIntoPaper(paper);
 	}
 
-	public static void showPaper() {
-		System.out.print("Please, provide a name or write «all» to view every paper: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String name = read;
+	public static void showPaper(String name) {
 		ArrayList<Paper> list = dbManager.selectPaper(name);
 		if (list == null) {
 			System.out.println("Error searching for the paper(s).");
@@ -640,14 +608,7 @@ public class CommandLineUserInterface {
 		dbManager.insertIntoProcedure(procedure);
 	}
 
-	public static void showProcedure() {
-		System.out.print("Please, provide a name or write «all» to view every procedure: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String name = read;
+	public static void showProcedure(String name) {
 		ArrayList<Procedure> list = dbManager.selectProcedure(name);
 		if (list == null) {
 			System.out.println("Error searching for the procedure(s).");
@@ -677,14 +638,7 @@ public class CommandLineUserInterface {
 		dbManager.insertIntoSymptom(symptom);
 	}
 
-	public static void showSymptom() {
-		System.out.print("Please, provide a name or write «all» to view every symptom: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String name = read;
+	public static void showSymptom(String name) {
 		ArrayList<Symptom> list = dbManager.selectSymptom(name);
 		if (list == null) {
 			System.out.println("Error searching for the author(s).");
@@ -933,6 +887,7 @@ public class CommandLineUserInterface {
 				for (Author author : list) {
 					System.out.println(author);
 				}
+				showAuthor("all");//Change the show methods to receive the argument. Make the queries to the user in the previuos method.
 				System.out.println("Which is the author that you want to modify?" + "\nWrite its ID number:");
 				String read = console.readLine();
 				Integer authorId = Integer.parseInt(read);
