@@ -6,11 +6,13 @@ import java.sql.DriverManager;
 import java.util.ArrayList;
 
 import jdbc.DBManager;
+import jpa.JpaManager;
 import pojos.*;
 
 public class CommandLineUserInterface {
 	static Connection c = null;
 	static DBManager dbManager = null;
+	static JpaManager jpaManager = null;
 	static BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
 	static String read = null;
 
@@ -21,6 +23,7 @@ public class CommandLineUserInterface {
 		System.out.println("New conncetion stablished.");
 		// Create DB_manager object.
 		dbManager = new DBManager();
+		jpaManager = new JpaManager();
 		showMenu();
 	}
 
@@ -515,7 +518,7 @@ public class CommandLineUserInterface {
 				dbManager.insertIntoDisease(disease1);
 			} else {
 				ArrayList<BodyPart> bodyPart = dbManager.selectBodyPart(NAME);
-				Disease disease1 = new Disease(name, description, bodyPart.get(0).getID());
+				Disease disease1 = new Disease(name, description, bodyPart);
 				dbManager.insertIntoDisease(disease1);
 			}
 		}
@@ -668,6 +671,16 @@ public class CommandLineUserInterface {
 		String description = read;
 		Symptom symptom = new Symptom(name, description);
 		dbManager.insertIntoSymptom(symptom);
+		showDisease("all");
+		System.out.print("Select the id of the related disease (0 for none): ");
+		try {
+			read = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		int disease_id = Integer.parseInt(read);
+		ArrayList<Symptom> symptom_id = dbManager.selectSymptom(name);
+		jpaManager.insertsymtomdisease(disease_id, symptom_id.get(0).getID());
 	}
 
 	public static void showSymptom(String name) {
@@ -860,7 +873,7 @@ public class CommandLineUserInterface {
 			if (id == 0) {
 				return;
 			} else {
-				dbManager.deleteSymptom(id);
+				jpaManager.deleteSymptomJPA(id);
 			}
 		}
 	}
@@ -919,9 +932,7 @@ public class CommandLineUserInterface {
 				for (Author author : list) {
 					System.out.println(author);
 				}
-				showAuthor("all");// Change the show methods to receive the
-									// argument. Make the queries to the user in
-									// the previuos method.
+				showAuthor("all");
 				System.out.println("Which is the author that you want to modify?" + "\nWrite its ID number:");
 				String read = console.readLine();
 				Integer authorId = Integer.parseInt(read);

@@ -494,7 +494,7 @@ public class DBManager {
 		try {
 			Statement stmtSeq = c.createStatement();
 			String sqlSeq = "";
-			if(disease.getBodyPart().getID()==0){
+			if(disease.getBodyPart().equals(null)){
 			sqlSeq = "INSERT INTO disease (name, description) VALUES ('" + disease.getName() + "', '" + disease.getDescription() + "')";
 			}
 			else{
