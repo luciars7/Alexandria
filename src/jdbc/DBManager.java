@@ -11,6 +11,27 @@ public class DBManager {
 	public DBManager() {
 		connect();
 	}
+	
+	public void connect() {
+		try {
+			// Open database connection
+			Class.forName("org.sqlite.JDBC");
+			c = DriverManager.getConnection("jdbc:sqlite:./db/alexandria.db");
+			c.createStatement().execute("PRAGMA foreign_keys=ON");
+			System.out.println("Database connection opened.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void disconnect() {
+		try {
+			c.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 
 	// SELECTS
 	// ------------------------------------------------------------------------------------------------
@@ -319,26 +340,7 @@ public class DBManager {
 		return list;
 	}
 
-	public void connect() {
-		try {
-			// Open database connection
-			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:./db/alexandria.db");
-			c.createStatement().execute("PRAGMA foreign_keys=ON");
-			System.out.println("Database connection opened.");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void disconnect() {
-		try {
-			c.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
+	
 	public void createTables() {
 		try {
 			// Open database connection
