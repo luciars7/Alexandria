@@ -466,7 +466,7 @@ public class DBManager {
 		try {
 			Statement stmtSeq = c.createStatement();
 			String sqlSeq = "";
-			if (device.getProcedure().getID() == 0 && device.getPaper().getID() == 0) {
+			if (device.getProcedure().getName().equals("none") && device.getPaper().getTitle().equals("none")) {
 				sqlSeq = "INSERT INTO device (name, type, price$, brand) VALUES ('" + device.getName() + "', '" + device.getType() + "', '"
 						+ device.getPrice() + "', '" + device.getBrand() + "')";
 				
