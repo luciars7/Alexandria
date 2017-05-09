@@ -365,8 +365,8 @@ public class CommandLineUserInterface {
 	}
 
 	public static void addDevice() {
-		int procedure_id = 0;
-		int paper_id = 0;
+		Procedure procedure_ = null;
+		Paper paper_ = null;
 		System.out.print("Name: ");
 		try {
 			read = console.readLine();
@@ -395,6 +395,7 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String brand = read;
+		//ask for procedure
 		ArrayList<Procedure> list = dbManager.selectProcedure("all");
 		if (list == null) {
 			System.out.println("Error searching for the medical procedure(s).");
@@ -411,7 +412,7 @@ public class CommandLineUserInterface {
 			String NAME = read;
 			if (!NAME.equals("none")) {
 				ArrayList<Procedure> procedure = dbManager.selectProcedure(NAME);
-				procedure_id = procedure.get(0).getID();
+				procedure_ = procedure.get(0);
 			}
 			ArrayList<Paper> list2 = dbManager.selectPaper("all");
 			if (list2 == null) {
@@ -428,13 +429,13 @@ public class CommandLineUserInterface {
 					String NAME2 = read;
 					if (!NAME2.equals("none")) {
 						ArrayList<Paper> paper = dbManager.selectPaper(NAME2);
-						paper_id = paper.get(0).getID();
+						paper_ = paper.get(0);
 					}
 
 				}
 			}
 		}
-		Device device = new Device(name, type, price, brand, procedure_id, paper_id);
+		Device device = new Device(name, type, price, brand, procedure_, paper_);
 		dbManager.insertIntoDevice(device);
 	}
 
@@ -544,7 +545,7 @@ public class CommandLineUserInterface {
 		}
 		String name = read;
 		ArrayList<Paper> list = dbManager.selectPaper(name);		
-		Paper paper;
+		Paper paper=null;
 		for(Paper pap: list){
 			paper = pap;
 		}
@@ -560,7 +561,7 @@ public class CommandLineUserInterface {
 		}
 		String disease_name = read;
 		ArrayList<Disease> disease_list = dbManager.selectDisease(disease_name);		
-		Disease disease;
+		Disease disease = null;
 		for(Disease dis: disease_list){
 			disease = dis;
 		}

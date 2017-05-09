@@ -28,12 +28,13 @@ public class Paper {
 		this.author = author;
 	}
 
-	public Paper() {
-		// TODO Auto-generated constructor stub
-	}
 
-	public Paper(String title2, String source2) {
-		// TODO Auto-generated constructor stub
+	public Paper(String title, String source, Author author, Disease disease) {
+		super();
+		this.title = title;
+		this.source = source;
+		this.author = author;
+		this.disease = disease;
 	}
 
 	public int getID() {
