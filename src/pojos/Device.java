@@ -1,5 +1,12 @@
 package pojos;
-public class Device {
+
+import java.io.Serializable;
+
+public class Device implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4117700635988378197L;
 	private int ID;
 	private String name;
 	private String type;

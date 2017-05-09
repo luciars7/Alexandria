@@ -514,11 +514,11 @@ public class CommandLineUserInterface {
 			}
 			String NAME = read;
 			if (NAME.equals("none")) {
-				Disease disease1 = new Disease(name, description, null);
+				Disease disease1 = new Disease(name, description);
 				dbManager.insertIntoDisease(disease1);
 			} else {
-				ArrayList<BodyPart> bodyPart = dbManager.selectBodyPart(NAME);
-				Disease disease1 = new Disease(name, description, bodyPart);
+				ArrayList<BodyPart> bodyParts = dbManager.selectBodyPart(NAME);
+				Disease disease1 = new Disease(name, description, bodyParts.get(0));
 				dbManager.insertIntoDisease(disease1);
 			}
 		}

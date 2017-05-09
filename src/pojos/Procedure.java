@@ -1,5 +1,12 @@
 package pojos;
-public class Procedure {
+
+import java.io.Serializable;
+
+public class Procedure implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3468306807607790130L;
 	private int ID;
 	private String name;
 	private String description;

@@ -1,5 +1,12 @@
 package pojos;
-public class Paper {
+
+import java.io.Serializable;
+
+public class Paper implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1001927883398001730L;
 	private int ID;
 	private String title;
 	private String source;

@@ -3,7 +3,6 @@ package jpa;
 import javax.persistence.*;
 
 import pojos.*;
-import sample.db.pojos.*;
 
 
 public class JpaManager {

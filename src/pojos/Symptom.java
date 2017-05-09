@@ -1,5 +1,12 @@
 package pojos;
-public class Symptom {
+
+import java.io.Serializable;
+
+public class Symptom implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4773372781875368145L;
 	private int ID;
 	private String name;
 	private String description;

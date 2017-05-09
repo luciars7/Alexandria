@@ -495,12 +495,7 @@ public class DBManager {
 		try {
 			Statement stmtSeq = c.createStatement();
 			String sqlSeq = "";
-			if(disease.getBodyPart().equals(null)){
-			sqlSeq = "INSERT INTO disease (name, description) VALUES ('" + disease.getName() + "', '" + disease.getDescription() + "')";
-			}
-			else{
-				sqlSeq = "INSERT INTO disease (name, description, bodyParts) VALUES ('" + disease.getName() + "', '" + disease.getDescription() + ", " + disease.getBodyPart() + ")";
-			}
+				sqlSeq = "INSERT INTO disease (name, description, bodyPart) VALUES ('" + disease.getName() + "', '" + disease.getDescription() + ", " + disease.getBodyPart() + ")";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();

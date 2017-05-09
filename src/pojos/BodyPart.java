@@ -1,10 +1,17 @@
 package pojos;
-public class BodyPart {
+
+import java.io.Serializable;
+
+public class BodyPart implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7984733182205819494L;
 	private int ID;
 	private String name;
 	private String location;
 	
-	public BodyPart(int ID, String name, String location){
+	public BodyPart(int ID, String name, String location) {
 		this.ID = ID;
 		this.name = name;
 		this.location = location;

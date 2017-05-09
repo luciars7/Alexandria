@@ -1,9 +1,14 @@
 package pojos;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class Image {
+public class Image implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2122694598463647223L;
 	private int ID;
 	private String description;
 	private String type;

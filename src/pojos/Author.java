@@ -1,16 +1,45 @@
 package pojos;
-public class Author {
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.*;
+
+import sample.db.pojos.Employee;
+
+@Entity
+@Table(name = "author")
+public class Author implements Serializable{
+	
+	private static final long serialVersionUID = 5523276157826073516L;
+	
+	@Id //First attribute is a PK.
+	@GeneratedValue(generator="author")
+	@TableGenerator(name="author", table="sqlite_sequence",
+	    pkColumnName="name", valueColumnName="seq", pkColumnValue="author")
 	private int ID;
 	private String name;
 	private String origin;
 	private String association;
-private Paper paper;
+    private Paper paper;
+	@OneToMany(mappedBy="department")
+	private List<Employee> employees;
+    
+	public Author() {
 
+	}
+    
 public Author(int iD, String name, String origin, String association) {
 	ID = iD;
 	this.name = name;
 	this.origin = origin;
 	this.association = association;
+}
+
+public Author(String name2, String origin2, String association2) {
+	this.name = name2;
+	this.origin = origin2;
+	this.association = association2;
 }
 	
 	public Paper getPaper() {
@@ -20,14 +49,6 @@ public Author(int iD, String name, String origin, String association) {
 public void setPaper(Paper paper) {
 	this.paper = paper;
 }
-
-	public Author() {
-
-	}
-
-	public Author(String name2, String origin2, String association2) {
-		// TODO Auto-generated constructor stub
-	}
 
 	public int getID() {
 		return ID;
