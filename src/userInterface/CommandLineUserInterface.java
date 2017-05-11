@@ -99,19 +99,19 @@ public class CommandLineUserInterface {
 			return;
 		}
 		case 2: {
-			addBodyParts();
+			addBodyPart();
 			return;
 		}
 		case 3: {
-			addDevices();
+			addDevice();
 			return;
 		}
 		case 4: {
-			addDiseases();
+			addDisease();
 			return;
 		}
 		case 5: {
-			addImages();
+			addImage();
 			return;
 		}
 		case 6: {
@@ -119,11 +119,11 @@ public class CommandLineUserInterface {
 			return;
 		}
 		case 7: {
-			addProcedures();
+			addProcedure();
 			return;
 		}
 		case 8: {
-			addSymptoms();
+			addSymptom();
 			return;
 		}
 		case 9: {
@@ -154,35 +154,35 @@ public class CommandLineUserInterface {
 		Integer option = Integer.parseInt(read);
 		switch (option) {
 		case 1: {
-			showAuthor();
+			showAuthor(askForName());
 			return;
 		}
 		case 2: {
-			showBodyPart();
+			showBodyPart(askForName());
 			return;
 		}
 		case 3: {
-			showDevices();
+			showDevice(askForName());
 			return;
 		}
 		case 4: {
-			showDiseases();
+			showDisease(askForName());
 			return;
 		}
 		case 5: {
-			showImages();
+			showImage(askForName());
 			return;
 		}
 		case 6: {
-			showPaper();
+			showPaper(askForName());
 			return;
 		}
 		case 7: {
-			showProcedures();
+			showProcedure(askForName());
 			return;
 		}
 		case 8: {
-			showSymptoms();
+			showSymptom(askForName());
 			return;
 		}
 		case 9: {
@@ -282,6 +282,17 @@ public class CommandLineUserInterface {
 		}
 	}
 
+	public static String askForName(){
+	System.out.print("Please, provide a name or write «all» to view: ");
+	try {
+		read = console.readLine();
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+	String name = read;
+	return name;
+	}
+	
 	// These methods should connect to the DBManager
 	public static void addAuthor() {
 		System.out.print("Name: ");
@@ -310,14 +321,7 @@ public class CommandLineUserInterface {
 		System.out.println("Author inserted correctly.");
 	}
 
-	public static void showAuthor() {
-		System.out.print("Please, provide a name or write «all» to view every author: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String name = read;
+	public static void showAuthor(String name) {
 		ArrayList<Author> list = dbManager.selectAuthor(name);
 		if (list == null) {
 			System.out.println("Error searching for the author(s).");
@@ -329,7 +333,7 @@ public class CommandLineUserInterface {
 
 	}
 
-	public static void addBodyParts() {
+	public static void addBodyPart() {
 		System.out.print("Name: ");
 		try {
 			read = console.readLine();
@@ -349,14 +353,7 @@ public class CommandLineUserInterface {
 		System.out.println("Body part inserted correctly.");
 	}
 
-	public static void showBodyPart() {
-		System.out.print("Please, provide a name or write «all» to view every body part: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String name = read;
+	public static void showBodyPart(String name) {
 		ArrayList<BodyPart> list = dbManager.selectBodyPart(name);
 		if (list == null) {
 			System.out.println("Error searching for the body part(s).");
@@ -367,9 +364,9 @@ public class CommandLineUserInterface {
 		}
 	}
 
-	public static void addDevices() {
-		int procedure_id = 0;
-		int paper_id = 0;
+	public static void addDevice() {
+		Procedure procedure_ = null;
+		Paper paper_ = null;
 		System.out.print("Name: ");
 		try {
 			read = console.readLine();
@@ -398,6 +395,7 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String brand = read;
+		//ask for procedure
 		ArrayList<Procedure> list = dbManager.selectProcedure("all");
 		if (list == null) {
 			System.out.println("Error searching for the medical procedure(s).");
@@ -413,8 +411,8 @@ public class CommandLineUserInterface {
 			}
 			String NAME = read;
 			if (!NAME.equals("none")) {
-				ArrayList<BodyPart> bodyPart = dbManager.selectBodyPart(NAME);
-				procedure_id = bodyPart.get(0).getID();
+				ArrayList<Procedure> procedure = dbManager.selectProcedure(NAME);
+				procedure_ = procedure.get(0);
 			}
 			ArrayList<Paper> list2 = dbManager.selectPaper("all");
 			if (list2 == null) {
@@ -431,24 +429,17 @@ public class CommandLineUserInterface {
 					String NAME2 = read;
 					if (!NAME2.equals("none")) {
 						ArrayList<Paper> paper = dbManager.selectPaper(NAME2);
-						paper_id = paper.get(0).getID();
+						paper_ = paper.get(0);
 					}
 
 				}
 			}
 		}
-		Device device = new Device(name, type, price, brand, procedure_id, paper_id);
+		Device device = new Device(name, type, price, brand, procedure_, paper_);
 		dbManager.insertIntoDevice(device);
 	}
 
-	public static void showDevices() {
-		System.out.print("Please, provide a name or write «all» to view every device: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String name = read;
+	public static void showDevice(String name) {
 		ArrayList<Device> list = dbManager.selectDevice(name);
 		if (list == null) {
 			System.out.println("Error searching for the device(s).");
@@ -459,7 +450,7 @@ public class CommandLineUserInterface {
 		}
 	}
 
-	public static void addDiseases() {
+	public static void addDisease() {
 		System.out.print("Name: ");
 		try {
 			read = console.readLine();
@@ -499,14 +490,7 @@ public class CommandLineUserInterface {
 		}
 	}
 
-	public static void showDiseases() {
-		System.out.print("Please, provide a name or write «all» to view every disease: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String name = read;
+	public static void showDisease(String name) {
 		ArrayList<Disease> list = dbManager.selectDisease(name);
 		if (list == null) {
 			System.out.println("Error searching for the disease(s).");
@@ -517,7 +501,7 @@ public class CommandLineUserInterface {
 		}
 	}
 
-	public static void addImages() {
+	public static void addImage() { 
 		System.out.print("Description: ");
 		try {
 			read = console.readLine();
@@ -539,7 +523,7 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String size = read;
-		System.out.print("Please, write the adress of the file you want to upload: ");
+		System.out.print("Please, write the address of the file you want to upload: ");
 		try {
 			read = console.readLine();
 
@@ -547,33 +531,49 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String imageAdress = read;
-		// Paper missing. The user must select from all the existent
-
-		dbManager.insertIntoImage(name, description);
-		String imageAddress = read;
-
-		showPaper(); // show all paper for the user to select 1
-		System.out.println("Paper_ID");
+		File photo = new File(imageAdress);
+		byte[] p = dbManager.stringtobyte(photo);
+		
+		
+		showPaper("all");
+		System.out.println("Paper name:");
 		try {
 			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		int paper = Integer.parseInt(read);
-		// Paper finished
-		Image image = new Image(name, description);
-		dbManager.insertIntoDevice(image);
 
-	}
-
-	public static void showImages() {
-		System.out.print("Please, provide a name or write «all» to view every image: ");
-		try {
-			read = console.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		String name = read;
+		ArrayList<Paper> list = dbManager.selectPaper(name);		
+		Paper paper=null;
+		for(Paper pap: list){
+			paper = pap;
+		}
+		
+		
+		showDisease("all");
+		System.out.print("Disease name:");
+		try {
+			read = console.readLine();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String disease_name = read;
+		ArrayList<Disease> disease_list = dbManager.selectDisease(disease_name);		
+		Disease disease = null;
+		for(Disease dis: disease_list){
+			disease = dis;
+		}
+		
+		// Paper missing. The user must select from all the existent
+		
+		Image image1 = new Image(description, type, size, p, paper, disease);
+		dbManager.insertIntoImage(image1);
+		String imageAddress = read;
+	}
+
+	public static void showImage(String name) {
 		ArrayList<Image> list = dbManager.selectImage(name);
 		if (list == null) {
 			System.out.println("Error searching for the image(s).");
@@ -610,14 +610,7 @@ public class CommandLineUserInterface {
 		dbManager.insertIntoPaper(paper);
 	}
 
-	public static void showPaper() {
-		System.out.print("Please, provide a name or write «all» to view every paper: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String name = read;
+	public static void showPaper(String name) {
 		ArrayList<Paper> list = dbManager.selectPaper(name);
 		if (list == null) {
 			System.out.println("Error searching for the paper(s).");
@@ -628,7 +621,7 @@ public class CommandLineUserInterface {
 		}
 	}
 
-	public static void addProcedures() {
+	public static void addProcedure() {
 		System.out.print("Name: ");
 		try {
 			read = console.readLine();
@@ -647,14 +640,7 @@ public class CommandLineUserInterface {
 		dbManager.insertIntoProcedure(procedure);
 	}
 
-	public static void showProcedures() {
-		System.out.print("Please, provide a name or write «all» to view every procedure: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String name = read;
+	public static void showProcedure(String name) {
 		ArrayList<Procedure> list = dbManager.selectProcedure(name);
 		if (list == null) {
 			System.out.println("Error searching for the procedure(s).");
@@ -665,7 +651,7 @@ public class CommandLineUserInterface {
 		}
 	}
 
-	public static void addSymptoms() {
+	public static void addSymptom() {
 		System.out.print("Name: ");
 		try {
 			read = console.readLine();
@@ -684,14 +670,7 @@ public class CommandLineUserInterface {
 		dbManager.insertIntoSymptom(symptom);
 	}
 
-	public static void showSymptoms() {
-		System.out.print("Please, provide a name or write «all» to view every symptom: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String name = read;
+	public static void showSymptom(String name) {
 		ArrayList<Symptom> list = dbManager.selectSymptom(name);
 		if (list == null) {
 			System.out.println("Error searching for the author(s).");
@@ -908,7 +887,7 @@ public class CommandLineUserInterface {
 			return;
 		}
 		case 2: {
-			modifyDevices();
+			modifyDevice();
 			return;
 		}
 		case 3: {
@@ -940,6 +919,7 @@ public class CommandLineUserInterface {
 				for (Author author : list) {
 					System.out.println(author);
 				}
+				showAuthor("all");//Change the show methods to receive the argument. Make the queries to the user in the previuos method.
 				System.out.println("Which is the author that you want to modify?" + "\nWrite its ID number:");
 				String read = console.readLine();
 				Integer authorId = Integer.parseInt(read);
@@ -952,7 +932,7 @@ public class CommandLineUserInterface {
 		}
 	}
 
-	private static void modifyDevices() {
+	private static void modifyDevice() {
 		try {
 			ArrayList<Device> list = dbManager.selectDevice("all");
 			if (list == null) {

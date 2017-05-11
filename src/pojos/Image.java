@@ -37,6 +37,15 @@ public class Image {
 		return ID;
 	}
 
+	public Image(String description, String type, String size, byte[] image, Paper paper, Disease disease) {
+		this.description = description;
+		this.type = type;
+		this.size = size;
+		this.image = image;
+		this.paper = paper;
+		this.disease = disease;
+	}
+
 	public void setID(int iD) {
 		ID = iD;
 	}

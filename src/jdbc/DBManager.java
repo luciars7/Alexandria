@@ -1,5 +1,6 @@
 package jdbc;
 
+import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import pojos.*;
@@ -10,6 +11,27 @@ public class DBManager {
 	public DBManager() {
 		connect();
 	}
+	
+	public void connect() {
+		try {
+			// Open database connection
+			Class.forName("org.sqlite.JDBC");
+			c = DriverManager.getConnection("jdbc:sqlite:./db/alexandria.db");
+			c.createStatement().execute("PRAGMA foreign_keys=ON");
+			System.out.println("Database connection opened.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void disconnect() {
+		try {
+			c.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 
 	// SELECTS
 	// ------------------------------------------------------------------------------------------------
@@ -318,38 +340,18 @@ public class DBManager {
 		return list;
 	}
 
-	public void connect() {
-		try {
-			// Open database connection
-			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:./db/alexandria.db");
-			c.createStatement().execute("PRAGMA foreign_keys=ON");
-			System.out.println("Database connection opened.");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void disconnect() {
-		try {
-			c.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
+	
 	public void createTables() {
 		try {
 			// Open database connection
 			connect();
 			// Create tables: begin
 			Statement stmt1 = c.createStatement();
-			Statement stmt2 = c.createStatement();
 			String sql1 = "CREATE TABLE paper" + "(ID INTEGER PRIMARY KEY," + "title TEXT," + "source TEXT)";
 			stmt1.executeUpdate(sql1);
 			stmt1.close();
 
-
+			Statement stmt2 = c.createStatement();
 			String sql2 = "CREATE TABLE bodypart" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "location TEXT)";
 			stmt2.executeUpdate(sql2);
 			stmt2.close();
@@ -464,7 +466,7 @@ public class DBManager {
 		try {
 			Statement stmtSeq = c.createStatement();
 			String sqlSeq = "";
-			if (device.getProcedure().getID() == 0 && device.getPaper().getID() == 0) {
+			if (device.getProcedure().getName().equals("none") && device.getPaper().getTitle().equals("none")) {
 				sqlSeq = "INSERT INTO device (name, type, price$, brand) VALUES ('" + device.getName() + "', '" + device.getType() + "', '"
 						+ device.getPrice() + "', '" + device.getBrand() + "')";
 				
@@ -510,14 +512,30 @@ public class DBManager {
 		try {
 			Statement stmtSeq = c.createStatement();
 
+			/*
+			prep.setBytes(6, bytesBlob);*/
 			String sqlSeq = "INSERT INTO image (description, type, size, link, paper) VALUES ('" + image.getDescription() + "', '"
 					+ image.getType() + "', '" + image.getSize() + "', '" + image.getPaper() + "')";
+			
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 	}
 
+	public byte[] stringtobyte (File p){
+		try {
+			InputStream streamBlob = new FileInputStream(p);
+			byte[] bytesBlob = new byte[streamBlob.available()];
+			streamBlob.read(bytesBlob);
+			streamBlob.close();
+			
+			return bytesBlob;
+		} catch (IOException e) {
+			System.out.println("Something went wrong...");
+			return null;
+		}
+	}
 	public void insertIntoPaper(Paper paper) {
 		try {
 			Statement stmtSeq = c.createStatement();
