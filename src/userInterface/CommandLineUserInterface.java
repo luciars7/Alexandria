@@ -570,7 +570,6 @@ public class CommandLineUserInterface {
 		
 		Image image1 = new Image(description, type, size, p, paper, disease);
 		dbManager.insertIntoImage(image1);
-		String imageAddress = read;
 	}
 
 	public static void showImage(String name) {
@@ -585,13 +584,6 @@ public class CommandLineUserInterface {
 	}
 
 	public static void addPaper() {
-		System.out.print("Name: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String name = read;
 		System.out.print("Title: ");
 		try {
 			read = console.readLine();
@@ -606,7 +598,35 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String source = read;
-		Paper paper = new Paper(title, source);
+		showPaper("all");
+		System.out.println("Author name:");
+		try {
+			read = console.readLine();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String authorName = read;
+		ArrayList<Author> authorList = dbManager.selectAuthor(authorName);		
+		Author author=null;
+		for(Author aut: authorList){
+			author = aut;
+		}
+		showDisease("all");
+		System.out.print("Disease name:");
+		try {
+			read = console.readLine();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String disease_name = read;
+		ArrayList<Disease> disease_list = dbManager.selectDisease(disease_name);		
+		Disease disease = null;
+		for(Disease dis: disease_list){
+			disease = dis;
+		}
+		Paper paper = new Paper(title, source, author, disease);
 		dbManager.insertIntoPaper(paper);
 	}
 
@@ -1001,7 +1021,7 @@ public class CommandLineUserInterface {
 			System.out.println("Write the new image's description:");
 			String newDescription = console.readLine();
 			System.out.println("Write the new disease's paper:");
-			ArrayList<Paper> listP = dbManager.selectPaper("all");
+				ArrayList<Paper> listP = dbManager.selectPaper("all");
 			System.out.println("Which is the paper related to this disease?" + "\nWrite its ID number:");
 			read = console.readLine();
 			Integer newPaper = Integer.parseInt(read);
