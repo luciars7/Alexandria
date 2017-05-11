@@ -547,11 +547,11 @@ public class CommandLineUserInterface {
 			}
 			String NAME = read;
 			if (NAME.equals("none")) {
-				Disease disease1 = new Disease(name, description);
+				Disease disease1 = new Disease(name, description, null);
 				dbManager.insertIntoDisease(disease1);
 			} else {
-				ArrayList<BodyPart> bodyParts = dbManager.selectBodyPart(NAME);
-				Disease disease1 = new Disease(name, description, bodyParts.get(0));
+				ArrayList<BodyPart> bodyPart = dbManager.selectBodyPart(NAME);
+				Disease disease1 = new Disease(name, description, bodyPart.get(0).getID());
 				dbManager.insertIntoDisease(disease1);
 			}
 		}
@@ -1090,18 +1090,18 @@ public class CommandLineUserInterface {
 				for (Image image : listI) {
 					System.out.println(image);
 				}
-				System.out.println("Which is the image that you want to modify?" + "\nWrite its ID number:");
-				String read = console.readLine();
-				Integer imageId = Integer.parseInt(read);
-				System.out.println("Write the new image's description:");
-				String newDescription = console.readLine();
-				System.out.println("Write the new disease's paper:");
+
+			System.out.println("Which is the image that you want to modify?" + "\nWrite its ID number:");
+			String read = console.readLine();
+			Integer imageId = Integer.parseInt(read);
+			System.out.println("Write the new image's description:");
+			String newDescription = console.readLine();
+			System.out.println("Write the new disease's paper:");
 				ArrayList<Paper> listP = dbManager.selectPaper("all");
-				System.out.println("Which is the paper related to this disease?" + "\nWrite its ID number:");
-				read = console.readLine();
-				Integer newPaper = Integer.parseInt(read);
-				dbManager.updateImage(imageId, newDescription, newPaper);
-			}
+			System.out.println("Which is the paper related to this disease?" + "\nWrite its ID number:");
+			read = console.readLine();
+			Integer newPaper = Integer.parseInt(read);
+			dbManager.updateImage(imageId, newDescription, newPaper);}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -18,6 +18,7 @@ public class DBManager {
 			Class.forName("org.sqlite.JDBC");
 			c = DriverManager.getConnection("jdbc:sqlite:./db/alexandria.db");
 			c.createStatement().execute("PRAGMA foreign_keys=ON");
+			System.out.println("Database connection opened.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -339,7 +340,6 @@ public class DBManager {
 		return list;
 	}
 
-	
 	public void createTables() {
 		try {
 			// Open database connection
@@ -354,7 +354,6 @@ public class DBManager {
 			String sql2 = "CREATE TABLE bodypart" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "location TEXT)";
 			stmt2.executeUpdate(sql2);
 			stmt2.close();
-
 
 			Statement stmt3 = c.createStatement();
 			String sql3 = "CREATE TABLE disease" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "description TEXT,"
@@ -442,9 +441,8 @@ public class DBManager {
 	public void insertIntoAuthor(Author author) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO author (name,origin,association) VALUES ('" + author.getName() + "',"
-					+ "'" + author.getOrigin() + "','"
-					+ author.getAssociation() + "')";
+			String sqlSeq = "INSERT INTO author (name,origin,association) VALUES ('" + author.getName() + "','"
+					+ author.getOrigin() + "','" + author.getAssociation() + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
