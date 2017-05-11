@@ -19,8 +19,8 @@ public class CommandLineUserInterface {
 		// Create a connection object.
 		System.out.println("Establishing a connection with ALEXANDRIA...");
 		newConnection();
-		System.out.println("New conncetion stablished.");
-		dbManager = new DBManager();
+		System.out.println("New connection stablished.");
+		dbManager = new DBManager(c);
 		checkTables(); // Needs to be done before JPA creates the tables as it
 						// wishes.
 		jpaManager = new JpaManager();
@@ -103,10 +103,15 @@ public class CommandLineUserInterface {
 		case "Y": {
 			dbManager.disconnect();
 			jpaManager.disconnect();
+			try {
+				c.close();
+			} catch (SQLException e) {
+				System.out.println("Error encountered when closing the conection.");
+				e.printStackTrace();
+			}
 			System.out.println("Connection closed.");
 			System.out.println("BYE!");
 			System.exit(0);
-			break;
 		}
 		case "N": {
 			return;
@@ -300,25 +305,10 @@ public class CommandLineUserInterface {
 	}
 
 	public static void newConnection() {
-		c = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:./db/alexandria.db"); // Indicates
-																				// the
-																				// technology
-																				// and
-																				// location
-																				// of
-																				// the
-																				// database.
-			c.createStatement().execute("PRAGMA foreign_keys=ON"); // Enables
-																	// the
-																	// support
-																	// for
-																	// foreign
-																	// key
-																	// constraints.
-
+			c = DriverManager.getConnection("jdbc:sqlite:./db/alexandria.db");
+			c.createStatement().execute("PRAGMA foreign_keys=ON"); 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

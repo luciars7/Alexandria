@@ -8,20 +8,8 @@ import pojos.*;
 public class DBManager {
 	Connection c = null;
 
-	public DBManager() {
-		connect();
-	}
-	
-	public void connect() {
-		try {
-			// Open database connection
-			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:./db/alexandria.db");
-			c.createStatement().execute("PRAGMA foreign_keys=ON");
-			System.out.println("Database connection opened.");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public DBManager(Connection c) {
+		this.c=c;
 	}
 	
 	public void disconnect() {
@@ -342,8 +330,6 @@ public class DBManager {
 
 	public void createTables() {
 		try {
-			// Open database connection
-			connect();
 			// Create tables: begin
 			Statement stmt1 = c.createStatement();
 			String sql1 = "CREATE TABLE paper" + "(ID INTEGER PRIMARY KEY," + "title TEXT," + "source TEXT)";
