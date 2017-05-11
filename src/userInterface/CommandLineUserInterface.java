@@ -2,7 +2,10 @@ package userInterface;
 
 import java.io.*;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import jdbc.DBManager;
@@ -21,21 +24,41 @@ public class CommandLineUserInterface {
 		System.out.println("Establishing a connection with ALEXANDRIA...");
 		newConnection();
 		System.out.println("New conncetion stablished.");
-		// Create DB_manager object.
 		dbManager = new DBManager();
+		checkTables();	//Needs to be done before JPA creates the tables as it wishes.	
 		jpaManager = new JpaManager();
 		showMenu();
+	}
+	
+	public static void checkTables(){
+		System.out.println("Checking for the tables...");
+		DatabaseMetaData dbm;
+		try {
+			dbm = c.getMetaData();
+			ResultSet tables = dbm.getTables(null, null, "paper", null);
+			if (tables.next()) {
+				System.out.println("Tables already exist.");
+			}
+			else {
+				System.out.println("Tables do not exist. Proceeding to create them.");
+				dbManager.createTables();
+				System.out.println("The tables have been created.");
+				
+			}
+		} catch (SQLException e) {
+			System.out.println("Error encountered when retreiving data.");
+			e.printStackTrace();
+		}
 	}
 
 	private static void showMenu() {
 		System.out.println("\n\n\n\nALEXANDRIA");
 		System.out.println("***********************");
-		System.out.println("\n1.) Create tables.");
-		System.out.println("2.) Add new item.");
-		System.out.println("3.) Delete item.");
-		System.out.println("4.) View item.");
-		System.out.println("5.) Modify item.");
-		System.out.println("6.) Exit.");
+		System.out.println("1.) Add new item.");
+		System.out.println("2.) Delete item.");
+		System.out.println("3.) View item.");
+		System.out.println("4.) Modify item.");
+		System.out.println("5.) Exit.");
 		System.out.print("\nOption: ");
 		try {
 			read = console.readLine();
@@ -46,29 +69,22 @@ public class CommandLineUserInterface {
 		int option = Integer.parseInt(read);
 		switch (option) {
 		case 1: {
-			// Missing: checking if tables are created or not
-			// try-catch w select or insert and the exception that's thrown
-			// means tables aren't created
-			newTables();
-			break;
-		}
-		case 2: {
 			newEntity();
 			break;
 		}
-		case 3: {
+		case 2: {
 			deleteEntity();
 			break;
 		}
-		case 4: {
+		case 3: {
 			showEntity();
 			break;
 		}
-		case 5: {
+		case 4: {
 			updateMenu();
 			break;
 		}
-		case 6: {
+		case 5: {
 			Exit();
 			break;
 		}
@@ -286,12 +302,6 @@ public class CommandLineUserInterface {
 
 	}
 
-	private static void newTables() {
-		dbManager = new DBManager();
-		dbManager.createTables();
-		return;
-	}
-
 	public static void newConnection() {
 		c = null;
 		try {
@@ -400,8 +410,8 @@ public class CommandLineUserInterface {
 	}
 
 	public static void addDevice() {
-		int procedure_id = 0;
-		int paper_id = 0;
+		Procedure procedure_ = null;
+		Paper paper_ = null;
 		System.out.print("Name: ");
 		try {
 			read = console.readLine();
@@ -430,6 +440,7 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String brand = read;
+		//ask for procedure
 		ArrayList<Procedure> list = dbManager.selectProcedure("all");
 		if (list == null) {
 			System.out.println("Error searching for the medical procedure(s).");
@@ -446,7 +457,7 @@ public class CommandLineUserInterface {
 			String NAME = read;
 			if (!NAME.equals("none")) {
 				ArrayList<Procedure> procedure = dbManager.selectProcedure(NAME);
-				procedure_id = procedure.get(0).getID();
+				procedure_ = procedure.get(0);
 			}
 			ArrayList<Paper> list2 = dbManager.selectPaper("all");
 			if (list2 == null) {
@@ -463,13 +474,13 @@ public class CommandLineUserInterface {
 					String NAME2 = read;
 					if (!NAME2.equals("none")) {
 						ArrayList<Paper> paper = dbManager.selectPaper(NAME2);
-						paper_id = paper.get(0).getID();
+						paper_ = paper.get(0);
 					}
 
 				}
 			}
 		}
-		Device device = new Device(name, type, price, brand, procedure_id, paper_id);
+		Device device = new Device(name, type, price, brand, procedure_, paper_);
 		dbManager.insertIntoDevice(device);
 	}
 
@@ -579,7 +590,7 @@ public class CommandLineUserInterface {
 		}
 		String name = read;
 		ArrayList<Paper> list = dbManager.selectPaper(name);		
-		Paper paper;
+		Paper paper=null;
 		for(Paper pap: list){
 			paper = pap;
 		}
@@ -595,7 +606,7 @@ public class CommandLineUserInterface {
 		}
 		String disease_name = read;
 		ArrayList<Disease> disease_list = dbManager.selectDisease(disease_name);		
-		Disease disease;
+		Disease disease = null;
 		for(Disease dis: disease_list){
 			disease = dis;
 		}

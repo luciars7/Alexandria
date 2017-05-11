@@ -23,13 +23,18 @@ public class Device implements Serializable{
 		this.brand = brand;
 	}
 	
-	public Device() {
-		// TODO Auto-generated constructor stub
+
+	public Device(String name, String type, float price, String brand, Procedure procedure, Paper paper) {
+		super();
+		this.name = name;
+		this.type = type;
+		this.price = price;
+		this.brand = brand;
+		this.procedure = procedure;
+		Paper = paper;
 	}
 
-	public Device(String name2, String type2, float price2, String brand2, int procedure_id, int paper_id) {
-		// TODO Auto-generated constructor stub
-	}
+
 
 	public int getID() {
 		return ID;

@@ -401,13 +401,13 @@ public class DBManager {
 			stmt9.executeUpdate(sql9);
 			stmt9.close();
 
-			Statement stmt10 = c.createStatement();
+			/*Statement stmt10 = c.createStatement();
 			String sql10 = "CREATE TABLE paperauthor"
 					+ "(paper INTEGER REFERENCES paper (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "author INTEGER REFERENCES author (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "PRIMARY KEY (paper, author))";
 			stmt10.executeUpdate(sql10);
-			stmt10.close();
+			stmt10.close();*/ 
 
 			Statement stmt11 = c.createStatement();
 			String sql11 = "CREATE TABLE paperdisease"
@@ -465,7 +465,7 @@ public class DBManager {
 		try {
 			Statement stmtSeq = c.createStatement();
 			String sqlSeq = "";
-			if (device.getProcedure().getID() == 0 && device.getPaper().getID() == 0) {
+			if (device.getProcedure().getID() == 0 && device.getPaper() == null) { //S
 				sqlSeq = "INSERT INTO device (name, type, price$, brand) VALUES ('" + device.getName() + "', '" + device.getType() + "', '"
 						+ device.getPrice() + "', '" + device.getBrand() + "')";
 				

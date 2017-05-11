@@ -17,13 +17,14 @@ public class BodyPart implements Serializable{
 		this.location = location;
 	}
 	
-	public BodyPart() {
-		// TODO Auto-generated constructor stub
+
+	public BodyPart(String name, String location) {
+		super();
+		this.name = name;
+		this.location = location;
 	}
 
-	public BodyPart(String name2, String location2) {
-		// TODO Auto-generated constructor stub
-	}
+
 
 	public int getID() {
 		return ID;

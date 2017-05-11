@@ -22,8 +22,6 @@ public class Author implements Serializable{
 	private String origin;
 	private String association;
     private Paper paper;
-	@OneToMany(mappedBy="department")
-	private List<Employee> employees;
     
 	public Author() {
 
