@@ -3,9 +3,7 @@ package jpa;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-
 import pojos.*;
-import sample.db.pojos.*;
 
 public class JpaManager {
 
