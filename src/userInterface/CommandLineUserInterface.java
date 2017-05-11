@@ -501,7 +501,7 @@ public class CommandLineUserInterface {
 		}
 	}
 
-	public static void addImage() {
+	public static void addImage() { 
 		System.out.print("Description: ");
 		try {
 			read = console.readLine();
