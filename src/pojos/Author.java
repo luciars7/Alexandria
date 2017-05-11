@@ -2,51 +2,58 @@ package pojos;
 
 import java.io.Serializable;
 import java.util.List;
-
 import javax.persistence.*;
-
-import sample.db.pojos.Employee;
 
 @Entity
 @Table(name = "author")
-public class Author implements Serializable{
-	
+public class Author implements Serializable {
+
 	private static final long serialVersionUID = 5523276157826073516L;
-	
-	@Id //First attribute is a PK.
-	@GeneratedValue(generator="author")
-	@TableGenerator(name="author", table="sqlite_sequence",
-	    pkColumnName="name", valueColumnName="seq", pkColumnValue="author")
+
+	@Id 
+	@GeneratedValue(generator = "author")
+	@TableGenerator(name = "author", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "author")
 	private int ID;
 	private String name;
 	private String origin;
 	private String association;
-    private Paper paper;
-    
+	@ManyToMany
+	@JoinTable(name="paperauthor",
+	joinColumns={@JoinColumn(name="paper", referencedColumnName="ID")},
+	inverseJoinColumns={@JoinColumn(name="author", referencedColumnName="ID")})
+	private List<Paper> paper;
+
 	public Author() {
-
 	}
-    
-public Author(int iD, String name, String origin, String association) {
-	ID = iD;
-	this.name = name;
-	this.origin = origin;
-	this.association = association;
-}
 
-public Author(String name2, String origin2, String association2) {
-	this.name = name2;
-	this.origin = origin2;
-	this.association = association2;
-}
-	
-	public Paper getPaper() {
-	return paper;
-}
+	public Author(int iD, String name, String origin, String association) {
+		ID = iD;
+		this.name = name;
+		this.origin = origin;
+		this.association = association;
+	}
 
-public void setPaper(Paper paper) {
-	this.paper = paper;
-}
+	public Author(String name2, String origin2, String association2) {
+		this.name = name2;
+		this.origin = origin2;
+		this.association = association2;
+	}
+
+	public void addPaper(Paper paper) {
+		this.paper.add(paper);
+	}
+
+	public void removePaper(Paper paper) {
+		this.paper.remove(paper);
+	}
+
+	public List<Paper> getPaper() {
+		return paper;
+	}
+
+	public void setPaper(List<Paper> paper) {
+		this.paper = paper;
+	}
 
 	public int getID() {
 		return ID;
@@ -79,7 +86,7 @@ public void setPaper(Paper paper) {
 	public void setAssociation(String association) {
 		this.association = association;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -106,5 +113,5 @@ public void setPaper(Paper paper) {
 	public String toString() {
 		return "Author [ID=" + ID + ", name=" + name + ", origin=" + origin + ", association=" + association + "]";
 	}
-	
+
 }

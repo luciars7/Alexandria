@@ -1,21 +1,63 @@
 package pojos;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.*;
+
+
+@Entity
+@Table(name = "disease")
 public class Disease implements Serializable{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -4645657267981261074L;
+	
+	@Id 
+	@GeneratedValue(generator = "disease")
+	@TableGenerator(name = "disease", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "disease")
 	private int ID;
 	private String name;
 	private String description;
-	private BodyPart bodyPart;
-	private Symptom symptom;
-	private Paper paper;
-	private Image image;
-	private Procedure procedure;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="bodypart_id")
+	private BodyPart bodypart;
+	@ManyToMany
+	@JoinTable(name="symptomdisease",
+	joinColumns={@JoinColumn(name="symptom", referencedColumnName="ID")},
+	inverseJoinColumns={@JoinColumn(name="disease", referencedColumnName="ID")})
+	private List<Symptom> symptom;
+	@ManyToMany
+	@JoinTable(name="paperdisease",
+	joinColumns={@JoinColumn(name="paper", referencedColumnName="ID")},
+	inverseJoinColumns={@JoinColumn(name="disease", referencedColumnName="ID")})
+	private List<Paper> paper;
+	@ManyToMany
+	@JoinTable(name="imagedisease",
+	joinColumns={@JoinColumn(name="image", referencedColumnName="ID")},
+	inverseJoinColumns={@JoinColumn(name="disease", referencedColumnName="ID")})
+	private List<Image> image;
+	@ManyToMany
+	@JoinTable(name="proceduredisease",
+	joinColumns={@JoinColumn(name="procedure", referencedColumnName="ID")},
+	inverseJoinColumns={@JoinColumn(name="disease", referencedColumnName="ID")})
+	private List<Procedure> procedure;
+	
+	public void addPaper(Paper paper) {
+		this.paper.add(paper);
+	}
 
+	public void removePaper(Paper paper) {
+		this.paper.remove(paper);
+	}
+	
+	public void addProcedure(Procedure procedure) {
+		this.procedure.add(procedure);
+	}
+
+	public void removeProcedure(Procedure procedure) {
+		this.procedure.remove(procedure);
+	}
+	
 	public Disease(int id, String name, String description, BodyPart bodypart) {
 		this.setID(id);
 		this.setName(name);
@@ -34,48 +76,64 @@ public class Disease implements Serializable{
 		this.setName(description2);
 	}
 
-	public Procedure getProcedure() {
+	public List<Procedure> getProcedure() {
 		return procedure;
 	}
 
-	public void setProcedure(Procedure procedure) {
+	public void setProcedure(List<Procedure> procedure) {
 		this.procedure = procedure;
 	}
 
-	public Image getImage() {
+	public List<Image> getImage() {
 		return image;
 	}
 
-	public void setImage(Image image) {
+	public void setImage(List<Image> image) {
 		this.image = image;
 	}
+	
+	public void addImage(Image image) {
+		this.image.add(image);
+	}
 
-	public Paper getPaper() {
+	public void removeImage(Image image) {
+		this.image.remove(image);
+	}
+
+	public List<Paper> getPaper() {
 		return paper;
 	}
 
-	public void setPaper(Paper paper) {
+	public void setPaper(List<Paper> paper) {
 		this.paper = paper;
 	}
 
-	public Symptom getSymptom() {
+	public List<Symptom> getSymptom() {
 		return symptom;
 	}
 
-	public void setSymptom(Symptom symptom) {
+	public void setSymptom(List<Symptom> symptom) {
 		this.symptom = symptom;
 	}
 
+	public void addSymptom(Symptom symptom) {
+		this.symptom.add(symptom);
+	}
+
+	public void removeSymptom(Symptom symptom) {
+		this.symptom.remove(symptom);
+	}
+	
 	public BodyPart getBodyPart() {
-		return bodyPart;
+		return bodypart;
 	}
 
 	public void setBodyPart(BodyPart bodyPart) {
-		this.bodyPart = bodyPart;
+		this.bodypart = bodyPart;
 	}
 
 	public Disease() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public int getID() {

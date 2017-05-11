@@ -98,7 +98,7 @@ public class CommandLineUserInterface {
 		System.out.println("Are you sure you want to continue? (Y/N)");
 		System.out.print("Option: ");
 		try {
-			read = console.readLine();
+			read = console.readLine().toUpperCase();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

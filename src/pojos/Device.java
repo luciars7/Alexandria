@@ -1,19 +1,32 @@
 package pojos;
-
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "paper")
 public class Device implements Serializable{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -4117700635988378197L;
+	
+	@Id 
+	@GeneratedValue(generator = "device")
+	@TableGenerator(name = "device", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "device")
 	private int ID;
 	private String name;
 	private String type;
 	private float price;
 	private String brand;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="procedure_id")
 	private Procedure procedure;
-	private Paper Paper;
+	@OneToMany(mappedBy="device")
+	private List<Paper> paper;
+	
+	public Device(){
+		
+	}
 	
 	public Device(int iD, String name, String type, float price, String brand) {
 		ID = iD;
@@ -24,14 +37,14 @@ public class Device implements Serializable{
 	}
 	
 
-	public Device(String name, String type, float price, String brand, Procedure procedure, Paper paper) {
+	public Device(String name, String type, float price, String brand, Procedure procedure, List<Paper> paper) {
 		super();
 		this.name = name;
 		this.type = type;
 		this.price = price;
 		this.brand = brand;
 		this.procedure = procedure;
-		Paper = paper;
+		this.paper = paper;
 	}
 
 
@@ -48,14 +61,22 @@ public class Device implements Serializable{
 		this.procedure = procedure;
 	}
 
-	public Paper getPaper() {
-		return Paper;
+	public List<Paper> getPaper() {
+		return paper;
 	}
 
-	public void setPaper(Paper paper) {
-		Paper = paper;
+	public void setPaper(List<Paper> paper) {
+		this.paper = paper;
 	}
 
+	public void addPaper(Paper paper) {
+		this.paper.add(paper);
+	}
+
+	public void removePaper(Paper paper) {
+		this.paper.remove(paper);
+	}
+	
 	public void setPrice(float price) {
 		this.price = price;
 	}

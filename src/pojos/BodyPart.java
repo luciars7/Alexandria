@@ -1,22 +1,34 @@
 package pojos;
 
 import java.io.Serializable;
+import java.util.List;
 
-public class BodyPart implements Serializable{
-	/**
-	 * 
-	 */
+import javax.persistence.*;
+
+@Entity
+@Table(name = "bodypart")
+public class BodyPart implements Serializable {
+
 	private static final long serialVersionUID = 7984733182205819494L;
+
+	@Id
+	@GeneratedValue(generator = "bodypart")
+	@TableGenerator(name = "bodypart", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "bodypart")
 	private int ID;
 	private String name;
 	private String location;
-	
+	@OneToMany(mappedBy = "bodypart")
+	private List<Disease> disease;
+
+	public BodyPart() {
+
+	}
+
 	public BodyPart(int ID, String name, String location) {
 		this.ID = ID;
 		this.name = name;
 		this.location = location;
 	}
-	
 
 	public BodyPart(String name, String location) {
 		super();
@@ -24,32 +36,42 @@ public class BodyPart implements Serializable{
 		this.location = location;
 	}
 
+	public List<Disease> getDisease() {
+		return disease;
+	}
 
+	public void setDisease(List<Disease> disease) {
+		this.disease = disease;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 	public int getID() {
 		return ID;
 	}
-	
+
 	public void setID(int ID) {
 		this.ID = ID;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getLocation() {
 		return location;
 	}
-	
+
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -71,6 +93,7 @@ public class BodyPart implements Serializable{
 			return false;
 		return true;
 	}
+
 	@Override
 	public String toString() {
 		return "Body part [ID=" + ID + ", name=" + name + ", location=" + location + "]";

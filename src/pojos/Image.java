@@ -2,20 +2,28 @@ package pojos;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.List;
+
+import javax.persistence.*;
+
 
 public class Image implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2122694598463647223L;
+	
+	@Id 
+	@GeneratedValue(generator = "image")
+	@TableGenerator(name = "image", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "image")
 	private int ID;
 	private String description;
 	private String type;
 	private String size;
 	private byte[] image;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="paper_id")
 	private Paper paper;
-	private Disease disease;
+	@ManyToMany (mappedBy="image")
+	private List<Disease> disease;
 	
 	public Image(int iD, String description, String type, String size, byte[] image, Paper paper) {
 		ID = iD;
@@ -26,23 +34,32 @@ public class Image implements Serializable{
 		this.paper = paper;
 	}	
 	
-	public Disease getDisease() {
+	public List<Disease> getDisease() {
 		return disease;
 	}
 
-	public void setDisease(Disease disease) {
+	public void setDisease(List<Disease> disease) {
 		this.disease = disease;
 	}
 
+	public void addDisease(Disease disease) {
+		this.disease.add(disease);
+	}
+
+	public void removeDisease(Disease disease) {
+		this.disease.remove(disease);
+	}
+	
+	
 	public Image() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public int getID() {
 		return ID;
 	}
 
-	public Image(String description, String type, String size, byte[] image, Paper paper, Disease disease) {
+	public Image(String description, String type, String size, byte[] image, Paper paper, List<Disease> disease) {
 		this.description = description;
 		this.type = type;
 		this.size = size;
