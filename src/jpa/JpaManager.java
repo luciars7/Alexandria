@@ -1,16 +1,9 @@
 package jpa;
 
-<<<<<<< HEAD
 import javax.persistence.*;
 
 import pojos.*;
 
-=======
-import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
-import pojos.*;
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
 
 public class JpaManager {
 
@@ -25,7 +18,6 @@ public class JpaManager {
 
 	// INSERTIONS INTO N-N TABLES
 	// ------------------------------------------------------------------------------------------------
-<<<<<<< HEAD
 	public void insertsymtomdisease(int disease_id, int symptom_id) {
 		if (disease_id != 0 && symptom_id != 0) {
 			em.getTransaction().begin();
@@ -79,59 +71,11 @@ public class JpaManager {
 			procedure.addDisease(disease);
 			em.getTransaction().commit();
 		}
-=======
-	public static void insertsymtomdisease(int disease_id, int symptom_id) {
-		em.getTransaction().begin();
-		Disease disease = readDisease(disease_id);
-		Symptom symptom = readSymptom(symptom_id);
-		disease.setSymptom(symptom);
-		symptom.setDisease(disease);
-		em.getTransaction().commit();
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
 	}
-<<<<<<< HEAD
 	
 	// INSERTIONS INTO 1-N TABLES
 	// ------------------------------------------------------------------------------------------------
 	
-=======
-
-	public static void insertpaperauthor(int paper_id, int author_id) {
-		em.getTransaction().begin();
-		Paper paper = readPaper(paper_id);
-		Author author = readAuthor(author_id);
-		paper.setAuthor(author);
-		author.setPaper(paper);
-		em.getTransaction().commit();
-	}
-
-	public static void insertpaperdisease(int paper_id, int disease_id) {
-		em.getTransaction().begin();
-		Paper paper = readPaper(paper_id);
-		Disease disease = readDisease(disease_id);
-		paper.setDisease(disease);
-		disease.setPaper(paper);
-		em.getTransaction().commit();
-	}
-
-	public static void insertimagedisease(int image_id, int disease_id) {
-		em.getTransaction().begin();
-		Disease disease = readDisease(disease_id);
-		Image image = readImage(image_id);
-		disease.setImage(image);
-		image.setDisease(disease);
-		em.getTransaction().commit();
-	}
-
-	public static void insertproceduredisease(int procedure_id, int disease_id) {
-		em.getTransaction().begin();
-		Disease disease = readDisease(disease_id);
-		Procedure procedure = readProcedure(procedure_id);
-		disease.setProcedure(procedure);
-		procedure.setDisease(disease);
-		em.getTransaction().commit();
-	}
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
 
 	// READS
 	// ------------------------------------------------------------------------------------------------
@@ -177,7 +121,6 @@ public class JpaManager {
 		return procedure;
 	}
 
-<<<<<<< HEAD
 	// DELETES
 	// ------------------------------------------------------------------------------------------------
 	public void deleteSymptomJPA(int symptom_id) {
@@ -198,6 +141,4 @@ public class JpaManager {
 			// End transaction
 			em.getTransaction().commit();
 	}
-=======
->>>>>>> branch 'master' of https://github.com/luciars7/Alexandria.git
 }
