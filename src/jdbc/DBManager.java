@@ -150,7 +150,7 @@ public class DBManager {
 			} else {
 
 				String sql = "SELECT * FROM disease WHERE name = '" + NAME + "'";
-				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
+				ResultSet rs = stmt .executeQuery(sql); // Works as an iterator.
 				while (rs.next()) {
 					int id = rs.getInt("ID");
 					String name = rs.getString("name");

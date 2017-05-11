@@ -11,10 +11,10 @@ public class JpaManager {
 	private static	EntityManager em;
 	
 	public JpaManager(){
-    em = Persistence.createEntityManagerFactory("company-provider").createEntityManager();
-	em.getTransaction().begin();
-	em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
-	em.getTransaction().commit();
+	    em = Persistence.createEntityManagerFactory("company-provider").createEntityManager();
+		em.getTransaction().begin();
+		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
+		em.getTransaction().commit();
 	}
 	
 	// INSERTIONS INTO N-N TABLES
