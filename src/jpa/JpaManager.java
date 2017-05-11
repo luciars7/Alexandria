@@ -141,4 +141,8 @@ public class JpaManager {
 			// End transaction
 			em.getTransaction().commit();
 	}
+
+	public void disconnect() {
+		em.close();
+	}
 }

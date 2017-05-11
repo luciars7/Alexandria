@@ -444,6 +444,7 @@ public class DBManager {
 			String sqlSeq = "INSERT INTO author (name,origin,association) VALUES ('" + author.getName() + "','"
 					+ author.getOrigin() + "','" + author.getAssociation() + "')";
 			stmtSeq.executeUpdate(sqlSeq);
+			stmtSeq.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -454,6 +455,7 @@ public class DBManager {
 			Statement stmtSeq = c.createStatement();
 			String sqlSeq = "INSERT INTO bodyPart (name, location) VALUES ('" + bodyPart.getName() + "', '" + bodyPart.getLocation() + "')";
 			stmtSeq.executeUpdate(sqlSeq);
+			stmtSeq.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -485,6 +487,7 @@ public class DBManager {
 
 			}
 			stmtSeq.executeUpdate(sqlSeq);
+			stmtSeq.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -501,6 +504,7 @@ public class DBManager {
 				sqlSeq = "INSERT INTO disease (name, description, bodyParts) VALUES ('" + disease.getName() + "', '" + disease.getDescription() + ", " + disease.getBodyPart() + ")";
 			}
 			stmtSeq.executeUpdate(sqlSeq);
+			stmtSeq.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -516,6 +520,7 @@ public class DBManager {
 					+ image.getType() + "', '" + image.getSize() + "', '" + image.getPaper() + "')";
 			
 			stmtSeq.executeUpdate(sqlSeq);
+			stmtSeq.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -539,6 +544,7 @@ public class DBManager {
 			Statement stmtSeq = c.createStatement();
 			String sqlSeq = "INSERT INTO paper (title, source) VALUES ('" + paper.getTitle() + "', '" + paper.getSource() + "')";
 			stmtSeq.executeUpdate(sqlSeq);
+			stmtSeq.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -550,6 +556,7 @@ public class DBManager {
 
 			String sqlSeq = "INSERT INTO procedure (name, description) VALUES ('" + procedure.getName() + "', '" + procedure.getDescription() + "')";
 			stmtSeq.executeUpdate(sqlSeq);
+			stmtSeq.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -560,6 +567,7 @@ public class DBManager {
 			Statement stmtSeq = c.createStatement();
 			String sqlSeq = "INSERT INTO symptom (name, description) VALUES ('" + symptom.getName() + "', '" + symptom.getDescription() + "')";
 			stmtSeq.executeUpdate(sqlSeq);
+			stmtSeq.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -573,7 +581,7 @@ public class DBManager {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, author_id);
 			prep.executeUpdate();
-			System.out.println("Deletion finished.");
+			prep.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -585,7 +593,7 @@ public class DBManager {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, bodypart_id);
 			prep.executeUpdate();
-			System.out.println("Deletion finished.");
+			prep.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -597,7 +605,7 @@ public class DBManager {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, disease_id);
 			prep.executeUpdate();
-			System.out.println("Deletion finished.");
+			prep.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -609,7 +617,7 @@ public class DBManager {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, image_id);
 			prep.executeUpdate();
-			System.out.println("Deletion finished.");
+			prep.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -621,7 +629,7 @@ public class DBManager {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, paper_id);
 			prep.executeUpdate();
-			System.out.println("Deletion finished.");
+			prep.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -633,8 +641,8 @@ public class DBManager {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, procedure_id);
 			prep.executeUpdate();
-			System.out.println("Deletion finished.");
-		} catch (Exception e) {
+			prep.close();
+			} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
@@ -645,7 +653,7 @@ public class DBManager {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, device_id);
 			prep.executeUpdate();
-			System.out.println("Deletion finished.");
+			prep.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -657,8 +665,8 @@ public class DBManager {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, symptom_id);
 			prep.executeUpdate();
-			System.out.println("Deletion finished.");
-		} catch (Exception e) {
+			prep.close();
+			} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
@@ -672,8 +680,8 @@ public class DBManager {
 			prep.setString(1, newAssociation);
 			prep.setInt(2, author_id);
 			prep.executeUpdate();
-			System.out.println("Update finished.");
-		} catch (Exception e) {
+			prep.close();
+			} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
@@ -695,8 +703,8 @@ public class DBManager {
 			prep.setString(2, newBrand);
 			prep.setInt(3, device_id);
 			prep.executeUpdate();
-			System.out.println("Update finished.");
-		} catch (Exception e) {
+			prep.close();
+			} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
@@ -709,8 +717,8 @@ public class DBManager {
 			prep.setInt(2, newBodyPart);
 			prep.setInt(3, disease_id);
 			prep.executeUpdate();
-			System.out.println("Update finished.");
-		} catch (Exception e) {
+			prep.close();
+			} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
@@ -723,7 +731,7 @@ public class DBManager {
 			prep.setString(1, newDescription);
 			prep.setInt(2,newPaper);
 			prep.executeUpdate();
-			System.out.println("Update finished.");
+			prep.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -742,8 +750,8 @@ public class DBManager {
 			prep.setString(1, newDescription);
 			prep.setInt(2, procedure_id);
 			prep.executeUpdate();
-			System.out.println("Update finished.");
-		} catch (Exception e) {
+			prep.close();
+			} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}

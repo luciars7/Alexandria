@@ -1,11 +1,7 @@
 package userInterface;
 
 import java.io.*;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 import jdbc.DBManager;
@@ -106,6 +102,7 @@ public class CommandLineUserInterface {
 		switch (option) {
 		case "Y": {
 			dbManager.disconnect();
+			jpaManager.disconnect();
 			System.out.println("Connection closed.");
 			System.out.println("BYE!");
 			System.exit(0);
