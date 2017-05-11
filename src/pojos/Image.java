@@ -6,12 +6,13 @@ import java.util.List;
 
 import javax.persistence.*;
 
-
-public class Image implements Serializable{
+@Entity
+@Table(name = "image")
+public class Image implements Serializable {
 
 	private static final long serialVersionUID = -2122694598463647223L;
-	
-	@Id 
+
+	@Id
 	@GeneratedValue(generator = "image")
 	@TableGenerator(name = "image", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "image")
 	private int ID;
@@ -19,12 +20,12 @@ public class Image implements Serializable{
 	private String type;
 	private String size;
 	private byte[] image;
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="paper_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "paper_id")
 	private Paper paper;
-	@ManyToMany (mappedBy="image")
+	@ManyToMany(mappedBy = "image")
 	private List<Disease> disease;
-	
+
 	public Image(int iD, String description, String type, String size, byte[] image, Paper paper) {
 		ID = iD;
 		this.description = description;
@@ -32,8 +33,8 @@ public class Image implements Serializable{
 		this.size = size;
 		this.image = image;
 		this.paper = paper;
-	}	
-	
+	}
+
 	public List<Disease> getDisease() {
 		return disease;
 	}
@@ -49,8 +50,7 @@ public class Image implements Serializable{
 	public void removeDisease(Disease disease) {
 		this.disease.remove(disease);
 	}
-	
-	
+
 	public Image() {
 
 	}
@@ -112,8 +112,8 @@ public class Image implements Serializable{
 
 	public void setPaper(Paper paper) {
 		this.paper = paper;
-}
-	
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -141,6 +141,5 @@ public class Image implements Serializable{
 		return "[ID=" + ID + ", description=" + description + ", type=" + type + ", size=" + size + ", image="
 				+ Arrays.toString(image) + ", paper=" + paper.getTitle() + "]";
 	}
-	
-	
+
 }

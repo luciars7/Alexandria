@@ -5,43 +5,42 @@ import java.util.List;
 
 import javax.persistence.*;
 
-
 @Entity
 @Table(name = "disease")
-public class Disease implements Serializable{
-	
+public class Disease implements Serializable {
+
 	private static final long serialVersionUID = -4645657267981261074L;
-	
-	@Id 
+
+	@Id
 	@GeneratedValue(generator = "disease")
 	@TableGenerator(name = "disease", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "disease")
 	private int ID;
 	private String name;
 	private String description;
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="bodypart_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "bodypart_id")
 	private BodyPart bodypart;
 	@ManyToMany
-	@JoinTable(name="symptomdisease",
-	joinColumns={@JoinColumn(name="symptom", referencedColumnName="ID")},
-	inverseJoinColumns={@JoinColumn(name="disease", referencedColumnName="ID")})
+	@JoinTable(name = "symptomdisease", joinColumns = {
+			@JoinColumn(name = "symptom", referencedColumnName = "ID") }, inverseJoinColumns = {
+					@JoinColumn(name = "disease", referencedColumnName = "ID") })
 	private List<Symptom> symptom;
 	@ManyToMany
-	@JoinTable(name="paperdisease",
-	joinColumns={@JoinColumn(name="paper", referencedColumnName="ID")},
-	inverseJoinColumns={@JoinColumn(name="disease", referencedColumnName="ID")})
+	@JoinTable(name = "paperdisease", joinColumns = {
+			@JoinColumn(name = "paper", referencedColumnName = "ID") }, inverseJoinColumns = {
+					@JoinColumn(name = "disease", referencedColumnName = "ID") })
 	private List<Paper> paper;
 	@ManyToMany
-	@JoinTable(name="imagedisease",
-	joinColumns={@JoinColumn(name="image", referencedColumnName="ID")},
-	inverseJoinColumns={@JoinColumn(name="disease", referencedColumnName="ID")})
+	@JoinTable(name = "imagedisease", joinColumns = {
+			@JoinColumn(name = "image", referencedColumnName = "ID") }, inverseJoinColumns = {
+					@JoinColumn(name = "disease", referencedColumnName = "ID") })
 	private List<Image> image;
 	@ManyToMany
-	@JoinTable(name="proceduredisease",
-	joinColumns={@JoinColumn(name="procedure", referencedColumnName="ID")},
-	inverseJoinColumns={@JoinColumn(name="disease", referencedColumnName="ID")})
+	@JoinTable(name = "proceduredisease", joinColumns = {
+			@JoinColumn(name = "procedure", referencedColumnName = "ID") }, inverseJoinColumns = {
+					@JoinColumn(name = "disease", referencedColumnName = "ID") })
 	private List<Procedure> procedure;
-	
+
 	public void addPaper(Paper paper) {
 		this.paper.add(paper);
 	}
@@ -49,7 +48,7 @@ public class Disease implements Serializable{
 	public void removePaper(Paper paper) {
 		this.paper.remove(paper);
 	}
-	
+
 	public void addProcedure(Procedure procedure) {
 		this.procedure.add(procedure);
 	}
@@ -57,14 +56,14 @@ public class Disease implements Serializable{
 	public void removeProcedure(Procedure procedure) {
 		this.procedure.remove(procedure);
 	}
-	
+
 	public Disease(int id, String name, String description, BodyPart bodypart) {
 		this.setID(id);
 		this.setName(name);
 		this.setDescription(description);
 		this.setBodyPart(bodypart);
 	}
-	
+
 	public Disease(String name, String description, BodyPart bodyPart) {
 		this.setName(name);
 		this.setDescription(description);
@@ -91,7 +90,7 @@ public class Disease implements Serializable{
 	public void setImage(List<Image> image) {
 		this.image = image;
 	}
-	
+
 	public void addImage(Image image) {
 		this.image.add(image);
 	}
@@ -123,7 +122,7 @@ public class Disease implements Serializable{
 	public void removeSymptom(Symptom symptom) {
 		this.symptom.remove(symptom);
 	}
-	
+
 	public BodyPart getBodyPart() {
 		return bodypart;
 	}

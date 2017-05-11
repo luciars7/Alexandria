@@ -27,7 +27,7 @@ public class Paper implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "procedure_id")
 	private Procedure procedure;
-	@OneToMany(mappedBy="paper")
+	@OneToMany(mappedBy = "paper")
 	private List<Image> image;
 
 	public Paper() {
@@ -46,7 +46,7 @@ public class Paper implements Serializable {
 	public void setImage(List<Image> image) {
 		this.image = image;
 	}
-	
+
 	public void addImage(Image image) {
 		this.image.add(image);
 	}
@@ -54,7 +54,7 @@ public class Paper implements Serializable {
 	public void removeImage(Image image) {
 		this.image.remove(image);
 	}
-	
+
 	public void addDisease(Disease disease) {
 		this.disease.add(disease);
 	}

@@ -1,16 +1,17 @@
 package pojos;
+
 import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "paper")
-public class Device implements Serializable{
-	
+@Table(name = "device")
+public class Device implements Serializable {
+
 	private static final long serialVersionUID = -4117700635988378197L;
-	
-	@Id 
+
+	@Id
 	@GeneratedValue(generator = "device")
 	@TableGenerator(name = "device", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "device")
 	private int ID;
@@ -18,16 +19,16 @@ public class Device implements Serializable{
 	private String type;
 	private float price;
 	private String brand;
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="procedure_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "procedure_id")
 	private Procedure procedure;
-	@OneToMany(mappedBy="device")
+	@OneToMany(mappedBy = "device")
 	private List<Paper> paper;
-	
-	public Device(){
-		
+
+	public Device() {
+
 	}
-	
+
 	public Device(int iD, String name, String type, float price, String brand) {
 		ID = iD;
 		this.name = name;
@@ -35,7 +36,6 @@ public class Device implements Serializable{
 		this.price = price;
 		this.brand = brand;
 	}
-	
 
 	public Device(String name, String type, float price, String brand, Procedure procedure, List<Paper> paper) {
 		super();
@@ -47,12 +47,10 @@ public class Device implements Serializable{
 		this.paper = paper;
 	}
 
-
-
 	public int getID() {
 		return ID;
 	}
-	
+
 	public Procedure getProcedure() {
 		return procedure;
 	}
@@ -76,7 +74,7 @@ public class Device implements Serializable{
 	public void removePaper(Paper paper) {
 		this.paper.remove(paper);
 	}
-	
+
 	public void setPrice(float price) {
 		this.price = price;
 	}
@@ -84,35 +82,35 @@ public class Device implements Serializable{
 	public void setID(int iD) {
 		ID = iD;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getType() {
 		return type;
 	}
-	
+
 	public void setType(String type) {
 		this.type = type;
 	}
-	
+
 	public float getPrice() {
 		return price;
 	}
-	
+
 	public void setPrice(int price) {
 		this.price = price;
 	}
-	
+
 	public String getBrand() {
 		return brand;
 	}
-	
+
 	public void setBrand(String brand) {
 		this.brand = brand;
 	}
@@ -142,7 +140,6 @@ public class Device implements Serializable{
 	@Override
 	public String toString() {
 		return "[ID=" + ID + ", name=" + name + ", type=" + type + ", price($) =" + price + ", brand=" + brand + "]";
-	}	
-	
-	
+	}
+
 }

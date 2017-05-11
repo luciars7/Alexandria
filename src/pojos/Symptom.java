@@ -5,12 +5,13 @@ import java.util.List;
 
 import javax.persistence.*;
 
+@Entity
+@Table(name = "symptom")
+public class Symptom implements Serializable {
 
-public class Symptom implements Serializable{
-	
 	private static final long serialVersionUID = 4773372781875368145L;
-	
-	@Id 
+
+	@Id
 	@GeneratedValue(generator = "symptom")
 	@TableGenerator(name = "symptom", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "symptom")
 	private int ID;
@@ -18,13 +19,13 @@ public class Symptom implements Serializable{
 	private String description;
 	@ManyToMany(mappedBy = "symptom")
 	private List<Disease> disease;
-	
+
 	public Symptom(int id2, String name2, String description2) {
 		this.setID(id2);
 		this.setName(name2);
 		this.setDescription(description2);
 	}
-	
+
 	public void addDisease(Disease disease) {
 		this.disease.add(disease);
 	}
@@ -45,7 +46,7 @@ public class Symptom implements Serializable{
 		this.name = name;
 		this.description = description;
 	}
-	
+
 	public Symptom() {
 
 	}
@@ -53,23 +54,23 @@ public class Symptom implements Serializable{
 	public int getID() {
 		return ID;
 	}
-	
+
 	public void setID(int iD) {
 		ID = iD;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
-	
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
@@ -100,6 +101,5 @@ public class Symptom implements Serializable{
 	public String toString() {
 		return "[ID=" + ID + ", name=" + name + ", description=" + description + "]";
 	}
-	
-	
+
 }

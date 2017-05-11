@@ -7,23 +7,23 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "procedure")
-public class Procedure implements Serializable{
+public class Procedure implements Serializable {
 
 	private static final long serialVersionUID = -3468306807607790130L;
-	
-	@Id 
+
+	@Id
 	@GeneratedValue(generator = "procedure")
 	@TableGenerator(name = "procedure", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "procedure")
 	private int ID;
 	private String name;
 	private String description;
-	@ManyToMany (mappedBy="procedure")
+	@ManyToMany(mappedBy = "procedure")
 	private List<Disease> disease;
-	@OneToMany(mappedBy="procedure")
+	@OneToMany(mappedBy = "procedure")
 	private List<Paper> paper;
-	@OneToMany(mappedBy="procedure")
+	@OneToMany(mappedBy = "procedure")
 	private List<Device> device;
-	
+
 	public void addDevice(Device device) {
 		this.device.add(device);
 	}
@@ -31,7 +31,7 @@ public class Procedure implements Serializable{
 	public void removeDevice(Device device) {
 		this.device.remove(device);
 	}
-	
+
 	public List<Device> getDevice() {
 		return device;
 	}
@@ -47,12 +47,12 @@ public class Procedure implements Serializable{
 	public void removeDisease(Disease disease) {
 		this.disease.remove(disease);
 	}
-	
+
 	public Procedure(String name, String description) {
 		this.name = name;
 		this.description = description;
 	}
-	
+
 	public void addPaper(Paper paper) {
 		this.paper.add(paper);
 	}
@@ -60,8 +60,7 @@ public class Procedure implements Serializable{
 	public void removePaper(Paper paper) {
 		this.paper.remove(paper);
 	}
-	
-	
+
 	public List<Paper> getPaper() {
 		return paper;
 	}
@@ -81,7 +80,7 @@ public class Procedure implements Serializable{
 	public void setDisease(List<Disease> disease) {
 		this.disease = disease;
 	}
-	
+
 	public Procedure() {
 
 	}
@@ -99,19 +98,19 @@ public class Procedure implements Serializable{
 	public void setID(int iD) {
 		ID = iD;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
-	
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
@@ -142,7 +141,5 @@ public class Procedure implements Serializable{
 	public String toString() {
 		return "[ID=" + ID + ", name=" + name + ", description=" + description + "]";
 	}
-	
-	
-	
+
 }
