@@ -10,7 +10,7 @@ public class Author implements Serializable {
 
 	private static final long serialVersionUID = 5523276157826073516L;
 
-	@Id 
+	@Id
 	@GeneratedValue(generator = "author")
 	@TableGenerator(name = "author", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "author")
 	private int ID;
@@ -18,9 +18,9 @@ public class Author implements Serializable {
 	private String origin;
 	private String association;
 	@ManyToMany
-	@JoinTable(name="paperauthor",
-	joinColumns={@JoinColumn(name="paper", referencedColumnName="ID")},
-	inverseJoinColumns={@JoinColumn(name="author", referencedColumnName="ID")})
+	@JoinTable(name = "paperauthor", joinColumns = {
+	@JoinColumn(name = "paper", referencedColumnName = "ID") }, inverseJoinColumns = {
+	@JoinColumn(name = "author", referencedColumnName = "ID") })
 	private List<Paper> paper;
 
 	public Author() {

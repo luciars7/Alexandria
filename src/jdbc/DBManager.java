@@ -442,7 +442,8 @@ public class DBManager {
 	public void insertIntoAuthor(Author author) {
 		try {
 			Statement stmtSeq = c.createStatement();
-			String sqlSeq = "INSERT INTO author (name,origin,association) VALUES ('" + author.getName() + "','" + author.getOrigin() + "','"
+			String sqlSeq = "INSERT INTO author (name,origin,association) VALUES ('" + author.getName() + "',"
+					+ "'" + author.getOrigin() + "','"
 					+ author.getAssociation() + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
@@ -736,7 +737,7 @@ public class DBManager {
 	// found is neither going to change. The only thing that could happen to it,
 	// it is to be deleted.
 
-	public void updateProcedure (Integer procedure_id, String newDescription) {
+	public void updateProcedure (Integer procedure_id, String newDescription) {/////Preguntar a Lucía por el name.
 		try {
 			String sql = "UPDATE procedure SET name = ? AND description = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);

@@ -23,8 +23,8 @@ public class JpaManager {
 			em.getTransaction().begin();
 			Disease disease = readDisease(disease_id);
 			Symptom symptom = readSymptom(symptom_id);
-			disease.setSymptom(symptom);
-			symptom.setDisease(disease);
+			disease.addSymptom(symptom);
+			symptom.addDisease(disease);
 			em.getTransaction().commit();
 		}
 	}
@@ -34,8 +34,8 @@ public class JpaManager {
 			em.getTransaction().begin();
 			Paper paper = readPaper(paper_id);
 			Author author = readAuthor(author_id);
-			paper.setAuthor(author);
-			author.setPaper(paper);
+			paper.addAuthor(author);
+			author.addPaper(paper);
 			em.getTransaction().commit();
 		}
 	}
@@ -45,8 +45,8 @@ public class JpaManager {
 			em.getTransaction().begin();
 			Paper paper = readPaper(paper_id);
 			Disease disease = readDisease(disease_id);
-			paper.setDisease(disease);
-			disease.setPaper(paper);
+			paper.addDisease(disease);
+			disease.addPaper(paper);
 			em.getTransaction().commit();
 		}
 	}
@@ -56,8 +56,8 @@ public class JpaManager {
 			em.getTransaction().begin();
 			Disease disease = readDisease(disease_id);
 			Image image = readImage(image_id);
-			disease.setImage(image);
-			image.setDisease(disease);
+			disease.addImage(image);
+			image.addDisease(disease);
 			em.getTransaction().commit();
 		}
 	}
@@ -67,11 +67,15 @@ public class JpaManager {
 			em.getTransaction().begin();
 			Disease disease = readDisease(disease_id);
 			Procedure procedure = readProcedure(procedure_id);
-			disease.setProcedure(procedure);
-			procedure.setDisease(disease);
+			disease.addProcedure(procedure);
+			procedure.addDisease(disease);
 			em.getTransaction().commit();
 		}
 	}
+	
+	// INSERTIONS INTO 1-N TABLES
+	// ------------------------------------------------------------------------------------------------
+	
 
 	// READS
 	// ------------------------------------------------------------------------------------------------
@@ -119,11 +123,22 @@ public class JpaManager {
 
 	// DELETES
 	// ------------------------------------------------------------------------------------------------
-
 	public void deleteSymptomJPA(int symptom_id) {
 		em.getTransaction().begin();
 		Symptom symptom = readSymptom(symptom_id);
 		em.remove(symptom);
 		em.getTransaction().commit();
+	}
+	
+	// UPDATES
+	// ------------------------------------------------------------------------------------------------
+	public void updateProcedureJPA(Integer procedure_id, String newDescription) {
+	// Begin transaction
+			em.getTransaction().begin();
+			// Make changes
+			Procedure procedure = readProcedure(procedure_id);
+			procedure.setDescription(newDescription);
+			// End transaction
+			em.getTransaction().commit();
 	}
 }

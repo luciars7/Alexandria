@@ -25,12 +25,13 @@ public class CommandLineUserInterface {
 		newConnection();
 		System.out.println("New conncetion stablished.");
 		dbManager = new DBManager();
-		checkTables();	//Needs to be done before JPA creates the tables as it wishes.	
+		checkTables(); // Needs to be done before JPA creates the tables as it
+						// wishes.
 		jpaManager = new JpaManager();
 		showMenu();
 	}
-	
-	public static void checkTables(){
+
+	public static void checkTables() {
 		System.out.println("Checking for the tables...");
 		DatabaseMetaData dbm;
 		try {
@@ -38,12 +39,11 @@ public class CommandLineUserInterface {
 			ResultSet tables = dbm.getTables(null, null, "paper", null);
 			if (tables.next()) {
 				System.out.println("Tables already exist.");
-			}
-			else {
+			} else {
 				System.out.println("Tables do not exist. Proceeding to create them.");
 				dbManager.createTables();
 				System.out.println("The tables have been created.");
-				
+
 			}
 		} catch (SQLException e) {
 			System.out.println("Error encountered when retreiving data.");
@@ -338,7 +338,6 @@ public class CommandLineUserInterface {
 		return name;
 	}
 
-	// These methods should connect to the DBManager
 	public static void addAuthor() {
 		System.out.print("Name: ");
 		try {
@@ -364,6 +363,29 @@ public class CommandLineUserInterface {
 		Author author = new Author(name, origin, association);
 		dbManager.insertIntoAuthor(author);
 		System.out.println("Author inserted correctly.");
+		System.out.println("\nProceeding to show all available papers...");
+		showPaper("all");
+		System.out.println("Please, select the id of the papers you want to relate this author with.");
+		System.out.println("Select 0 for none or to finish.");
+		System.out.print("Option: ");
+		ArrayList<Integer> id = new ArrayList<Integer>();
+		int opcion = 1;
+		while (opcion != 0) {
+			try {
+				read = console.readLine();
+				opcion = Integer.parseInt(read);
+				if (opcion != 0) {
+					id.add(opcion);
+				} else {
+					break;
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		for (Integer id2 : id) {
+			jpaManager.insertpaperauthor(id2, author.getID());
+		}
 	}
 
 	public static void showAuthor(String name) {
@@ -440,7 +462,7 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String brand = read;
-		//ask for procedure
+		// ask for procedure
 		ArrayList<Procedure> list = dbManager.selectProcedure("all");
 		if (list == null) {
 			System.out.println("Error searching for the medical procedure(s).");
@@ -578,8 +600,7 @@ public class CommandLineUserInterface {
 		String imageAdress = read;
 		File photo = new File(imageAdress);
 		byte[] p = dbManager.stringtobyte(photo);
-		
-		
+
 		showPaper("all");
 		System.out.println("Paper name:");
 		try {
@@ -589,13 +610,12 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String name = read;
-		ArrayList<Paper> list = dbManager.selectPaper(name);		
-		Paper paper=null;
-		for(Paper pap: list){
+		ArrayList<Paper> list = dbManager.selectPaper(name);
+		Paper paper = null;
+		for (Paper pap : list) {
 			paper = pap;
 		}
-		
-		
+
 		showDisease("all");
 		System.out.print("Disease name:");
 		try {
@@ -605,14 +625,14 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String disease_name = read;
-		ArrayList<Disease> disease_list = dbManager.selectDisease(disease_name);		
+		ArrayList<Disease> disease_list = dbManager.selectDisease(disease_name);
 		Disease disease = null;
-		for(Disease dis: disease_list){
+		for (Disease dis : disease_list) {
 			disease = dis;
 		}
-		
+
 		// Paper missing. The user must select from all the existent
-		
+
 		Image image1 = new Image(description, type, size, p, paper, disease);
 		dbManager.insertIntoImage(image1);
 		String imageAddress = read;
@@ -630,13 +650,6 @@ public class CommandLineUserInterface {
 	}
 
 	public static void addPaper() {
-		System.out.print("Name: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String name = read;
 		System.out.print("Title: ");
 		try {
 			read = console.readLine();
@@ -653,6 +666,30 @@ public class CommandLineUserInterface {
 		String source = read;
 		Paper paper = new Paper(title, source);
 		dbManager.insertIntoPaper(paper);
+		System.out.println("\nProceeding to show all available authors...");
+		showAuthor("all");
+		System.out.println("Please, select the id of the authors you want to relate this paper with.");
+		System.out.println("Select 0 for none or to finish.");
+		System.out.print("Option: ");
+		ArrayList<Integer> id = new ArrayList<Integer>();
+		int option = 1;
+		while (option != 0) {
+			try {
+				read = console.readLine();
+				option = Integer.parseInt(read);
+				if (option != 0) {
+					id.add(option);
+				}
+				if (option == 0) {
+					break;
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		for (Integer id2 : id) {
+			jpaManager.insertpaperauthor(id2, paper.getID());
+		}
 	}
 
 	public static void showPaper(String name) {

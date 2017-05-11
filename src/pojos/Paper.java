@@ -31,6 +31,12 @@ public class Paper implements Serializable {
 	private List<Image> image;
 
 	public Paper() {
+
+	}
+	
+	public Paper(String title, String source) {
+		this.title = title;
+		this.source = source;
 	}
 
 	public Paper(int iD, String title, String source) {
