@@ -111,7 +111,7 @@ public class DBManager {
 					int id = rs.getInt("ID");
 					String name = rs.getString("name");
 					String type = rs.getString("type");
-					float price = rs.getFloat("price$");
+					float price = rs.getFloat("price");
 					String brand = rs.getString("brand");
 					list.add(new Device(id, name, type, price, brand));
 				}
@@ -124,7 +124,7 @@ public class DBManager {
 					int id = rs.getInt("ID");
 					String name = rs.getString("name");
 					String type = rs.getString("type");
-					float price = rs.getFloat("price$");
+					float price = rs.getFloat("price");
 					String brand = rs.getString("brand");
 					list.add(new Device(id, name, type, price, brand));
 
@@ -354,8 +354,8 @@ public class DBManager {
 
 			Statement stmt5 = c.createStatement();
 			String sql5 = "CREATE TABLE device" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "type TEXT ,"
-					+ "price$ FLOAT," + "brand TEXT,"
-					+ "medprocedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
+					+ "price FLOAT," + "brand TEXT,"
+					+ "procedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "paper INTEGER REFERENCES paper (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 			stmt5.executeUpdate(sql5);
 			stmt5.close();
@@ -452,8 +452,8 @@ public class DBManager {
 		try {
 			Statement stmtSeq = c.createStatement();
 			String sqlSeq = "";
-			sqlSeq = "INSERT INTO device (name, type, price$, brand) VALUES ('" + device.getName() + "', '"
-					+ device.getType() + "', '" + device.getPrice() + "', '" + device.getBrand() + "')";
+			sqlSeq = "INSERT INTO device (name, type, price, brand) VALUES ('" + device.getName() + "', '"
+					+ device.getType() + "', '" + device.getprice() + "', '" + device.getBrand() + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 			stmtSeq.close();
 		} catch (SQLException ex) {
@@ -500,7 +500,7 @@ public class DBManager {
 
 			return bytesBlob;
 		} catch (IOException e) {
-			System.out.println("Something went wrong...");
+			System.out.println("Something went wrong... Try using a valid route.");
 			return null;
 		}
 	}
@@ -664,11 +664,11 @@ public class DBManager {
 	// what is going to be changed is the attribute in 'BodyPart' foreign key of
 	// entity 'disease'.
 
-	public void updateDevice(Integer device_id, Float newPrice, String newBrand) {
+	public void updateDevice(Integer device_id, Float newprice, String newBrand) {
 		try {
 			String sql = "UPDATE device SET price = ? AND brand = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
-			prep.setFloat(1, newPrice);
+			prep.setFloat(1, newprice);
 			prep.setString(2, newBrand);
 			prep.setInt(3, device_id);
 			prep.executeUpdate();

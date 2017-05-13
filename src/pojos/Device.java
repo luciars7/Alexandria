@@ -91,7 +91,7 @@ public class Device implements Serializable {
 		this.paper.remove(paper);
 	}
 
-	public void setPrice(float price) {
+	public void setprice(float price) {
 		this.price = price;
 	}
 
@@ -115,11 +115,11 @@ public class Device implements Serializable {
 		this.type = type;
 	}
 
-	public float getPrice() {
+	public float getprice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setprice(int price) {
 		this.price = price;
 	}
 
@@ -155,7 +155,7 @@ public class Device implements Serializable {
 
 	@Override
 	public String toString() {
-		return "[ID=" + ID + ", name=" + name + ", type=" + type + ", price($) =" + price + ", brand=" + brand + "]";
+		return "[ID=" + ID + ", name=" + name + ", type=" + type + ", price =" + price + ", brand=" + brand + "]";
 	}
 
 }

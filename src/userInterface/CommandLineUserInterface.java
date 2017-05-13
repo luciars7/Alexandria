@@ -455,7 +455,7 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String type = read;
-		System.out.print("Price($): ");
+		System.out.print("price: ");
 		try {
 			read = console.readLine();
 		} catch (IOException e) {
