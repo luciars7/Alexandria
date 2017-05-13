@@ -153,8 +153,9 @@ public class Image implements Serializable {
 
 	@Override
 	public String toString() {
-		return "[ID=" + ID + ", description=" + description + ", type=" + type + ", size=" + size + ", image="
-				+ Arrays.toString(image) + ", paper=" + paper.getTitle() + "]";
+		/*return "[ID=" + ID + ", description=" + description + ", type=" + type + ", size=" + size + ", image="
+				+ Arrays.toString(image) + "]";*/
+		return "El toString falla.";
 	}
 
 }

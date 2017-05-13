@@ -784,8 +784,9 @@ public class CommandLineUserInterface {
 		byte[] p = dbManager.stringtobyte(photo);
 
 		Image image = new Image(description, type, size, p);
+		dbManager.insertIntoImage(image);
 		System.out.println("\nProceeding to show all available papers...");
-		showProcedure("all");
+		showPaper("all");
 		System.out.println("Please, select the id of the papers you want to relate this image with.");
 		System.out.println("Select 0 for none or to finish.");
 		System.out.print("Option: ");
@@ -809,7 +810,7 @@ public class CommandLineUserInterface {
 			paper.addImage(image);
 		}
 		System.out.println("\nProceeding to show all available diseases...");
-		showProcedure("all");
+		showDisease("all");
 		System.out.println("Please, select the id of the diseases you want to relate this image with.");
 		System.out.println("Select 0 for none or to finish.");
 		System.out.print("Option: ");
@@ -1151,16 +1152,28 @@ public class CommandLineUserInterface {
 		String description = read;
 		Symptom symptom = new Symptom(name, description);
 		dbManager.insertIntoSymptom(symptom);
+		System.out.println("\nProceeding to show all available diseases...");
 		showDisease("all");
 		System.out.print("Select the id of the related disease (0 for none): ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
+		ArrayList<Integer> id = new ArrayList<Integer>();
+		int option = 1;
+		while (option != 0) {
+			try {
+				read = console.readLine();
+				option = Integer.parseInt(read);
+				if (option != 0) {
+					id.add(option);
+				} else {
+					break;
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-		int disease_id = Integer.parseInt(read);
-		ArrayList<Symptom> symptom_id = dbManager.selectSymptom(name);
-		jpaManager.insertsymtomdisease(disease_id, symptom_id.get(0).getID());
+		for (Integer id2 : id) {
+			Disease disease = jpaManager.readDisease(id2);
+			jpaManager.insertsymtomdisease(disease.getID(), symptom.getID());
+		}
 	}
 
 	public static void showSymptom(String name) {

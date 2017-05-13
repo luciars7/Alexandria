@@ -72,7 +72,7 @@ public class Disease implements Serializable {
 
 	public Disease(String name2, String description2) {
 		this.setName(name2);
-		this.setName(description2);
+		this.setDescription(description2);
 		this.image = new ArrayList<Image>();
 		this.symptom = new ArrayList<Symptom>();
 		this.paper = new ArrayList<Paper>();

@@ -331,7 +331,7 @@ public class DBManager {
 		try {
 			// Create tables: begin
 			Statement stmt1 = c.createStatement();
-			String sql1 = "CREATE TABLE paper" + "(ID INTEGER PRIMARY KEY," + "title TEXT," + "source TEXT)";
+			String sql1 = "CREATE TABLE paper" + "(ID INTEGER PRIMARY KEY," + "title TEXT," + "source TEXT," + "device INTEGER REFERENCES device (ID) ON UPDATE CASCADE ON DELETE CASCADE," + "procedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 			stmt1.executeUpdate(sql1);
 			stmt1.close();
 
@@ -481,10 +481,9 @@ public class DBManager {
 			/*
 			 * prep.setBytes(6, bytesBlob);
 			 */
-			String sqlSeq = "INSERT INTO image (description, type, size, link, paper) VALUES ('"
+			String sqlSeq = "INSERT INTO image (description, type, size, image) VALUES ('"
 					+ image.getDescription() + "', '" + image.getType() + "', '" + image.getSize() + "', '"
-					+ image.getPaper() + "')";
-
+					+ image.getImage() + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 			stmtSeq.close();
 		} catch (SQLException ex) {
