@@ -86,11 +86,18 @@ public class JpaManager {
 		return disease;
 	}
 
-	public static Symptom readSymptom(int symptom_id) {
+	public static Symptom readSymptom (int symptom_id) {
 		Query q1 = em.createNativeQuery("SELECT * FROM symptom WHERE id = ?", Symptom.class);
 		q1.setParameter(1, symptom_id);
 		Symptom symptom = (Symptom) q1.getSingleResult();
 		return symptom;
+	}
+	
+	public static Device readDevice (int device_id) {
+		Query q1 = em.createNativeQuery("SELECT * FROM device WHERE id = ?", Device.class);
+		q1.setParameter(1, device_id);
+		Device device = (Device) q1.getSingleResult();
+		return device;
 	}
 
 	public static Paper readPaper(int paper_id) {
@@ -98,6 +105,13 @@ public class JpaManager {
 		q1.setParameter(1, paper_id);
 		Paper paper = (Paper) q1.getSingleResult();
 		return paper;
+	}
+	
+	public static BodyPart readBodyPart(int bodyPart_id) {
+		Query q1 = em.createNativeQuery("SELECT * FROM bodypart WHERE id = ?", BodyPart.class);
+		q1.setParameter(1, bodyPart_id);
+		BodyPart bodyPart = (BodyPart) q1.getSingleResult();
+		return bodyPart;
 	}
 
 	public static Author readAuthor(int author_id) {
