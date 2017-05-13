@@ -517,7 +517,8 @@ public class CommandLineUserInterface {
 			}
 		}
 		for (Integer id2 : id) {
-			device.addPaper(jpaManager.readPaper(id2));
+			Paper  paper = jpaManager.readPaper(id2);
+			device.addPaper(paper);
 		}
 	}
 		

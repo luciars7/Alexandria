@@ -1,6 +1,7 @@
 package pojos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -21,19 +22,21 @@ public class BodyPart implements Serializable {
 	private List<Disease> disease;
 
 	public BodyPart() {
-
+		this.disease=new ArrayList<Disease>();
 	}
 
 	public BodyPart(int ID, String name, String location) {
 		this.ID = ID;
 		this.name = name;
 		this.location = location;
+		this.disease=new ArrayList<Disease>();
 	}
 
 	public BodyPart(String name, String location) {
 		super();
 		this.name = name;
 		this.location = location;
+		this.disease=new ArrayList<Disease>();
 	}
 
 	public List<Disease> getDisease() {

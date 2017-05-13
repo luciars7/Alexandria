@@ -1,6 +1,7 @@
 package pojos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -24,6 +25,29 @@ public class Procedure implements Serializable {
 	@OneToMany(mappedBy = "procedure")
 	private List<Device> device;
 
+	public Procedure() {
+		this.disease = new ArrayList<Disease>();
+		this.paper = new ArrayList<Paper>();
+		this.device = new ArrayList<Device>();
+	}
+
+	public Procedure(int id, String name, String description) {
+		this.setID(id);
+		this.name = name;
+		this.description = description;
+		this.disease = new ArrayList<Disease>();
+		this.paper = new ArrayList<Paper>();
+		this.device = new ArrayList<Device>();
+	}
+	
+	public Procedure(String name, String description) {
+		this.name = name;
+		this.description = description;
+		this.disease = new ArrayList<Disease>();
+		this.paper = new ArrayList<Paper>();
+		this.device = new ArrayList<Device>();
+	}
+
 	public void addDevice(Device device) {
 		this.device.add(device);
 	}
@@ -46,11 +70,6 @@ public class Procedure implements Serializable {
 
 	public void removeDisease(Disease disease) {
 		this.disease.remove(disease);
-	}
-
-	public Procedure(String name, String description) {
-		this.name = name;
-		this.description = description;
 	}
 
 	public void addPaper(Paper paper) {
@@ -79,16 +98,6 @@ public class Procedure implements Serializable {
 
 	public void setDisease(List<Disease> disease) {
 		this.disease = disease;
-	}
-
-	public Procedure() {
-
-	}
-
-	public Procedure(int id, String name, String description) {
-		this.setID(id);
-		this.name = name;
-		this.description = description;
 	}
 
 	public int getID() {

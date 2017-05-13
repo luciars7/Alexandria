@@ -1,6 +1,7 @@
 package pojos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -20,13 +21,13 @@ public class Device implements Serializable {
 	private float price;
 	private String brand;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "procedure_id")
+	@JoinColumn(name = "procedure")
 	private Procedure procedure;
 	@OneToMany(mappedBy = "device")
 	private List<Paper> paper;
 
 	public Device() {
-
+		this.paper=new ArrayList<Paper>();
 	}
 
 	public Device(int iD, String name, String type, float price, String brand) {
@@ -35,6 +36,7 @@ public class Device implements Serializable {
 		this.type = type;
 		this.price = price;
 		this.brand = brand;
+		this.paper=new ArrayList<Paper>();
 	}
 	
 	public Device(String name, String type, float price, String brand) {
@@ -42,6 +44,7 @@ public class Device implements Serializable {
 		this.type = type;
 		this.price = price;
 		this.brand = brand;
+		this.paper=new ArrayList<Paper>();
 	}
 
 	public Device(String name, String type, float price, String brand, Procedure procedure, List<Paper> paper) {
@@ -52,6 +55,12 @@ public class Device implements Serializable {
 		this.brand = brand;
 		this.procedure = procedure;
 		this.paper = paper;
+	}
+
+	
+	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public int getID() {
