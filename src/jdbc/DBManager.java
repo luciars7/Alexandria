@@ -8,20 +8,8 @@ import pojos.*;
 public class DBManager {
 	Connection c = null;
 
-	public DBManager() {
-		connect();
-	}
-	
-	public void connect() {
-		try {
-			// Open database connection
-			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:./db/alexandria.db");
-			c.createStatement().execute("PRAGMA foreign_keys=ON");
-			System.out.println("Database connection opened.");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public DBManager(Connection c) {
+		this.c=c;
 	}
 	
 	public void disconnect() {
@@ -342,8 +330,6 @@ public class DBManager {
 
 	public void createTables() {
 		try {
-			// Open database connection
-			connect();
 			// Create tables: begin
 			Statement stmt1 = c.createStatement();
 			String sql1 = "CREATE TABLE paper" + "(ID INTEGER PRIMARY KEY," + "title TEXT," + "source TEXT)";
@@ -444,6 +430,7 @@ public class DBManager {
 			String sqlSeq = "INSERT INTO author (name,origin,association) VALUES ('" + author.getName() + "','"
 					+ author.getOrigin() + "','" + author.getAssociation() + "')";
 			stmtSeq.executeUpdate(sqlSeq);
+			stmtSeq.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -454,6 +441,7 @@ public class DBManager {
 			Statement stmtSeq = c.createStatement();
 			String sqlSeq = "INSERT INTO bodyPart (name, location) VALUES ('" + bodyPart.getName() + "', '" + bodyPart.getLocation() + "')";
 			stmtSeq.executeUpdate(sqlSeq);
+			stmtSeq.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -485,6 +473,7 @@ public class DBManager {
 
 			}
 			stmtSeq.executeUpdate(sqlSeq);
+			stmtSeq.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -501,6 +490,7 @@ public class DBManager {
 				sqlSeq = "INSERT INTO disease (name, description, bodyParts) VALUES ('" + disease.getName() + "', '" + disease.getDescription() + ", " + disease.getBodyPart() + ")";
 			}
 			stmtSeq.executeUpdate(sqlSeq);
+			stmtSeq.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -516,6 +506,7 @@ public class DBManager {
 					+ image.getType() + "', '" + image.getSize() + "', '" + image.getPaper() + "')";
 			
 			stmtSeq.executeUpdate(sqlSeq);
+			stmtSeq.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -539,6 +530,7 @@ public class DBManager {
 			Statement stmtSeq = c.createStatement();
 			String sqlSeq = "INSERT INTO paper (title, source) VALUES ('" + paper.getTitle() + "', '" + paper.getSource() + "')";
 			stmtSeq.executeUpdate(sqlSeq);
+			stmtSeq.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -550,6 +542,7 @@ public class DBManager {
 
 			String sqlSeq = "INSERT INTO procedure (name, description) VALUES ('" + procedure.getName() + "', '" + procedure.getDescription() + "')";
 			stmtSeq.executeUpdate(sqlSeq);
+			stmtSeq.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -560,6 +553,7 @@ public class DBManager {
 			Statement stmtSeq = c.createStatement();
 			String sqlSeq = "INSERT INTO symptom (name, description) VALUES ('" + symptom.getName() + "', '" + symptom.getDescription() + "')";
 			stmtSeq.executeUpdate(sqlSeq);
+			stmtSeq.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -573,7 +567,7 @@ public class DBManager {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, author_id);
 			prep.executeUpdate();
-			System.out.println("Deletion finished.");
+			prep.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -585,7 +579,7 @@ public class DBManager {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, bodypart_id);
 			prep.executeUpdate();
-			System.out.println("Deletion finished.");
+			prep.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -597,7 +591,7 @@ public class DBManager {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, disease_id);
 			prep.executeUpdate();
-			System.out.println("Deletion finished.");
+			prep.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -609,7 +603,7 @@ public class DBManager {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, image_id);
 			prep.executeUpdate();
-			System.out.println("Deletion finished.");
+			prep.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -621,7 +615,7 @@ public class DBManager {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, paper_id);
 			prep.executeUpdate();
-			System.out.println("Deletion finished.");
+			prep.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -633,8 +627,8 @@ public class DBManager {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, procedure_id);
 			prep.executeUpdate();
-			System.out.println("Deletion finished.");
-		} catch (Exception e) {
+			prep.close();
+			} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
@@ -645,7 +639,7 @@ public class DBManager {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, device_id);
 			prep.executeUpdate();
-			System.out.println("Deletion finished.");
+			prep.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -657,8 +651,8 @@ public class DBManager {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, symptom_id);
 			prep.executeUpdate();
-			System.out.println("Deletion finished.");
-		} catch (Exception e) {
+			prep.close();
+			} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
@@ -672,8 +666,8 @@ public class DBManager {
 			prep.setString(1, newAssociation);
 			prep.setInt(2, author_id);
 			prep.executeUpdate();
-			System.out.println("Update finished.");
-		} catch (Exception e) {
+			prep.close();
+			} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
@@ -695,8 +689,8 @@ public class DBManager {
 			prep.setString(2, newBrand);
 			prep.setInt(3, device_id);
 			prep.executeUpdate();
-			System.out.println("Update finished.");
-		} catch (Exception e) {
+			prep.close();
+			} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
@@ -709,8 +703,8 @@ public class DBManager {
 			prep.setInt(2, newBodyPart);
 			prep.setInt(3, disease_id);
 			prep.executeUpdate();
-			System.out.println("Update finished.");
-		} catch (Exception e) {
+			prep.close();
+			} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
@@ -723,7 +717,7 @@ public class DBManager {
 			prep.setString(1, newDescription);
 			prep.setInt(2,newPaper);
 			prep.executeUpdate();
-			System.out.println("Update finished.");
+			prep.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -742,8 +736,8 @@ public class DBManager {
 			prep.setString(1, newDescription);
 			prep.setInt(2, procedure_id);
 			prep.executeUpdate();
-			System.out.println("Update finished.");
-		} catch (Exception e) {
+			prep.close();
+			} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}

@@ -36,6 +36,13 @@ public class Device implements Serializable {
 		this.price = price;
 		this.brand = brand;
 	}
+	
+	public Device(String name, String type, float price, String brand) {
+		this.name = name;
+		this.type = type;
+		this.price = price;
+		this.brand = brand;
+	}
 
 	public Device(String name, String type, float price, String brand, Procedure procedure, List<Paper> paper) {
 		super();

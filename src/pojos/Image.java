@@ -35,6 +35,13 @@ public class Image implements Serializable {
 		this.paper = paper;
 	}
 
+	public Image(String description, String type, String size, byte[] image) {
+		this.description = description;
+		this.type = type;
+		this.size = size;
+		this.image = image;
+	}
+	
 	public List<Disease> getDisease() {
 		return disease;
 	}

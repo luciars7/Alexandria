@@ -40,6 +40,14 @@ public class BodyPart implements Serializable {
 		return disease;
 	}
 
+	public void addDisease(Disease disease) {
+		this.disease.add(disease);
+	}
+
+	public void removeDisease (Disease disease) {
+		this.disease.remove(disease);
+	}
+	
 	public void setDisease(List<Disease> disease) {
 		this.disease = disease;
 	}
