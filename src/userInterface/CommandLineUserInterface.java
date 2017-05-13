@@ -434,6 +434,7 @@ public class CommandLineUserInterface {
 	public static void addDevice() {
 		Procedure procedure_ = null;
 		Paper paper_ = null;
+		ArrayList<Paper> papers = null;
 		System.out.print("Name: ");
 		try {
 			read = console.readLine();
@@ -462,9 +463,8 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String brand = read;
-		// ask for procedure
 		ArrayList<Procedure> list = dbManager.selectProcedure("all");
-		if (list == null) {
+		if (list == null || list.size() == 0) {
 			System.out.println("Error searching for the medical procedure(s).");
 		} else {
 			for (Procedure procedure : list) {
@@ -488,21 +488,36 @@ public class CommandLineUserInterface {
 				for (Paper paper : list2) {
 					System.out.println(paper.getID() + ": " + paper.getTitle());
 				}
-				System.out.print("Please, select which of the papers is related («none» for none): ");
-				try {
-					read = console.readLine();
-				} catch (IOException e) {
-					e.printStackTrace();
+			}System.out.print("Please, select which of the papers are related («none» for none): ");
+				boolean ejecuta = true;
+				do {
+					try {
+						read = console.readLine();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 					String NAME2 = read;
 					if (!NAME2.equals("none")) {
 						ArrayList<Paper> paper = dbManager.selectPaper(NAME2);
 						paper_ = paper.get(0);
+						papers = new ArrayList<>();
+						papers.add(paper_);
+						System.out.println("Do you want to add more papers?\n(Y - for 'yes'/ N - for 'no'");
+						try {
+							read = console.readLine();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						if (read.equals("Y")) {
+							ejecuta = true;
+						} else {
+							ejecuta = false;
+						}
 					}
-
-				}
-			}
+				} while (ejecuta);
+			
 		}
-		Device device = new Device(name, type, price, brand, procedure_, paper_);
+		Device device = new Device(name, type, price, brand, procedure_, papers);
 		dbManager.insertIntoDevice(device);
 	}
 
