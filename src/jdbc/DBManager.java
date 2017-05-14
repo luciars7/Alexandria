@@ -8,8 +8,20 @@ import pojos.*;
 public class DBManager {
 	Connection c = null;
 
-	public DBManager(Connection c) {
-		this.c = c;
+	public DBManager() {
+		connect();
+	}
+
+	public void connect() {
+		try {
+			// Open database connection
+			Class.forName("org.sqlite.JDBC");
+			c = DriverManager.getConnection("jdbc:sqlite:./db/alexandria.db");
+			c.createStatement().execute("PRAGMA foreign_keys=ON");
+			System.out.println("Database connection opened.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void disconnect() {
@@ -111,7 +123,7 @@ public class DBManager {
 					int id = rs.getInt("ID");
 					String name = rs.getString("name");
 					String type = rs.getString("type");
-					float price = rs.getFloat("price");
+					float price = rs.getFloat("price$");
 					String brand = rs.getString("brand");
 					list.add(new Device(id, name, type, price, brand));
 				}
@@ -124,7 +136,7 @@ public class DBManager {
 					int id = rs.getInt("ID");
 					String name = rs.getString("name");
 					String type = rs.getString("type");
-					float price = rs.getFloat("price");
+					float price = rs.getFloat("price$");
 					String brand = rs.getString("brand");
 					list.add(new Device(id, name, type, price, brand));
 
@@ -227,7 +239,7 @@ public class DBManager {
 			Statement stmt = c.createStatement();
 			if (NAME.equalsIgnoreCase("all")) {
 				String sql = "SELECT * FROM paper";
-				ResultSet rs = stmt.executeQuery(sql);// Works as an iterator.
+				ResultSet rs = stmt.executeQuery(sql);
 				while (rs.next()) {
 					int id = rs.getInt("ID");
 					String title = rs.getString("title");
@@ -238,7 +250,7 @@ public class DBManager {
 			} else {
 
 				String sql = "SELECT * FROM paper WHERE name = '" + NAME + "'";
-				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
+				ResultSet rs = stmt.executeQuery(sql);
 				while (rs.next()) {
 					int id = rs.getInt("ID");
 					String title = rs.getString("title");
@@ -258,12 +270,11 @@ public class DBManager {
 	public ArrayList<Procedure> selectProcedure(String NAME) {
 		ArrayList<Procedure> list = null;
 		try {
-			// Retrieve data: begin
-			list = new ArrayList<Procedure>();
 			Statement stmt = c.createStatement();
 			if (NAME.equalsIgnoreCase("all")) {
+				list = new ArrayList<Procedure>();
 				String sql = "SELECT * FROM procedure";
-				ResultSet rs = stmt.executeQuery(sql);// Works as an iterator.
+				ResultSet rs = stmt.executeQuery(sql);
 				while (rs.next()) {
 					int id = rs.getInt("ID");
 					String name = rs.getString("name");
@@ -272,7 +283,7 @@ public class DBManager {
 				}
 				rs.close();
 			} else {
-
+				list = new ArrayList<Procedure>();
 				String sql = "SELECT * FROM procedure WHERE name = '" + NAME + "'";
 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
 				while (rs.next()) {
@@ -284,6 +295,12 @@ public class DBManager {
 				rs.close();
 			}
 			stmt.close();
+			if (list == null) {
+				System.out.println("NO LIST");
+			}
+			if (list != null) {
+				System.out.println("THERE IS A LIST!");
+			}
 			System.out.println("Search finished.");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -329,9 +346,11 @@ public class DBManager {
 
 	public void createTables() {
 		try {
+			// Open database connection
+			connect();
 			// Create tables: begin
 			Statement stmt1 = c.createStatement();
-			String sql1 = "CREATE TABLE paper" + "(ID INTEGER PRIMARY KEY," + "title TEXT," + "source TEXT," + "device INTEGER REFERENCES device (ID) ON UPDATE CASCADE ON DELETE CASCADE," + "procedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
+			String sql1 = "CREATE TABLE paper" + "(ID INTEGER PRIMARY KEY," + "title TEXT," + "source TEXT)";
 			stmt1.executeUpdate(sql1);
 			stmt1.close();
 
@@ -354,8 +373,8 @@ public class DBManager {
 
 			Statement stmt5 = c.createStatement();
 			String sql5 = "CREATE TABLE device" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "type TEXT ,"
-					+ "price FLOAT," + "brand TEXT,"
-					+ "procedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
+					+ "price$ FLOAT," + "brand TEXT,"
+					+ "medprocedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "paper INTEGER REFERENCES paper (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 			stmt5.executeUpdate(sql5);
 			stmt5.close();
@@ -429,7 +448,6 @@ public class DBManager {
 			String sqlSeq = "INSERT INTO author (name,origin,association) VALUES ('" + author.getName() + "','"
 					+ author.getOrigin() + "','" + author.getAssociation() + "')";
 			stmtSeq.executeUpdate(sqlSeq);
-			stmtSeq.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -441,7 +459,6 @@ public class DBManager {
 			String sqlSeq = "INSERT INTO bodyPart (name, location) VALUES ('" + bodyPart.getName() + "', '"
 					+ bodyPart.getLocation() + "')";
 			stmtSeq.executeUpdate(sqlSeq);
-			stmtSeq.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -452,10 +469,33 @@ public class DBManager {
 		try {
 			Statement stmtSeq = c.createStatement();
 			String sqlSeq = "";
-			sqlSeq = "INSERT INTO device (name, type, price, brand) VALUES ('" + device.getName() + "', '"
-					+ device.getType() + "', '" + device.getprice() + "', '" + device.getBrand() + "')";
+			if (device.getProcedure().getID() == 0 && device.getPaper() == null) {
+				sqlSeq = "INSERT INTO device (name, type, price$, brand) VALUES ('" +
+						 device.getName() + "', '"
+						+ device.getType() + "', '"
+						+ device.getPrice() + "', '"
+						+ device.getBrand() + "')";
+
+			}
+			if (device.getProcedure().getID() == 0 && device.getPaper().get(0).getID() != 0) {
+				sqlSeq = "INSERT INTO device (name, type, price$, brand, papers) VALUES ('" + device.getName() + "', '"
+						+ device.getType() + "', '" + device.getPrice() + "', '" + device.getBrand() + "', "
+						+ device.getPaper() + ")";
+
+			}
+			if (device.getProcedure().getID() != 0 && device.getPaper().get(0).getID() == 0) {
+				sqlSeq = "INSERT INTO device (name, type, price$, brand, medprocedures) VALUES ('" + device.getName()
+						+ "', '" + device.getType() + "', '" + device.getPrice() + "', '" + device.getBrand() + "', "
+						+ device.getProcedure() + ")";
+
+			}
+			if (device.getProcedure().getID() != 0 && device.getPaper().get(0).getID() != 0) {
+				sqlSeq = "INSERT INTO device (name, type, price$, brand, medprocedures, papers) VALUES ('"
+						+ device.getName() + "', '" + device.getType() + "', '" + device.getPrice() + "', '"
+						+ device.getBrand() + "', " + device.getProcedure() + ", " + device.getPaper() + ")";
+
+			}
 			stmtSeq.executeUpdate(sqlSeq);
-			stmtSeq.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -465,10 +505,14 @@ public class DBManager {
 		try {
 			Statement stmtSeq = c.createStatement();
 			String sqlSeq = "";
+			if (disease.getBodyPart().getID() == 0) {
 				sqlSeq = "INSERT INTO disease (name, description) VALUES ('" + disease.getName() + "', '"
 						+ disease.getDescription() + "')";
-				stmtSeq.executeUpdate(sqlSeq);
-				stmtSeq.close();
+			} else {
+				sqlSeq = "INSERT INTO disease (name, description, bodyParts) VALUES ('" + disease.getName() + "', '"
+						+ disease.getDescription() + ", " + disease.getBodyPart() + ")";
+			}
+			stmtSeq.executeUpdate(sqlSeq);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -481,11 +525,11 @@ public class DBManager {
 			/*
 			 * prep.setBytes(6, bytesBlob);
 			 */
-			String sqlSeq = "INSERT INTO image (description, type, size, image) VALUES ('"
+			String sqlSeq = "INSERT INTO image (description, type, size, link, paper) VALUES ('"
 					+ image.getDescription() + "', '" + image.getType() + "', '" + image.getSize() + "', '"
-					+ image.getImage() + "')";
+					+ image.getPaper() + "')";
+
 			stmtSeq.executeUpdate(sqlSeq);
-			stmtSeq.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -500,7 +544,7 @@ public class DBManager {
 
 			return bytesBlob;
 		} catch (IOException e) {
-			System.out.println("Something went wrong... Try using a valid route.");
+			System.out.println("Something went wrong...");
 			return null;
 		}
 	}
@@ -511,7 +555,6 @@ public class DBManager {
 			String sqlSeq = "INSERT INTO paper (title, source) VALUES ('" + paper.getTitle() + "', '"
 					+ paper.getSource() + "')";
 			stmtSeq.executeUpdate(sqlSeq);
-			stmtSeq.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -524,7 +567,6 @@ public class DBManager {
 			String sqlSeq = "INSERT INTO procedure (name, description) VALUES ('" + procedure.getName() + "', '"
 					+ procedure.getDescription() + "')";
 			stmtSeq.executeUpdate(sqlSeq);
-			stmtSeq.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -536,7 +578,6 @@ public class DBManager {
 			String sqlSeq = "INSERT INTO symptom (name, description) VALUES ('" + symptom.getName() + "', '"
 					+ symptom.getDescription() + "')";
 			stmtSeq.executeUpdate(sqlSeq);
-			stmtSeq.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -550,7 +591,7 @@ public class DBManager {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, author_id);
 			prep.executeUpdate();
-			prep.close();
+			System.out.println("Deletion finished.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -562,7 +603,7 @@ public class DBManager {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, bodypart_id);
 			prep.executeUpdate();
-			prep.close();
+			System.out.println("Deletion finished.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -574,7 +615,7 @@ public class DBManager {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, disease_id);
 			prep.executeUpdate();
-			prep.close();
+			System.out.println("Deletion finished.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -586,7 +627,7 @@ public class DBManager {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, image_id);
 			prep.executeUpdate();
-			prep.close();
+			System.out.println("Deletion finished.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -598,7 +639,7 @@ public class DBManager {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, paper_id);
 			prep.executeUpdate();
-			prep.close();
+			System.out.println("Deletion finished.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -610,7 +651,7 @@ public class DBManager {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, procedure_id);
 			prep.executeUpdate();
-			prep.close();
+			System.out.println("Deletion finished.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -622,7 +663,7 @@ public class DBManager {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, device_id);
 			prep.executeUpdate();
-			prep.close();
+			System.out.println("Deletion finished.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -634,7 +675,7 @@ public class DBManager {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, symptom_id);
 			prep.executeUpdate();
-			prep.close();
+			System.out.println("Deletion finished.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -649,7 +690,7 @@ public class DBManager {
 			prep.setString(1, newAssociation);
 			prep.setInt(2, author_id);
 			prep.executeUpdate();
-			prep.close();
+			System.out.println("Update finished.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -664,15 +705,15 @@ public class DBManager {
 	// what is going to be changed is the attribute in 'BodyPart' foreign key of
 	// entity 'disease'.
 
-	public void updateDevice(Integer device_id, Float newprice, String newBrand) {
+	public void updateDevice(Integer device_id, Float newPrice, String newBrand) {
 		try {
 			String sql = "UPDATE device SET price = ? AND brand = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
-			prep.setFloat(1, newprice);
+			prep.setFloat(1, newPrice);
 			prep.setString(2, newBrand);
 			prep.setInt(3, device_id);
 			prep.executeUpdate();
-			prep.close();
+			System.out.println("Update finished.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -686,7 +727,7 @@ public class DBManager {
 			prep.setInt(2, newBodyPart);
 			prep.setInt(3, disease_id);
 			prep.executeUpdate();
-			prep.close();
+			System.out.println("Update finished.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -699,7 +740,7 @@ public class DBManager {
 			prep.setString(1, newDescription);
 			prep.setInt(2, newPaper);
 			prep.executeUpdate();
-			prep.close();
+			System.out.println("Update finished.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -710,19 +751,14 @@ public class DBManager {
 	// found is neither going to change. The only thing that could happen to it,
 	// it is to be deleted.
 
-	public void updateProcedure(Integer procedure_id, String newDescription) {///// Preguntar
-																				///// a
-																				///// Lucía
-																				///// por
-																				///// el
-																				///// name.
+	public void updateProcedure(Integer procedure_id, String newDescription) {
 		try {
-			String sql = "UPDATE procedure SET name = ? AND description = ? WHERE ID = ?";
+			String sql = "UPDATE procedure SET description = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, newDescription);
 			prep.setInt(2, procedure_id);
 			prep.executeUpdate();
-			prep.close();
+			System.out.println("Update finished.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
