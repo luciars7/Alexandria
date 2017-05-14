@@ -1,6 +1,7 @@
 package pojos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -22,27 +23,64 @@ public class Paper implements Serializable {
 	@ManyToMany(mappedBy = "paper")
 	private List<Disease> disease;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "device_id")
+	@JoinColumn(name = "device")
 	private Device device;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "procedure_id")
+	@JoinColumn(name = "procedure")
 	private Procedure procedure;
 	@OneToMany(mappedBy = "paper")
 	private List<Image> image;
 
 	public Paper() {
-
+		this.disease = new ArrayList<Disease>();
+		this.author = new ArrayList<Author>();
+		this.image = new ArrayList<Image>();
 	}
 	
 	public Paper(String title, String source) {
 		this.title = title;
 		this.source = source;
+		this.disease = new ArrayList<Disease>();
+		this.author = new ArrayList<Author>();
+		this.image = new ArrayList<Image>();
 	}
 
 	public Paper(int iD, String title, String source) {
 		ID = iD;
 		this.title = title;
 		this.source = source;
+		this.disease = new ArrayList<Disease>();
+		this.author = new ArrayList<Author>();
+		this.image = new ArrayList<Image>();
+	}
+	
+	public Paper(String title, String source, List<Author> author, List<Disease> disease) {
+		super();
+		this.title = title;
+		this.source = source;
+		this.author = author;
+		this.disease = disease;
+		this.image = new ArrayList<Image>();
+	}
+	
+	public Device getDevice() {
+		return device;
+	}
+
+	public void setDevice(Device device) {
+		this.device = device;
+	}
+
+	public Procedure getProcedure() {
+		return procedure;
+	}
+
+	public void setProcedure(Procedure procedure) {
+		this.procedure = procedure;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public List<Image> getImage() {
@@ -91,14 +129,6 @@ public class Paper implements Serializable {
 
 	public void removeAuthor(Author author) {
 		this.author.remove(author);
-	}
-
-	public Paper(String title, String source, List<Author> author, List<Disease> disease) {
-		super();
-		this.title = title;
-		this.source = source;
-		this.author = author;
-		this.disease = disease;
 	}
 
 	public int getID() {

@@ -1,6 +1,7 @@
 package pojos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
@@ -24,6 +25,7 @@ public class Author implements Serializable {
 	private List<Paper> paper;
 
 	public Author() {
+		this.paper=new ArrayList<Paper>();
 	}
 
 	public Author(int iD, String name, String origin, String association) {
@@ -31,12 +33,19 @@ public class Author implements Serializable {
 		this.name = name;
 		this.origin = origin;
 		this.association = association;
+		this.paper=new ArrayList<Paper>();
 	}
 
 	public Author(String name2, String origin2, String association2) {
 		this.name = name2;
 		this.origin = origin2;
 		this.association = association2;
+		this.paper=new ArrayList<Paper>();
+	}
+
+	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public void addPaper(Paper paper) {

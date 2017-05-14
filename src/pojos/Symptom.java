@@ -1,6 +1,7 @@
 package pojos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -20,10 +21,25 @@ public class Symptom implements Serializable {
 	@ManyToMany(mappedBy = "symptom")
 	private List<Disease> disease;
 
+	public Symptom() {
+		this.disease = new ArrayList<Disease>();
+	}
+	
+	public Symptom(String name, String description) {
+		this.name = name;
+		this.description = description;
+		this.disease = new ArrayList<Disease>();
+	}
+
 	public Symptom(int id2, String name2, String description2) {
 		this.setID(id2);
 		this.setName(name2);
 		this.setDescription(description2);
+		this.disease = new ArrayList<Disease>();
+	}
+	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public void addDisease(Disease disease) {
@@ -40,15 +56,6 @@ public class Symptom implements Serializable {
 
 	public void setDisease(List<Disease> disease) {
 		this.disease = disease;
-	}
-
-	public Symptom(String name, String description) {
-		this.name = name;
-		this.description = description;
-	}
-
-	public Symptom() {
-
 	}
 
 	public int getID() {

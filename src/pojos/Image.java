@@ -1,6 +1,7 @@
 package pojos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,11 +22,16 @@ public class Image implements Serializable {
 	private String size;
 	private byte[] image;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "paper_id")
+	@JoinColumn(name = "paper")
 	private Paper paper;
 	@ManyToMany(mappedBy = "image")
 	private List<Disease> disease;
 
+	public Image() {
+		this.disease = new ArrayList<Disease>();
+	}
+
+	
 	public Image(int iD, String description, String type, String size, byte[] image, Paper paper) {
 		ID = iD;
 		this.description = description;
@@ -33,8 +39,17 @@ public class Image implements Serializable {
 		this.size = size;
 		this.image = image;
 		this.paper = paper;
+		this.disease = new ArrayList<Disease>();
 	}
 
+	public Image(String description, String type, String size, byte[] image) {
+		this.description = description;
+		this.type = type;
+		this.size = size;
+		this.image = image;
+		this.disease = new ArrayList<Disease>();
+	}
+	
 	public List<Disease> getDisease() {
 		return disease;
 	}
@@ -51,8 +66,8 @@ public class Image implements Serializable {
 		this.disease.remove(disease);
 	}
 
-	public Image() {
-
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public int getID() {
@@ -138,8 +153,9 @@ public class Image implements Serializable {
 
 	@Override
 	public String toString() {
-		return "[ID=" + ID + ", description=" + description + ", type=" + type + ", size=" + size + ", image="
-				+ Arrays.toString(image) + ", paper=" + paper.getTitle() + "]";
+		/*return "[ID=" + ID + ", description=" + description + ", type=" + type + ", size=" + size + ", image="
+				+ Arrays.toString(image) + "]";*/
+		return "El toString falla.";
 	}
 
 }

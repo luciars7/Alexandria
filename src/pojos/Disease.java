@@ -1,6 +1,7 @@
 package pojos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -18,7 +19,7 @@ public class Disease implements Serializable {
 	private String name;
 	private String description;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "bodypart_id")
+	@JoinColumn(name = "bodypart")
 	private BodyPart bodypart;
 	@ManyToMany
 	@JoinTable(name = "symptomdisease", joinColumns = {
@@ -41,6 +42,55 @@ public class Disease implements Serializable {
 					@JoinColumn(name = "disease", referencedColumnName = "ID") })
 	private List<Procedure> procedure;
 
+	public Disease() {
+		this.image = new ArrayList<Image>();
+		this.symptom = new ArrayList<Symptom>();
+		this.paper = new ArrayList<Paper>();
+		this.procedure = new ArrayList<Procedure>();
+	}
+
+	public Disease(int id, String name, String description, BodyPart bodypart) {
+		this.setID(id);
+		this.setName(name);
+		this.setDescription(description);
+		this.setBodyPart(bodypart);
+		this.image = new ArrayList<Image>();
+		this.symptom = new ArrayList<Symptom>();
+		this.paper = new ArrayList<Paper>();
+		this.procedure = new ArrayList<Procedure>();
+	}
+
+	public Disease(String name, String description, BodyPart bodyPart) {
+		this.setName(name);
+		this.setDescription(description);
+		this.setBodyPart(bodyPart);
+		this.image = new ArrayList<Image>();
+		this.symptom = new ArrayList<Symptom>();
+		this.paper = new ArrayList<Paper>();
+		this.procedure = new ArrayList<Procedure>();
+	}
+
+	public Disease(String name2, String description2) {
+		this.setName(name2);
+		this.setDescription(description2);
+		this.image = new ArrayList<Image>();
+		this.symptom = new ArrayList<Symptom>();
+		this.paper = new ArrayList<Paper>();
+		this.procedure = new ArrayList<Procedure>();
+	}
+
+	public BodyPart getBodypart() {
+		return bodypart;
+	}
+
+	public void setBodypart(BodyPart bodypart) {
+		this.bodypart = bodypart;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	public void addPaper(Paper paper) {
 		this.paper.add(paper);
 	}
@@ -55,24 +105,6 @@ public class Disease implements Serializable {
 
 	public void removeProcedure(Procedure procedure) {
 		this.procedure.remove(procedure);
-	}
-
-	public Disease(int id, String name, String description, BodyPart bodypart) {
-		this.setID(id);
-		this.setName(name);
-		this.setDescription(description);
-		this.setBodyPart(bodypart);
-	}
-
-	public Disease(String name, String description, BodyPart bodyPart) {
-		this.setName(name);
-		this.setDescription(description);
-		this.setBodyPart(bodyPart);
-	}
-
-	public Disease(String name2, String description2) {
-		this.setName(name2);
-		this.setName(description2);
 	}
 
 	public List<Procedure> getProcedure() {
@@ -129,10 +161,6 @@ public class Disease implements Serializable {
 
 	public void setBodyPart(BodyPart bodyPart) {
 		this.bodypart = bodyPart;
-	}
-
-	public Disease() {
-
 	}
 
 	public int getID() {
