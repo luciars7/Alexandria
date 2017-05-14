@@ -1,5 +1,7 @@
 package jpa;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 import pojos.*;
@@ -133,6 +135,14 @@ public class JpaManager {
 		q1.setParameter(1, procedure_id);
 		Procedure procedure = (Procedure) q1.getSingleResult();
 		return procedure;
+	}
+	
+	public static List<Integer> readPapersRelatedToAuthor(int author ) {
+		Query q1 = em.createNativeQuery("SELECT paper FROM paperauthor WHERE author = ?", Paper.class);
+		//«createNativeQuery» makes it possible to use SQL for the command.
+		q1.setParameter(1, author);
+		List<Integer> papers = (List<Integer>) q1.getResultList();
+		return papers;
 	}
 
 	// DELETES
