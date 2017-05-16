@@ -494,7 +494,7 @@ public class CommandLineUserInterface {
 				System.out.println(author);
 			}
 		}
-		
+
 	}
 
 	public static void addBodyPart() {
@@ -515,7 +515,7 @@ public class CommandLineUserInterface {
 		BodyPart bodyPart = new BodyPart(name, location);
 		;
 		dbManager.insertIntoBodyPart(bodyPart);
-		
+
 		System.out.println("Body part inserted correctly.");
 
 		System.out.println("\nProceeding to show all available diseases...");
@@ -538,7 +538,7 @@ public class CommandLineUserInterface {
 				e.printStackTrace();
 			}
 		}
-		
+
 		for (Integer id2 : id) {
 			bodyPart.addDisease(jpaManager.readDisease(id2)); // Tal vez haya
 																// que recuperar
@@ -546,7 +546,7 @@ public class CommandLineUserInterface {
 																// con el
 																// jpaManager.
 		}
-		
+
 	}
 
 	public static void showBodyPart(String name) {
@@ -560,7 +560,7 @@ public class CommandLineUserInterface {
 				System.out.println(bodyPart);
 			}
 		}
-		
+
 	}
 
 	public static void addDevice() {
@@ -596,7 +596,7 @@ public class CommandLineUserInterface {
 		Device device = new Device(name, type, price, brand);
 		;
 		dbManager.insertIntoDevice(device);
-		
+
 		System.out.println("Device inserted correctly.");
 
 		System.out.println("\nProceeding to show all available procedures...");
@@ -631,7 +631,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 		for (Integer id2 : id) {
 
 			Procedure procedure = jpaManager.readProcedure(id2);
@@ -639,7 +639,7 @@ public class CommandLineUserInterface {
 			procedure.addDevice(device);
 
 		}
-		
+
 		System.out.println("\nProceeding to show all available papers...");
 
 		showPaper("all");
@@ -679,7 +679,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 		for (Integer id2 : id) {
 
 			Paper paper = jpaManager.readPaper(id2);
@@ -687,7 +687,7 @@ public class CommandLineUserInterface {
 			device.addPaper(paper);
 
 		}
-		
+
 	}
 
 	/*
@@ -797,7 +797,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 	}
 
 	public static void addDisease() {
@@ -833,7 +833,7 @@ public class CommandLineUserInterface {
 		Disease disease = new Disease(name, description);
 		;
 		dbManager.insertIntoDisease(disease);
-		
+
 		System.out.println("Disease inserted correctly.");
 
 		System.out.println("\nProceeding to show all available body parts...");
@@ -875,7 +875,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 		for (Integer id2 : id) {
 
 			BodyPart bodyPart = jpaManager.readBodyPart(id2);
@@ -883,7 +883,7 @@ public class CommandLineUserInterface {
 			bodyPart.addDisease(disease);
 
 		}
-		
+
 		System.out.println("\nProceeding to show all available symptoms...");
 
 		showSymptom("all");
@@ -923,7 +923,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 		for (Integer id2 : id) {
 
 			Symptom symptom = jpaManager.readSymptom(id2);
@@ -931,7 +931,7 @@ public class CommandLineUserInterface {
 			jpaManager.insertsymtomdisease(disease.getID(), symptom.getID());
 
 		}
-		
+
 		System.out.println("\nProceeding to show all available papers...");
 
 		showPaper("all");
@@ -971,7 +971,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 		for (Integer id2 : id) {
 
 			Paper paper = jpaManager.readPaper(id2);
@@ -979,7 +979,7 @@ public class CommandLineUserInterface {
 			jpaManager.insertpaperdisease(paper.getID(), disease.getID());
 
 		}
-		
+
 		System.out.println("\nProceeding to show all available images...");
 
 		showImage("all");
@@ -1019,7 +1019,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 		for (Integer id2 : id) {
 
 			Image image = jpaManager.readImage(id2);
@@ -1027,7 +1027,7 @@ public class CommandLineUserInterface {
 			jpaManager.insertimagedisease(image.getID(), disease.getID());
 
 		}
-		
+
 		System.out.println("\nProceeding to show all available procedures...");
 
 		showProcedure("all");
@@ -1067,7 +1067,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 		for (Integer id2 : id) {
 
 			Procedure procedure = jpaManager.readProcedure(id2);
@@ -1075,7 +1075,7 @@ public class CommandLineUserInterface {
 			jpaManager.insertproceduredisease(procedure.getID(), disease.getID());
 
 		}
-		
+
 		/*
 		 * ArrayList<BodyPart> list = dbManager.selectBodyPart("all");
 		 * 
@@ -1146,7 +1146,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 	}
 
 	public static void addImage() {
@@ -1214,7 +1214,7 @@ public class CommandLineUserInterface {
 		Image image = new Image(description, type, size, p);
 
 		dbManager.insertIntoImage(image);
-		
+
 		System.out.println("\nProceeding to show all available papers...");
 
 		showPaper("all");
@@ -1254,7 +1254,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 		for (Integer id2 : id) {
 
 			Paper paper = jpaManager.readPaper(id2);
@@ -1262,7 +1262,6 @@ public class CommandLineUserInterface {
 			paper.addImage(image);
 
 		}
-		
 
 		System.out.println("\nProceeding to show all available diseases...");
 
@@ -1303,14 +1302,14 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 		for (Integer id2 : id) {
 
 			Disease disease = jpaManager.readDisease(id2);
 
 			jpaManager.insertimagedisease(image.getID(), disease.getID());
 		}
-		
+
 		/*
 		 * showPaper("all");
 		 * 
@@ -1403,7 +1402,6 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
 
 	}
 
@@ -1425,7 +1423,7 @@ public class CommandLineUserInterface {
 		Paper paper = new Paper(title, source);
 		;
 		dbManager.insertIntoPaper(paper);
-		
+
 		System.out.println("\nProceeding to show all available authors...");
 		showAuthor("all");
 		System.out.println("Please, select the id of the authors you want to relate this paper with.");
@@ -1458,13 +1456,13 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 		for (Integer id2 : id) {
 
 			jpaManager.insertpaperauthor(id2, paper.getID());
 
 		}
-		
+
 		System.out.println("\nProceeding to show all available diseases...");
 
 		showDisease("all");
@@ -1504,7 +1502,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 		for (Integer id2 : id) {
 
 			Disease disease = jpaManager.readDisease(id2);
@@ -1512,7 +1510,7 @@ public class CommandLineUserInterface {
 			jpaManager.insertpaperdisease(paper.getID(), disease.getID());
 
 		}
-		
+
 		System.out.println("\nProceeding to show all available devices...");
 
 		showDevice("all");
@@ -1552,7 +1550,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 		for (Integer id2 : id) {
 
 			Device device = jpaManager.readDevice(id2);
@@ -1560,7 +1558,7 @@ public class CommandLineUserInterface {
 			device.addPaper(paper);
 
 		}
-		
+
 		System.out.println("\nProceeding to show all available procedures...");
 
 		showProcedure("all");
@@ -1600,7 +1598,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 		for (Integer id2 : id) {
 
 			Procedure procedure = jpaManager.readProcedure(id2);
@@ -1608,7 +1606,7 @@ public class CommandLineUserInterface {
 			procedure.addPaper(paper);
 
 		}
-		
+
 		System.out.println("\nProceeding to show all available images...");
 
 		showImage("all");
@@ -1648,7 +1646,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 		for (Integer id2 : id) {
 
 			Image image = jpaManager.readImage(id2);
@@ -1656,7 +1654,7 @@ public class CommandLineUserInterface {
 			paper.addImage(image);
 
 		}
-		
+
 	}
 
 	public static void showPaper(String name) {
@@ -1676,7 +1674,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 	}
 
 	public static void addProcedure() {
@@ -1697,7 +1695,7 @@ public class CommandLineUserInterface {
 		Procedure procedure = new Procedure(name, description);
 		;
 		dbManager.insertIntoProcedure(procedure);
-		
+
 		System.out.println("\nProceeding to show all available diseases...");
 		showDisease("all");
 		System.out.println("Please, select the id of the diseases you want to relate this procedure with.");
@@ -1718,12 +1716,12 @@ public class CommandLineUserInterface {
 				e.printStackTrace();
 			}
 		}
-		
+
 		for (Integer id2 : id) {
 			Disease disease = jpaManager.readDisease(id2);
 			jpaManager.insertproceduredisease(procedure.getID(), disease.getID());
 		}
-		
+
 		System.out.println("\nProceeding to show all available papers...");
 		showPaper("all");
 		System.out.println("Please, select the id of the papers you want to relate this procedure with.");
@@ -1744,12 +1742,12 @@ public class CommandLineUserInterface {
 				e.printStackTrace();
 			}
 		}
-		
+
 		for (Integer id2 : id) {
 			Paper paper = jpaManager.readPaper(id2);
 			procedure.addPaper(paper);
 		}
-		
+
 		System.out.println("\nProceeding to show all available devices...");
 		showDevice("all");
 		System.out.println("Please, select the id of the devices you want to relate this procedure with.");
@@ -1770,12 +1768,12 @@ public class CommandLineUserInterface {
 				e.printStackTrace();
 			}
 		}
-		
+
 		for (Integer id2 : id) {
 			Device device = jpaManager.readDevice(id2);
 			procedure.addDevice(device);
 		}
-		
+
 	}
 
 	public static void showProcedure(String name) {
@@ -1788,7 +1786,7 @@ public class CommandLineUserInterface {
 				System.out.println(procedure);
 			}
 		}
-		
+
 	}
 
 	public static void addSymptom() {
@@ -1824,7 +1822,7 @@ public class CommandLineUserInterface {
 		Symptom symptom = new Symptom(name, description);
 		;
 		dbManager.insertIntoSymptom(symptom);
-		
+
 		System.out.println("\nProceeding to show all available diseases...");
 
 		showDisease("all");
@@ -1860,7 +1858,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 		for (Integer id2 : id) {
 
 			Disease disease = jpaManager.readDisease(id2);
@@ -1868,7 +1866,7 @@ public class CommandLineUserInterface {
 			jpaManager.insertsymtomdisease(disease.getID(), symptom.getID());
 
 		}
-		
+
 	}
 
 	public static void showSymptom(String name) {
@@ -1887,7 +1885,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 	}
 
 	private static void deleteAuthor() {
@@ -1931,7 +1929,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 	}
 
 	private static void deleteBodyPart() {
@@ -1975,7 +1973,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 	}
 
 	private static void deleteDevice() {
@@ -2019,7 +2017,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 	}
 
 	private static void deleteDisease() {
@@ -2063,7 +2061,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 	}
 
 	private static void deleteImage() {
@@ -2107,7 +2105,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 	}
 
 	private static void deletePaper() {
@@ -2151,7 +2149,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 	}
 
 	private static void deleteProcedure() {
@@ -2195,7 +2193,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 	}
 
 	private static void deleteSymptom() {
@@ -2239,7 +2237,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-		
+
 	}
 
 	private static void updateMenu() {
@@ -2287,7 +2285,7 @@ public class CommandLineUserInterface {
 	}
 
 	private static void modifyAuthor() {
-		
+
 		try {
 
 			ArrayList<Author> list = dbManager.selectAuthor("all");
@@ -2331,7 +2329,7 @@ public class CommandLineUserInterface {
 
 			ArrayList<Device> list = dbManager.selectDevice("all");
 
-			if (list.size() ==0) {
+			if (list.size() == 0) {
 
 				System.out.println("Error searching for the symptoms.");
 
@@ -2428,50 +2426,49 @@ public class CommandLineUserInterface {
 	}
 
 	private static void modifyImage() {
-			try {
-				ArrayList<Image> listI = dbManager.selectImage("all");
+		try {
+			ArrayList<Image> listI = dbManager.selectImage("all");
 
-				if (listI.size() == 0) {
+			if (listI.size() == 0) {
 
-					System.out.println("Error searching for the symptoms.");
+				System.out.println("Error searching for the symptoms.");
 
-				} else {
+			} else {
 
-					for (Image image : listI) {
+				for (Image image : listI) {
 
-						System.out.println(image);
-
-					}
-					System.out.println("Which is the image that you want to modify?" + "\nWrite its ID number:");
-
-					String read = console.readLine();
-
-					Integer imageId = Integer.parseInt(read);
-
-					System.out.println("Write the new image's description:");
-
-					String newDescription = console.readLine();
-
-					System.out.println("Write the new disease's paper:");
-
-					ArrayList<Paper> listP = dbManager.selectPaper("all");
-
-					System.out.println("Which is the paper related to this disease?" + "\nWrite its ID number:");
-
-					read = console.readLine();
-
-					Integer newPaper = Integer.parseInt(read);
-					;
-					dbManager.updateImage(imageId, newDescription, newPaper);
-					
-	
-				}
-
-				} catch (Exception e) {
-
-					e.printStackTrace();
+					System.out.println(image);
 
 				}
+				System.out.println("Which is the image that you want to modify?" + "\nWrite its ID number:");
+
+				String read = console.readLine();
+
+				Integer imageId = Integer.parseInt(read);
+
+				System.out.println("Write the new image's description:");
+
+				String newDescription = console.readLine();
+
+				System.out.println("Write the new disease's paper:");
+
+				ArrayList<Paper> listP = dbManager.selectPaper("all");
+
+				System.out.println("Which is the paper related to this disease?" + "\nWrite its ID number:");
+
+				read = console.readLine();
+
+				Integer newPaper = Integer.parseInt(read);
+				;
+				dbManager.updateImage(imageId, newDescription, newPaper);
+
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
 	}
 
 	private static void modifyProcedure() {
@@ -2542,15 +2539,15 @@ public class CommandLineUserInterface {
 		if (proceed.equalsIgnoreCase("y")) {
 			;
 			Author author = dbManager.selectAuthor(name).get(0);
-			
+
 			System.out.println("\nPAPERS:");
-			
+
 			List<Integer> paper_ids = jpaManager.readPapersRelatedToAuthor(author.getID());
 			for (Integer paper_id : paper_ids) {
 				Paper paper = jpaManager.readPaper(paper_id);
 				System.out.println("ID: " + paper.getID() + " Title: " + paper.getTitle());
 			}
-			
+
 			try {
 				System.out.println(
 						"\nPlease, select the category and ID  of the item you want to view (Example: [paper,1]).");

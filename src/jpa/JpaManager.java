@@ -12,18 +12,17 @@ public class JpaManager {
 
 	public JpaManager() {
 	}
-	
-	public void connect(){
+
+	public void connect() {
 		em = Persistence.createEntityManagerFactory("company-provider").createEntityManager();
 		em.getTransaction().begin();
 		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
 		em.getTransaction().commit();
 	}
-	
+
 	public void disconnect() {
 		em.close();
 	}
-	
 
 	// INSERTIONS INTO N-N TABLES
 

@@ -12,30 +12,29 @@ public class DBManager {
 
 	static Connection c = null;
 
-	
 	public DBManager() {
 
 	}
-	
-	public void connect (Connection c) {
+
+	public void connect(Connection c) {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			c = DriverManager.getConnection("jdbc:sqlite:./db/alexandria.db");
 			c.createStatement().execute("PRAGMA foreign_keys=ON");
 			this.c = c;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	 catch (Exception e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}}
-	
+
 	public void disconnect() {
 		try {
 			this.c.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	} 
+	}
 
 	public static boolean checkTables() {
 		DatabaseMetaData dbm;
@@ -54,7 +53,7 @@ public class DBManager {
 		}
 		return true;
 	}
-	
+
 	// SELECTS
 
 	// ------------------------------------------------------------------------------------------------
@@ -1179,7 +1178,7 @@ public class DBManager {
 
 	public void updateDevice(Integer device_id, Float newprice, String newBrand) {
 		try {
-			String sql = "UPDATE device SET price = ? AND brand = ? WHERE ID = ?";
+			String sql = "UPDATE device SET price = ?,  brand = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setFloat(1, newprice);
 			prep.setString(2, newBrand);
@@ -1194,7 +1193,7 @@ public class DBManager {
 	public void updateDisease(Integer disease_id, String newDescription, Integer newBodyPart) {
 
 		try {
-			String sql = "UPDATE disease SET description = ? AND BodyPart = ? WHERE ID = ?";
+			String sql = "UPDATE disease SET description = ?, BodyPart = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, newDescription);
 			prep.setInt(2, newBodyPart);
@@ -1208,7 +1207,7 @@ public class DBManager {
 
 	public void updateImage(Integer image_id, String newDescription, Integer newPaper) {
 		try {
-			String sql = "UPDATE image SET description = ? AND paper = ? WHERE ID = ?";
+			String sql = "UPDATE image SET description = ?, paper = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, newDescription);
 			prep.setInt(2, newPaper);
@@ -1241,7 +1240,7 @@ public class DBManager {
 
 		try {
 
-			String sql = "UPDATE procedure SET name = ? AND description = ? WHERE ID = ?";
+			String sql = "UPDATE procedure SET name = ?, description = ? WHERE ID = ?";
 
 			PreparedStatement prep = c.prepareStatement(sql);
 
