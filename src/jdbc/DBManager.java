@@ -10,28 +10,51 @@ import pojos.*;
 
 public class DBManager {
 
-	Connection c = null;
+	static Connection c = null;
 
-	public DBManager(Connection c) {
-
-		this.c = c;
+	
+	public DBManager() {
 
 	}
-
-	public void disconnect() {
-
+	
+	public void connect (Connection c) {
 		try {
-
-			c.close();
-
+			Class.forName("org.sqlite.JDBC");
+			c = DriverManager.getConnection("jdbc:sqlite:./db/alexandria.db");
+			c.createStatement().execute("PRAGMA foreign_keys=ON");
+			this.c = c;
+	}
+	 catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}}
+	
+	public void disconnect() {
+		try {
+			this.c.close();
 		} catch (SQLException e) {
-
 			e.printStackTrace();
-
 		}
-
 	}
 
+	public static boolean checkTables() {
+		DatabaseMetaData dbm;
+		try {
+			dbm = c.getMetaData();
+			ResultSet tables = dbm.getTables(null, null, "paper", null);
+			if (tables.next()) {
+				return true;
+			} else {
+				createTables();
+				return false;
+			}
+		} catch (SQLException e) {
+			System.out.println("Error encountered when retreiving data.");
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
 	// SELECTS
 
 	// ------------------------------------------------------------------------------------------------
@@ -473,71 +496,38 @@ public class DBManager {
 	}
 
 	public ArrayList<Procedure> selectProcedure(String NAME) {
-
 		ArrayList<Procedure> list = null;
-
 		try {
-
 			// Retrieve data: begin
-
 			list = new ArrayList<Procedure>();
-
 			Statement stmt = c.createStatement();
-
 			if (NAME.equalsIgnoreCase("all")) {
-
 				String sql = "SELECT * FROM procedure";
-
 				ResultSet rs = stmt.executeQuery(sql);// Works as an iterator.
-
 				while (rs.next()) {
-
 					int id = rs.getInt("ID");
-
 					String name = rs.getString("name");
-
 					String description = rs.getString("description");
-
 					list.add(new Procedure(id, name, description));
-
 				}
-
 				rs.close();
-
 			} else {
-
 				String sql = "SELECT * FROM procedure WHERE name = '" + NAME + "'";
-
 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
-
 				while (rs.next()) {
-
 					int id = rs.getInt("ID");
-
 					String name = rs.getString("name");
-
 					String description = rs.getString("description");
-
 					list.add(new Procedure(id, name, description));
-
 				}
-
 				rs.close();
-
 			}
-
 			stmt.close();
-
 			System.out.println("Search finished.");
-
 		} catch (Exception e) {
-
 			e.printStackTrace();
-
 		}
-
 		return list;
-
 	}
 
 	public ArrayList<Symptom> selectSymptom(String NAME) {
@@ -608,7 +598,7 @@ public class DBManager {
 
 	}
 
-	public void createTables() {
+	public static void createTables() {
 
 		try {
 
@@ -773,29 +763,22 @@ public class DBManager {
 	}
 
 	// INSERTS
-
 	// ------------------------------------------------------------------------------------------------
 
 	public void insertIntoAuthor(Author author) {
-
 		try {
-
+			System.out.println("a");
 			Statement stmtSeq = c.createStatement();
-
+			System.out.println("b");
 			String sqlSeq = "INSERT INTO author (name,origin,association) VALUES ('" + author.getName() + "','"
-
 					+ author.getOrigin() + "','" + author.getAssociation() + "')";
-
+			System.out.println("c");
 			stmtSeq.executeUpdate(sqlSeq);
-
+			System.out.println("d");
 			stmtSeq.close();
-
 		} catch (SQLException ex) {
-
 			ex.printStackTrace();
-
 		}
-
 	}
 
 	public void insertIntoBodyPart(BodyPart bodyPart) {
@@ -1173,119 +1156,67 @@ public class DBManager {
 	// ------------------------------------------------------------------------------------------------
 
 	public void updateAuthor(Integer author_id, String newAssociation) {
-
 		try {
-
 			String sql = "UPDATE author SET association = ? WHERE ID = ?";
-
 			PreparedStatement prep = c.prepareStatement(sql);
-
 			prep.setString(1, newAssociation);
-
 			prep.setInt(2, author_id);
-
 			prep.executeUpdate();
-
 			prep.close();
-
 		} catch (Exception e) {
-
 			System.out.println(e.getMessage());
-
 		}
-
 	}
 
 	// Entity 'BodyPart' doesn't need an 'update' method as what is going to be
-
 	// changed is the foreign key
-
 	// attribute that refers to it. For example: if a disease (which has
-
 	// 'BodyPart' as a foreign key) goes
-
 	// under research and it is found out that the body part in which it happens
-
 	// is different, in the database
-
 	// what is going to be changed is the attribute in 'BodyPart' foreign key of
-
 	// entity 'disease'.
 
 	public void updateDevice(Integer device_id, Float newprice, String newBrand) {
-
 		try {
-
 			String sql = "UPDATE device SET price = ? AND brand = ? WHERE ID = ?";
-
 			PreparedStatement prep = c.prepareStatement(sql);
-
 			prep.setFloat(1, newprice);
-
 			prep.setString(2, newBrand);
-
 			prep.setInt(3, device_id);
-
 			prep.executeUpdate();
-
 			prep.close();
-
 		} catch (Exception e) {
-
 			System.out.println(e.getMessage());
-
 		}
-
 	}
 
 	public void updateDisease(Integer disease_id, String newDescription, Integer newBodyPart) {
 
 		try {
-
 			String sql = "UPDATE disease SET description = ? AND BodyPart = ? WHERE ID = ?";
-
 			PreparedStatement prep = c.prepareStatement(sql);
-
 			prep.setString(1, newDescription);
-
 			prep.setInt(2, newBodyPart);
-
 			prep.setInt(3, disease_id);
-
 			prep.executeUpdate();
-
 			prep.close();
-
 		} catch (Exception e) {
-
 			System.out.println(e.getMessage());
-
 		}
-
 	}
 
 	public void updateImage(Integer image_id, String newDescription, Integer newPaper) {
-
 		try {
-
 			String sql = "UPDATE image SET description = ? AND paper = ? WHERE ID = ?";
-
 			PreparedStatement prep = c.prepareStatement(sql);
-
 			prep.setString(1, newDescription);
-
 			prep.setInt(2, newPaper);
-
 			prep.executeUpdate();
-
 			prep.close();
-
 		} catch (Exception e) {
-
 			System.out.println(e.getMessage());
-
 		}
-
 	}
 
 	// A paper is always going to be the same, its title is not going to change

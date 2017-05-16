@@ -11,79 +11,56 @@ public class JpaManager {
 	private static EntityManager em;
 
 	public JpaManager() {
-
-		em = Persistence.createEntityManagerFactory("company-provider").createEntityManager();
-
-		em.getTransaction().begin();
-
-		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
-
-		em.getTransaction().commit();
-
 	}
+	
+	public void connect(){
+		em = Persistence.createEntityManagerFactory("company-provider").createEntityManager();
+		em.getTransaction().begin();
+		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
+		em.getTransaction().commit();
+	}
+	
+	public void disconnect() {
+		em.close();
+	}
+	
 
 	// INSERTIONS INTO N-N TABLES
 
 	// ------------------------------------------------------------------------------------------------
 
 	public void insertsymtomdisease(int disease_id, int symptom_id) {
-
 		if (disease_id != 0 && symptom_id != 0) {
-
 			em.getTransaction().begin();
-
 			Disease disease = readDisease(disease_id);
-
 			Symptom symptom = readSymptom(symptom_id);
-
 			disease.addSymptom(symptom);
-
 			symptom.addDisease(disease);
-
 			em.getTransaction().commit();
-
 		}
-
 	}
 
 	public void insertpaperauthor(int paper_id, int author_id) {
-
 		if (paper_id != 0 && author_id != 0) {
-
 			em.getTransaction().begin();
-
 			Paper paper = readPaper(paper_id);
-
 			Author author = readAuthor(author_id);
-
 			paper.addAuthor(author);
-
 			author.addPaper(paper);
-
 			em.getTransaction().commit();
-
 		}
-
 	}
 
 	public void insertpaperdisease(int paper_id, int disease_id) {
 
 		if (disease_id != 0 && paper_id != 0) {
-
 			em.getTransaction().begin();
-
 			Paper paper = readPaper(paper_id);
-
 			Disease disease = readDisease(disease_id);
-
 			paper.addDisease(disease);
-
 			disease.addPaper(paper);
-
 			em.getTransaction().commit();
-
 		}
-
 	}
 
 	public void insertimagedisease(int image_id, int disease_id) {
@@ -219,23 +196,10 @@ public class JpaManager {
 	}
 
 	public static Procedure readProcedure(int procedure_id) {
-
 		Query q1 = em.createNativeQuery("SELECT * FROM procedure WHERE id = ?", Procedure.class);
-
 		q1.setParameter(1, procedure_id);
-
 		Procedure procedure = (Procedure) q1.getSingleResult();
-
 		return procedure;
-
-	}
-
-	public static List<Integer> readPapersRelatedToAuthor(int author) {
-		Query q1 = em.createNativeQuery("SELECT paper FROM paperauthor WHERE author = ?", Paper.class);
-		// «createNativeQuery» makes it possible to use SQL for the command.
-		q1.setParameter(1, author);
-		List<Integer> papers = (List<Integer>) q1.getResultList();
-		return papers;
 	}
 
 	// DELETES
@@ -259,27 +223,15 @@ public class JpaManager {
 	// ------------------------------------------------------------------------------------------------
 
 	public void updateProcedureJPA(Integer procedure_id, String newDescription) {
-
 		// Begin transaction
-
 		em.getTransaction().begin();
-
+		System.out.println("1");
 		// Make changes
-
 		Procedure procedure = readProcedure(procedure_id);
-
 		procedure.setDescription(newDescription);
-
+		System.out.println("2");
 		// End transaction
-
 		em.getTransaction().commit();
-
+		System.out.println("3");
 	}
-
-	public void disconnect() {
-
-		em.close();
-
-	}
-
 }
