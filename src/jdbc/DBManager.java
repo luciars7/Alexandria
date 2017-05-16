@@ -1217,7 +1217,7 @@ public class DBManager {
 
 		try {
 
-			String sql = "UPDATE device SET price = ? & brand = ? WHERE ID = ?";
+			String sql = "UPDATE device SET price = ? AND brand = ? WHERE ID = ?";
 
 			PreparedStatement prep = c.prepareStatement(sql);
 
