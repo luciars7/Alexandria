@@ -1213,10 +1213,11 @@ public class DBManager {
 	// entity 'disease'.
 
 	public void updateDevice(Integer device_id, Float newprice, String newBrand) {
+		System.out.println("id=" +device_id+"    price="+newprice+"    brand="+newBrand);
 
 		try {
 
-			String sql = "UPDATE device SET price = ? AND brand = ? WHERE ID = ?";
+			String sql = "UPDATE device SET price = ? & brand = ? WHERE ID = ?";
 
 			PreparedStatement prep = c.prepareStatement(sql);
 
