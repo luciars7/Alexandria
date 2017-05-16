@@ -1,4 +1,5 @@
 package userInterface;
+
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -6,42 +7,38 @@ import java.util.List;
 import jdbc.DBManager;
 import jpa.JpaManager;
 import pojos.*;
+
+//Sustituir en OSWD.
 public class CommandLineUserInterface {
 	static Connection c = null;
 	static DBManager dbManager = null;
 	static JpaManager jpaManager = null;
 	static BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
 	static String read = null;
+
 	public static void main(String args[]) {
 		System.out.println("Establishing a connection with ALEXANDRIA...");
-		newConnection();
-		System.out.println("New connection stablished.");
-		dbManager = new DBManager(c);
-		checkTables(); // Needs to be done before JPA creates the tables as it
+		dbManager = new DBManager();
+		dbManager.connect(c);
+		checkTables();
+		// Needs to be done before JPA creates the tables as it
 		// wishes.
+		System.out.println("New connection stablished.");
 		jpaManager = new JpaManager();
+		jpaManager.connect();
 		showMenu();
 	}
 
 	public static void checkTables() {
 		System.out.println("Checking for the tables...");
-		DatabaseMetaData dbm;
-		try {
-			dbm = c.getMetaData();
-			ResultSet tables = dbm.getTables(null, null, "paper", null);
-			if (tables.next()) {
-				System.out.println("Tables already exist.");
-			} else {
-				System.out.println("Tables do not exist. Proceeding to create them.");
-				dbManager.createTables();
-				System.out.println("The tables have been created.");
-			}
-		} catch (SQLException e) {
-			System.out.println("Error encountered when retreiving data.");
-			e.printStackTrace();
+		boolean result = dbManager.checkTables();
+		if (result == true) {
+			System.out.println("Tables already exist.");
+		} else {
+			System.out.println("Tables didn't exist. They have been created.");
 		}
 	}
-	
+
 	private static void showMenu() {
 		System.out.println("\n\n\n\nALEXANDRIA");
 		System.out.println("***********************");
@@ -97,12 +94,6 @@ public class CommandLineUserInterface {
 		case "Y": {
 			dbManager.disconnect();
 			jpaManager.disconnect();
-			try {
-				c.close();
-			} catch (SQLException e) {
-				System.out.println("Error encountered when closing the conection.");
-				e.printStackTrace();
-			}
 			System.out.println("Connection closed.");
 			System.exit(0);
 		}
@@ -152,37 +143,25 @@ public class CommandLineUserInterface {
 			return;
 		}
 		case 6: {
-
 			addPaper();
-
 			return;
-
 		}
 
 		case 7: {
-
 			addProcedure();
-
 			return;
 
 		}
 
 		case 8: {
-
 			addSymptom();
-
 			return;
-
 		}
 
 		case 9: {
-
 			return;
-
 		}
-
 		}
-
 	}
 
 	public static void showEntity() {
@@ -396,42 +375,15 @@ public class CommandLineUserInterface {
 
 	}
 
-	public static void newConnection() {
-
-		try {
-
-			Class.forName("org.sqlite.JDBC");
-
-			c = DriverManager.getConnection("jdbc:sqlite:./db/alexandria.db");
-
-			c.createStatement().execute("PRAGMA foreign_keys=ON");
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-
-		}
-
-	}
-
 	public static String askForName() {
-
 		System.out.print("Please, provide a name or write «all» to view: ");
-
 		try {
-
 			read = console.readLine();
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 		String name = read;
-
 		return name;
-
 	}
 
 	public static void addAuthor() {
@@ -535,209 +487,125 @@ public class CommandLineUserInterface {
 	public static void showAuthor(String name) {
 
 		ArrayList<Author> list = dbManager.selectAuthor(name);
-
 		if (list == null) {
-
 			System.out.println("Error searching for the author(s).");
-
 		} else {
-
 			for (Author author : list) {
-
 				System.out.println(author);
-
 			}
-
 		}
-
+		
 	}
 
 	public static void addBodyPart() {
-
 		System.out.print("Name: ");
-
 		try {
-
 			read = console.readLine();
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 		String name = read;
-
 		System.out.print("Location: ");
-
 		try {
-
 			read = console.readLine();
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 		String location = read;
-
 		BodyPart bodyPart = new BodyPart(name, location);
-
+		;
 		dbManager.insertIntoBodyPart(bodyPart);
-
+		
 		System.out.println("Body part inserted correctly.");
 
 		System.out.println("\nProceeding to show all available diseases...");
-
 		showDisease("all");
-
 		System.out.println("Please, select the id of the diseases you want to relate this body part with.");
-
 		System.out.println("Select 0 for none or to finish.");
-
 		System.out.print("Option: ");
-
 		ArrayList<Integer> id = new ArrayList<Integer>();
-
 		int opcion = 1;
-
 		while (opcion != 0) {
-
 			try {
-
 				read = console.readLine();
-
 				opcion = Integer.parseInt(read);
-
 				if (opcion != 0) {
-
 					id.add(opcion);
-
 				} else {
-
 					break;
-
 				}
-
 			} catch (IOException e) {
-
 				e.printStackTrace();
-
 			}
-
 		}
-
+		
 		for (Integer id2 : id) {
-
 			bodyPart.addDisease(jpaManager.readDisease(id2)); // Tal vez haya
 																// que recuperar
 																// la bodyPart
 																// con el
 																// jpaManager.
-
 		}
-
+		
 	}
 
 	public static void showBodyPart(String name) {
 
+		;
 		ArrayList<BodyPart> list = dbManager.selectBodyPart(name);
-
 		if (list == null) {
-
 			System.out.println("Error searching for the body part(s).");
-
 		} else {
-
 			for (BodyPart bodyPart : list) {
-
 				System.out.println(bodyPart);
-
 			}
-
 		}
-
+		
 	}
 
 	public static void addDevice() {
 
 		System.out.print("Name: ");
-
 		try {
-
 			read = console.readLine();
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 		String name = read;
-
 		System.out.print("Type: ");
-
 		try {
-
 			read = console.readLine();
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 		String type = read;
-
-		System.out.print("price: ");
-
+		System.out.print("Price: ");
 		try {
-
 			read = console.readLine();
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 		float price = Float.parseFloat(read);
-
 		System.out.print("Brand: ");
-
 		try {
-
 			read = console.readLine();
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 		String brand = read;
-
 		Device device = new Device(name, type, price, brand);
-
+		;
 		dbManager.insertIntoDevice(device);
-
+		
 		System.out.println("Device inserted correctly.");
 
 		System.out.println("\nProceeding to show all available procedures...");
-
 		showProcedure("all");
-
 		System.out.println("Please, select the id of the procedures you want to relate this device with.");
-
 		System.out.println("Select 0 for none or to finish.");
-
 		System.out.print("Option: ");
-
 		ArrayList<Integer> id = new ArrayList<Integer>();
-
 		int opcion = 1;
-
 		while (opcion != 0) {
 
 			try {
@@ -763,7 +631,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 		for (Integer id2 : id) {
 
 			Procedure procedure = jpaManager.readProcedure(id2);
@@ -771,7 +639,7 @@ public class CommandLineUserInterface {
 			procedure.addDevice(device);
 
 		}
-
+		
 		System.out.println("\nProceeding to show all available papers...");
 
 		showPaper("all");
@@ -811,7 +679,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 		for (Integer id2 : id) {
 
 			Paper paper = jpaManager.readPaper(id2);
@@ -819,7 +687,7 @@ public class CommandLineUserInterface {
 			device.addPaper(paper);
 
 		}
-
+		
 	}
 
 	/*
@@ -913,7 +781,7 @@ public class CommandLineUserInterface {
 	 */
 
 	public static void showDevice(String name) {
-
+		;
 		ArrayList<Device> list = dbManager.selectDevice(name);
 
 		if (list == null) {
@@ -929,7 +797,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 	}
 
 	public static void addDisease() {
@@ -963,9 +831,9 @@ public class CommandLineUserInterface {
 		String description = read;
 
 		Disease disease = new Disease(name, description);
-
+		;
 		dbManager.insertIntoDisease(disease);
-
+		
 		System.out.println("Disease inserted correctly.");
 
 		System.out.println("\nProceeding to show all available body parts...");
@@ -1007,7 +875,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 		for (Integer id2 : id) {
 
 			BodyPart bodyPart = jpaManager.readBodyPart(id2);
@@ -1015,7 +883,7 @@ public class CommandLineUserInterface {
 			bodyPart.addDisease(disease);
 
 		}
-
+		
 		System.out.println("\nProceeding to show all available symptoms...");
 
 		showSymptom("all");
@@ -1055,7 +923,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 		for (Integer id2 : id) {
 
 			Symptom symptom = jpaManager.readSymptom(id2);
@@ -1063,7 +931,7 @@ public class CommandLineUserInterface {
 			jpaManager.insertsymtomdisease(disease.getID(), symptom.getID());
 
 		}
-
+		
 		System.out.println("\nProceeding to show all available papers...");
 
 		showPaper("all");
@@ -1103,7 +971,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 		for (Integer id2 : id) {
 
 			Paper paper = jpaManager.readPaper(id2);
@@ -1111,7 +979,7 @@ public class CommandLineUserInterface {
 			jpaManager.insertpaperdisease(paper.getID(), disease.getID());
 
 		}
-
+		
 		System.out.println("\nProceeding to show all available images...");
 
 		showImage("all");
@@ -1151,7 +1019,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 		for (Integer id2 : id) {
 
 			Image image = jpaManager.readImage(id2);
@@ -1159,7 +1027,7 @@ public class CommandLineUserInterface {
 			jpaManager.insertimagedisease(image.getID(), disease.getID());
 
 		}
-
+		
 		System.out.println("\nProceeding to show all available procedures...");
 
 		showProcedure("all");
@@ -1199,7 +1067,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 		for (Integer id2 : id) {
 
 			Procedure procedure = jpaManager.readProcedure(id2);
@@ -1207,7 +1075,7 @@ public class CommandLineUserInterface {
 			jpaManager.insertproceduredisease(procedure.getID(), disease.getID());
 
 		}
-
+		
 		/*
 		 * ArrayList<BodyPart> list = dbManager.selectBodyPart("all");
 		 * 
@@ -1262,7 +1130,7 @@ public class CommandLineUserInterface {
 	}
 
 	public static void showDisease(String name) {
-
+		;
 		ArrayList<Disease> list = dbManager.selectDisease(name);
 
 		if (list == null) {
@@ -1278,7 +1146,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 	}
 
 	public static void addImage() {
@@ -1340,13 +1208,13 @@ public class CommandLineUserInterface {
 		String imageAdress = read;
 
 		File photo = new File(imageAdress);
-
+		;
 		byte[] p = dbManager.stringtobyte(photo);
 
 		Image image = new Image(description, type, size, p);
 
 		dbManager.insertIntoImage(image);
-
+		
 		System.out.println("\nProceeding to show all available papers...");
 
 		showPaper("all");
@@ -1386,7 +1254,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 		for (Integer id2 : id) {
 
 			Paper paper = jpaManager.readPaper(id2);
@@ -1394,6 +1262,7 @@ public class CommandLineUserInterface {
 			paper.addImage(image);
 
 		}
+		
 
 		System.out.println("\nProceeding to show all available diseases...");
 
@@ -1434,15 +1303,14 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 		for (Integer id2 : id) {
 
 			Disease disease = jpaManager.readDisease(id2);
 
 			jpaManager.insertimagedisease(image.getID(), disease.getID());
-
 		}
-
+		
 		/*
 		 * showPaper("all");
 		 * 
@@ -1519,7 +1387,7 @@ public class CommandLineUserInterface {
 	}
 
 	public static void showImage(String name) {
-
+		;
 		ArrayList<Image> list = dbManager.selectImage(name);
 
 		if (list == null) {
@@ -1535,6 +1403,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
+		
 
 	}
 
@@ -1554,7 +1423,9 @@ public class CommandLineUserInterface {
 		}
 		String source = read;
 		Paper paper = new Paper(title, source);
+		;
 		dbManager.insertIntoPaper(paper);
+		
 		System.out.println("\nProceeding to show all available authors...");
 		showAuthor("all");
 		System.out.println("Please, select the id of the authors you want to relate this paper with.");
@@ -1587,13 +1458,13 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 		for (Integer id2 : id) {
 
 			jpaManager.insertpaperauthor(id2, paper.getID());
 
 		}
-
+		
 		System.out.println("\nProceeding to show all available diseases...");
 
 		showDisease("all");
@@ -1633,7 +1504,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 		for (Integer id2 : id) {
 
 			Disease disease = jpaManager.readDisease(id2);
@@ -1641,7 +1512,7 @@ public class CommandLineUserInterface {
 			jpaManager.insertpaperdisease(paper.getID(), disease.getID());
 
 		}
-
+		
 		System.out.println("\nProceeding to show all available devices...");
 
 		showDevice("all");
@@ -1681,7 +1552,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 		for (Integer id2 : id) {
 
 			Device device = jpaManager.readDevice(id2);
@@ -1689,7 +1560,7 @@ public class CommandLineUserInterface {
 			device.addPaper(paper);
 
 		}
-
+		
 		System.out.println("\nProceeding to show all available procedures...");
 
 		showProcedure("all");
@@ -1729,7 +1600,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 		for (Integer id2 : id) {
 
 			Procedure procedure = jpaManager.readProcedure(id2);
@@ -1737,7 +1608,7 @@ public class CommandLineUserInterface {
 			procedure.addPaper(paper);
 
 		}
-
+		
 		System.out.println("\nProceeding to show all available images...");
 
 		showImage("all");
@@ -1777,7 +1648,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 		for (Integer id2 : id) {
 
 			Image image = jpaManager.readImage(id2);
@@ -1785,11 +1656,11 @@ public class CommandLineUserInterface {
 			paper.addImage(image);
 
 		}
-
+		
 	}
 
 	public static void showPaper(String name) {
-
+		;
 		ArrayList<Paper> list = dbManager.selectPaper(name);
 
 		if (list == null) {
@@ -1805,207 +1676,119 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 	}
 
 	public static void addProcedure() {
-
 		System.out.print("Name: ");
-
 		try {
-
 			read = console.readLine();
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 		String name = read;
-
 		System.out.print("Description: ");
-
 		try {
-
 			read = console.readLine();
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 		String description = read;
-
 		Procedure procedure = new Procedure(name, description);
-
+		;
 		dbManager.insertIntoProcedure(procedure);
-
+		
 		System.out.println("\nProceeding to show all available diseases...");
-
 		showDisease("all");
-
 		System.out.println("Please, select the id of the diseases you want to relate this procedure with.");
-
 		System.out.println("Select 0 for none or to finish.");
-
 		System.out.print("Option: ");
-
 		ArrayList<Integer> id = new ArrayList<Integer>();
-
 		int option = 1;
-
 		while (option != 0) {
-
 			try {
-
 				read = console.readLine();
-
 				option = Integer.parseInt(read);
-
 				if (option != 0) {
-
 					id.add(option);
-
 				} else {
-
 					break;
-
 				}
-
 			} catch (IOException e) {
-
 				e.printStackTrace();
-
 			}
-
 		}
-
+		
 		for (Integer id2 : id) {
-
 			Disease disease = jpaManager.readDisease(id2);
-
 			jpaManager.insertproceduredisease(procedure.getID(), disease.getID());
-
 		}
-
+		
 		System.out.println("\nProceeding to show all available papers...");
-
 		showPaper("all");
-
 		System.out.println("Please, select the id of the papers you want to relate this procedure with.");
-
 		System.out.println("Select 0 for none or to finish.");
-
 		System.out.print("Option: ");
-
 		id = new ArrayList<Integer>();
-
 		option = 1;
-
 		while (option != 0) {
-
 			try {
-
 				read = console.readLine();
-
 				option = Integer.parseInt(read);
-
 				if (option != 0) {
-
 					id.add(option);
-
 				} else {
-
 					break;
-
 				}
-
 			} catch (IOException e) {
-
 				e.printStackTrace();
-
 			}
-
 		}
-
+		
 		for (Integer id2 : id) {
-
 			Paper paper = jpaManager.readPaper(id2);
-
 			procedure.addPaper(paper);
-
 		}
-
+		
 		System.out.println("\nProceeding to show all available devices...");
-
 		showDevice("all");
-
 		System.out.println("Please, select the id of the devices you want to relate this procedure with.");
-
 		System.out.println("Select 0 for none or to finish.");
-
 		System.out.print("Option: ");
-
 		id = new ArrayList<Integer>();
-
 		option = 1;
-
 		while (option != 0) {
-
 			try {
-
 				read = console.readLine();
-
 				option = Integer.parseInt(read);
-
 				if (option != 0) {
-
 					id.add(option);
-
 				} else {
-
 					break;
-
 				}
-
 			} catch (IOException e) {
-
 				e.printStackTrace();
-
 			}
-
 		}
-
+		
 		for (Integer id2 : id) {
-
 			Device device = jpaManager.readDevice(id2);
-
 			procedure.addDevice(device);
-
 		}
-
+		
 	}
 
 	public static void showProcedure(String name) {
-
+		;
 		ArrayList<Procedure> list = dbManager.selectProcedure(name);
-
 		if (list == null) {
-
 			System.out.println("Error searching for the procedure(s).");
-
 		} else {
-
 			for (Procedure procedure : list) {
-
 				System.out.println(procedure);
-
 			}
-
 		}
-
+		
 	}
 
 	public static void addSymptom() {
@@ -2039,9 +1822,9 @@ public class CommandLineUserInterface {
 		String description = read;
 
 		Symptom symptom = new Symptom(name, description);
-
+		;
 		dbManager.insertIntoSymptom(symptom);
-
+		
 		System.out.println("\nProceeding to show all available diseases...");
 
 		showDisease("all");
@@ -2077,7 +1860,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 		for (Integer id2 : id) {
 
 			Disease disease = jpaManager.readDisease(id2);
@@ -2085,17 +1868,16 @@ public class CommandLineUserInterface {
 			jpaManager.insertsymtomdisease(disease.getID(), symptom.getID());
 
 		}
-
+		
 	}
 
 	public static void showSymptom(String name) {
-
+		;
 		ArrayList<Symptom> list = dbManager.selectSymptom(name);
 
 		if (list == null) {
 
 			System.out.println("Error searching for the author(s).");
-
 		} else {
 
 			for (Symptom symptom : list) {
@@ -2105,11 +1887,11 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 	}
 
 	private static void deleteAuthor() {
-
+		;
 		ArrayList<Author> list = dbManager.selectAuthor("all");
 
 		if (list == null) {
@@ -2149,11 +1931,11 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 	}
 
 	private static void deleteBodyPart() {
-
+		;
 		ArrayList<BodyPart> list = dbManager.selectBodyPart("all");
 
 		if (list == null) {
@@ -2193,11 +1975,11 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 	}
 
 	private static void deleteDevice() {
-
+		;
 		ArrayList<Device> list = dbManager.selectDevice("all");
 
 		if (list == null) {
@@ -2237,11 +2019,11 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 	}
 
 	private static void deleteDisease() {
-
+		;
 		ArrayList<Disease> list = dbManager.selectDisease("all");
 
 		if (list == null) {
@@ -2281,11 +2063,11 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 	}
 
 	private static void deleteImage() {
-
+		;
 		ArrayList<Image> list = dbManager.selectImage("all");
 
 		if (list == null) {
@@ -2325,11 +2107,11 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 	}
 
 	private static void deletePaper() {
-
+		;
 		ArrayList<Paper> list = dbManager.selectPaper("all");
 
 		if (list == null) {
@@ -2369,11 +2151,11 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 	}
 
 	private static void deleteProcedure() {
-
+		;
 		ArrayList<Procedure> list = dbManager.selectProcedure("all");
 
 		if (list == null) {
@@ -2413,11 +2195,11 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 	}
 
 	private static void deleteSymptom() {
-
+		;
 		ArrayList<Symptom> list = dbManager.selectSymptom("all");
 
 		if (list == null) {
@@ -2457,96 +2239,56 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 	}
 
 	private static void updateMenu() {
-
 		System.out.print("\nPlease, select the type of item you want to modify: ");
-
 		System.out.println("\n1.) Author");
-
 		System.out.println("2.) Device");
-
 		System.out.println("3.) Disease or pathology");
-
 		System.out.println("4.) Image");
-
 		System.out.println("5.) Procedure or treatment");
-
 		System.out.println("6.) Return to the main menu...");
-
 		System.out.print("\nOption: ");
-
 		try {
-
 			read = console.readLine();
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 		Integer option = Integer.parseInt(read);
-
 		switch (option) {
-
 		case 1: {
-
 			modifyAuthor();
-
 			return;
-
 		}
-
 		case 2: {
-
 			modifyDevice();
-
 			return;
-
 		}
-
 		case 3: {
-
 			modifyDisease();
-
 			return;
-
 		}
 
 		case 4: {
-
 			modifyImage();
-
 			return;
-
 		}
 
 		case 5: {
-
 			modifyProcedure();
-
 			return;
-
 		}
-
 		case 6: {
-
 			return;
-
 		}
-
 		}
-
 	}
 
 	private static void modifyAuthor() {
-
+		
 		try {
-
-			// change lists to 'show_()' methods
 
 			ArrayList<Author> list = dbManager.selectAuthor("all");
 
@@ -2579,11 +2321,8 @@ public class CommandLineUserInterface {
 			}
 
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 	}
 
 	private static void modifyDevice() {
@@ -2625,17 +2364,12 @@ public class CommandLineUserInterface {
 			}
 
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 	}
 
 	private static void modifyDisease() {
-
 		try {
-
 			ArrayList<Disease> listD = dbManager.selectDisease("all");
 
 			if (listD.size() == 0) {
@@ -2689,100 +2423,69 @@ public class CommandLineUserInterface {
 			}
 
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 	}
 
 	private static void modifyImage() {
+			try {
+				ArrayList<Image> listI = dbManager.selectImage("all");
 
-		try {
+				if (listI.size() == 0) {
 
-			ArrayList<Image> listI = dbManager.selectImage("all");
+					System.out.println("Error searching for the symptoms.");
 
-			if (listI.size() == 0) {
+				} else {
 
-				System.out.println("Error searching for the symptoms.");
+					for (Image image : listI) {
 
-			} else {
+						System.out.println(image);
 
-				for (Image image : listI) {
+					}
+					System.out.println("Which is the image that you want to modify?" + "\nWrite its ID number:");
 
-					System.out.println(image);
+					String read = console.readLine();
 
+					Integer imageId = Integer.parseInt(read);
+
+					System.out.println("Write the new image's description:");
+
+					String newDescription = console.readLine();
+
+					System.out.println("Write the new disease's paper:");
+
+					ArrayList<Paper> listP = dbManager.selectPaper("all");
+
+					System.out.println("Which is the paper related to this disease?" + "\nWrite its ID number:");
+
+					read = console.readLine();
+
+					Integer newPaper = Integer.parseInt(read);
+					;
+					dbManager.updateImage(imageId, newDescription, newPaper);
+					
+	
 				}
 
-				System.out.println("Which is the image that you want to modify?" + "\nWrite its ID number:");
+				} catch (Exception e) {
 
-				String read = console.readLine();
+					e.printStackTrace();
 
-				Integer imageId = Integer.parseInt(read);
-
-				System.out.println("Write the new image's description:");
-
-				String newDescription = console.readLine();
-
-				System.out.println("Write the new disease's paper:");
-
-				ArrayList<Paper> listP = dbManager.selectPaper("all");
-
-				System.out.println("Which is the paper related to this disease?" + "\nWrite its ID number:");
-
-				read = console.readLine();
-
-				Integer newPaper = Integer.parseInt(read);
-
-				dbManager.updateImage(imageId, newDescription, newPaper);
-			}
-
-		} catch (IOException e) {
-
-			e.printStackTrace();
-
-		}
-
+				}
 	}
 
 	private static void modifyProcedure() {
-
 		try {
-
-			ArrayList<Procedure> list = dbManager.selectProcedure("all");
-
-			if (list == null) {
-
-				System.out.println("Error searching for the symptoms.");
-
-			} else {
-
-				for (Procedure procedure : list) {
-
-					System.out.println(procedure);
-
-				}
-
-				System.out.println("Which is the procedure that you want to modify?" + "\nWrite its ID number:");
-
-				String read = console.readLine();
-
-				Integer procedureId = Integer.parseInt(read);
-
-				System.out.println("Write the new procedure's description:");
-
-				String newDescription = console.readLine();
-
-				dbManager.updateProcedure(procedureId, newDescription);
-
-			}
-
+			showProcedure("all");
+			System.out.println("Which is the procedure that you want to modify?" + "\nWrite its ID number:");
+			read = console.readLine();
+			Integer procedureId = Integer.parseInt(read);
+			System.out.println("Write the new procedure's description:");
+			String newDescription = console.readLine();
+			jpaManager.updateProcedureJPA(procedureId, newDescription);
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 	}
 
 	private static void showRelatedToSymptom(String name) {
@@ -2837,13 +2540,17 @@ public class CommandLineUserInterface {
 	private static void showRelatedToAuthor(String name) {
 		String proceed = askIfViewRelated();
 		if (proceed.equalsIgnoreCase("y")) {
+			;
 			Author author = dbManager.selectAuthor(name).get(0);
+			
 			System.out.println("\nPAPERS:");
+			
 			List<Integer> paper_ids = jpaManager.readPapersRelatedToAuthor(author.getID());
 			for (Integer paper_id : paper_ids) {
 				Paper paper = jpaManager.readPaper(paper_id);
 				System.out.println("ID: " + paper.getID() + " Title: " + paper.getTitle());
 			}
+			
 			try {
 				System.out.println(
 						"\nPlease, select the category and ID  of the item you want to view (Example: [paper,1]).");

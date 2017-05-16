@@ -22,21 +22,13 @@
 
 
 		<!-- Entity Class, that is going to be a table -->
-
 		<class>pojos.Author</class>
-
 		<class>pojos.BodyPart</class>
-
 		<class>pojos.Device</class>
-
 		<class>pojos.Disease</class>
-
 		<class>pojos.Image</class>
-
 		<class>pojos.Paper</class>
-
 		<class>pojos.Procedure</class>
-
 		<class>pojos.Symptom</class>
 
 
