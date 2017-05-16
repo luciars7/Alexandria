@@ -1275,6 +1275,8 @@ public class DBManager {
 			prep.setString(1, newDescription);
 
 			prep.setInt(2, newPaper);
+			
+			prep.setInt(3, image_id);
 
 			prep.executeUpdate();
 
@@ -1296,21 +1298,11 @@ public class DBManager {
 
 	// it is to be deleted.
 
-	public void updateProcedure(Integer procedure_id, String newDescription) {///// Preguntar
-
-		///// a
-
-		///// Lucía
-
-		///// por
-
-		///// el
-
-		///// name.
+	public void updateProcedure(Integer procedure_id, String newDescription) {
 
 		try {
 
-			String sql = "UPDATE procedure SET name = ? AND description = ? WHERE ID = ?";
+			String sql = "UPDATE procedure SET description = ? WHERE ID = ?";
 
 			PreparedStatement prep = c.prepareStatement(sql);
 
@@ -1325,7 +1317,6 @@ public class DBManager {
 		} catch (Exception e) {
 
 			System.out.println(e.getMessage());
-
 		}
 
 	}
