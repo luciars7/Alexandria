@@ -35,7 +35,7 @@ public class DBManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
+	} 
 
 	public static boolean checkTables() {
 		DatabaseMetaData dbm;
