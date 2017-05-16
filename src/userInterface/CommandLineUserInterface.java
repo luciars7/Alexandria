@@ -2592,7 +2592,7 @@ public class CommandLineUserInterface {
 
 			ArrayList<Device> list = dbManager.selectDevice("all");
 
-			if (list == null) {
+			if (list.size() ==0) {
 
 				System.out.println("Error searching for the symptoms.");
 
@@ -2638,7 +2638,7 @@ public class CommandLineUserInterface {
 
 			ArrayList<Disease> listD = dbManager.selectDisease("all");
 
-			if (listD == null) {
+			if (listD.size() == 0) {
 
 				System.out.println("Error searching for the symptoms.");
 
@@ -2702,7 +2702,7 @@ public class CommandLineUserInterface {
 
 			ArrayList<Image> listI = dbManager.selectImage("all");
 
-			if (listI == null) {
+			if (listI.size() == 0) {
 
 				System.out.println("Error searching for the symptoms.");
 
