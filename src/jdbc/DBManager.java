@@ -1178,7 +1178,7 @@ public class DBManager {
 
 	public void updateDevice(Integer device_id, Float newprice, String newBrand) {
 		try {
-			String sql = "UPDATE device SET price = ?,  brand = ? WHERE ID = ?";
+			String sql = "UPDATE device SET price = ?, brand = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setFloat(1, newprice);
 			prep.setString(2, newBrand);
