@@ -1,41 +1,40 @@
 package jdbc;
 
 import java.io.*;
-
 import java.sql.*;
-
 import java.util.ArrayList;
-
 import pojos.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 
 public class DBManager {
 
 	static Connection c = null;
 
-	
 	public DBManager() {
 
 	}
-	
-	public void connect (Connection c) {
+
+	public void connect(Connection c) {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			c = DriverManager.getConnection("jdbc:sqlite:./db/alexandria.db");
 			c.createStatement().execute("PRAGMA foreign_keys=ON");
 			this.c = c;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	 catch (Exception e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}}
-	
+
 	public void disconnect() {
 		try {
 			this.c.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	} 
+	}
 
 	public static boolean checkTables() {
 		DatabaseMetaData dbm;
@@ -54,7 +53,7 @@ public class DBManager {
 		}
 		return true;
 	}
-	
+
 	// SELECTS
 
 	// ------------------------------------------------------------------------------------------------
@@ -606,7 +605,7 @@ public class DBManager {
 
 			Statement stmt1 = c.createStatement();
 
-			String sql1 = "CREATE TABLE paper" + "(ID INTEGER PRIMARY KEY," + "title TEXT," + "source TEXT,"
+			String sql1 = "CREATE TABLE paper" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "title TEXT," + "source TEXT,"
 					+ "device INTEGER REFERENCES device (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "procedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 
@@ -616,7 +615,7 @@ public class DBManager {
 
 			Statement stmt2 = c.createStatement();
 
-			String sql2 = "CREATE TABLE bodypart" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "location TEXT)";
+			String sql2 = "CREATE TABLE bodypart" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT," + "location TEXT)";
 
 			stmt2.executeUpdate(sql2);
 
@@ -624,7 +623,7 @@ public class DBManager {
 
 			Statement stmt3 = c.createStatement();
 
-			String sql3 = "CREATE TABLE disease" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "description TEXT,"
+			String sql3 = "CREATE TABLE disease" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT," + "description TEXT,"
 
 					+ "bodypart INTEGER REFERENCES bodypart (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 
@@ -634,7 +633,7 @@ public class DBManager {
 
 			Statement stmt4 = c.createStatement();
 
-			String sql4 = "CREATE TABLE author" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "origin TEXT,"
+			String sql4 = "CREATE TABLE author" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT," + "origin TEXT,"
 
 					+ "association TEXT)";
 
@@ -644,7 +643,7 @@ public class DBManager {
 
 			Statement stmt5 = c.createStatement();
 
-			String sql5 = "CREATE TABLE device" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "type TEXT ,"
+			String sql5 = "CREATE TABLE device" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT," + "type TEXT ,"
 
 					+ "price FLOAT," + "brand TEXT,"
 
@@ -658,7 +657,7 @@ public class DBManager {
 
 			Statement stmt6 = c.createStatement();
 
-			String sql6 = "CREATE TABLE image" + "(ID INTEGER PRIMARY KEY," + "description TEXT," + "type TEXT,"
+			String sql6 = "CREATE TABLE image" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "description TEXT," + "type TEXT,"
 
 					+ "size TEXT," + "image BLOOB,"
 
@@ -670,7 +669,7 @@ public class DBManager {
 
 			Statement stmt7 = c.createStatement();
 
-			String sql7 = "CREATE TABLE symptom" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "description TEXT)";
+			String sql7 = "CREATE TABLE symptom" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT," + "description TEXT)";
 
 			stmt7.executeUpdate(sql7);
 
@@ -678,7 +677,7 @@ public class DBManager {
 
 			Statement stmt8 = c.createStatement();
 
-			String sql8 = "CREATE TABLE procedure" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "description TEXT)";
+			String sql8 = "CREATE TABLE procedure" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT," + "description TEXT)";
 
 			stmt8.executeUpdate(sql8);
 
@@ -753,28 +752,47 @@ public class DBManager {
 			stmt13.executeUpdate(sql13);
 
 			stmt13.close();
+			
+			Statement stmtSeq = c.createStatement();
+			String sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES ('author', 1)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES ('bodypart', 1)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES ('device', 1)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES ('disease', 1)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES ('image', 1)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES ('paper', 1)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES ('procedure', 1)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES ('symptom', 1)";
+			stmtSeq.executeUpdate(sqlSeq);
+			stmtSeq.close();
+			
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
 
 		}
+		
 
 	}
+	
+	
 
 	// INSERTS
 	// ------------------------------------------------------------------------------------------------
 
 	public void insertIntoAuthor(Author author) {
 		try {
-			System.out.println("a");
 			Statement stmtSeq = c.createStatement();
-			System.out.println("b");
 			String sqlSeq = "INSERT INTO author (name,origin,association) VALUES ('" + author.getName() + "','"
 					+ author.getOrigin() + "','" + author.getAssociation() + "')";
-			System.out.println("c");
 			stmtSeq.executeUpdate(sqlSeq);
-			System.out.println("d");
 			stmtSeq.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -1227,7 +1245,7 @@ public class DBManager {
 
 	// it is to be deleted.
 
-public void updateProcedure(Integer procedure_id, String newDescription) {///// Preguntar
+	public void updateProcedure(Integer procedure_id, String newDescription) {///// Preguntar
 
 		///// a
 
