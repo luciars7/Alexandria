@@ -1781,7 +1781,7 @@ public class CommandLineUserInterface {
 	public static void showProcedure(String name) {
 		;
 		ArrayList<Procedure> list = dbManager.selectProcedure(name);
-		if (list == null) {
+		if (list.size() ==0) {
 			System.out.println("Error searching for the procedure(s).");
 		} else {
 			for (Procedure procedure : list) {
