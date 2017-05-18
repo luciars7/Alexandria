@@ -387,103 +387,56 @@ public class CommandLineUserInterface {
 	}
 
 	public static void addAuthor() {
-
 		System.out.print("Name: ");
-
 		try {
-
 			read = console.readLine();
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 		String name = read;
-
 		System.out.print("Nationality: ");
-
 		try {
-
 			read = console.readLine();
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 		String origin = read;
-
 		System.out.print("Association: ");
-
 		try {
-
 			read = console.readLine();
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 		String association = read;
-
 		Author author = new Author(name, origin, association);
-
 		dbManager.insertIntoAuthor(author);
-
 		System.out.println("Author inserted correctly.");
-
 		System.out.println("\nProceeding to show all available papers...");
-
 		showPaper("all");
-
 		System.out.println("Please, select the id of the papers you want to relate this author with.");
-
 		System.out.println("Select 0 for none or to finish.");
-
 		System.out.print("Option: ");
-
 		ArrayList<Integer> id = new ArrayList<Integer>();
-
 		int opcion = 1;
-
 		while (opcion != 0) {
-
 			try {
-
 				read = console.readLine();
-
 				opcion = Integer.parseInt(read);
-
 				if (opcion != 0) {
-
 					id.add(opcion);
-
 				} else {
-
 					break;
-
 				}
-
 			} catch (IOException e) {
-
 				e.printStackTrace();
-
 			}
-
 		}
-
 		for (Integer id2 : id) {
-
+			
 			jpaManager.insertpaperauthor(id2, author.getID());
-
 		}
-
 	}
-
+	
 	public static void showAuthor(String name) {
 
 		ArrayList<Author> list = dbManager.selectAuthor(name);
@@ -1820,9 +1773,9 @@ public class CommandLineUserInterface {
 		String description = read;
 
 		Symptom symptom = new Symptom(name, description);
-		;
-		dbManager.insertIntoSymptom(symptom);
-
+		
+		jpaManager.createSymptomJPA(symptom);
+		
 		System.out.println("\nProceeding to show all available diseases...");
 
 		showDisease("all");
@@ -1858,7 +1811,7 @@ public class CommandLineUserInterface {
 			}
 
 		}
-
+		
 		for (Integer id2 : id) {
 
 			Disease disease = jpaManager.readDisease(id2);
@@ -2537,15 +2490,11 @@ public class CommandLineUserInterface {
 	private static void showRelatedToAuthor(String name) {
 		String proceed = askIfViewRelated();
 		if (proceed.equalsIgnoreCase("y")) {
-			;
 			Author author = dbManager.selectAuthor(name).get(0);
-
 			System.out.println("\nPAPERS:");
-
-			List<Integer> paper_ids = jpaManager.readPapersRelatedToAuthor(author.getID());
-			for (Integer paper_id : paper_ids) {
-				Paper paper = jpaManager.readPaper(paper_id);
-				System.out.println("ID: " + paper.getID() + " Title: " + paper.getTitle());
+			List<Paper> listP = jpaManager.readPaperAuthor(author.getID());
+			for (Paper paper : listP) {
+				System.out.println(paper.toString());
 			}
 
 			try {

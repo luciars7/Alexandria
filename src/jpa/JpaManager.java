@@ -1,9 +1,7 @@
 package jpa;
 
 import java.util.List;
-
 import javax.persistence.*;
-
 import pojos.*;
 
 public class JpaManager {
@@ -23,9 +21,10 @@ public class JpaManager {
 	public void disconnect() {
 		em.close();
 	}
+	
+	
 
 	// INSERTIONS INTO N-N TABLES
-
 	// ------------------------------------------------------------------------------------------------
 
 	public void insertsymtomdisease(int disease_id, int symptom_id) {
@@ -200,9 +199,28 @@ public class JpaManager {
 		Procedure procedure = (Procedure) q1.getSingleResult();
 		return procedure;
 	}
+	
+	public static List<Paper> readPaperAuthor(int author_id) {
+		Query q1 = em.createNativeQuery("SELECT * FROM paperauthor WHERE author = ?", Paper.class);
+		q1.setParameter(1, author_id);
+		List<Paper> papers = (List<Paper>) q1.getResultList();
+		return papers;
+	}
 
+	
+	// CREATES
+	// ------------------------------------------------------------------------------------------------
+	public void createSymptomJPA (Symptom symptom){
+		// Begin transaction 
+		em.getTransaction().begin();
+		// Store the object
+		em.persist(symptom);
+		// End transaction
+		em.getTransaction().commit();
+		
+	}
+	
 	// DELETES
-
 	// ------------------------------------------------------------------------------------------------
 
 	public void deleteSymptomJPA(int symptom_id) {
@@ -218,7 +236,6 @@ public class JpaManager {
 	}
 
 	// UPDATES
-
 	// ------------------------------------------------------------------------------------------------
 
 	public void updateProcedureJPA(Integer procedure_id, String newDescription) {
