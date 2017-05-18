@@ -3,9 +3,13 @@ import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.Query;
+
 import jdbc.DBManager;
 import jpa.JpaManager;
 import pojos.*;
+import xml.XmlManager;
 public class CommandLineUserInterface {
 	static Connection c = null;
 	static DBManager dbManager = null;
@@ -49,7 +53,8 @@ public class CommandLineUserInterface {
 		System.out.println("2.) Delete item.");
 		System.out.println("3.) View item.");
 		System.out.println("4.) Modify item.");
-		System.out.println("5.) Exit.");
+		System.out.println("5.) Convert author table to XML file");
+		System.out.println("99.) Exit.");
 		System.out.print("\nOption: ");
 		try {
 			read = console.readLine();
@@ -75,7 +80,11 @@ public class CommandLineUserInterface {
 			updateMenu();
 			break;
 		}
-		case 5: {
+		case 5: {			
+			convertXML(dbManager);
+			break;
+		}
+		case 99: {
 			Exit();
 			break;
 		}
@@ -2873,5 +2882,29 @@ public class CommandLineUserInterface {
 
 	private static void viewRelated(String category, int id) {
 		// TODO probar con un switch para las categorías.
+	}
+
+	private static void convertXML (DBManager dbm){
+		List <Author> authors = dbManager.selectAuthor("all");
+		for (Author a : authors) {
+			System.out.println(a.getID() + ": " + a.getName());
+		}
+		String aut ="";
+		System.out.print("Choose an author to turn into an XML file:");
+		try {
+			aut = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String fileName="";
+		System.out.println("write the path of the file where it is going to be saved: ");
+		try{
+		fileName = console.readLine();
+		}
+		catch (IOException ex){
+			ex.printStackTrace();
+		}
+		XmlManager xmlm = new XmlManager(dbm);
+		xmlm.marshalToXML(aut, fileName);
 	}
 }

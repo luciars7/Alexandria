@@ -8,6 +8,14 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import javax.xml.bind.annotation.*;
+
+@XmlAccessorType(XmlAccessType.FIELD)
+
+@XmlRootElement(name = "author")
+
+@XmlType(propOrder={"ID","name","origin","association","paper"})
+
 @Entity
 
 @Table(name = "author")
@@ -22,12 +30,16 @@ public class Author implements Serializable {
 
 	@TableGenerator(name = "author", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "author")
 
+	@XmlAttribute
 	private int ID;
-
+	
+	@XmlElement
 	private String name;
-
+	
+	@XmlElement
 	private String origin;
-
+	
+	@XmlElement
 	private String association;
 
 	@ManyToMany
@@ -38,6 +50,8 @@ public class Author implements Serializable {
 
 					@JoinColumn(name = "author", referencedColumnName = "ID") })
 
+	@XmlElement(name = "paper")
+	@XmlElementWrapper(name = "papers")
 	private List<Paper> paper;
 
 	public Author() {
