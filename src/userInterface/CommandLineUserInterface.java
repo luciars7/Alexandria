@@ -10,42 +10,37 @@ import jdbc.DBManager;
 import jpa.JpaManager;
 import pojos.*;
 import xml.XmlManager;
+
+//Sustituir en OSWD.
 public class CommandLineUserInterface {
 	static Connection c = null;
 	static DBManager dbManager = null;
 	static JpaManager jpaManager = null;
 	static BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
 	static String read = null;
+
 	public static void main(String args[]) {
 		System.out.println("Establishing a connection with ALEXANDRIA...");
-		newConnection();
-		System.out.println("New connection stablished.");
-		dbManager = new DBManager(c);
-		checkTables(); // Needs to be done before JPA creates the tables as it
+		dbManager = new DBManager();
+		dbManager.connect(c);
+		checkTables();
+		// Needs to be done before JPA creates the tables as it
 		// wishes.
+		System.out.println("New connection stablished.");
 		jpaManager = new JpaManager();
 		showMenu();
 	}
 
 	public static void checkTables() {
 		System.out.println("Checking for the tables...");
-		DatabaseMetaData dbm;
-		try {
-			dbm = c.getMetaData();
-			ResultSet tables = dbm.getTables(null, null, "paper", null);
-			if (tables.next()) {
-				System.out.println("Tables already exist.");
-			} else {
-				System.out.println("Tables do not exist. Proceeding to create them.");
-				dbManager.createTables();
-				System.out.println("The tables have been created.");
-			}
-		} catch (SQLException e) {
-			System.out.println("Error encountered when retreiving data.");
-			e.printStackTrace();
+		boolean result = dbManager.checkTables();
+		if (result == true) {
+			System.out.println("Tables already exist.");
+		} else {
+			System.out.println("Tables didn't exist. They have been created.");
 		}
 	}
-	
+
 	private static void showMenu() {
 		System.out.println("\n\n\n\nALEXANDRIA");
 		System.out.println("***********************");
@@ -106,12 +101,6 @@ public class CommandLineUserInterface {
 		case "Y": {
 			dbManager.disconnect();
 			jpaManager.disconnect();
-			try {
-				c.close();
-			} catch (SQLException e) {
-				System.out.println("Error encountered when closing the conection.");
-				e.printStackTrace();
-			}
 			System.out.println("Connection closed.");
 			System.exit(0);
 		}
@@ -405,23 +394,6 @@ public class CommandLineUserInterface {
 
 	}
 
-	public static void newConnection() {
-
-		try {
-
-			Class.forName("org.sqlite.JDBC");
-
-			c = DriverManager.getConnection("jdbc:sqlite:./db/alexandria.db");
-
-			c.createStatement().execute("PRAGMA foreign_keys=ON");
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-
-		}
-
-	}
 
 	public static String askForName() {
 
@@ -598,31 +570,18 @@ public class CommandLineUserInterface {
 		System.out.println("Body part inserted correctly.");
 
 		System.out.println("\nProceeding to show all available diseases...");
-
 		showDisease("all");
-
 		System.out.println("Please, select the id of the diseases you want to relate this body part with.");
-
 		System.out.println("Select 0 for none or to finish.");
-
 		System.out.print("Option: ");
-
 		ArrayList<Integer> id = new ArrayList<Integer>();
-
 		int opcion = 1;
-
 		while (opcion != 0) {
-
 			try {
-
 				read = console.readLine();
-
 				opcion = Integer.parseInt(read);
-
 				if (opcion != 0) {
-
 					id.add(opcion);
-
 				} else {
 
 					break;
@@ -696,7 +655,6 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 
 		}
-
 		String type = read;
 
 		System.out.print("price: ");
@@ -2601,7 +2559,7 @@ public class CommandLineUserInterface {
 
 			ArrayList<Device> list = dbManager.selectDevice("all");
 
-			if (list == null) {
+			if (list.size() == 0) {
 
 				System.out.println("Error searching for the symptoms.");
 
@@ -2642,12 +2600,10 @@ public class CommandLineUserInterface {
 	}
 
 	private static void modifyDisease() {
-
 		try {
-
 			ArrayList<Disease> listD = dbManager.selectDisease("all");
 
-			if (listD == null) {
+			if (listD.size() == 0) {
 
 				System.out.println("Error searching for the symptoms.");
 
@@ -2711,7 +2667,7 @@ public class CommandLineUserInterface {
 
 			ArrayList<Image> listI = dbManager.selectImage("all");
 
-			if (listI == null) {
+			if (listI.size() == 0) {
 
 				System.out.println("Error searching for the symptoms.");
 
@@ -2755,41 +2711,17 @@ public class CommandLineUserInterface {
 	}
 
 	private static void modifyProcedure() {
-
 		try {
-
-			ArrayList<Procedure> list = dbManager.selectProcedure("all");
-
-			if (list == null) {
-
-				System.out.println("Error searching for the symptoms.");
-
-			} else {
-
-				for (Procedure procedure : list) {
-
-					System.out.println(procedure);
-
-				}
-
-				System.out.println("Which is the procedure that you want to modify?" + "\nWrite its ID number:");
-
-				String read = console.readLine();
-
-				Integer procedureId = Integer.parseInt(read);
-
-				System.out.println("Write the new procedure's description:");
-
-				String newDescription = console.readLine();
-
-				dbManager.updateProcedure(procedureId, newDescription);
-
-			}
-
+			showProcedure("all");
+			System.out.println("Which is the procedure that you want to modify?" + "\nWrite its ID number:");
+			read = console.readLine();
+			Integer procedureId = Integer.parseInt(read);
+			System.out.println("Write the new procedure's description:");
+			String newDescription = console.readLine();
+			jpaManager.updateProcedureJPA(procedureId, newDescription);
 		} catch (IOException e) {
 
 			e.printStackTrace();
-
 		}
 
 	}
@@ -2848,11 +2780,11 @@ public class CommandLineUserInterface {
 		if (proceed.equalsIgnoreCase("y")) {
 			Author author = dbManager.selectAuthor(name).get(0);
 			System.out.println("\nPAPERS:");
-			List<Integer> paper_ids = jpaManager.readPapersRelatedToAuthor(author.getID());
-			for (Integer paper_id : paper_ids) {
-				Paper paper = jpaManager.readPaper(paper_id);
-				System.out.println("ID: " + paper.getID() + " Title: " + paper.getTitle());
+			List<Paper> listP = jpaManager.readPaperAuthor(author.getID());
+			for (Paper paper : listP) {
+				System.out.println(paper.toString());
 			}
+
 			try {
 				System.out.println(
 						"\nPlease, select the category and ID  of the item you want to view (Example: [paper,1]).");

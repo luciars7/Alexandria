@@ -1,35 +1,57 @@
 package jdbc;
 
 import java.io.*;
-
 import java.sql.*;
-
 import java.util.ArrayList;
-
 import pojos.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 
 public class DBManager {
 
-	Connection c = null;
+	static Connection c = null;
 
-	public DBManager(Connection c) {
-
-		this.c = c;
+	public DBManager() {
 
 	}
 
-	public void disconnect() {
-
+	public void connect(Connection c) {
 		try {
-
-			c.close();
-
-		} catch (SQLException e) {
-
+			Class.forName("org.sqlite.JDBC");
+			c = DriverManager.getConnection("jdbc:sqlite:./db/alexandria.db");
+			c.createStatement().execute("PRAGMA foreign_keys=ON");
+			this.c = c;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-
 		}
+	}
 
+	public void disconnect() {
+		try {
+			this.c.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static boolean checkTables() {
+		DatabaseMetaData dbm;
+		try {
+			dbm = c.getMetaData();
+			ResultSet tables = dbm.getTables(null, null, "paper", null);
+			if (tables.next()) {
+				return true;
+			} else {
+				createTables();
+				return false;
+			}
+		} catch (SQLException e) {
+			System.out.println("Error encountered when retreiving data.");
+			e.printStackTrace();
+		}
+		return true;
 	}
 
 	// SELECTS
@@ -473,71 +495,38 @@ public class DBManager {
 	}
 
 	public ArrayList<Procedure> selectProcedure(String NAME) {
-
 		ArrayList<Procedure> list = null;
-
 		try {
-
 			// Retrieve data: begin
-
 			list = new ArrayList<Procedure>();
-
 			Statement stmt = c.createStatement();
-
 			if (NAME.equalsIgnoreCase("all")) {
-
 				String sql = "SELECT * FROM procedure";
-
 				ResultSet rs = stmt.executeQuery(sql);// Works as an iterator.
-
 				while (rs.next()) {
-
 					int id = rs.getInt("ID");
-
 					String name = rs.getString("name");
-
 					String description = rs.getString("description");
-
 					list.add(new Procedure(id, name, description));
-
 				}
-
 				rs.close();
-
 			} else {
-
 				String sql = "SELECT * FROM procedure WHERE name = '" + NAME + "'";
-
 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
-
 				while (rs.next()) {
-
 					int id = rs.getInt("ID");
-
 					String name = rs.getString("name");
-
 					String description = rs.getString("description");
-
 					list.add(new Procedure(id, name, description));
-
 				}
-
 				rs.close();
-
 			}
-
 			stmt.close();
-
 			System.out.println("Search finished.");
-
 		} catch (Exception e) {
-
 			e.printStackTrace();
-
 		}
-
 		return list;
-
 	}
 
 	public ArrayList<Symptom> selectSymptom(String NAME) {
@@ -608,7 +597,7 @@ public class DBManager {
 
 	}
 
-	public void createTables() {
+	public static void createTables() {
 
 		try {
 
@@ -616,7 +605,7 @@ public class DBManager {
 
 			Statement stmt1 = c.createStatement();
 
-			String sql1 = "CREATE TABLE paper" + "(ID INTEGER PRIMARY KEY," + "title TEXT," + "source TEXT,"
+			String sql1 = "CREATE TABLE paper" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "title TEXT," + "source TEXT,"
 					+ "device INTEGER REFERENCES device (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "procedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 
@@ -626,7 +615,7 @@ public class DBManager {
 
 			Statement stmt2 = c.createStatement();
 
-			String sql2 = "CREATE TABLE bodypart" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "location TEXT)";
+			String sql2 = "CREATE TABLE bodypart" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT," + "location TEXT)";
 
 			stmt2.executeUpdate(sql2);
 
@@ -634,7 +623,7 @@ public class DBManager {
 
 			Statement stmt3 = c.createStatement();
 
-			String sql3 = "CREATE TABLE disease" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "description TEXT,"
+			String sql3 = "CREATE TABLE disease" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT," + "description TEXT,"
 
 					+ "bodypart INTEGER REFERENCES bodypart (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 
@@ -644,7 +633,7 @@ public class DBManager {
 
 			Statement stmt4 = c.createStatement();
 
-			String sql4 = "CREATE TABLE author" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "origin TEXT,"
+			String sql4 = "CREATE TABLE author" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT," + "origin TEXT,"
 
 					+ "association TEXT)";
 
@@ -654,7 +643,7 @@ public class DBManager {
 
 			Statement stmt5 = c.createStatement();
 
-			String sql5 = "CREATE TABLE device" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "type TEXT ,"
+			String sql5 = "CREATE TABLE device" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT," + "type TEXT ,"
 
 					+ "price FLOAT," + "brand TEXT,"
 
@@ -668,7 +657,7 @@ public class DBManager {
 
 			Statement stmt6 = c.createStatement();
 
-			String sql6 = "CREATE TABLE image" + "(ID INTEGER PRIMARY KEY," + "description TEXT," + "type TEXT,"
+			String sql6 = "CREATE TABLE image" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "description TEXT," + "type TEXT,"
 
 					+ "size TEXT," + "image BLOOB,"
 
@@ -680,7 +669,7 @@ public class DBManager {
 
 			Statement stmt7 = c.createStatement();
 
-			String sql7 = "CREATE TABLE symptom" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "description TEXT)";
+			String sql7 = "CREATE TABLE symptom" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT," + "description TEXT)";
 
 			stmt7.executeUpdate(sql7);
 
@@ -688,7 +677,7 @@ public class DBManager {
 
 			Statement stmt8 = c.createStatement();
 
-			String sql8 = "CREATE TABLE procedure" + "(ID INTEGER PRIMARY KEY," + "name TEXT," + "description TEXT)";
+			String sql8 = "CREATE TABLE procedure" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT," + "description TEXT)";
 
 			stmt8.executeUpdate(sql8);
 
@@ -763,39 +752,51 @@ public class DBManager {
 			stmt13.executeUpdate(sql13);
 
 			stmt13.close();
+			
+			Statement stmtSeq = c.createStatement();
+			String sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES ('author', 1)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES ('bodypart', 1)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES ('device', 1)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES ('disease', 1)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES ('image', 1)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES ('paper', 1)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES ('procedure', 1)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES ('symptom', 1)";
+			stmtSeq.executeUpdate(sqlSeq);
+			stmtSeq.close();
+			
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
 
 		}
+		
 
 	}
+	
+	
 
 	// INSERTS
-
 	// ------------------------------------------------------------------------------------------------
 
 	public void insertIntoAuthor(Author author) {
-
 		try {
-
 			Statement stmtSeq = c.createStatement();
-
 			String sqlSeq = "INSERT INTO author (name,origin,association) VALUES ('" + author.getName() + "','"
-
 					+ author.getOrigin() + "','" + author.getAssociation() + "')";
-
 			stmtSeq.executeUpdate(sqlSeq);
-
 			stmtSeq.close();
-
 		} catch (SQLException ex) {
-
 			ex.printStackTrace();
-
 		}
-
 	}
 
 	public void insertIntoBodyPart(BodyPart bodyPart) {
@@ -1173,119 +1174,67 @@ public class DBManager {
 	// ------------------------------------------------------------------------------------------------
 
 	public void updateAuthor(Integer author_id, String newAssociation) {
-
 		try {
-
 			String sql = "UPDATE author SET association = ? WHERE ID = ?";
-
 			PreparedStatement prep = c.prepareStatement(sql);
-
 			prep.setString(1, newAssociation);
-
 			prep.setInt(2, author_id);
-
 			prep.executeUpdate();
-
 			prep.close();
-
 		} catch (Exception e) {
-
 			System.out.println(e.getMessage());
-
 		}
-
 	}
 
 	// Entity 'BodyPart' doesn't need an 'update' method as what is going to be
-
 	// changed is the foreign key
-
 	// attribute that refers to it. For example: if a disease (which has
-
 	// 'BodyPart' as a foreign key) goes
-
 	// under research and it is found out that the body part in which it happens
-
 	// is different, in the database
-
 	// what is going to be changed is the attribute in 'BodyPart' foreign key of
-
 	// entity 'disease'.
 
 	public void updateDevice(Integer device_id, Float newprice, String newBrand) {
-
 		try {
-
-			String sql = "UPDATE device SET price = ? AND brand = ? WHERE ID = ?";
-
+			String sql = "UPDATE device SET price = ?, brand = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
-
 			prep.setFloat(1, newprice);
-
 			prep.setString(2, newBrand);
-
 			prep.setInt(3, device_id);
-
 			prep.executeUpdate();
-
 			prep.close();
-
 		} catch (Exception e) {
-
 			System.out.println(e.getMessage());
-
 		}
-
 	}
 
 	public void updateDisease(Integer disease_id, String newDescription, Integer newBodyPart) {
 
 		try {
-
-			String sql = "UPDATE disease SET description = ? AND BodyPart = ? WHERE ID = ?";
-
+			String sql = "UPDATE disease SET description = ?, BodyPart = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
-
 			prep.setString(1, newDescription);
-
 			prep.setInt(2, newBodyPart);
-
 			prep.setInt(3, disease_id);
-
 			prep.executeUpdate();
-
 			prep.close();
-
 		} catch (Exception e) {
-
 			System.out.println(e.getMessage());
-
 		}
-
 	}
 
 	public void updateImage(Integer image_id, String newDescription, Integer newPaper) {
-
 		try {
-
-			String sql = "UPDATE image SET description = ? AND paper = ? WHERE ID = ?";
-
+			String sql = "UPDATE image SET description = ?, paper = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
-
 			prep.setString(1, newDescription);
-
 			prep.setInt(2, newPaper);
-
 			prep.executeUpdate();
-
 			prep.close();
-
 		} catch (Exception e) {
-
 			System.out.println(e.getMessage());
-
 		}
-
 	}
 
 	// A paper is always going to be the same, its title is not going to change
@@ -1310,7 +1259,7 @@ public class DBManager {
 
 		try {
 
-			String sql = "UPDATE procedure SET name = ? AND description = ? WHERE ID = ?";
+			String sql = "UPDATE procedure SET name = ?, description = ? WHERE ID = ?";
 
 			PreparedStatement prep = c.prepareStatement(sql);
 
