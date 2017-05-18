@@ -1,5 +1,4 @@
 package userInterface;
-
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -7,6 +6,7 @@ import java.util.List;
 import jdbc.DBManager;
 import jpa.JpaManager;
 import pojos.*;
+import xml.XmlManager;
 
 //Sustituir en OSWD.
 public class CommandLineUserInterface {
@@ -46,7 +46,8 @@ public class CommandLineUserInterface {
 		System.out.println("2.) Delete item.");
 		System.out.println("3.) View item.");
 		System.out.println("4.) Modify item.");
-		System.out.println("5.) Exit.");
+		System.out.println("5.) Convert author table to XML file");
+		System.out.println("99.) Exit.");
 		System.out.print("\nOption: ");
 		try {
 			read = console.readLine();
@@ -72,7 +73,11 @@ public class CommandLineUserInterface {
 			updateMenu();
 			break;
 		}
-		case 5: {
+		case 5: {			
+			convertXML(dbManager);
+			break;
+		}
+		case 99: {
 			Exit();
 			break;
 		}
@@ -466,7 +471,7 @@ public class CommandLineUserInterface {
 		}
 		String location = read;
 		BodyPart bodyPart = new BodyPart(name, location);
-		;
+		
 		dbManager.insertIntoBodyPart(bodyPart);
 
 		System.out.println("Body part inserted correctly.");
@@ -504,7 +509,6 @@ public class CommandLineUserInterface {
 
 	public static void showBodyPart(String name) {
 
-		;
 		ArrayList<BodyPart> list = dbManager.selectBodyPart(name);
 		if (list == null) {
 			System.out.println("Error searching for the body part(s).");
@@ -547,7 +551,7 @@ public class CommandLineUserInterface {
 		}
 		String brand = read;
 		Device device = new Device(name, type, price, brand);
-		;
+		
 		dbManager.insertIntoDevice(device);
 
 		System.out.println("Device inserted correctly.");
@@ -1083,7 +1087,7 @@ public class CommandLineUserInterface {
 	}
 
 	public static void showDisease(String name) {
-		;
+		
 		ArrayList<Disease> list = dbManager.selectDisease(name);
 
 		if (list == null) {
@@ -1161,7 +1165,7 @@ public class CommandLineUserInterface {
 		String imageAdress = read;
 
 		File photo = new File(imageAdress);
-		;
+
 		byte[] p = dbManager.stringtobyte(photo);
 
 		Image image = new Image(description, type, size, p);
@@ -1374,9 +1378,7 @@ public class CommandLineUserInterface {
 		}
 		String source = read;
 		Paper paper = new Paper(title, source);
-		;
 		dbManager.insertIntoPaper(paper);
-
 		System.out.println("\nProceeding to show all available authors...");
 		showAuthor("all");
 		System.out.println("Please, select the id of the authors you want to relate this paper with.");
@@ -1611,7 +1613,7 @@ public class CommandLineUserInterface {
 	}
 
 	public static void showPaper(String name) {
-		;
+
 		ArrayList<Paper> list = dbManager.selectPaper(name);
 
 		if (list == null) {
@@ -1646,7 +1648,7 @@ public class CommandLineUserInterface {
 		}
 		String description = read;
 		Procedure procedure = new Procedure(name, description);
-		;
+		
 		dbManager.insertIntoProcedure(procedure);
 
 		System.out.println("\nProceeding to show all available diseases...");
@@ -1730,7 +1732,7 @@ public class CommandLineUserInterface {
 	}
 
 	public static void showProcedure(String name) {
-		;
+		
 		ArrayList<Procedure> list = dbManager.selectProcedure(name);
 		if (list.size() ==0) {
 			System.out.println("Error searching for the procedure(s).");
@@ -1823,7 +1825,7 @@ public class CommandLineUserInterface {
 	}
 
 	public static void showSymptom(String name) {
-		;
+		
 		ArrayList<Symptom> list = dbManager.selectSymptom(name);
 
 		if (list == null) {
@@ -1842,7 +1844,7 @@ public class CommandLineUserInterface {
 	}
 
 	private static void deleteAuthor() {
-		;
+		
 		ArrayList<Author> list = dbManager.selectAuthor("all");
 
 		if (list == null) {
@@ -1886,7 +1888,7 @@ public class CommandLineUserInterface {
 	}
 
 	private static void deleteBodyPart() {
-		;
+		
 		ArrayList<BodyPart> list = dbManager.selectBodyPart("all");
 
 		if (list == null) {
@@ -1930,7 +1932,7 @@ public class CommandLineUserInterface {
 	}
 
 	private static void deleteDevice() {
-		;
+		
 		ArrayList<Device> list = dbManager.selectDevice("all");
 
 		if (list == null) {
@@ -1974,7 +1976,7 @@ public class CommandLineUserInterface {
 	}
 
 	private static void deleteDisease() {
-		;
+		
 		ArrayList<Disease> list = dbManager.selectDisease("all");
 
 		if (list == null) {
@@ -2018,7 +2020,7 @@ public class CommandLineUserInterface {
 	}
 
 	private static void deleteImage() {
-		;
+
 		ArrayList<Image> list = dbManager.selectImage("all");
 
 		if (list == null) {
@@ -2062,7 +2064,7 @@ public class CommandLineUserInterface {
 	}
 
 	private static void deletePaper() {
-		;
+		
 		ArrayList<Paper> list = dbManager.selectPaper("all");
 
 		if (list == null) {
@@ -2106,7 +2108,7 @@ public class CommandLineUserInterface {
 	}
 
 	private static void deleteProcedure() {
-		;
+		
 		ArrayList<Procedure> list = dbManager.selectProcedure("all");
 
 		if (list == null) {
@@ -2150,7 +2152,7 @@ public class CommandLineUserInterface {
 	}
 
 	private static void deleteSymptom() {
-		;
+		
 		ArrayList<Symptom> list = dbManager.selectSymptom("all");
 
 		if (list == null) {
@@ -2412,7 +2414,7 @@ public class CommandLineUserInterface {
 				read = console.readLine();
 
 				Integer newPaper = Integer.parseInt(read);
-				;
+				
 				dbManager.updateImage(imageId, newDescription, newPaper);
 
 			}
@@ -2526,5 +2528,29 @@ public class CommandLineUserInterface {
 
 	private static void viewRelated(String category, int id) {
 		// TODO probar con un switch para las categorías.
+	}
+
+	private static void convertXML (DBManager dbm){
+		List <Author> authors = dbManager.selectAuthor("all");
+		for (Author a : authors) {
+			System.out.println(a.getID() + ": " + a.getName());
+		}
+		String aut ="";
+		System.out.print("Choose an author to turn into an XML file:");
+		try {
+			aut = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String fileName="";
+		System.out.println("write the path of the file where it is going to be saved: ");
+		try{
+		fileName = console.readLine();
+		}
+		catch (IOException ex){
+			ex.printStackTrace();
+		}
+		XmlManager xmlm = new XmlManager(dbm);
+		xmlm.marshalToXML(aut, fileName);
 	}
 }
