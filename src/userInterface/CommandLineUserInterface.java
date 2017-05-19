@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
-
 import jdbc.DBManager;
 import jpa.JpaManager;
 import pojos.*;
@@ -28,6 +27,7 @@ public class CommandLineUserInterface {
 		// wishes.
 		System.out.println("New connection stablished.");
 		jpaManager = new JpaManager();
+		jpaManager.connect();
 		showMenu();
 	}
 
