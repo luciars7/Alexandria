@@ -659,6 +659,17 @@ public class DBManager {
 			stmtSeq.executeUpdate(sqlSeq);
 			sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES ('symptom', 1)";
 			stmtSeq.executeUpdate(sqlSeq);
+			//We don't know if it also has to be done for the N-N tables.
+			sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES ('symptomdisease', 1)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES ('paperauthor', 1)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES ('paperdisease', 1)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES ('imagedisease', 1)";
+			stmtSeq.executeUpdate(sqlSeq);
+			sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES ('proceduredisease', 1)";
+			stmtSeq.executeUpdate(sqlSeq);
 			stmtSeq.close();
 		} catch (Exception e) {
 			e.printStackTrace();
