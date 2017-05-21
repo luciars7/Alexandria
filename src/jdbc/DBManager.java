@@ -23,7 +23,6 @@ public class DBManager {
 			c.createStatement().execute("PRAGMA foreign_keys=ON");
 			this.c = c;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -59,97 +58,52 @@ public class DBManager {
 	// ------------------------------------------------------------------------------------------------
 
 	public ArrayList<Author> selectAuthor(String NAME) {
-
 		ArrayList<Author> list = null;
-
 		try {
-
 			// Retrieve data: begin
-
 			list = new ArrayList<Author>();
-
 			Statement stmt = c.createStatement();
-
 			if (NAME.equalsIgnoreCase("all")) {
-
 				String sql = "SELECT * FROM author";
-
 				ResultSet rs = stmt.executeQuery(sql);// Works as an iterator.
-
 				while (rs.next()) {
-
 					int id = rs.getInt("ID");
-
 					String name = rs.getString("name");
-
 					String origin = rs.getString("origin");
-
 					String association = rs.getString("association");
-
 					list.add(new Author(id, name, origin, association));
-
 				}
-
 				rs.close();
-
 			} else {
-
 				String sql = "SELECT * FROM author WHERE name = '" + NAME + "'";
-
 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
-
 				while (rs.next()) {
-
 					int id = rs.getInt("ID");
-
 					String name = rs.getString("name");
-
 					String origin = rs.getString("origin");
-
 					String association = rs.getString("association");
-
 					list.add(new Author(id, name, origin, association));
-
 				}
-
 				rs.close();
-
 			}
-
 			stmt.close();
-
 			System.out.println("Search finished.");
-
 		} catch (Exception e) {
-
 			e.printStackTrace();
-
 		}
-
 		return list;
-
 	}
 
 	public ArrayList<BodyPart> selectBodyPart(String NAME) {
-
 		ArrayList<BodyPart> list = null;
-
 		try {
-
 			// Retrieve data: begin
-
 			list = new ArrayList<BodyPart>();
-
 			Statement stmt = c.createStatement();
-
 			if (NAME.equalsIgnoreCase("all")) {
-
 				String sql = "SELECT * FROM bodypart";
-
 				ResultSet rs = stmt.executeQuery(sql);// Works as an iterator.
-
 				while (rs.next()) {
-
 					int id = rs.getInt("ID");
 
 					String name = rs.getString("name");
@@ -598,159 +552,94 @@ public class DBManager {
 	}
 
 	public static void createTables() {
-
 		try {
-
 			// Create tables: begin
-
 			Statement stmt1 = c.createStatement();
-
 			String sql1 = "CREATE TABLE paper" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "title TEXT," + "source TEXT,"
 					+ "device INTEGER REFERENCES device (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "procedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
-
 			stmt1.executeUpdate(sql1);
-
 			stmt1.close();
-
 			Statement stmt2 = c.createStatement();
-
+			
 			String sql2 = "CREATE TABLE bodypart" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT," + "location TEXT)";
-
 			stmt2.executeUpdate(sql2);
-
 			stmt2.close();
-
 			Statement stmt3 = c.createStatement();
-
 			String sql3 = "CREATE TABLE disease" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT," + "description TEXT,"
-
 					+ "bodypart INTEGER REFERENCES bodypart (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
-
 			stmt3.executeUpdate(sql3);
-
 			stmt3.close();
 
 			Statement stmt4 = c.createStatement();
-
 			String sql4 = "CREATE TABLE author" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT," + "origin TEXT,"
-
 					+ "association TEXT)";
-
 			stmt4.executeUpdate(sql4);
-
 			stmt4.close();
 
 			Statement stmt5 = c.createStatement();
-
 			String sql5 = "CREATE TABLE device" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT," + "type TEXT ,"
-
 					+ "price FLOAT," + "brand TEXT,"
-
 					+ "procedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-
 					+ "paper INTEGER REFERENCES paper (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
-
 			stmt5.executeUpdate(sql5);
-
 			stmt5.close();
 
 			Statement stmt6 = c.createStatement();
-
 			String sql6 = "CREATE TABLE image" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "description TEXT," + "type TEXT,"
-
 					+ "size TEXT," + "image BLOOB,"
-
 					+ "paper INTEGER REFERENCES paper (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
-
 			stmt6.executeUpdate(sql6);
-
 			stmt6.close();
 
 			Statement stmt7 = c.createStatement();
-
 			String sql7 = "CREATE TABLE symptom" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT," + "description TEXT)";
-
 			stmt7.executeUpdate(sql7);
-
 			stmt7.close();
-
+			
 			Statement stmt8 = c.createStatement();
-
 			String sql8 = "CREATE TABLE procedure" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT," + "description TEXT)";
-
 			stmt8.executeUpdate(sql8);
-
 			stmt8.close();
 
 			Statement stmt9 = c.createStatement();
-
 			String sql9 = "CREATE TABLE symptomdisease"
-
 					+ "(disease INTEGER REFERENCES disease (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-
 					+ "symptom INTEGER REFERENCES symptom (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-
 					+ "PRIMARY KEY (disease, symptom))";
-
 			stmt9.executeUpdate(sql9);
-
 			stmt9.close();
 
 			Statement stmt10 = c.createStatement();
-
 			String sql10 = "CREATE TABLE paperauthor"
-
 					+ "(paper INTEGER REFERENCES paper (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-
 					+ "author INTEGER REFERENCES author (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-
 					+ "PRIMARY KEY (paper, author))";
-
 			stmt10.executeUpdate(sql10);
-
 			stmt10.close();
 
 			Statement stmt11 = c.createStatement();
-
 			String sql11 = "CREATE TABLE paperdisease"
-
 					+ "(paper INTEGER REFERENCES paper (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-
 					+ "disease INTEGER REFERENCES disease (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-
 					+ "PRIMARY KEY (paper, disease))";
-
 			stmt11.executeUpdate(sql11);
-
 			stmt11.close();
 
 			Statement stmt12 = c.createStatement();
-
 			String sql12 = "CREATE TABLE imagedisease"
-
 					+ "(image INTEGER REFERENCES image (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-
 					+ "disease INTEGER REFERENCES disease (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-
 					+ "PRIMARY KEY (image, disease))";
-
 			stmt12.executeUpdate(sql12);
-
 			stmt12.close();
 
 			Statement stmt13 = c.createStatement();
-
 			String sql13 = "CREATE TABLE proceduredisease"
-
 					+ "(procedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-
 					+ "disease INTEGER REFERENCES disease (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-
 					+ "PRIMARY KEY (procedure, disease))";
-
 			stmt13.executeUpdate(sql13);
-
 			stmt13.close();
 			
 			Statement stmtSeq = c.createStatement();
@@ -771,19 +660,11 @@ public class DBManager {
 			sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES ('symptom', 1)";
 			stmtSeq.executeUpdate(sqlSeq);
 			stmtSeq.close();
-			
-
 		} catch (Exception e) {
-
 			e.printStackTrace();
-
 		}
-		
-
 	}
 	
-	
-
 	// INSERTS
 	// ------------------------------------------------------------------------------------------------
 
@@ -800,103 +681,59 @@ public class DBManager {
 	}
 
 	public void insertIntoBodyPart(BodyPart bodyPart) {
-
 		try {
-
 			Statement stmtSeq = c.createStatement();
-
 			String sqlSeq = "INSERT INTO bodyPart (name, location) VALUES ('" + bodyPart.getName() + "', '"
-
 					+ bodyPart.getLocation() + "')";
-
 			stmtSeq.executeUpdate(sqlSeq);
-
 			stmtSeq.close();
-
 		} catch (SQLException ex) {
-
 			ex.printStackTrace();
-
 		}
-
 	}
 
 	public void insertIntoDevice(Device device) {
-
 		try {
-
 			Statement stmtSeq = c.createStatement();
-
 			String sqlSeq = "";
-
 			sqlSeq = "INSERT INTO device (name, type, price, brand) VALUES ('" + device.getName() + "', '"
-
 					+ device.getType() + "', '" + device.getprice() + "', '" + device.getBrand() + "')";
-
 			stmtSeq.executeUpdate(sqlSeq);
-
 			stmtSeq.close();
-
 		} catch (SQLException ex) {
-
 			ex.printStackTrace();
-
 		}
-
 	}
 
 	public void insertIntoDisease(Disease disease) {
-
 		try {
-
 			Statement stmtSeq = c.createStatement();
-
 			String sqlSeq = "";
-
 			sqlSeq = "INSERT INTO disease (name, description) VALUES ('" + disease.getName() + "', '"
-
 					+ disease.getDescription() + "')";
-
 			stmtSeq.executeUpdate(sqlSeq);
-
 			stmtSeq.close();
-
 		} catch (SQLException ex) {
-
 			ex.printStackTrace();
-
 		}
-
 	}
 
 	public void insertIntoImage(Image image) {
-
 		try {
-
 			Statement stmtSeq = c.createStatement();
-
 			/*
 			 * 
 			 * prep.setBytes(6, bytesBlob);
 			 * 
 			 */
-
 			String sqlSeq = "INSERT INTO image (description, type, size, image) VALUES ('"
-
 					+ image.getDescription() + "', '" + image.getType() + "', '" + image.getSize() + "', '"
-
 					+ image.getImage() + "')";
-
 			stmtSeq.executeUpdate(sqlSeq);
-
 			stmtSeq.close();
-
 		} catch (SQLException ex) {
-
 			ex.printStackTrace();
-
 		}
-
 	}
 
 	public byte[] stringtobyte(File p) {
@@ -968,25 +805,15 @@ public class DBManager {
 	}
 
 	public void insertIntoSymptom(Symptom symptom) {
-
 		try {
-
 			Statement stmtSeq = c.createStatement();
-
 			String sqlSeq = "INSERT INTO symptom (name, description) VALUES ('" + symptom.getName() + "', '"
-
 					+ symptom.getDescription() + "')";
-
 			stmtSeq.executeUpdate(sqlSeq);
-
 			stmtSeq.close();
-
 		} catch (SQLException ex) {
-
 			ex.printStackTrace();
-
 		}
-
 	}
 
 	// DELETIONS

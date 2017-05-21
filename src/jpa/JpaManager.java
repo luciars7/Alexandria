@@ -9,6 +9,7 @@ public class JpaManager {
 	private static EntityManager em;
 
 	public JpaManager() {
+		em = null;
 	}
 
 	public void connect() {
@@ -21,8 +22,6 @@ public class JpaManager {
 	public void disconnect() {
 		em.close();
 	}
-	
-	
 
 	// INSERTIONS INTO N-N TABLES
 	// ------------------------------------------------------------------------------------------------
@@ -102,95 +101,57 @@ public class JpaManager {
 	}
 
 	// INSERTIONS INTO 1-N TABLES
-
 	// ------------------------------------------------------------------------------------------------
 
 	// READS
-
 	// ------------------------------------------------------------------------------------------------
-
 	public static Disease readDisease(int disease_id) {
-
 		Query q1 = em.createNativeQuery("SELECT * FROM disease WHERE id = ?", Disease.class);
-
 		q1.setParameter(1, disease_id);
-
 		Disease disease = (Disease) q1.getSingleResult();
-
 		return disease;
-
 	}
 
 	public static Symptom readSymptom(int symptom_id) {
-
 		Query q1 = em.createNativeQuery("SELECT * FROM symptom WHERE id = ?", Symptom.class);
-
 		q1.setParameter(1, symptom_id);
-
 		Symptom symptom = (Symptom) q1.getSingleResult();
-
 		return symptom;
-
 	}
 
 	public static Device readDevice(int device_id) {
-
 		Query q1 = em.createNativeQuery("SELECT * FROM device WHERE id = ?", Device.class);
-
 		q1.setParameter(1, device_id);
-
 		Device device = (Device) q1.getSingleResult();
-
 		return device;
-
 	}
 
 	public static Paper readPaper(int paper_id) {
-
 		Query q1 = em.createNativeQuery("SELECT * FROM paper WHERE id = ?", Paper.class);
-
 		q1.setParameter(1, paper_id);
-
 		Paper paper = (Paper) q1.getSingleResult();
-
 		return paper;
-
 	}
 
 	public static BodyPart readBodyPart(int bodyPart_id) {
-
 		Query q1 = em.createNativeQuery("SELECT * FROM bodypart WHERE id = ?", BodyPart.class);
-
 		q1.setParameter(1, bodyPart_id);
-
 		BodyPart bodyPart = (BodyPart) q1.getSingleResult();
-
 		return bodyPart;
-
 	}
 
 	public static Author readAuthor(int author_id) {
-
 		Query q1 = em.createNativeQuery("SELECT * FROM author WHERE id = ?", Author.class);
-
 		q1.setParameter(1, author_id);
-
 		Author author = (Author) q1.getSingleResult();
-
 		return author;
-
 	}
 
 	public static Image readImage(int image_id) {
-
 		Query q1 = em.createNativeQuery("SELECT * FROM image WHERE id = ?", Image.class);
-
 		q1.setParameter(1, image_id);
-
 		Image image = (Image) q1.getSingleResult();
-
 		return image;
-
 	}
 
 	public static Procedure readProcedure(int procedure_id) {
@@ -199,7 +160,7 @@ public class JpaManager {
 		Procedure procedure = (Procedure) q1.getSingleResult();
 		return procedure;
 	}
-	
+
 	public static List<Paper> readPaperAuthor(int author_id) {
 		Query q1 = em.createNativeQuery("SELECT * FROM paperauthor WHERE author = ?", Paper.class);
 		q1.setParameter(1, author_id);
@@ -207,32 +168,27 @@ public class JpaManager {
 		return papers;
 	}
 
-	
 	// CREATES
 	// ------------------------------------------------------------------------------------------------
-	public void createSymptomJPA (Symptom symptom){
-		// Begin transaction 
+	public void createSymptomJPA(Symptom symptom) {
+		// Begin transaction
 		em.getTransaction().begin();
 		// Store the object
+		System.out.println("A");
 		em.persist(symptom);
+		System.out.println("B");
 		// End transaction
 		em.getTransaction().commit();
-		
 	}
-	
+
 	// DELETES
 	// ------------------------------------------------------------------------------------------------
 
-	public void deleteSymptomJPA(int symptom_id) {
-
+	public void deleteProcedureJPA(int procedure_id) {
 		em.getTransaction().begin();
-
-		Symptom symptom = readSymptom(symptom_id);
-
-		em.remove(symptom);
-
+		Procedure procedure = readProcedure(procedure_id);
+		em.remove(procedure);
 		em.getTransaction().commit();
-
 	}
 
 	// UPDATES

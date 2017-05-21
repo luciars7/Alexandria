@@ -28,6 +28,7 @@ public class CommandLineUserInterface {
 		System.out.println("New connection stablished.");
 		jpaManager = new JpaManager();
 		jpaManager.connect();
+		System.out.println("Managers conneted.");
 		showMenu();
 	}
 
@@ -54,7 +55,7 @@ public class CommandLineUserInterface {
 		try {
 			read = console.readLine();
 		} catch (IOException e) {
-			System.out.print("AN ERROR OCURRED READING THE DATA.");
+			System.out.print("AN ERROR OCURRED WHILE READING THE DATA.");
 			e.printStackTrace();
 		}
 		int option = Integer.parseInt(read);
@@ -150,35 +151,20 @@ public class CommandLineUserInterface {
 			return;
 		}
 		case 6: {
-
 			addPaper();
-
 			return;
-
 		}
-
 		case 7: {
-
 			addProcedure();
-
 			return;
-
 		}
-
 		case 8: {
-
 			addSymptom();
-
 			return;
-
 		}
-
 		case 9: {
-
 			return;
-
 		}
-
 		}
 
 	}
@@ -1956,109 +1942,59 @@ public class CommandLineUserInterface {
 	}
 
 	public static void showProcedure(String name) {
-
 		ArrayList<Procedure> list = dbManager.selectProcedure(name);
-
 		if (list == null) {
-
 			System.out.println("Error searching for the procedure(s).");
-
 		} else {
-
 			for (Procedure procedure : list) {
-
 				System.out.println(procedure);
-
 			}
-
 		}
-
 	}
 
 	public static void addSymptom() {
-
 		System.out.print("Name: ");
-
 		try {
-
 			read = console.readLine();
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 		String name = read;
-
 		System.out.print("Description: ");
-
 		try {
-
 			read = console.readLine();
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 		String description = read;
-
 		Symptom symptom = new Symptom(name, description);
-
-		dbManager.insertIntoSymptom(symptom);
-
+		jpaManager.createSymptomJPA(symptom);
 		System.out.println("\nProceeding to show all available diseases...");
-
 		showDisease("all");
-
 		System.out.print("Select the id of the related disease (0 for none): ");
-
 		ArrayList<Integer> id = new ArrayList<Integer>();
-
 		int option = 1;
-
 		while (option != 0) {
-
 			try {
-
 				read = console.readLine();
-
 				option = Integer.parseInt(read);
-
 				if (option != 0) {
-
 					id.add(option);
-
 				} else {
-
 					break;
-
 				}
-
 			} catch (IOException e) {
-
 				e.printStackTrace();
-
 			}
-
 		}
-
 		for (Integer id2 : id) {
-
 			Disease disease = jpaManager.readDisease(id2);
-
 			jpaManager.insertsymtomdisease(disease.getID(), symptom.getID());
-
 		}
-
 	}
 
 	public static void showSymptom(String name) {
-
 		ArrayList<Symptom> list = dbManager.selectSymptom(name);
-
 		if (list == null) {
 
 			System.out.println("Error searching for the author(s).");
@@ -2375,7 +2311,7 @@ public class CommandLineUserInterface {
 
 			} else {
 
-				dbManager.deleteProcedure(id);
+				jpaManager.deleteProcedureJPA(id);
 
 			}
 
@@ -2419,7 +2355,7 @@ public class CommandLineUserInterface {
 
 			} else {
 
-				jpaManager.deleteSymptomJPA(id);
+				dbManager.deleteSymptom(id);
 
 			}
 
@@ -2428,61 +2364,33 @@ public class CommandLineUserInterface {
 	}
 
 	private static void updateMenu() {
-
 		System.out.print("\nPlease, select the type of item you want to modify: ");
-
 		System.out.println("\n1.) Author");
-
 		System.out.println("2.) Device");
-
 		System.out.println("3.) Disease or pathology");
-
 		System.out.println("4.) Image");
-
 		System.out.println("5.) Procedure or treatment");
-
 		System.out.println("6.) Return to the main menu...");
-
 		System.out.print("\nOption: ");
-
 		try {
-
 			read = console.readLine();
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 		Integer option = Integer.parseInt(read);
-
 		switch (option) {
-
 		case 1: {
-
 			modifyAuthor();
-
 			return;
-
 		}
-
 		case 2: {
-
 			modifyDevice();
-
 			return;
-
 		}
-
 		case 3: {
-
 			modifyDisease();
-
 			return;
-
 		}
-
 		case 4: {
 
 			modifyImage();
