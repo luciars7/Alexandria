@@ -49,7 +49,8 @@ public class CommandLineUserInterface {
 		System.out.println("2.) Delete item.");
 		System.out.println("3.) View item.");
 		System.out.println("4.) Modify item.");
-		System.out.println("5.) Convert author table to XML file");
+		System.out.println("5.) Convert author table to a XML file");
+		System.out.println("6.) Convert author table to a Java file");
 		System.out.println("99.) Exit.");
 		System.out.print("\nOption: ");
 		try {
@@ -78,6 +79,10 @@ public class CommandLineUserInterface {
 		}
 		case 5: {			
 			convertXML(dbManager);
+			break;
+		}
+		case 6: {			
+			convertJava(dbManager);
 			break;
 		}
 		case 99: {
@@ -2730,7 +2735,7 @@ public class CommandLineUserInterface {
 			System.out.println(a.getID() + ": " + a.getName());
 		}
 		String aut ="";
-		System.out.print("Choose an author to turn into an XML file:");
+		System.out.print("Choose an author to turn into an XML file (write their name):");
 		try {
 			aut = console.readLine();
 		} catch (IOException e) {
@@ -2747,4 +2752,28 @@ public class CommandLineUserInterface {
 		XmlManager xmlm = new XmlManager(dbm);
 		xmlm.marshalToXML(aut, fileName);
 	}
+	private static void convertJava (DBManager dbm){
+		List <Author> authors = dbManager.selectAuthor("all");
+		for (Author a : authors) {
+			System.out.println(a.getID() + ": " + a.getName());
+		}
+		String aut ="";
+		System.out.print("Choose an author to turn into an Java file:");
+		try {
+			aut = console.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String fileName="";
+		System.out.println("write the path of the file where it is going to be saved: ");
+		try{
+		fileName = console.readLine();
+		}
+		catch (IOException ex){
+			ex.printStackTrace();
+		}
+		XmlManager xmlm = new XmlManager(dbm);
+		xmlm.unmarshalToJava(aut, fileName);
+	}
+	
 }
