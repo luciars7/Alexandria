@@ -69,9 +69,7 @@ public class BodyPart implements Serializable {
 	}
 
 	public void addDisease(Disease disease) {
-
 		this.disease.add(disease);
-
 	}
 
 	public void removeDisease(Disease disease) {

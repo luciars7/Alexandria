@@ -49,7 +49,6 @@ public class JpaManager {
 	}
 
 	public void insertpaperdisease(int paper_id, int disease_id) {
-
 		if (disease_id != 0 && paper_id != 0) {
 			em.getTransaction().begin();
 			Paper paper = readPaper(paper_id);
@@ -61,43 +60,25 @@ public class JpaManager {
 	}
 
 	public void insertimagedisease(int image_id, int disease_id) {
-
 		if (disease_id != 0 && image_id != 0) {
-
 			em.getTransaction().begin();
-
 			Disease disease = readDisease(disease_id);
-
 			Image image = readImage(image_id);
-
 			disease.addImage(image);
-
 			image.addDisease(disease);
-
 			em.getTransaction().commit();
-
 		}
-
 	}
 
 	public void insertproceduredisease(int procedure_id, int disease_id) {
-
 		if (disease_id != 0 && procedure_id != 0) {
-
 			em.getTransaction().begin();
-
 			Disease disease = readDisease(disease_id);
-
 			Procedure procedure = readProcedure(procedure_id);
-
 			disease.addProcedure(procedure);
-
 			procedure.addDisease(disease);
-
 			em.getTransaction().commit();
-
 		}
-
 	}
 
 	// INSERTIONS INTO 1-N TABLES
@@ -171,13 +152,8 @@ public class JpaManager {
 	// CREATES
 	// ------------------------------------------------------------------------------------------------
 	public void createSymptomJPA(Symptom symptom) {
-		// Begin transaction
 		em.getTransaction().begin();
-		// Store the object
-		System.out.println("A");
 		em.persist(symptom);
-		System.out.println("B");
-		// End transaction
 		em.getTransaction().commit();
 	}
 
@@ -195,15 +171,9 @@ public class JpaManager {
 	// ------------------------------------------------------------------------------------------------
 
 	public void updateProcedureJPA(Integer procedure_id, String newDescription) {
-		// Begin transaction
 		em.getTransaction().begin();
-		System.out.println("1");
-		// Make changes
 		Procedure procedure = readProcedure(procedure_id);
 		procedure.setDescription(newDescription);
-		System.out.println("2");
-		// End transaction
 		em.getTransaction().commit();
-		System.out.println("3");
 	}
 }
