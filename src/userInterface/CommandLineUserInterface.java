@@ -28,7 +28,6 @@ public class CommandLineUserInterface {
 		System.out.println("New connection stablished.");
 		jpaManager = new JpaManager();
 		jpaManager.connect();
-		System.out.println("Managers conneted.");
 		showMenu();
 	}
 
@@ -85,6 +84,7 @@ public class CommandLineUserInterface {
 			break;
 		}
 		}
+		System.out.println("Volviendo al menú.");
 		showMenu();
 	}
 
@@ -132,38 +132,38 @@ public class CommandLineUserInterface {
 		switch (option) {
 		case 1: {
 			addAuthor();
-			return;
+			break;
 		}
 		case 2: {
 			addBodyPart();
-			return;
+			break;
 		}
 		case 3: {
 			addDevice();
-			return;
+			break;
 		}
 		case 4: {
 			addDisease();
-			return;
+			break;
 		}
 		case 5: {
 			addImage();
-			return;
+			break;
 		}
 		case 6: {
 			addPaper();
-			return;
+			break;
 		}
 		case 7: {
 			addProcedure();
-			return;
+			break;
 		}
 		case 8: {
 			addSymptom();
-			return;
+			break;
 		}
 		case 9: {
-			return;
+			break;
 		}
 		}
 
@@ -643,7 +643,7 @@ public class CommandLineUserInterface {
 		}
 		String type = read;
 
-		System.out.print("price: ");
+		System.out.print("Price: ");
 
 		try {
 
@@ -1969,6 +1969,7 @@ public class CommandLineUserInterface {
 		String description = read;
 		Symptom symptom = new Symptom(name, description);
 		jpaManager.createSymptomJPA(symptom);
+		System.out.println("Symptom inserted");
 		System.out.println("\nProceeding to show all available diseases...");
 		showDisease("all");
 		System.out.print("Select the id of the related disease (0 for none): ");
