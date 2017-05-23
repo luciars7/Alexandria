@@ -47,7 +47,7 @@ public class DBManager {
 				tables.close();
 				createTables();
 				return false;
-			}
+			} 
 		} catch (SQLException e) {
 			System.out.println("Error encountered when retreiving data.");
 			e.printStackTrace();

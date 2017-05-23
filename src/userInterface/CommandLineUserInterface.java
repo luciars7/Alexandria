@@ -2592,27 +2592,16 @@ public class CommandLineUserInterface {
 					System.out.println(image);
 
 				}
-
 				System.out.println("Which is the image that you want to modify?" + "\nWrite its ID number:");
-
 				String read = console.readLine();
-
 				Integer imageId = Integer.parseInt(read);
-
 				System.out.println("Write the new image's description:");
-
 				String newDescription = console.readLine();
-
 				System.out.println("Write the new disease's paper:");
-
 				ArrayList<Paper> listP = dbManager.selectPaper("all");
-
 				System.out.println("Which is the paper related to this disease?" + "\nWrite its ID number:");
-
 				read = console.readLine();
-
 				Integer newPaper = Integer.parseInt(read);
-
 				dbManager.updateImage(imageId, newDescription, newPaper);
 			}
 
@@ -2750,9 +2739,10 @@ public class CommandLineUserInterface {
 		catch (IOException ex){
 			ex.printStackTrace();
 		}
-		XmlManager xmlm = new XmlManager(dbm);
+		XmlManager xmlm = new XmlManager(dbm); 
 		xmlm.marshalToXML(aut, fileName);
 	}
+	
 	private static void convertJava (DBManager dbm){
 		List <Author> authors = dbManager.selectAuthor("all");
 		for (Author a : authors) {
