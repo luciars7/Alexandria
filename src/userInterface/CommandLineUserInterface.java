@@ -453,6 +453,7 @@ public class CommandLineUserInterface {
 		}
 		for (Integer id2 : id) {
 			dbManager.insertpaperauthor(id2, author.getID());
+			author.addPaper(dbManager.);
 		}
 	}
 
@@ -514,134 +515,72 @@ public class CommandLineUserInterface {
 	}
 
 	public static void showBodyPart(String name) {
-
 		ArrayList<BodyPart> list = dbManager.selectBodyPart(name);
-
 		if (list == null) {
-
 			System.out.println("Error searching for the body part(s).");
-
 		} else {
-
 			for (BodyPart bodyPart : list) {
-
 				System.out.println(bodyPart);
-
 			}
-
 		}
-
 	}
 
 	public static void addDevice() {
-
 		System.out.print("Name: ");
-
 		try {
-
 			read = console.readLine();
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 		String name = read;
-
 		System.out.print("Type: ");
-
 		try {
-
 			read = console.readLine();
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
 		String type = read;
-
 		System.out.print("Price: ");
-
 		try {
-
 			read = console.readLine();
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 		float price = Float.parseFloat(read);
-
 		System.out.print("Brand: ");
-
 		try {
-
 			read = console.readLine();
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 		String brand = read;
-
 		Device device = new Device(name, type, price, brand);
-
 		dbManager.insertIntoDevice(device);
-
 		System.out.println("Device inserted correctly.");
-
+		dbManager.selectDevice(name);
 		System.out.println("\nProceeding to show all available procedures...");
-
 		showProcedure("all");
-
 		System.out.println("Please, select the id of the procedures you want to relate this device with.");
-
 		System.out.println("Select 0 for none or to finish.");
-
 		System.out.print("Option: ");
-
 		ArrayList<Integer> id = new ArrayList<Integer>();
-
 		int opcion = 1;
-
 		while (opcion != 0) {
-
 			try {
-
 				read = console.readLine();
-
 				opcion = Integer.parseInt(read);
-
 				if (opcion != 0) {
-
 					id.add(opcion);
-
 				} else {
-
 					break;
-
 				}
-
 			} catch (IOException e) {
-
 				e.printStackTrace();
-
 			}
-
 		}
-
 		for (Integer id2 : id) {
-
-			Procedure procedure = jpaManager.readProcedure(id2);
-
 			procedure.addDevice(device);
-
+			dbManager.insert
 		}
 
 		System.out.println("\nProceeding to show all available papers...");
