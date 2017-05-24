@@ -17,37 +17,23 @@ public class BodyPart implements Serializable {
 	private static final long serialVersionUID = 7984733182205819494L;
 
 	@Id
-
 	@GeneratedValue(generator = "bodypart")
-
 	@TableGenerator(name = "bodypart", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "bodypart")
-
 	private int ID;
-
 	private String name;
-
 	private String location;
-
 	@OneToMany(mappedBy = "bodypart")
-
 	private List<Disease> disease;
-
+	
 	public BodyPart() {
-
 		this.disease = new ArrayList<Disease>();
-
 	}
 
 	public BodyPart(int ID, String name, String location) {
-
 		this.ID = ID;
-
 		this.name = name;
-
 		this.location = location;
-
 		this.disease = new ArrayList<Disease>();
-
 	}
 
 	public BodyPart(String name, String location) {
