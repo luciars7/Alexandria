@@ -198,13 +198,6 @@ public class JpaManager {
 		return procedure;
 	}
 
-	public static List<Paper> readPaperAuthor(int author_id) {
-		Query q1 = em.createNativeQuery("SELECT * FROM paperauthor WHERE author = ?", Paper.class);
-		q1.setParameter(1, author_id);
-		List<Paper> papers = (List<Paper>) q1.getResultList();
-		return papers;
-	}
-
 	// CREATES
 	// ------------------------------------------------------------------------------------------------
 	public void createSymptomJPA(Symptom symptom) {

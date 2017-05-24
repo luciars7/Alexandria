@@ -430,7 +430,11 @@ public class CommandLineUserInterface {
 		Author author = new Author(name, origin, association);
 		dbManager.insertIntoAuthor(author);
 		System.out.println("Author inserted correctly.");
-		author = dbManager.selectAuthor(name).get(0); //Name is unique, so we will always retrieve only one. We use name because we can not access the id.
+		author = dbManager.selectAuthor(name).get(0); // Name is unique, so we
+														// will always retrieve
+														// only one. We use name
+														// because we can not
+														// access the id.
 		System.out.println("\nProceeding to show all available papers...");
 		showPaper("all");
 		System.out.println("Please, select the id of the papers you want to relate this author with.");
@@ -487,7 +491,10 @@ public class CommandLineUserInterface {
 		String location = read;
 		BodyPart bodyPart = new BodyPart(name, location);
 		dbManager.insertIntoBodyPart(bodyPart);
-		bodyPart = dbManager.selectBodyPart(name).get(0); //Name is unique, so it will always retrieve only one.
+		bodyPart = dbManager.selectBodyPart(name).get(0); // Name is unique, so
+															// it will always
+															// retrieve only
+															// one.
 		System.out.println("Body part inserted correctly.");
 		System.out.println("\nProceeding to show all available diseases...");
 		showDisease("all");
@@ -582,7 +589,7 @@ public class CommandLineUserInterface {
 			}
 		}
 		for (Integer id2 : id) {
-			Procedure procedure  = dbManager.selectProcedure(id2);
+			Procedure procedure = dbManager.selectProcedure(id2);
 			device.setProcedure(procedure);
 			procedure.addDevice(device);
 			dbManager.updateDevice(device.getID(), device.getprice(), device.getBrand());
@@ -646,7 +653,7 @@ public class CommandLineUserInterface {
 		dbManager.insertIntoDisease(disease);
 		System.out.println("Disease inserted correctly.");
 		disease = dbManager.selectDisease(name).get(0);
-		
+
 		System.out.println("\nProceeding to show all available body parts...");
 		showBodyPart("all");
 		System.out.println("Please, select the id of the body parts you want to relate this disease with.");
@@ -699,7 +706,7 @@ public class CommandLineUserInterface {
 			disease.addSymptom(symptom);
 			dbManager.insertsymptomdisease(symptom.getID(), disease.getID());
 		}
-		
+
 		System.out.println("\nProceeding to show all available papers...");
 		showPaper("all");
 		System.out.println("Please, select the id of the papers you want to relate this disease with.");
@@ -726,7 +733,7 @@ public class CommandLineUserInterface {
 			disease.addPaper(paper);
 			dbManager.insertpaperdisease(paper.getID(), disease.getID());
 		}
-		
+
 		System.out.println("\nProceeding to show all available images...");
 		showImage("all");
 		System.out.println("Please, select the id of the images you want to relate this disease with.");
@@ -753,7 +760,7 @@ public class CommandLineUserInterface {
 			disease.addImage(image);
 			dbManager.insertimagedisease(image.getID(), disease.getID());
 		}
-		
+
 		System.out.println("\nProceeding to show all available procedures...");
 		showProcedure("all");
 		System.out.println("Please, select the id of the procedures you want to relate this disease with.");
@@ -828,7 +835,7 @@ public class CommandLineUserInterface {
 		dbManager.insertIntoImage(image);
 		System.out.println("Image inserted.");
 		image = dbManager.selectImage(description).get(0);
-		
+
 		System.out.println("\nProceeding to show all available papers...");
 		showPaper("all");
 		System.out.println("Please, select the id of the papers you want to relate this image with.");
@@ -884,7 +891,6 @@ public class CommandLineUserInterface {
 		}
 	}
 
-		
 	public static void showImage(String name) {
 		ArrayList<Image> list = dbManager.selectImage(name);
 		if (list == null) {
@@ -914,8 +920,9 @@ public class CommandLineUserInterface {
 		Paper paper = new Paper(title, source);
 		dbManager.insertIntoPaper(paper);
 		System.out.println("Paper inserted.");
-		paper = dbManager.selectPaper(title).get(0); //We can now access the id.
-		
+		paper = dbManager.selectPaper(title).get(0); // We can now access the
+														// id.
+
 		System.out.println("\nProceeding to show all available authors...");
 		showAuthor("all");
 		System.out.println("Please, select the id of the authors you want to relate this paper with.");
@@ -970,7 +977,7 @@ public class CommandLineUserInterface {
 			disease.addPaper(paper);
 			dbManager.insertpaperdisease(paper.getID(), disease.getID());
 		}
-		
+
 		System.out.println("\nProceeding to show all available devices...");
 		showDevice("all");
 		System.out.println("Please, select the id of the devices you want to relate this paper with.");
@@ -997,7 +1004,7 @@ public class CommandLineUserInterface {
 			paper.setDevice(device);
 			dbManager.updatePaperWithADevice(paper.getID(), device.getID());
 		}
-		
+
 		System.out.println("\nProceeding to show all available procedures...");
 		showProcedure("all");
 		System.out.println("Please, select the id of the procedures you want to relate this paper with.");
@@ -1052,7 +1059,7 @@ public class CommandLineUserInterface {
 			dbManager.updateImage(image.getID(), image.getDescription(), paper.getID());
 		}
 	}
-	
+
 	public static void showPaper(String name) {
 		ArrayList<Paper> list = dbManager.selectPaper(name);
 		if (list == null) {
@@ -1063,7 +1070,7 @@ public class CommandLineUserInterface {
 			}
 		}
 	}
-	
+
 	public static void addProcedure() {
 		System.out.print("Name: ");
 		try {
@@ -1083,7 +1090,7 @@ public class CommandLineUserInterface {
 		dbManager.insertIntoProcedure(procedure);
 		System.out.println("Procedure inserted.");
 		procedure = dbManager.selectProcedure(name).get(0);
-		
+
 		System.out.println("\nProceeding to show all available diseases...");
 		showDisease("all");
 		System.out.println("Please, select the id of the diseases you want to relate this procedure with.");
@@ -1105,12 +1112,12 @@ public class CommandLineUserInterface {
 			}
 		}
 		for (Integer id2 : id) {
-			Disease disease =dbManager.selectDisease(id2);
+			Disease disease = dbManager.selectDisease(id2);
 			procedure.addDisease(disease);
 			disease.addProcedure(procedure);
 			dbManager.insertproceduredisease(procedure.getID(), disease.getID());
 		}
-		
+
 		System.out.println("\nProceeding to show all available papers...");
 		showPaper("all");
 		System.out.println("Please, select the id of the papers you want to relate this procedure with.");
@@ -1137,7 +1144,7 @@ public class CommandLineUserInterface {
 			paper.setProcedure(procedure);
 			dbManager.updatePaperWithAProcedure(paper.getID(), procedure.getID());
 		}
-		
+
 		System.out.println("\nProceeding to show all available devices...");
 		showDevice("all");
 		System.out.println("Please, select the id of the devices you want to relate this procedure with.");
@@ -1196,7 +1203,7 @@ public class CommandLineUserInterface {
 		Symptom symptom = new Symptom(name, description);
 		jpaManager.createSymptomJPA(symptom);
 		System.out.println("Symptom inserted");
-		symptom = jpaManager.readSymptom(name); 
+		symptom = jpaManager.readSymptom(name);
 		System.out.println("\nProceeding to show all available diseases...");
 		showDisease("all");
 		System.out.print("Select the id of the related disease (0 for none): ");
@@ -1752,7 +1759,7 @@ public class CommandLineUserInterface {
 	private static void showRelatedToPaper(String name) {
 		String proceed = askIfViewRelated();
 		if (proceed.equalsIgnoreCase("y")) {
-
+			System.out.println("prueba");
 		}
 	}
 
@@ -1787,9 +1794,10 @@ public class CommandLineUserInterface {
 	private static void showRelatedToAuthor(String name) {
 		String proceed = askIfViewRelated();
 		if (proceed.equalsIgnoreCase("y")) {
-			Author author = dbManager.selectAuthor(name).get(0);
+			Author author = jpaManager.readAuthor(name);
+
 			System.out.println("\nPAPERS:");
-			List<Paper> listP = jpaManager.readPaperAuthor(author.getID());
+			List<Paper> listP = author.getPaper();
 			for (Paper paper : listP) {
 				System.out.println(paper.toString());
 			}
@@ -1799,7 +1807,7 @@ public class CommandLineUserInterface {
 						"\nPlease, select the category and ID  of the item you want to view (Example: [paper,1]).");
 				System.out.println("Write [none,0] to leave.");
 				System.out.print("Category: ");
-				String category = console.readLine();
+				String category = console.readLine().toLowerCase();
 				System.out.print("ID: ");
 				int ID = Integer.parseInt(console.readLine());
 				viewRelated(category, ID);
@@ -1822,7 +1830,60 @@ public class CommandLineUserInterface {
 	}
 
 	private static void viewRelated(String category, int id) {
-		// TODO probar con un switch para las categorías.
+
+		switch (category) {
+		case "author": {
+			Author author = dbManager.selectAuthor(id);
+			showAuthor(author.getName());
+			showRelatedToAuthor(author.getName());
+			break;
+		}
+		case "body part": {
+			dbManager.selectBodyPart(id);
+			break;
+		}
+		case "device": {
+			dbManager.selectDevice(id);
+			break;
+		}
+		case "disease": {
+			dbManager.selectDisease(id);
+			break;
+		}
+		case "pathology": {
+			dbManager.selectDisease(id);
+			break;
+		}
+		case "image": {
+			dbManager.selectImage(id);
+			break;
+		}
+		case "paper": {
+			Paper paper = dbManager.selectPaper(id);
+			showPaper(paper.getTitle());
+			showRelatedToPaper(paper.getTitle());
+			break;
+		}
+		case "article": {
+			dbManager.selectPaper(id);
+			break;
+		}
+		case "procedure": {
+			dbManager.selectProcedure(id);
+			break;
+		}
+		case "treatment": {
+			dbManager.selectProcedure(id);
+			break;
+		}
+		case "symptom": {
+			dbManager.selectSymptom(id);
+			break;
+		}
+		case "none": {
+			return;
+		}
+		}
 	}
 
 	private static void convertXML(DBManager dbm) {
