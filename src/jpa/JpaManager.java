@@ -99,6 +99,13 @@ public class JpaManager {
 		Symptom symptom = (Symptom) q1.getSingleResult();
 		return symptom;
 	}
+	
+	public static Symptom readSymptom(String symptom_name) {
+		Query q1 = em.createNativeQuery("SELECT * FROM symptom WHERE name = ?", Symptom.class);
+		q1.setParameter(1, symptom_name);
+		Symptom symptom = (Symptom) q1.getSingleResult();
+		return symptom;
+	}
 
 	public static Device readDevice(int device_id) {
 		Query q1 = em.createNativeQuery("SELECT * FROM device WHERE id = ?", Device.class);

@@ -296,7 +296,7 @@ public class DBManager {
 				}
 				rs.close();
 			} else {
-				String sql = "SELECT * FROM image WHERE name = '" + NAME + "'";
+				String sql = "SELECT * FROM image WHERE description = '" + NAME + "'";
 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
 				while (rs.next()) {
 					int id = rs.getInt("ID");
@@ -353,7 +353,7 @@ public class DBManager {
 				}
 				rs.close();
 			} else {
-				String sql = "SELECT * FROM paper WHERE name = '" + NAME + "'";
+				String sql = "SELECT * FROM paper WHERE title = '" + NAME + "'";
 				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
 				while (rs.next()) {
 					int id = rs.getInt("ID");
@@ -525,7 +525,7 @@ public class DBManager {
 			Statement stmt5 = c.createStatement();
 			String sql5 = "CREATE TABLE device" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT UNIQUE,"
 					+ "type TEXT ," + "price FLOAT," + "brand TEXT,"
-					+ "procedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
+					+ "procedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE)"; //Brand is being inserted as null.
 			stmt5.executeUpdate(sql5);
 			stmt5.close();
 

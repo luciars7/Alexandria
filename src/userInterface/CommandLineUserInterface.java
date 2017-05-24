@@ -1196,7 +1196,7 @@ public class CommandLineUserInterface {
 		Symptom symptom = new Symptom(name, description);
 		jpaManager.createSymptomJPA(symptom);
 		System.out.println("Symptom inserted");
-		symptom = jpaManager.readSymptom(name); //Hay que crear el método en jpaMAnager que permita buscar por el nombre.
+		symptom = jpaManager.readSymptom(name); 
 		System.out.println("\nProceeding to show all available diseases...");
 		showDisease("all");
 		System.out.print("Select the id of the related disease (0 for none): ");
@@ -1216,9 +1216,10 @@ public class CommandLineUserInterface {
 			}
 		}
 		for (Integer id2 : id) {
-			Disease disease = jpaManager.readDisease(id2);
-			
-			jpaManager.insertsymtomdisease(disease.getID(), symptom.getID());
+			Disease disease = dbManager.selectDisease(id2);
+			symptom.addDisease(disease);
+			disease.addSymptom(symptom);
+			dbManager.insertsymptomdisease(symptom.getID(), disease.getID());
 		}
 	}
 
