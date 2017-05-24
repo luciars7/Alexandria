@@ -92,6 +92,13 @@ public class JpaManager {
 		Disease disease = (Disease) q1.getSingleResult();
 		return disease;
 	}
+	
+	public static Disease readDisease(String disease_name) {
+		Query q1 = em.createNativeQuery("SELECT * FROM disease WHERE name = ?", Disease.class);
+		q1.setParameter(1, disease_name);
+		Disease disease = (Disease) q1.getSingleResult();
+		return disease;
+	}
 
 	public static Symptom readSymptom(int symptom_id) {
 		Query q1 = em.createNativeQuery("SELECT * FROM symptom WHERE id = ?", Symptom.class);
@@ -113,10 +120,24 @@ public class JpaManager {
 		Device device = (Device) q1.getSingleResult();
 		return device;
 	}
-
+	
+	public static Device readDevice(String device_name) {
+		Query q1 = em.createNativeQuery("SELECT * FROM device WHERE name = ?", Device.class);
+		q1.setParameter(1, device_name);
+		Device device = (Device) q1.getSingleResult();
+		return device;
+	}
+	
 	public static Paper readPaper(int paper_id) {
 		Query q1 = em.createNativeQuery("SELECT * FROM paper WHERE id = ?", Paper.class);
 		q1.setParameter(1, paper_id);
+		Paper paper = (Paper) q1.getSingleResult();
+		return paper;
+	}
+	
+	public static Paper readPaper(String paper_title) {
+		Query q1 = em.createNativeQuery("SELECT * FROM paper WHERE title = ?", Paper.class);
+		q1.setParameter(1, paper_title);
 		Paper paper = (Paper) q1.getSingleResult();
 		return paper;
 	}
@@ -127,10 +148,24 @@ public class JpaManager {
 		BodyPart bodyPart = (BodyPart) q1.getSingleResult();
 		return bodyPart;
 	}
+	
+	public static BodyPart readBodyPart(String bodyPart_name) {
+		Query q1 = em.createNativeQuery("SELECT * FROM bodypart WHERE name = ?", BodyPart.class);
+		q1.setParameter(1, bodyPart_name);
+		BodyPart bodyPart = (BodyPart) q1.getSingleResult();
+		return bodyPart;
+	}
 
 	public static Author readAuthor(int author_id) {
 		Query q1 = em.createNativeQuery("SELECT * FROM author WHERE id = ?", Author.class);
 		q1.setParameter(1, author_id);
+		Author author = (Author) q1.getSingleResult();
+		return author;
+	}
+	
+	public static Author readAuthor(String author_name) {
+		Query q1 = em.createNativeQuery("SELECT * FROM author WHERE name = ?", Author.class);
+		q1.setParameter(1, author_name);
 		Author author = (Author) q1.getSingleResult();
 		return author;
 	}
@@ -141,10 +176,24 @@ public class JpaManager {
 		Image image = (Image) q1.getSingleResult();
 		return image;
 	}
+	
+	public static Image readImage(String image_description) {
+		Query q1 = em.createNativeQuery("SELECT * FROM image WHERE description = ?", Image.class);
+		q1.setParameter(1, image_description);
+		Image image = (Image) q1.getSingleResult();
+		return image;
+	}
 
 	public static Procedure readProcedure(int procedure_id) {
 		Query q1 = em.createNativeQuery("SELECT * FROM procedure WHERE id = ?", Procedure.class);
 		q1.setParameter(1, procedure_id);
+		Procedure procedure = (Procedure) q1.getSingleResult();
+		return procedure;
+	}
+	
+	public static Procedure readProcedure(String procedure_name) {
+		Query q1 = em.createNativeQuery("SELECT * FROM procedure WHERE name = ?", Procedure.class);
+		q1.setParameter(1, procedure_name);
 		Procedure procedure = (Procedure) q1.getSingleResult();
 		return procedure;
 	}

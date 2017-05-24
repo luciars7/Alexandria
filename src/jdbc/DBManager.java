@@ -112,7 +112,7 @@ public class DBManager {
 		}
 		return author;
 	}
-	
+
 	public ArrayList<BodyPart> selectBodyPart(String NAME) {
 		ArrayList<BodyPart> list = null;
 		try {
@@ -146,7 +146,7 @@ public class DBManager {
 		}
 		return list;
 	}
-	
+
 	public BodyPart selectBodyPart(Integer id) {
 		BodyPart bodyPart = null;
 		try {
@@ -201,7 +201,7 @@ public class DBManager {
 		}
 		return list;
 	}
-	
+
 	public Device selectDevice(Integer id) {
 		Device device = null;
 		try {
@@ -235,7 +235,6 @@ public class DBManager {
 					String name = rs.getString("name");
 					String description = rs.getString("description");
 					BodyPart bodypart = (BodyPart) selectBodyPart(rs.getInt("bodypart"));
-					//Hay que convertir el entero en bodypart.
 					list.add(new Disease(id, name, description, bodypart));
 				}
 				rs.close();
@@ -315,7 +314,7 @@ public class DBManager {
 		}
 		return list;
 	}
-	
+
 	public Image selectImage(Integer id) {
 		Image image = null;
 		try {
@@ -369,7 +368,7 @@ public class DBManager {
 		}
 		return list;
 	}
-	
+
 	public Paper selectPaper(Integer id) {
 		Paper paper = null;
 		try {
@@ -421,8 +420,8 @@ public class DBManager {
 		}
 		return list;
 	}
-	
-	public Procedure selectProcedure (Integer id) {
+
+	public Procedure selectProcedure(Integer id) {
 		Procedure procedure = null;
 		try {
 			Statement stmt = c.createStatement();
@@ -439,7 +438,6 @@ public class DBManager {
 		}
 		return procedure;
 	}
-
 
 	public ArrayList<Symptom> selectSymptom(String NAME) {
 		ArrayList<Symptom> list = null;
@@ -474,8 +472,8 @@ public class DBManager {
 		}
 		return list;
 	}
-	
-	public Symptom selectSymptom (Integer id) {
+
+	public Symptom selectSymptom(Integer id) {
 		Symptom symptom = null;
 		try {
 			Statement stmt = c.createStatement();
@@ -508,7 +506,7 @@ public class DBManager {
 					+ "location TEXT)";
 			stmt2.executeUpdate(sql2);
 			stmt2.close();
-			
+
 			Statement stmt3 = c.createStatement();
 			String sql3 = "CREATE TABLE disease" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT UNIQUE,"
 					+ "description TEXT,"
@@ -525,7 +523,12 @@ public class DBManager {
 			Statement stmt5 = c.createStatement();
 			String sql5 = "CREATE TABLE device" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT UNIQUE,"
 					+ "type TEXT ," + "price FLOAT," + "brand TEXT,"
-					+ "procedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE)"; //Brand is being inserted as null.
+					+ "procedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE)"; // Brand
+																											// is
+																											// being
+																											// inserted
+																											// as
+																											// null.
 			stmt5.executeUpdate(sql5);
 			stmt5.close();
 
@@ -993,7 +996,7 @@ public class DBManager {
 			System.out.println(e.getMessage());
 		}
 	}
-	
+
 	public void updateDeviceWithProcedure(Integer device_id, Integer procedure_id) {
 		try {
 			String sql = "UPDATE device SET procedure = ?, brand = ? WHERE ID = ?";
@@ -1047,7 +1050,7 @@ public class DBManager {
 			System.out.println(e.getMessage());
 		}
 	}
-	
+
 	public void updatePaperWithAProcedure(Integer id, Integer procedure) {
 		try {
 			String sql = "UPDATE paper SET procedure = ? WHERE ID = ?";
@@ -1060,7 +1063,7 @@ public class DBManager {
 			System.out.println(e.getMessage());
 		}
 	}
-	
+
 	public void updateProcedure(Integer procedure_id, String newDescription) {///// Preguntar
 
 		///// a
