@@ -17,63 +17,35 @@ public class Disease implements Serializable {
 	private static final long serialVersionUID = -4645657267981261074L;
 
 	@Id
-
 	@GeneratedValue(generator = "disease")
-
 	@TableGenerator(name = "disease", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "disease")
-
 	private int ID;
-
 	private String name;
-
 	private String description;
-
 	@ManyToOne(fetch = FetchType.LAZY)
-
 	@JoinColumn(name = "bodypart")
-
 	private BodyPart bodypart;
-
 	@ManyToMany
-
 	@JoinTable(name = "symptomdisease", joinColumns = {
-
 			@JoinColumn(name = "symptom", referencedColumnName = "ID") }, inverseJoinColumns = {
-
 					@JoinColumn(name = "disease", referencedColumnName = "ID") })
-
 	private List<Symptom> symptom;
-
 	@ManyToMany
-
 	@JoinTable(name = "paperdisease", joinColumns = {
-
 			@JoinColumn(name = "paper", referencedColumnName = "ID") }, inverseJoinColumns = {
-
 					@JoinColumn(name = "disease", referencedColumnName = "ID") })
-
 	private List<Paper> paper;
-
 	@ManyToMany
-
 	@JoinTable(name = "imagedisease", joinColumns = {
-
 			@JoinColumn(name = "image", referencedColumnName = "ID") }, inverseJoinColumns = {
-
 					@JoinColumn(name = "disease", referencedColumnName = "ID") })
-
 	private List<Image> image;
-
 	@ManyToMany
-
 	@JoinTable(name = "proceduredisease", joinColumns = {
-
 			@JoinColumn(name = "procedure", referencedColumnName = "ID") }, inverseJoinColumns = {
-
 					@JoinColumn(name = "disease", referencedColumnName = "ID") })
-
 	private List<Procedure> procedure;
-
+	
 	public Disease() {
 
 		this.image = new ArrayList<Image>();

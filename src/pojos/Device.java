@@ -17,35 +17,21 @@ public class Device implements Serializable {
 	private static final long serialVersionUID = -4117700635988378197L;
 
 	@Id
-
 	@GeneratedValue(generator = "device")
-
 	@TableGenerator(name = "device", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "device")
-
 	private int ID;
-
 	private String name;
-
 	private String type;
-
 	private float price;
-
 	private String brand;
-
 	@ManyToOne(fetch = FetchType.LAZY)
-
 	@JoinColumn(name = "procedure")
-
 	private Procedure procedure;
-
 	@OneToMany(mappedBy = "device")
-
 	private List<Paper> paper;
-
+	
 	public Device() {
-
 		this.paper = new ArrayList<Paper>();
-
 	}
 
 	public Device(int iD, String name, String type, float price, String brand) {
@@ -100,6 +86,16 @@ public class Device implements Serializable {
 
 		return serialVersionUID;
 
+	}
+
+	
+	
+	public float getPrice() {
+		return price;
+	}
+
+	public void setPrice(float price) {
+		this.price = price;
 	}
 
 	public int getID() {

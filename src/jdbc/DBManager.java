@@ -159,7 +159,6 @@ public class DBManager {
 			bodyPart = new BodyPart(id, name, location);
 			rs.close();
 			stmt.close();
-			System.out.println("Search finished.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -235,7 +234,8 @@ public class DBManager {
 					int id = rs.getInt("ID");
 					String name = rs.getString("name");
 					String description = rs.getString("description");
-					BodyPart bodypart = (BodyPart) rs.getObject("bodyPart");
+					BodyPart bodypart = (BodyPart) selectBodyPart(rs.getInt("bodypart"));
+					//Hay que convertir el entero en bodypart.
 					list.add(new Disease(id, name, description, bodypart));
 				}
 				rs.close();
@@ -246,13 +246,12 @@ public class DBManager {
 					int id = rs.getInt("ID");
 					String name = rs.getString("name");
 					String description = rs.getString("description");
-					BodyPart bodypart = (BodyPart) rs.getObject("bodyPart");
+					BodyPart bodypart = (BodyPart) this.selectBodyPart(rs.getInt("bodyPart"));
 					list.add(new Disease(id, name, description, bodypart));
 				}
 				rs.close();
 			}
 			stmt.close();
-			System.out.println("Search finished.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -268,11 +267,10 @@ public class DBManager {
 			int id3 = rs.getInt("ID");
 			String name = rs.getString("name");
 			String description = rs.getString("description");
-			BodyPart bodypart = (BodyPart) rs.getObject("bodyPart");
+			BodyPart bodypart = (BodyPart) this.selectBodyPart(rs.getInt("bodyPart"));
 			disease = new Disease(id3, name, description, bodypart);
 			rs.close();
 			stmt.close();
-			System.out.println("Search finished.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -293,7 +291,7 @@ public class DBManager {
 					String type = rs.getString("type");
 					String size = rs.getString("size");
 					byte[] image = rs.getBytes("image");
-					Paper paper = (Paper) rs.getObject("paper");
+					Paper paper = (Paper) this.selectPaper(rs.getInt("paper"));
 					list.add(new Image(id, description, type, size, image, paper));
 				}
 				rs.close();
@@ -306,7 +304,7 @@ public class DBManager {
 					String type = rs.getString("type");
 					String size = rs.getString("size");
 					byte[] image = rs.getBytes("image");
-					Paper paper = (Paper) rs.getObject("paper");
+					Paper paper = (Paper) this.selectPaper(rs.getInt("paper"));
 					list.add(new Image(id, description, type, size, image, paper));
 				}
 				rs.close();
@@ -329,7 +327,7 @@ public class DBManager {
 			String type = rs.getString("type");
 			String size = rs.getString("size");
 			byte[] imageB = rs.getBytes("image");
-			Paper paper = (Paper) rs.getObject("paper");
+			Paper paper = (Paper) this.selectPaper(rs.getInt("paper"));
 			image = new Image(id, description, type, size, imageB, paper);
 			rs.close();
 			stmt.close();
@@ -510,6 +508,7 @@ public class DBManager {
 					+ "location TEXT)";
 			stmt2.executeUpdate(sql2);
 			stmt2.close();
+			
 			Statement stmt3 = c.createStatement();
 			String sql3 = "CREATE TABLE disease" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT UNIQUE,"
 					+ "description TEXT,"
@@ -526,8 +525,7 @@ public class DBManager {
 			Statement stmt5 = c.createStatement();
 			String sql5 = "CREATE TABLE device" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT UNIQUE,"
 					+ "type TEXT ," + "price FLOAT," + "brand TEXT,"
-					+ "procedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-					+ "paper INTEGER REFERENCES paper (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
+					+ "procedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 			stmt5.executeUpdate(sql5);
 			stmt5.close();
 
@@ -995,6 +993,19 @@ public class DBManager {
 			System.out.println(e.getMessage());
 		}
 	}
+	
+	public void updateDeviceWithProcedure(Integer device_id, Integer procedure_id) {
+		try {
+			String sql = "UPDATE device SET procedure = ?, brand = ? WHERE ID = ?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setInt(1, procedure_id);
+			prep.setInt(3, device_id);
+			prep.executeUpdate();
+			prep.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
 
 	public void updateDisease(Integer disease_id, String newDescription, Integer newBodyPart) {
 		try {
@@ -1016,6 +1027,7 @@ public class DBManager {
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, newDescription);
 			prep.setInt(2, newPaper);
+			prep.setInt(3, image_id);
 			prep.executeUpdate();
 			prep.close();
 		} catch (Exception e) {
@@ -1023,14 +1035,32 @@ public class DBManager {
 		}
 	}
 
-	// A paper is always going to be the same, its title is not going to change
-
-	// and the link of the page
-
-	// found is neither going to change. The only thing that could happen to it,
-
-	// it is to be deleted.
-
+	public void updatePaperWithADevice(Integer id, Integer device) {
+		try {
+			String sql = "UPDATE paper SET device = ? WHERE ID = ?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setInt(1, device);
+			prep.setInt(2, id);
+			prep.executeUpdate();
+			prep.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void updatePaperWithAProcedure(Integer id, Integer procedure) {
+		try {
+			String sql = "UPDATE paper SET procedure = ? WHERE ID = ?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setInt(1, procedure);
+			prep.setInt(2, id);
+			prep.executeUpdate();
+			prep.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
 	public void updateProcedure(Integer procedure_id, String newDescription) {///// Preguntar
 
 		///// a
