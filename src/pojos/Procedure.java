@@ -23,31 +23,19 @@ public class Procedure implements Serializable {
 	@TableGenerator(name = "procedure", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "procedure")
 
 	private int ID;
-
 	private String name;
-
 	private String description;
-
 	@ManyToMany(mappedBy = "procedure")
-
 	private List<Disease> disease;
-
 	@OneToMany(mappedBy = "procedure")
-
 	private List<Paper> paper;
-
 	@OneToMany(mappedBy = "procedure")
-
 	private List<Device> device;
-
+	
 	public Procedure() {
-
 		this.disease = new ArrayList<Disease>();
-
 		this.paper = new ArrayList<Paper>();
-
 		this.device = new ArrayList<Device>();
-
 	}
 
 	public Procedure(int id, String name, String description) {

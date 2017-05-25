@@ -568,6 +568,7 @@ public class CommandLineUserInterface {
 		dbManager.insertIntoDevice(device);
 		System.out.println("Device inserted correctly.");
 		device = dbManager.selectDevice(name).get(0);
+
 		System.out.println("\nProceeding to show all available procedures...");
 		showProcedure("all");
 		System.out.println("Please, select the id of the procedures you want to relate this device with.");
@@ -592,7 +593,7 @@ public class CommandLineUserInterface {
 			Procedure procedure = dbManager.selectProcedure(id2);
 			device.setProcedure(procedure);
 			procedure.addDevice(device);
-			dbManager.updateDevice(device.getID(), device.getprice(), device.getBrand());
+			dbManager.updateDeviceWithProcedure(device.getID(), procedure.getID());
 		}
 
 		System.out.println("\nProceeding to show all available papers...");
@@ -1204,6 +1205,7 @@ public class CommandLineUserInterface {
 		jpaManager.createSymptomJPA(symptom);
 		System.out.println("Symptom inserted");
 		symptom = jpaManager.readSymptom(name);
+
 		System.out.println("\nProceeding to show all available diseases...");
 		showDisease("all");
 		System.out.print("Select the id of the related disease (0 for none): ");
@@ -1759,20 +1761,102 @@ public class CommandLineUserInterface {
 	private static void showRelatedToPaper(String name) {
 		String proceed = askIfViewRelated();
 		if (proceed.equalsIgnoreCase("y")) {
-			System.out.println("prueba");
+			Paper paper = jpaManager.readPaper(name);
+			
+			System.out.println("Authors:");
+			List<Author> listA = paper.getAuthor();
+			for(Author author : listA){
+				System.out.println(""+author.toString());
+			}
+			
+			try {
+				System.out.println(
+						"\nPlease, select the category and ID  of the item you want to view (Example: [paper,1]).");
+				System.out.println("Write [none,0] to leave.");
+				System.out.print("Category: ");
+				String category = console.readLine().toLowerCase();
+				System.out.print("ID: ");
+				int ID = Integer.parseInt(console.readLine());
+				viewRelated(category, ID);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	private static void showRelatedToImage(String name) {
 		String proceed = askIfViewRelated();
 		if (proceed.equalsIgnoreCase("y")) {
+			Image image = jpaManager.readImage(name);
 
+			System.out.println("Papers:");
+			System.out.println(image.getPaper().toString());
+
+			System.out.println("\nDiseases:");
+			List<Disease> listD = image.getDisease();
+			for (Disease disease : listD) {
+				System.out.println(disease.toString());
+			}
+
+			try {
+				System.out.println(
+						"\nPlease, select the category and ID  of the item you want to view (Example: [paper,1]).");
+				System.out.println("Write [none,0] to leave.");
+				System.out.print("Category: ");
+				String category = console.readLine().toLowerCase();
+				System.out.print("ID: ");
+				int ID = Integer.parseInt(console.readLine());
+				viewRelated(category, ID);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	private static void showRelatedToDisease(String name) {
 		String proceed = askIfViewRelated();
 		if (proceed.equalsIgnoreCase("y")) {
+			Disease disease = jpaManager.readDisease(name);
+
+			System.out.println("Body parts:");
+			System.out.println(disease.getBodyPart().toString());
+
+			System.out.println("\nSymptoms:");
+			List<Symptom> listS = disease.getSymptom();
+			for (Symptom symptom : listS) {
+				System.out.println(symptom.toString());
+			}
+
+			System.out.println("\nPapers:");
+			List<Paper> listP = disease.getPaper();
+			for (Paper paper : listP) {
+				System.out.println(paper.toString());
+			}
+
+			System.out.println("\nImages:");
+			List<Image> listI = disease.getImage();
+			for (Image image : listI) {
+				System.out.println(image.toString());
+			}
+
+			System.out.println("\nProcedures:");
+			List<Procedure> listPr = disease.getProcedure();
+			for (Procedure procedure : listPr) {
+				System.out.println(procedure.toString());
+			}
+
+			try {
+				System.out.println(
+						"\nPlease, select the category and ID  of the item you want to view (Example: [paper,1]).");
+				System.out.println("Write [none,0] to leave.");
+				System.out.print("Category: ");
+				String category = console.readLine().toLowerCase();
+				System.out.print("ID: ");
+				int ID = Integer.parseInt(console.readLine());
+				viewRelated(category, ID);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 
 		}
 	}
@@ -1780,14 +1864,54 @@ public class CommandLineUserInterface {
 	private static void showRelatedToDevice(String name) {
 		String proceed = askIfViewRelated();
 		if (proceed.equalsIgnoreCase("y")) {
+			Device device = jpaManager.readDevice(name);
 
+			System.out.println("Procedures:");
+			System.out.println(device.getProcedure().toString());
+
+			System.out.println("\nPapers:");
+			List<Paper> listP = device.getPaper();
+			for (Paper paper : listP) {
+				System.out.println(paper.toString());
+			}
+
+			try {
+				System.out.println(
+						"\nPlease, select the category and ID  of the item you want to view (Example: [paper,1]).");
+				System.out.println("Write [none,0] to leave.");
+				System.out.print("Category: ");
+				String category = console.readLine().toLowerCase();
+				System.out.print("ID: ");
+				int ID = Integer.parseInt(console.readLine());
+				viewRelated(category, ID);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	private static void showRelatedToBodyPart(String name) {
 		String proceed = askIfViewRelated();
 		if (proceed.equalsIgnoreCase("y")) {
+			BodyPart bodyPart = jpaManager.readBodyPart(name);
 
+			System.out.println("\nDiseases:");
+			List<Disease> listD = bodyPart.getDisease();
+			for (Disease disease : listD) {
+				System.out.println(disease.toString());
+			}
+			try {
+				System.out.println(
+						"\nPlease, select the category and ID  of the item you want to view (Example: [paper,1]).");
+				System.out.println("Write [none,0] to leave.");
+				System.out.print("Category: ");
+				String category = console.readLine().toLowerCase();
+				System.out.print("ID: ");
+				int ID = Integer.parseInt(console.readLine());
+				viewRelated(category, ID);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -1796,7 +1920,7 @@ public class CommandLineUserInterface {
 		if (proceed.equalsIgnoreCase("y")) {
 			Author author = jpaManager.readAuthor(name);
 
-			System.out.println("\nPAPERS:");
+			System.out.println("\nPapers:");
 			List<Paper> listP = author.getPaper();
 			for (Paper paper : listP) {
 				System.out.println(paper.toString());
@@ -1814,7 +1938,6 @@ public class CommandLineUserInterface {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
 		}
 	}
 

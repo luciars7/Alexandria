@@ -19,53 +19,31 @@ public class Image implements Serializable {
 	private static final long serialVersionUID = -2122694598463647223L;
 
 	@Id
-
 	@GeneratedValue(generator = "image")
-
 	@TableGenerator(name = "image", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "image")
-
 	private int ID;
-
 	private String description;
-
 	private String type;
-
 	private String size;
-
 	private byte[] image;
-
 	@ManyToOne(fetch = FetchType.LAZY)
-
 	@JoinColumn(name = "paper")
-
 	private Paper paper;
-
 	@ManyToMany(mappedBy = "image")
-
 	private List<Disease> disease;
-
+	
 	public Image() {
-
 		this.disease = new ArrayList<Disease>();
-
 	}
 
 	public Image(int iD, String description, String type, String size, byte[] image, Paper paper) {
-
 		ID = iD;
-
 		this.description = description;
-
 		this.type = type;
-
 		this.size = size;
-
 		this.image = image;
-
 		this.paper = paper;
-
 		this.disease = new ArrayList<Disease>();
-
 	}
 
 	public Image(String description, String type, String size, byte[] image) {
