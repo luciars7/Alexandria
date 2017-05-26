@@ -31,7 +31,7 @@ public class Image implements Serializable {
 	private Paper paper;
 	@ManyToMany(mappedBy = "image")
 	private List<Disease> disease;
-	
+
 	public Image() {
 		this.disease = new ArrayList<Disease>();
 	}
@@ -47,23 +47,24 @@ public class Image implements Serializable {
 	}
 
 	public Image(String description, String type, String size, byte[] image) {
-
 		this.description = description;
-
 		this.type = type;
-
 		this.size = size;
-
 		this.image = image;
-
 		this.disease = new ArrayList<Disease>();
+	}
 
+	public Image(String description, String type, String size, byte[] image, Paper paper, List<Disease> disease) {
+		this.description = description;
+		this.type = type;
+		this.size = size;
+		this.image = image;
+		this.paper = paper;
+		this.disease = disease;
 	}
 
 	public List<Disease> getDisease() {
-
 		return disease;
-
 	}
 
 	public void setDisease(List<Disease> disease) {
@@ -93,22 +94,6 @@ public class Image implements Serializable {
 	public int getID() {
 
 		return ID;
-
-	}
-
-	public Image(String description, String type, String size, byte[] image, Paper paper, List<Disease> disease) {
-
-		this.description = description;
-
-		this.type = type;
-
-		this.size = size;
-
-		this.image = image;
-
-		this.paper = paper;
-
-		this.disease = disease;
 
 	}
 
@@ -222,14 +207,11 @@ public class Image implements Serializable {
 
 	public String toString() {
 
-		/*
-		 * return "[ID=" + ID + ", description=" + description + ", type=" +
-		 * type + ", size=" + size + ", image="
-		 * 
-		 * + Arrays.toString(image) + "]";
-		 */
+		return "[ID=" + ID + ", description=" + description + ", type=" + type + ", size=" + size + ", image="
 
-		return "El toString falla.";
+				+ Arrays.toString(image) + "]";
+
+		// return "El toString falla.";
 
 	}
 

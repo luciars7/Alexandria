@@ -4,7 +4,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+import graphics.*;
 import pojos.*;
 
 public class DBManager {
@@ -330,7 +330,27 @@ public class DBManager {
 					byte[] image = rs9.getBytes("image");
 					Paper paper = (Paper) this.selectPaper(rs9.getInt("paper"));
 					list.add(new Image(id, description, type, size, image, paper));
+				
+				    /*if (image!=null) {
+					ByteArrayInputStream blobIn = new ByteArrayInputStream(image);
+
+					// Show the photo
+					
+						ImageWindow window = new ImageWindow();
+					    window.showBlob(blobIn);
+					
+					// Write the photo in a file
+					/*else {
+						File outFile = new File("./photos/Output.png");
+						OutputStream blobOut = new FileOutputStream(outFile);
+						byte[] buffer = new byte[blobIn.available()];
+						blobIn.read(buffer);
+						blobIn.write(buffer);
+						blobIn.close();
+					}
+				}*/
 				}
+				
 				if (rs9 != null) {
 					rs9.close();
 				}
