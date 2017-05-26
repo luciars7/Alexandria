@@ -13,53 +13,29 @@ import javax.persistence.*;
 @Table(name = "paper")
 
 public class Paper implements Serializable {
-
 	private static final long serialVersionUID = 1001927883398001730L;
-
 	@Id
-
 	@GeneratedValue(generator = "paper")
-
 	@TableGenerator(name = "paper", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "paper")
-
 	private int ID;
-
 	private String title;
-
 	private String source;
-
 	@ManyToMany(mappedBy = "paper")
-
 	private List<Author> author;
-
 	@ManyToMany(mappedBy = "paper")
-
 	private List<Disease> disease;
-
 	@ManyToOne(fetch = FetchType.LAZY)
-
 	@JoinColumn(name = "device")
-
 	private Device device;
-
 	@ManyToOne(fetch = FetchType.LAZY)
-
 	@JoinColumn(name = "procedure")
-
 	private Procedure procedure;
-
 	@OneToMany(mappedBy = "paper")
-
 	private List<Image> image;
-
 	public Paper() {
-
 		this.disease = new ArrayList<Disease>();
-
 		this.author = new ArrayList<Author>();
-
 		this.image = new ArrayList<Image>();
-
 	}
 
 	public Paper(String title, String source) {

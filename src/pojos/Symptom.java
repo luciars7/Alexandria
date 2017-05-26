@@ -9,79 +9,49 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-
 @Table(name = "symptom")
-
 public class Symptom implements Serializable {
 
 	private static final long serialVersionUID = 4773372781875368145L;
 
 	@Id
-
 	@GeneratedValue(generator = "symptom")
-
 	@TableGenerator(name = "symptom", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "symptom")
-
 	private int ID;
-
 	private String name;
-
 	private String description;
-
 	@ManyToMany(mappedBy = "symptom")
-
 	private List<Disease> disease;
-
 	public Symptom() {
-
 		this.disease = new ArrayList<Disease>();
-
 	}
-
 	public Symptom(String name, String description) {
-
 		this.name = name;
-
 		this.description = description;
-
 		this.disease = new ArrayList<Disease>();
-
 	}
-
+	
 	public Symptom(int id2, String name2, String description2) {
-
 		this.setID(id2);
-
 		this.setName(name2);
-
 		this.setDescription(description2);
-
 		this.disease = new ArrayList<Disease>();
-
 	}
 
 	public static long getSerialversionuid() {
-
 		return serialVersionUID;
-
 	}
 
 	public void addDisease(Disease disease) {
-
 		this.disease.add(disease);
-
 	}
 
 	public void removeDisease(Disease disease) {
-
 		this.disease.remove(disease);
-
 	}
 
 	public List<Disease> getDisease() {
-
 		return disease;
-
 	}
 
 	public void setDisease(List<Disease> disease) {
