@@ -83,6 +83,16 @@ public class Disease implements Serializable {
 		this.procedure = new ArrayList<Procedure>();
 	}
 
+	public Disease(int id2, String name2, String description2) {
+		this.setID(id2);
+		this.setName(name2);
+		this.setDescription(description2);
+		this.image = new ArrayList<Image>();
+		this.symptom = new ArrayList<Symptom>();
+		this.paper = new ArrayList<Paper>();
+		this.procedure = new ArrayList<Procedure>();
+		}
+
 	public BodyPart getBodypart() {
 
 		return bodypart;

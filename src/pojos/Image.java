@@ -63,6 +63,15 @@ public class Image implements Serializable {
 		this.disease = disease;
 	}
 
+	public Image(int id2, String description2, String type2, String size2, byte[] image2) {
+		this.setID(id2);
+		this.setDescription(description2);
+		this.setType(type2);
+		this.setSize(size2);
+		this.setImage(image2);
+		this.disease = new ArrayList<Disease>();
+	}
+
 	public List<Disease> getDisease() {
 		return disease;
 	}

@@ -7,6 +7,9 @@ import java.util.List;
 import graphics.*;
 import pojos.*;
 
+
+//¿ON DELETE CASCADE? ¿Tiene sentido para alguna tabla?
+
 public class DBManager {
 
 	static Connection c = null;
@@ -251,8 +254,9 @@ public class DBManager {
 					int id = rs7.getInt("ID");
 					String name = rs7.getString("name");
 					String description = rs7.getString("description");
-					BodyPart bodypart = (BodyPart) selectBodyPart(rs7.getInt("bodypart"));
-					list.add(new Disease(id, name, description, bodypart));
+					//BodyPart bodypart = (BodyPart) selectBodyPart(rs7.getInt("bodypart"));
+					//list.add(new Disease(id, name, description, bodypart));
+					list.add(new Disease(id, name, description));
 				}
 				if (rs7 != null) {
 					rs7.close();
@@ -264,8 +268,9 @@ public class DBManager {
 					int id = rs7.getInt("ID");
 					String name = rs7.getString("name");
 					String description = rs7.getString("description");
-					BodyPart bodypart = (BodyPart) this.selectBodyPart(rs7.getInt("bodyPart"));
-					list.add(new Disease(id, name, description, bodypart));
+					//BodyPart bodypart = (BodyPart) this.selectBodyPart(rs7.getInt("bodyPart"));
+					//list.add(new Disease(id, name, description, bodypart));
+					list.add(new Disease(id, name, description));
 				}
 				if (rs7 != null) {
 					rs7.close();
@@ -287,8 +292,9 @@ public class DBManager {
 			int id3 = rs8.getInt("ID");
 			String name = rs8.getString("name");
 			String description = rs8.getString("description");
-			BodyPart bodypart = (BodyPart) this.selectBodyPart(rs8.getInt("bodyPart"));
-			disease = new Disease(id3, name, description, bodypart);
+			//BodyPart bodypart = (BodyPart) this.selectBodyPart(rs8.getInt("bodyPart"));
+			//disease = new Disease(id3, name, description, bodypart);
+			disease = new Disease(id3, name, description);
 			if (rs8 != null) {
 				rs8.close();
 			}
@@ -313,8 +319,9 @@ public class DBManager {
 					String type = rs9.getString("type");
 					String size = rs9.getString("size");
 					byte[] image = rs9.getBytes("image");
-					Paper paper = (Paper) this.selectPaper(rs9.getInt("paper"));
-					list.add(new Image(id, description, type, size, image, paper));
+					//Paper paper = (Paper) this.selectPaper(rs9.getInt("paper"));
+					//list.add(new Image(id, description, type, size, image, paper));
+					list.add(new Image(id, description, type, size, image));
 				}
 				if (rs9 != null) {
 					rs9.close();
@@ -328,9 +335,11 @@ public class DBManager {
 					String type = rs9.getString("type");
 					String size = rs9.getString("size");
 					byte[] image = rs9.getBytes("image");
-					Paper paper = (Paper) this.selectPaper(rs9.getInt("paper"));
-					list.add(new Image(id, description, type, size, image, paper));
+					//Paper paper = (Paper) this.selectPaper(rs9.getInt("paper"));
+					//list.add(new Image(id, description, type, size, image, paper));
+					list.add(new Image(id, description, type, size, image));
 				
+					//El código de abajo podría servir para mostrar las imágenes en una ventana nueva.
 				    /*if (image!=null) {
 					ByteArrayInputStream blobIn = new ByteArrayInputStream(image);
 
@@ -373,8 +382,9 @@ public class DBManager {
 			String type = rs0.getString("type");
 			String size = rs0.getString("size");
 			byte[] imageB = rs0.getBytes("image");
-			Paper paper = (Paper) this.selectPaper(rs0.getInt("paper"));
-			image = new Image(id, description, type, size, imageB, paper);
+			//Paper paper = (Paper) this.selectPaper(rs0.getInt("paper"));
+			//image = new Image(id, description, type, size, imageB, paper);
+			image = new Image(id, description, type, size, imageB);
 			if (rs0 != null) {
 				rs0.close();
 			}
