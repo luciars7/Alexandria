@@ -81,13 +81,11 @@ public class DBManager {
 			} else {
 				String sql = "SELECT * FROM author WHERE name = '" + NAME + "'";
 				ResultSet rs1 = stmt.executeQuery(sql); // Works as an iterator.
-				while (rs1.next()) {
 					int id = rs1.getInt("ID");
 					String name = rs1.getString("name");
 					String origin = rs1.getString("origin");
 					String association = rs1.getString("association");
 					list.add(new Author(id, name, origin, association));
-				}
 				if (rs1 != null) {
 					rs1.close();
 				}
@@ -141,12 +139,10 @@ public class DBManager {
 			} else {
 				String sql = "SELECT * FROM bodypart WHERE name = '" + NAME + "'";
 				ResultSet rs3 = stmt.executeQuery(sql); // Works as an iterator.
-				while (rs3.next()) {
 					int id = rs3.getInt("ID");
 					String name = rs3.getString("name");
 					String location = rs3.getString("location");
 					list.add(new BodyPart(id, name, location));
-				}
 				if (rs3 != null) {
 					rs3.close();
 				}
@@ -200,14 +196,12 @@ public class DBManager {
 			} else {
 				String sql = "SELECT * FROM device WHERE name = '" + NAME + "'";
 				ResultSet rs5 = stmt.executeQuery(sql); // Works as an iterator.
-				while (rs5.next()) {
 					int id = rs5.getInt("ID");
 					String name = rs5.getString("name");
 					String type = rs5.getString("type");
 					float price = rs5.getFloat("price");
 					String brand = rs5.getString("brand");
 					list.add(new Device(id, name, type, price, brand));
-				}
 				if (rs5 != null) {
 					rs5.close();
 				}
@@ -263,14 +257,12 @@ public class DBManager {
 			} else {
 				String sql = "SELECT * FROM disease WHERE name = '" + NAME + "'";
 				ResultSet rs7 = stmt.executeQuery(sql); // Works as an iterator.
-				while (rs7.next()) {
 					int id = rs7.getInt("ID");
 					String name = rs7.getString("name");
 					String description = rs7.getString("description");
 					//BodyPart bodypart = (BodyPart) this.selectBodyPart(rs7.getInt("bodyPart"));
 					//list.add(new Disease(id, name, description, bodypart));
 					list.add(new Disease(id, name, description));
-				}
 				if (rs7 != null) {
 					rs7.close();
 				}
@@ -415,12 +407,10 @@ public class DBManager {
 				String sql = "SELECT * FROM paper WHERE title = '" + NAME + "'";
 				ResultSet rs11 = stmt.executeQuery(sql); // Works as an
 															// iterator.
-				while (rs11.next()) {
 					int id = rs11.getInt("ID");
 					String title = rs11.getString("title");
 					String source = rs11.getString("source");
 					list.add(new Paper(id, title, source));
-				}
 				if (rs11 != null) {
 					rs11.close();
 				}
@@ -474,12 +464,10 @@ public class DBManager {
 				String sql = "SELECT * FROM procedure WHERE name = '" + NAME + "'";
 				ResultSet rs13 = stmt.executeQuery(sql); // Works as an
 															// iterator.
-				while (rs13.next()) {
 					int id = rs13.getInt("ID");
 					String name = rs13.getString("name");
 					String description = rs13.getString("description");
 					list.add(new Procedure(id, name, description));
-				}
 				if (rs13 != null) {
 					rs13.close();
 				}
@@ -533,12 +521,10 @@ public class DBManager {
 				String sql = "SELECT * FROM symptom WHERE name = '" + NAME + "'";
 				ResultSet rs15 = stmt.executeQuery(sql); // Works as an
 															// iterator.
-				while (rs15.next()) {
 					int id = rs15.getInt("ID");
 					String name = rs15.getString("name");
 					String description = rs15.getString("description");
 					list.add(new Symptom(id, name, description));
-				}
 				if (rs15 != null) {
 					rs15.close();
 				}
