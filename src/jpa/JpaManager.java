@@ -194,6 +194,25 @@ public class JpaManager {
 		Procedure procedure = (Procedure) q1.getSingleResult();
 		return procedure;
 	}
+	
+	/*public static List<Object> readPersonalizedString(String selection, String table, String attribute, String value) {
+		Query q1 = em.createNativeQuery("SELECT ? FROM ? WHERE ? = ?", Procedure.class);
+		q1.setParameter(1, "%" + selection + "%");
+		q1.setParameter(2, "%" + table + "%");
+		q1.setParameter(3, "%" + attribute + "%");
+		q1.setParameter(4, "%" + value + "%");
+		List<Object> objects = (List<Object>) q1.getResultList();
+		return objects;
+	}*/
+	
+	public static List<Integer> readPaperFromPaperAuthor(Integer author_id) {
+		Query q1 = em.createNativeQuery("SELECT * FROM paperauthor WHERE author = ?", Procedure.class);
+		q1.setParameter(1, author_id);
+		List<Integer> ids = (List<Integer>) q1.getResultList();
+		return ids;
+	}
+	
+	
 
 	// CREATES
 	// ------------------------------------------------------------------------------------------------

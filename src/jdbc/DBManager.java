@@ -9,6 +9,7 @@ import pojos.*;
 
 
 //¿ON DELETE CASCADE? ¿Tiene sentido para alguna tabla?
+//Relaciones 1-n. Sólo se crea una fila. ¿Cómo recuperar si se tienen varias pero con distinto id para el mismo objeto?
 
 public class DBManager {
 
@@ -576,8 +577,8 @@ public class DBManager {
 			// Create tables: begin
 			Statement stmt1 = c.createStatement();
 			String sql1 = "CREATE TABLE paper" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "title TEXT UNIQUE,"
-					+ "source TEXT," + "device INTEGER REFERENCES device (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-					+ "procedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
+					+ "source TEXT," 
+					+ "procedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE)"; //Corregir FK device
 			stmt1.executeUpdate(sql1);
 			stmt1.close();
 
@@ -603,6 +604,7 @@ public class DBManager {
 			Statement stmt5 = c.createStatement();
 			String sql5 = "CREATE TABLE device" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT UNIQUE,"
 					+ "type TEXT ," + "price FLOAT," + "brand TEXT,"
+					+ "paper INTEGER REFERENCES paper (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "procedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE)"; // Brand
 																											// is
 																											// being
@@ -614,7 +616,7 @@ public class DBManager {
 
 			Statement stmt6 = c.createStatement();
 			String sql6 = "CREATE TABLE image" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "description TEXT UNIQUE,"
-					+ "type TEXT," + "size TEXT," + "image BLOOB,"
+					+ "type TEXT," + "size TEXT," + "image BLOB,"
 					+ "paper INTEGER REFERENCES paper (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 			stmt6.executeUpdate(sql6);
 			stmt6.close();
@@ -760,7 +762,8 @@ public class DBManager {
 			ex.printStackTrace();
 		}
 	}
-
+	
+	
 	public void insertIntoImage(Image image) {
 		try {
 			Statement stmtSeq = c.createStatement();
@@ -1092,7 +1095,7 @@ public class DBManager {
 
 	public void updateDisease(Integer disease_id, String newDescription, Integer newBodyPart) {
 		try {
-			String sql = "UPDATE disease SET description = ?, BodyPart = ? WHERE ID = ?";
+			String sql = "UPDATE disease SET description = ?, bodypart = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, newDescription);
 			prep.setInt(2, newBodyPart);

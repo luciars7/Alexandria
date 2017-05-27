@@ -1761,13 +1761,13 @@ public class CommandLineUserInterface {
 		String proceed = askIfViewRelated();
 		if (proceed.equalsIgnoreCase("y")) {
 			Paper paper = jpaManager.readPaper(name);
-			
+
 			System.out.println("Authors:");
 			List<Author> listA = paper.getAuthor();
-			for(Author author : listA){
-				System.out.println(""+author.toString());
+			for (Author author : listA) {
+				System.out.println("" + author.toString());
 			}
-			
+
 			try {
 				System.out.println(
 						"\nPlease, select the category and ID  of the item you want to view (Example: [paper,1]).");
@@ -1920,8 +1920,22 @@ public class CommandLineUserInterface {
 			Author author = jpaManager.readAuthor(name);
 
 			System.out.println("\nPapers:");
-			List<Paper> listP = author.getPaper();
-			for (Paper paper : listP) {
+			/*
+			 * List<Paper> listP = author.getPaper(); for (Paper paper : listP)
+			 * { System.out.println(paper.toString()); }
+			 */
+
+			/*
+			 * List<Object> listPaper_id =
+			 * jpaManager.readPersonalizedString("paper", "paperauthor",
+			 * "author", ""+author.getID()); for(Object paper_id :
+			 * listPaper_id){ Integer id = (Integer) paper_id; Paper paper =
+			 * jpaManager.readPaper(id); System.out.println(paper.toString()); }
+			 */
+
+			List<Integer> listPaper_id = jpaManager.readPaperFromPaperAuthor(author.getID());
+			for (Integer paper_id : listPaper_id) {
+				Paper paper = jpaManager.readPaper(paper_id);
 				System.out.println(paper.toString());
 			}
 
@@ -2029,9 +2043,10 @@ public class CommandLineUserInterface {
 		}
 		XmlManager xmlm = new XmlManager(dbm);
 		xmlm.marshalToXML(aut, fileName);
-		//The upper line gives an error because we are not passing a Result. I have not seen any Result in the code of Rodrigo.. Nacho
-		//File file = new File(fileName);
-		//xmlm.marshalToXML(aut, file);
+		// The upper line gives an error because we are not passing a Result. I
+		// have not seen any Result in the code of Rodrigo.. Nacho
+		// File file = new File(fileName);
+		// xmlm.marshalToXML(aut, file);
 	}
 
 	private static void convertJava(DBManager dbm) {
