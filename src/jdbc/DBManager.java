@@ -3,7 +3,6 @@ package jdbc;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
-import graphics.*;
 import pojos.*;
 
 
@@ -91,7 +90,7 @@ public class DBManager {
 				}
 			}
 			stmt.close();
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return list;
