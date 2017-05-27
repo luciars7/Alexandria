@@ -2028,7 +2028,8 @@ public class CommandLineUserInterface {
 			ex.printStackTrace();
 		}
 		XmlManager xmlm = new XmlManager(dbm);
-		xmlm.marshalToXML(aut, fileName);
+		File file = new File (fileName);
+		xmlm.marshalToXML(aut, file);
 		//The upper line gives an error because we are not passing a Result. I have not seen any Result in the code of Rodrigo.. Nacho
 		//File file = new File(fileName);
 		//xmlm.marshalToXML(aut, file);
