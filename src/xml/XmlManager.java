@@ -23,7 +23,7 @@ public class XmlManager {
 		dbm = _dbm;
 	}
 
-	public void marshalToXML(String aut, Result fileName) {
+	public void marshalToXML(String aut, Result fileName) { //I don't know if this works. Nacho
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(Author.class);
 			Marshaller marshaller = jaxbContext.createMarshaller();
@@ -38,6 +38,21 @@ public class XmlManager {
 			e.printStackTrace();
 		}
 	}
+	
+	public void marshalToXML(String aut, File file) {
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(Author.class);
+			Marshaller marshaller = jaxbContext.createMarshaller();
+			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+			List <Author> autores = dbm.selectAuthor(aut);
+			Author author = autores.get(0);
+			marshaller.marshal(author, file);			marshaller.marshal(author, System.out);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void unmarshalToJava(String aut, String fileName) {
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(Author.class);

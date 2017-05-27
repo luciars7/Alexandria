@@ -47,70 +47,51 @@ public class Disease implements Serializable {
 	private List<Procedure> procedure;
 	
 	public Disease() {
-
 		this.image = new ArrayList<Image>();
-
 		this.symptom = new ArrayList<Symptom>();
-
 		this.paper = new ArrayList<Paper>();
-
 		this.procedure = new ArrayList<Procedure>();
-
 	}
 
 	public Disease(int id, String name, String description, BodyPart bodypart) {
-
 		this.setID(id);
-
 		this.setName(name);
-
 		this.setDescription(description);
-
 		this.setBodyPart(bodypart);
-
 		this.image = new ArrayList<Image>();
-
 		this.symptom = new ArrayList<Symptom>();
-
 		this.paper = new ArrayList<Paper>();
-
 		this.procedure = new ArrayList<Procedure>();
-
 	}
 
 	public Disease(String name, String description, BodyPart bodyPart) {
-
 		this.setName(name);
-
 		this.setDescription(description);
-
 		this.setBodyPart(bodyPart);
-
 		this.image = new ArrayList<Image>();
-
 		this.symptom = new ArrayList<Symptom>();
-
 		this.paper = new ArrayList<Paper>();
-
 		this.procedure = new ArrayList<Procedure>();
-
 	}
 
 	public Disease(String name2, String description2) {
-
 		this.setName(name2);
-
 		this.setDescription(description2);
-
 		this.image = new ArrayList<Image>();
-
 		this.symptom = new ArrayList<Symptom>();
-
 		this.paper = new ArrayList<Paper>();
-
 		this.procedure = new ArrayList<Procedure>();
-
 	}
+
+	public Disease(int id2, String name2, String description2) {
+		this.setID(id2);
+		this.setName(name2);
+		this.setDescription(description2);
+		this.image = new ArrayList<Image>();
+		this.symptom = new ArrayList<Symptom>();
+		this.paper = new ArrayList<Paper>();
+		this.procedure = new ArrayList<Procedure>();
+		}
 
 	public BodyPart getBodypart() {
 

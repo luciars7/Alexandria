@@ -4,8 +4,11 @@ import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+import graphics.*;
 import pojos.*;
+
+
+//¿ON DELETE CASCADE? ¿Tiene sentido para alguna tabla?
 
 public class DBManager {
 
@@ -55,7 +58,6 @@ public class DBManager {
 	}
 
 	// SELECTS
-
 	// ------------------------------------------------------------------------------------------------
 
 	public ArrayList<Author> selectAuthor(String NAME) {
@@ -66,26 +68,30 @@ public class DBManager {
 			Statement stmt = c.createStatement();
 			if (NAME.equalsIgnoreCase("all")) {
 				String sql = "SELECT * FROM author";
-				ResultSet rs = stmt.executeQuery(sql);// Works as an iterator.
-				while (rs.next()) {
-					int id = rs.getInt("ID");
-					String name = rs.getString("name");
-					String origin = rs.getString("origin");
-					String association = rs.getString("association");
+				ResultSet rs1 = stmt.executeQuery(sql);// Works as an iterator.
+				while (rs1.next()) {
+					int id = rs1.getInt("ID");
+					String name = rs1.getString("name");
+					String origin = rs1.getString("origin");
+					String association = rs1.getString("association");
 					list.add(new Author(id, name, origin, association));
 				}
-				rs.close();
+				if (rs1 != null) {
+					rs1.close();
+				}
 			} else {
 				String sql = "SELECT * FROM author WHERE name = '" + NAME + "'";
-				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
-				while (rs.next()) {
-					int id = rs.getInt("ID");
-					String name = rs.getString("name");
-					String origin = rs.getString("origin");
-					String association = rs.getString("association");
+				ResultSet rs1 = stmt.executeQuery(sql); // Works as an iterator.
+				while (rs1.next()) {
+					int id = rs1.getInt("ID");
+					String name = rs1.getString("name");
+					String origin = rs1.getString("origin");
+					String association = rs1.getString("association");
 					list.add(new Author(id, name, origin, association));
 				}
-				rs.close();
+				if (rs1 != null) {
+					rs1.close();
+				}
 			}
 			stmt.close();
 		} catch (Exception e) {
@@ -99,13 +105,15 @@ public class DBManager {
 		try {
 			Statement stmt = c.createStatement();
 			String sql = "SELECT * FROM author WHERE ID = '" + id + "'";
-			ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
-			id = rs.getInt("ID");
-			String name = rs.getString("name");
-			String origin = rs.getString("origin");
-			String association = rs.getString("association");
+			ResultSet rs2 = stmt.executeQuery(sql); // Works as an iterator.
+			id = rs2.getInt("ID");
+			String name = rs2.getString("name");
+			String origin = rs2.getString("origin");
+			String association = rs2.getString("association");
 			author = new Author(id, name, origin, association);
-			rs.close();
+			if (rs2 != null) {
+				rs2.close();
+			}
 			stmt.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -121,24 +129,28 @@ public class DBManager {
 			Statement stmt = c.createStatement();
 			if (NAME.equalsIgnoreCase("all")) {
 				String sql = "SELECT * FROM bodypart";
-				ResultSet rs = stmt.executeQuery(sql);// Works as an iterator.
-				while (rs.next()) {
-					int id = rs.getInt("ID");
-					String name = rs.getString("name");
-					String location = rs.getString("location");
+				ResultSet rs3 = stmt.executeQuery(sql);// Works as an iterator.
+				while (rs3.next()) {
+					int id = rs3.getInt("ID");
+					String name = rs3.getString("name");
+					String location = rs3.getString("location");
 					list.add(new BodyPart(id, name, location));
 				}
-				rs.close();
+				if (rs3 != null) {
+					rs3.close();
+				}
 			} else {
 				String sql = "SELECT * FROM bodypart WHERE name = '" + NAME + "'";
-				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
-				while (rs.next()) {
-					int id = rs.getInt("ID");
-					String name = rs.getString("name");
-					String location = rs.getString("location");
+				ResultSet rs3 = stmt.executeQuery(sql); // Works as an iterator.
+				while (rs3.next()) {
+					int id = rs3.getInt("ID");
+					String name = rs3.getString("name");
+					String location = rs3.getString("location");
 					list.add(new BodyPart(id, name, location));
 				}
-				rs.close();
+				if (rs3 != null) {
+					rs3.close();
+				}
 			}
 			stmt.close();
 		} catch (Exception e) {
@@ -152,12 +164,14 @@ public class DBManager {
 		try {
 			Statement stmt = c.createStatement();
 			String sql = "SELECT * FROM bodypart WHERE ID = '" + id + "'";
-			ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
-			id = rs.getInt("ID");
-			String name = rs.getString("name");
-			String location = rs.getString("location");
+			ResultSet rs4 = stmt.executeQuery(sql); // Works as an iterator.
+			id = rs4.getInt("ID");
+			String name = rs4.getString("name");
+			String location = rs4.getString("location");
 			bodyPart = new BodyPart(id, name, location);
-			rs.close();
+			if (rs4 != null) {
+				rs4.close();
+			}
 			stmt.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -172,28 +186,32 @@ public class DBManager {
 			Statement stmt = c.createStatement();
 			if (NAME.equalsIgnoreCase("all")) {
 				String sql = "SELECT * FROM device";
-				ResultSet rs = stmt.executeQuery(sql);// Works as an iterator.
-				while (rs.next()) {
-					int id = rs.getInt("ID");
-					String name = rs.getString("name");
-					String type = rs.getString("type");
-					float price = rs.getFloat("price");
-					String brand = rs.getString("brand");
+				ResultSet rs5 = stmt.executeQuery(sql);// Works as an iterator.
+				while (rs5.next()) {
+					int id = rs5.getInt("ID");
+					String name = rs5.getString("name");
+					String type = rs5.getString("type");
+					float price = rs5.getFloat("price");
+					String brand = rs5.getString("brand");
 					list.add(new Device(id, name, type, price, brand));
 				}
-				rs.close();
+				if (rs5 != null) {
+					rs5.close();
+				}
 			} else {
 				String sql = "SELECT * FROM device WHERE name = '" + NAME + "'";
-				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
-				while (rs.next()) {
-					int id = rs.getInt("ID");
-					String name = rs.getString("name");
-					String type = rs.getString("type");
-					float price = rs.getFloat("price");
-					String brand = rs.getString("brand");
+				ResultSet rs5 = stmt.executeQuery(sql); // Works as an iterator.
+				while (rs5.next()) {
+					int id = rs5.getInt("ID");
+					String name = rs5.getString("name");
+					String type = rs5.getString("type");
+					float price = rs5.getFloat("price");
+					String brand = rs5.getString("brand");
 					list.add(new Device(id, name, type, price, brand));
 				}
-				rs.close();
+				if (rs5 != null) {
+					rs5.close();
+				}
 			}
 			stmt.close();
 		} catch (Exception e) {
@@ -207,14 +225,16 @@ public class DBManager {
 		try {
 			Statement stmt = c.createStatement();
 			String sql = "SELECT * FROM device WHERE ID = '" + id + "'";
-			ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
-			id = rs.getInt("ID");
-			String name = rs.getString("name");
-			String type = rs.getString("type");
-			float price = rs.getFloat("price");
-			String brand = rs.getString("brand");
+			ResultSet rs6 = stmt.executeQuery(sql); // Works as an iterator.
+			id = rs6.getInt("ID");
+			String name = rs6.getString("name");
+			String type = rs6.getString("type");
+			float price = rs6.getFloat("price");
+			String brand = rs6.getString("brand");
 			device = new Device(id, name, type, price, brand);
-			rs.close();
+			if (rs6 != null) {
+				rs6.close();
+			}
 			stmt.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -229,26 +249,32 @@ public class DBManager {
 			Statement stmt = c.createStatement();
 			if (NAME.equalsIgnoreCase("all")) {
 				String sql = "SELECT * FROM disease";
-				ResultSet rs = stmt.executeQuery(sql);// Works as an iterator.
-				while (rs.next()) {
-					int id = rs.getInt("ID");
-					String name = rs.getString("name");
-					String description = rs.getString("description");
-					BodyPart bodypart = (BodyPart) selectBodyPart(rs.getInt("bodypart"));
-					list.add(new Disease(id, name, description, bodypart));
+				ResultSet rs7 = stmt.executeQuery(sql);// Works as an iterator.
+				while (rs7.next()) {
+					int id = rs7.getInt("ID");
+					String name = rs7.getString("name");
+					String description = rs7.getString("description");
+					//BodyPart bodypart = (BodyPart) selectBodyPart(rs7.getInt("bodypart"));
+					//list.add(new Disease(id, name, description, bodypart));
+					list.add(new Disease(id, name, description));
 				}
-				rs.close();
+				if (rs7 != null) {
+					rs7.close();
+				}
 			} else {
 				String sql = "SELECT * FROM disease WHERE name = '" + NAME + "'";
-				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
-				while (rs.next()) {
-					int id = rs.getInt("ID");
-					String name = rs.getString("name");
-					String description = rs.getString("description");
-					BodyPart bodypart = (BodyPart) this.selectBodyPart(rs.getInt("bodyPart"));
-					list.add(new Disease(id, name, description, bodypart));
+				ResultSet rs7 = stmt.executeQuery(sql); // Works as an iterator.
+				while (rs7.next()) {
+					int id = rs7.getInt("ID");
+					String name = rs7.getString("name");
+					String description = rs7.getString("description");
+					//BodyPart bodypart = (BodyPart) this.selectBodyPart(rs7.getInt("bodyPart"));
+					//list.add(new Disease(id, name, description, bodypart));
+					list.add(new Disease(id, name, description));
 				}
-				rs.close();
+				if (rs7 != null) {
+					rs7.close();
+				}
 			}
 			stmt.close();
 		} catch (Exception e) {
@@ -262,13 +288,16 @@ public class DBManager {
 		try {
 			Statement stmt = c.createStatement();
 			String sql = "SELECT * FROM disease WHERE ID = '" + id + "'";
-			ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
-			int id3 = rs.getInt("ID");
-			String name = rs.getString("name");
-			String description = rs.getString("description");
-			BodyPart bodypart = (BodyPart) this.selectBodyPart(rs.getInt("bodyPart"));
-			disease = new Disease(id3, name, description, bodypart);
-			rs.close();
+			ResultSet rs8 = stmt.executeQuery(sql); // Works as an iterator.
+			int id3 = rs8.getInt("ID");
+			String name = rs8.getString("name");
+			String description = rs8.getString("description");
+			//BodyPart bodypart = (BodyPart) this.selectBodyPart(rs8.getInt("bodyPart"));
+			//disease = new Disease(id3, name, description, bodypart);
+			disease = new Disease(id3, name, description);
+			if (rs8 != null) {
+				rs8.close();
+			}
 			stmt.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -283,30 +312,57 @@ public class DBManager {
 			Statement stmt = c.createStatement();
 			if (NAME.equalsIgnoreCase("all")) {
 				String sql = "SELECT * FROM image";
-				ResultSet rs = stmt.executeQuery(sql);// Works as an iterator.
-				while (rs.next()) {
-					int id = rs.getInt("ID");
-					String description = rs.getString("description");
-					String type = rs.getString("type");
-					String size = rs.getString("size");
-					byte[] image = rs.getBytes("image");
-					Paper paper = (Paper) this.selectPaper(rs.getInt("paper"));
-					list.add(new Image(id, description, type, size, image, paper));
+				ResultSet rs9 = stmt.executeQuery(sql);// Works as an iterator.
+				while (rs9.next()) {
+					int id = rs9.getInt("ID");
+					String description = rs9.getString("description");
+					String type = rs9.getString("type");
+					String size = rs9.getString("size");
+					byte[] image = rs9.getBytes("image");
+					//Paper paper = (Paper) this.selectPaper(rs9.getInt("paper"));
+					//list.add(new Image(id, description, type, size, image, paper));
+					list.add(new Image(id, description, type, size, image));
 				}
-				rs.close();
+				if (rs9 != null) {
+					rs9.close();
+				}
 			} else {
 				String sql = "SELECT * FROM image WHERE description = '" + NAME + "'";
-				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
-				while (rs.next()) {
-					int id = rs.getInt("ID");
-					String description = rs.getString("description");
-					String type = rs.getString("type");
-					String size = rs.getString("size");
-					byte[] image = rs.getBytes("image");
-					Paper paper = (Paper) this.selectPaper(rs.getInt("paper"));
-					list.add(new Image(id, description, type, size, image, paper));
+				ResultSet rs9 = stmt.executeQuery(sql); // Works as an iterator.
+				while (rs9.next()) {
+					int id = rs9.getInt("ID");
+					String description = rs9.getString("description");
+					String type = rs9.getString("type");
+					String size = rs9.getString("size");
+					byte[] image = rs9.getBytes("image");
+					//Paper paper = (Paper) this.selectPaper(rs9.getInt("paper"));
+					//list.add(new Image(id, description, type, size, image, paper));
+					list.add(new Image(id, description, type, size, image));
+				
+					//El código de abajo podría servir para mostrar las imágenes en una ventana nueva.
+				    /*if (image!=null) {
+					ByteArrayInputStream blobIn = new ByteArrayInputStream(image);
+
+					// Show the photo
+					
+						ImageWindow window = new ImageWindow();
+					    window.showBlob(blobIn);
+					
+					// Write the photo in a file
+					/*else {
+						File outFile = new File("./photos/Output.png");
+						OutputStream blobOut = new FileOutputStream(outFile);
+						byte[] buffer = new byte[blobIn.available()];
+						blobIn.read(buffer);
+						blobIn.write(buffer);
+						blobIn.close();
+					}
+				}*/
 				}
-				rs.close();
+				
+				if (rs9 != null) {
+					rs9.close();
+				}
 			}
 			stmt.close();
 		} catch (Exception e) {
@@ -320,15 +376,18 @@ public class DBManager {
 		try {
 			Statement stmt = c.createStatement();
 			String sql = "SELECT * FROM image WHERE ID = '" + id + "'";
-			ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
-			id = rs.getInt("ID");
-			String description = rs.getString("description");
-			String type = rs.getString("type");
-			String size = rs.getString("size");
-			byte[] imageB = rs.getBytes("image");
-			Paper paper = (Paper) this.selectPaper(rs.getInt("paper"));
-			image = new Image(id, description, type, size, imageB, paper);
-			rs.close();
+			ResultSet rs0 = stmt.executeQuery(sql); // Works as an iterator.
+			id = rs0.getInt("ID");
+			String description = rs0.getString("description");
+			String type = rs0.getString("type");
+			String size = rs0.getString("size");
+			byte[] imageB = rs0.getBytes("image");
+			//Paper paper = (Paper) this.selectPaper(rs0.getInt("paper"));
+			//image = new Image(id, description, type, size, imageB, paper);
+			image = new Image(id, description, type, size, imageB);
+			if (rs0 != null) {
+				rs0.close();
+			}
 			stmt.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -343,24 +402,29 @@ public class DBManager {
 			Statement stmt = c.createStatement();
 			if (NAME.equalsIgnoreCase("all")) {
 				String sql = "SELECT * FROM paper";
-				ResultSet rs = stmt.executeQuery(sql);// Works as an iterator.
-				while (rs.next()) {
-					int id = rs.getInt("ID");
-					String title = rs.getString("title");
-					String source = rs.getString("source");
+				ResultSet rs11 = stmt.executeQuery(sql);// Works as an iterator.
+				while (rs11.next()) {
+					int id = rs11.getInt("ID");
+					String title = rs11.getString("title");
+					String source = rs11.getString("source");
 					list.add(new Paper(id, title, source));
 				}
-				rs.close();
+				if (rs11 != null) {
+					rs11.close();
+				}
 			} else {
 				String sql = "SELECT * FROM paper WHERE title = '" + NAME + "'";
-				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
-				while (rs.next()) {
-					int id = rs.getInt("ID");
-					String title = rs.getString("title");
-					String source = rs.getString("source");
+				ResultSet rs11 = stmt.executeQuery(sql); // Works as an
+															// iterator.
+				while (rs11.next()) {
+					int id = rs11.getInt("ID");
+					String title = rs11.getString("title");
+					String source = rs11.getString("source");
 					list.add(new Paper(id, title, source));
 				}
-				rs.close();
+				if (rs11 != null) {
+					rs11.close();
+				}
 			}
 			stmt.close();
 		} catch (Exception e) {
@@ -374,12 +438,14 @@ public class DBManager {
 		try {
 			Statement stmt = c.createStatement();
 			String sql = "SELECT * FROM paper WHERE ID = '" + id + "'";
-			ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
-			id = rs.getInt("ID");
-			String title = rs.getString("title");
-			String source = rs.getString("source");
+			ResultSet rs12 = stmt.executeQuery(sql); // Works as an iterator.
+			id = rs12.getInt("ID");
+			String title = rs12.getString("title");
+			String source = rs12.getString("source");
 			paper = new Paper(id, title, source);
-			rs.close();
+			if (rs12 != null) {
+				rs12.close();
+			}
 			stmt.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -395,24 +461,29 @@ public class DBManager {
 			Statement stmt = c.createStatement();
 			if (NAME.equalsIgnoreCase("all")) {
 				String sql = "SELECT * FROM procedure";
-				ResultSet rs = stmt.executeQuery(sql);// Works as an iterator.
-				while (rs.next()) {
-					int id = rs.getInt("ID");
-					String name = rs.getString("name");
-					String description = rs.getString("description");
+				ResultSet rs13 = stmt.executeQuery(sql);// Works as an iterator.
+				while (rs13.next()) {
+					int id = rs13.getInt("ID");
+					String name = rs13.getString("name");
+					String description = rs13.getString("description");
 					list.add(new Procedure(id, name, description));
 				}
-				rs.close();
+				if (rs13 != null) {
+					rs13.close();
+				}
 			} else {
 				String sql = "SELECT * FROM procedure WHERE name = '" + NAME + "'";
-				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
-				while (rs.next()) {
-					int id = rs.getInt("ID");
-					String name = rs.getString("name");
-					String description = rs.getString("description");
+				ResultSet rs13 = stmt.executeQuery(sql); // Works as an
+															// iterator.
+				while (rs13.next()) {
+					int id = rs13.getInt("ID");
+					String name = rs13.getString("name");
+					String description = rs13.getString("description");
 					list.add(new Procedure(id, name, description));
 				}
-				rs.close();
+				if (rs13 != null) {
+					rs13.close();
+				}
 			}
 			stmt.close();
 		} catch (Exception e) {
@@ -426,12 +497,14 @@ public class DBManager {
 		try {
 			Statement stmt = c.createStatement();
 			String sql = "SELECT * FROM procedure WHERE ID = '" + id + "'";
-			ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
-			id = rs.getInt("ID");
-			String name = rs.getString("name");
-			String description = rs.getString("description");
+			ResultSet rs14 = stmt.executeQuery(sql); // Works as an iterator.
+			id = rs14.getInt("ID");
+			String name = rs14.getString("name");
+			String description = rs14.getString("description");
 			procedure = new Procedure(id, name, description);
-			rs.close();
+			if (rs14 != null) {
+				rs14.close();
+			}
 			stmt.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -447,24 +520,29 @@ public class DBManager {
 			Statement stmt = c.createStatement();
 			if (NAME.equalsIgnoreCase("all")) {
 				String sql = "SELECT * FROM symptom";
-				ResultSet rs = stmt.executeQuery(sql);// Works as an iterator.
-				while (rs.next()) {
-					int id = rs.getInt("ID");
-					String name = rs.getString("name");
-					String description = rs.getString("description");
+				ResultSet rs15 = stmt.executeQuery(sql);// Works as an iterator.
+				while (rs15.next()) {
+					int id = rs15.getInt("ID");
+					String name = rs15.getString("name");
+					String description = rs15.getString("description");
 					list.add(new Symptom(id, name, description));
 				}
-				rs.close();
+				if (rs15 != null) {
+					rs15.close();
+				}
 			} else {
 				String sql = "SELECT * FROM symptom WHERE name = '" + NAME + "'";
-				ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
-				while (rs.next()) {
-					int id = rs.getInt("ID");
-					String name = rs.getString("name");
-					String description = rs.getString("description");
+				ResultSet rs15 = stmt.executeQuery(sql); // Works as an
+															// iterator.
+				while (rs15.next()) {
+					int id = rs15.getInt("ID");
+					String name = rs15.getString("name");
+					String description = rs15.getString("description");
 					list.add(new Symptom(id, name, description));
 				}
-				rs.close();
+				if (rs15 != null) {
+					rs15.close();
+				}
 			}
 			stmt.close();
 		} catch (Exception e) {
@@ -477,13 +555,15 @@ public class DBManager {
 		Symptom symptom = null;
 		try {
 			Statement stmt = c.createStatement();
-			String sql = "SELECT * FROM procedure WHERE ID = '" + id + "'";
-			ResultSet rs = stmt.executeQuery(sql); // Works as an iterator.
-			id = rs.getInt("ID");
-			String name = rs.getString("name");
-			String description = rs.getString("description");
+			String sql = "SELECT * FROM symptom WHERE ID = '" + id + "'";
+			ResultSet rs16 = stmt.executeQuery(sql); // Works as an iterator.
+			id = rs16.getInt("ID");
+			String name = rs16.getString("name");
+			String description = rs16.getString("description");
 			symptom = new Symptom(id, name, description);
-			rs.close();
+			if (rs16 != null) {
+				rs16.close();
+			}
 			stmt.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -999,10 +1079,10 @@ public class DBManager {
 
 	public void updateDeviceWithProcedure(Integer device_id, Integer procedure_id) {
 		try {
-			String sql = "UPDATE device SET procedure = ?, brand = ? WHERE ID = ?";
+			String sql = "UPDATE device SET procedure = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setInt(1, procedure_id);
-			prep.setInt(3, device_id);
+			prep.setInt(2, device_id);
 			prep.executeUpdate();
 			prep.close();
 		} catch (Exception e) {

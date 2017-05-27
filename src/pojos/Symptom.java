@@ -22,6 +22,7 @@ public class Symptom implements Serializable {
 	private String description;
 	@ManyToMany(mappedBy = "symptom")
 	private List<Disease> disease;
+	
 	public Symptom() {
 		this.disease = new ArrayList<Disease>();
 	}

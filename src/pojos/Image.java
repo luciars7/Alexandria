@@ -19,73 +19,61 @@ public class Image implements Serializable {
 	private static final long serialVersionUID = -2122694598463647223L;
 
 	@Id
-
 	@GeneratedValue(generator = "image")
-
 	@TableGenerator(name = "image", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "image")
-
 	private int ID;
-
 	private String description;
-
 	private String type;
-
 	private String size;
-
 	private byte[] image;
-
 	@ManyToOne(fetch = FetchType.LAZY)
-
 	@JoinColumn(name = "paper")
-
 	private Paper paper;
-
 	@ManyToMany(mappedBy = "image")
-
 	private List<Disease> disease;
 
 	public Image() {
-
 		this.disease = new ArrayList<Disease>();
-
 	}
 
 	public Image(int iD, String description, String type, String size, byte[] image, Paper paper) {
-
 		ID = iD;
-
 		this.description = description;
-
 		this.type = type;
-
 		this.size = size;
-
 		this.image = image;
-
 		this.paper = paper;
-
 		this.disease = new ArrayList<Disease>();
-
 	}
 
 	public Image(String description, String type, String size, byte[] image) {
-
 		this.description = description;
-
 		this.type = type;
-
 		this.size = size;
-
 		this.image = image;
-
 		this.disease = new ArrayList<Disease>();
+	}
 
+	public Image(String description, String type, String size, byte[] image, Paper paper, List<Disease> disease) {
+		this.description = description;
+		this.type = type;
+		this.size = size;
+		this.image = image;
+		this.paper = paper;
+		this.disease = disease;
+	}
+
+	public Image(int id2, String description2, String type2, String size2, byte[] image2) {
+		this.setID(id2);
+		this.setDescription(description2);
+		this.setType(type2);
+		this.setSize(size2);
+		this.setImage(image2);
+		this.disease = new ArrayList<Disease>();
 	}
 
 	public List<Disease> getDisease() {
-
 		return disease;
-
 	}
 
 	public void setDisease(List<Disease> disease) {
@@ -115,22 +103,6 @@ public class Image implements Serializable {
 	public int getID() {
 
 		return ID;
-
-	}
-
-	public Image(String description, String type, String size, byte[] image, Paper paper, List<Disease> disease) {
-
-		this.description = description;
-
-		this.type = type;
-
-		this.size = size;
-
-		this.image = image;
-
-		this.paper = paper;
-
-		this.disease = disease;
 
 	}
 
@@ -244,14 +216,11 @@ public class Image implements Serializable {
 
 	public String toString() {
 
-		/*
-		 * return "[ID=" + ID + ", description=" + description + ", type=" +
-		 * type + ", size=" + size + ", image="
-		 * 
-		 * + Arrays.toString(image) + "]";
-		 */
+		return "[ID=" + ID + ", description=" + description + ", type=" + type + ", size=" + size + ", image="
 
-		return "El toString falla.";
+				+ Arrays.toString(image) + "]";
+
+		// return "El toString falla.";
 
 	}
 
