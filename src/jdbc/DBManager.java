@@ -588,7 +588,8 @@ public class DBManager {
 			Statement stmt5 = c.createStatement();
 			String sql5 = "CREATE TABLE device" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT UNIQUE,"
 					+ "type TEXT ," + "price FLOAT," + "brand TEXT,"
-					+ "procedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE)"; // Brand
+					+ "procedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE"
+					+ "paper INTEGER REFERENCES paper (ID) ON UPDATE CASCADE ON DELETE CASCADE)"; // Brand
 																											// is
 																											// being
 																											// inserted
