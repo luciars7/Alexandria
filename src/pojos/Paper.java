@@ -30,60 +30,47 @@ public class Paper implements Serializable {
 	private List<Procedure> procedure;
 	@OneToMany(mappedBy = "paper")
 	private List<Image> image;
+	
 	public Paper() {
 		this.disease = new ArrayList<Disease>();
 		this.author = new ArrayList<Author>();
 		this.image = new ArrayList<Image>();
 		this.procedure = new ArrayList<Procedure>();
+		this.device = new ArrayList<Device>();
+
 	}
 
 	public Paper(String title, String source) {
-
 		this.title = title;
-
 		this.source = source;
-
 		this.disease = new ArrayList<Disease>();
-
 		this.author = new ArrayList<Author>();
-
 		this.image = new ArrayList<Image>();
 		this.procedure = new ArrayList<Procedure>();
-
+		this.device = new ArrayList<Device>();
 	}
 
 	public Paper(int iD, String title, String source) {
-
 		ID = iD;
-
 		this.title = title;
-
 		this.source = source;
-
 		this.disease = new ArrayList<Disease>();
-
 		this.author = new ArrayList<Author>();
-
 		this.image = new ArrayList<Image>();
 		this.procedure = new ArrayList<Procedure>();
+		this.device = new ArrayList<Device>();
 		
 	}
 
 	public Paper(String title, String source, List<Author> author, List<Disease> disease) {
-
 		super();
-
 		this.title = title;
-
 		this.source = source;
-
 		this.author = author;
-
 		this.disease = disease;
-
 		this.image = new ArrayList<Image>();
 		this.procedure = new ArrayList<Procedure>();
-
+		this.device = new ArrayList<Device>();
 	}
 
 	public List<Device> getDevice() {
@@ -98,6 +85,18 @@ public class Paper implements Serializable {
 
 	}
 
+	public void addDevice(Device d) {
+
+		this.device.add(d);
+
+	}
+
+	public void removeDevice(Device d) {
+
+		this.device.remove(d);
+
+	}
+	
 	public List<Procedure> getProcedure() {
 
 		return procedure;

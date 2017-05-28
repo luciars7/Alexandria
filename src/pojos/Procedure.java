@@ -100,10 +100,6 @@ public class Procedure implements Serializable {
 
 	}
 
-
-
-	
-
 	public Paper getPaper() {
 
 		return paper;
