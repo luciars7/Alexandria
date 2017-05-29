@@ -565,7 +565,7 @@ public class CommandLineUserInterface {
 		for (Integer id2 : id) {
 			Paper paper = dbManager.selectPaper(id2);
 			device.setPaper(paper);
-			paper.setDevice(device);
+			paper.addDevice(device);
 			dbManager.updateDeviceWithPaper(device.getID(), paper.getID());
 		}
 	}
@@ -948,7 +948,7 @@ public class CommandLineUserInterface {
 		for (Integer id2 : id) {
 			Device device = dbManager.selectDevice(id2);
 			device.setPaper(paper);
-			paper.setDevice(device);
+			paper.addDevice(device);
 			dbManager.updateDeviceWithPaper(device.getID(), paper.getID());
 		}
 
@@ -1800,7 +1800,7 @@ public class CommandLineUserInterface {
 		}
 	}
 
-	private static void showRelatedToDevice(String name) {
+	private static void showRelatedToDevice(String name) { //Me he quedado aquí rellenando los métodos y creando los necesarios en el JpaManager. Nacho.
 		String proceed = askIfViewRelated();
 		if (proceed.equalsIgnoreCase("y")) {
 			Device device = jpaManager.readDevice(name);

@@ -29,7 +29,7 @@ public class Procedure implements Serializable {
 	private List<Disease> disease;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "paper")
-	private List<Paper> paper;
+	private Paper paper;
 	@OneToMany(mappedBy = "procedure")
 	private List<Device> device;
 	
@@ -43,7 +43,6 @@ public class Procedure implements Serializable {
 		this.name = name;
 		this.description = description;
 		this.disease = new ArrayList<Disease>();
-		this.paper = new ArrayList<Paper>();
 		this.device = new ArrayList<Device>();
 	}
 
@@ -51,7 +50,6 @@ public class Procedure implements Serializable {
 		this.name = name;
 		this.description = description;
 		this.disease = new ArrayList<Disease>();
-		this.paper = new ArrayList<Paper>();
 		this.device = new ArrayList<Device>();
 	}
 	
@@ -91,19 +89,12 @@ public class Procedure implements Serializable {
 		this.disease = disease;
 	}
 
-	public void addPaper(Paper paper) {
-		this.paper.add(paper);
-	}
 
-	public void removePaper(Paper paper) {
-		this.paper.remove(paper);
-	}
-
-	public List<Paper> getPaper() {
+	public Paper getPaper() {
 		return paper;
 	}
 
-	public void setPaper(List<Paper> paper) {
+	public void setPaper(Paper paper) {
 		this.paper = paper;
 	}
 
