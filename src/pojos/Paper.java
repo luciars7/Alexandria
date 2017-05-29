@@ -25,7 +25,7 @@ public class Paper implements Serializable {
 	@ManyToMany(mappedBy = "paper")
 	private List<Disease> disease;
 	@OneToMany(mappedBy = "paper")
-	private Device device;
+	private List<Device> device;
 	@OneToMany(mappedBy = "paper")
 	private List<Procedure> procedure;
 	@OneToMany(mappedBy = "paper")
@@ -36,7 +36,7 @@ public class Paper implements Serializable {
 		this.author = new ArrayList<Author>();
 		this.image = new ArrayList<Image>();
 		this.procedure = new ArrayList<Procedure>();
-		this.device = new Device();
+		this.device = new ArrayList<Device>();
 	}
 
 	public Paper(String title, String source) {
@@ -46,7 +46,7 @@ public class Paper implements Serializable {
 		this.author = new ArrayList<Author>();
 		this.image = new ArrayList<Image>();
 		this.procedure = new ArrayList<Procedure>();
-		this.device = new Device();
+		this.device = new ArrayList<Device>();
 	}
 
 	public Paper(int iD, String title, String source) {
@@ -57,7 +57,7 @@ public class Paper implements Serializable {
 		this.author = new ArrayList<Author>();
 		this.image = new ArrayList<Image>();
 		this.procedure = new ArrayList<Procedure>();
-		this.device = new Device();
+		this.device = new ArrayList<Device>();
 	}
 
 	public Paper(String title, String source, List<Author> author, List<Disease> disease) {
@@ -67,17 +67,18 @@ public class Paper implements Serializable {
 		this.author = author;
 		this.disease = disease;
 		this.image = new ArrayList<Image>();
+		this.device = new ArrayList<Device>();
 	}
 	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 	
-	public Device getDevice() {
+	public List<Device> getDevice() {
 		return device;
 	}
 	
-	public void setDevice(Device device) {
+	public void setDevice(List<Device> device) {
 		this.device = device;
 	}
 
@@ -119,6 +120,14 @@ public class Paper implements Serializable {
 
 	public void removeDisease(Disease disease) {
 		this.disease.remove(disease);
+	}
+	
+	public void addDevice(Device device) {
+		this.device.add(device);
+	}
+
+	public void removeDevice(Device device) {
+		this.device.remove(device);
 	}
 
 	public List<Disease> getDisease() {

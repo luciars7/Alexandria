@@ -623,7 +623,6 @@ public class DBManager {
 			String sql10 = "CREATE TABLE paperauthor"
 					+ "(paper INTEGER REFERENCES paper (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "author INTEGER REFERENCES author (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-					//+ "CONSTRAINT paperauthor_pk PRIMARY KEY (paper, author))"; //Hay que lograr que la primary key funcione.
 					+ "PRIMARY KEY (paper, author))";
 			stmt10.executeUpdate(sql10);
 			stmt10.close();
