@@ -25,6 +25,8 @@ public class Image implements Serializable {
 	private String description;
 	private String type;
 	private String size;
+	@Basic (fetch = FetchType.LAZY)
+	@Lob
 	private byte[] image;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "paper")

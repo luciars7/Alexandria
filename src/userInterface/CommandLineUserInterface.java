@@ -61,7 +61,8 @@ public class CommandLineUserInterface {
 		int option = Integer.parseInt(read);
 		switch (option) {
 		case 1: {
-			newEntity();
+			newEntity(); // Ver en que relaciones 1-n pueden suprimirse bucles a
+							// la hora de relacionar ojetos entre sí.
 			break;
 		}
 		case 2: {
@@ -747,6 +748,22 @@ public class CommandLineUserInterface {
 		}
 	}
 
+	public static byte[] askForImagePath(byte[] p) {
+		while (p == null) {
+			try {
+				System.out.print("Please, write the address of the file you want to upload: ");
+				read = console.readLine();
+				String imageAdress = read;
+				File photo = new File(imageAdress);
+				p = dbManager.stringtobyte(photo);
+				askForImagePath(p);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return p;
+	}
+
 	public static void addImage() {
 		System.out.print("Description: ");
 		try {
@@ -769,15 +786,14 @@ public class CommandLineUserInterface {
 			e.printStackTrace();
 		}
 		String size = read;
-		System.out.print("Please, write the address of the file you want to upload: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String imageAdress = read;
-		File photo = new File(imageAdress);
-		byte[] p = dbManager.stringtobyte(photo);
+		/*
+		 * .out.
+		 * print("Please, write the address of the file you want to upload: ");
+		 * try { read = console.readLine(); } catch (IOException e) {
+		 * e.printStackTrace(); } String imageAdress = read; File photo = new
+		 * File(imageAdress); byte[] p = dbManager.stringtobyte(photo);
+		 */
+		byte[] p = askForImagePath(null);
 		Image image = new Image(description, type, size, p);
 		dbManager.insertIntoImage(image);
 		System.out.println("Image inserted.");
@@ -1686,13 +1702,73 @@ public class CommandLineUserInterface {
 	private static void showRelatedToSymptom(String name) {
 		String proceed = askIfViewRelated();
 		if (proceed.equalsIgnoreCase("y")) {
+			Symptom symptom = jpaManager.readSymptom(name);
 
+			System.out.println("Diseases:");
+			List<Disease> listD = jpaManager.readDiseaseFromSymptomDisease(symptom.getID());
+			for (Disease disease : listD) {
+				if (disease != null) {
+					System.out.println(disease.toString());
+				}
+			}
+
+			try {
+				System.out.println(
+						"\nPlease, select the category and ID  of the item you want to view (Example: [paper,1]).");
+				System.out.println("Write [none,0] to leave.");
+				System.out.print("Category: ");
+				String category = console.readLine().toLowerCase();
+				System.out.print("ID: ");
+				int ID = Integer.parseInt(console.readLine());
+				viewRelated(category, ID);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	private static void showRelatedToProcedure(String name) {
 		String proceed = askIfViewRelated();
 		if (proceed.equalsIgnoreCase("y")) {
+			Procedure procedure = jpaManager.readProcedure(name);
+
+			System.out.println("Diseases:");
+			List<Disease> listD = jpaManager.readDiseaseFromProcedureDisease(procedure.getID());
+			for (Disease disease : listD) {
+				if (disease != null) {
+					System.out.println(disease.toString());
+				}
+			}
+
+			System.out.println("Papers:");
+			List<Integer> listI = jpaManager.readPaperRelatedToProcedure(procedure.getID());
+			for (Integer id : listI) {
+				if (id != null) {
+					Paper paper = jpaManager.readPaper(id);
+					System.out.println(paper.toString());
+				}
+			}
+
+			System.out.println("Devices:");
+			List<Integer> listDe = jpaManager.readDeviceRelatedToProcedure(procedure.getID());
+			for (Integer id : listDe) {
+				if (id != null) {
+					Device device = jpaManager.readDevice(id);
+					System.out.println(device.toString());
+				}
+			}
+			try {
+				System.out.println(
+						"\nPlease, select the category and ID  of the item you want to view (Example: [paper,1]).");
+				System.out.println("Write [none,0] to leave.");
+				System.out.print("Category: ");
+				String category = console.readLine().toLowerCase();
+				System.out.print("ID: ");
+				int ID = Integer.parseInt(console.readLine());
+				viewRelated(category, ID);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 
 		}
 	}
@@ -1703,9 +1779,46 @@ public class CommandLineUserInterface {
 			Paper paper = jpaManager.readPaper(name);
 
 			System.out.println("Authors:");
-			List<Author> listA = paper.getAuthor();
+			List<Author> listA = jpaManager.readAuthorFromPaperAuthor(paper.getID());
 			for (Author author : listA) {
-				System.out.println("" + author.toString());
+				if (author != null) {
+					System.out.println(author.toString());
+				}
+			}
+
+			System.out.println("Images:");
+			List<Integer> listI = jpaManager.readImageRelatedToPaper(paper.getID());
+			for (Integer id : listI) {
+				if (id != null) {
+					Image image = dbManager.selectImage(id);
+					System.out.println(image.toString());
+				}
+			}
+
+			System.out.println("Diseases:");
+			List<Disease> listD = jpaManager.readDiseaseFromPaperDisease(paper.getID());
+			for (Disease disease : listD) {
+				if (disease != null) {
+					System.out.println(disease.toString());
+				}
+			}
+
+			System.out.println("Procedures:");
+			List<Integer> listPr = jpaManager.readProcedureRelatedToPaper(paper.getID());
+			for (Integer id : listPr) {
+				if (id != null) {
+					Procedure procedure = jpaManager.readProcedure(id);
+					System.out.println(procedure.toString());
+				}
+			}
+
+			System.out.println("Devices:");
+			List<Integer> listDe = jpaManager.readDeviceRelatedToPaper(paper.getID());
+			for (Integer id : listDe) {
+				if (id != null) {
+					Device device = jpaManager.readDevice(id);
+					System.out.println(device.toString());
+				}
 			}
 
 			try {
@@ -1726,15 +1839,25 @@ public class CommandLineUserInterface {
 	private static void showRelatedToImage(String name) {
 		String proceed = askIfViewRelated();
 		if (proceed.equalsIgnoreCase("y")) {
-			Image image = jpaManager.readImage(name);
+			Image image = dbManager.selectImage(name).get(0);
 
 			System.out.println("Papers:");
-			System.out.println(image.getPaper().toString());
+			List<Integer> listP = jpaManager.readPaperRelatedToImage(image.getID());
+			for (Integer id : listP) {
+				if (id != null) {
+					if (id != null) {
+						Paper paper = jpaManager.readPaper(id);
+						System.out.println(paper.toString());
+					}
+				}
+			}
 
 			System.out.println("\nDiseases:");
-			List<Disease> listD = image.getDisease();
+			List<Disease> listD = jpaManager.readDiseaseFromImageDisease(image.getID());
 			for (Disease disease : listD) {
-				System.out.println(disease.toString());
+				if (disease != null) {
+					System.out.println(disease.toString());
+				}
 			}
 
 			try {
@@ -1758,30 +1881,44 @@ public class CommandLineUserInterface {
 			Disease disease = jpaManager.readDisease(name);
 
 			System.out.println("Body parts:");
-			System.out.println(disease.getBodyPart().toString());
+			List<Integer> listBP = jpaManager.readBodyPartRelatedToDisease(disease.getID());
+			for (Integer id : listBP) {
+				if (id != null) {
+					BodyPart bodyPart = jpaManager.readBodyPart(id);
+					System.out.println(bodyPart.toString());
+				}
+			}
 
 			System.out.println("\nSymptoms:");
-			List<Symptom> listS = disease.getSymptom();
+			List<Symptom> listS = jpaManager.readSymptomFromSymptomDisease(disease.getID());
 			for (Symptom symptom : listS) {
-				System.out.println(symptom.toString());
+				if (symptom != null) {
+					System.out.println(symptom.toString());
+				}
 			}
 
 			System.out.println("\nPapers:");
-			List<Paper> listP = disease.getPaper();
+			List<Paper> listP = jpaManager.readPaperFromPaperDisease(disease.getID());
 			for (Paper paper : listP) {
-				System.out.println(paper.toString());
+				if (paper != null) {
+					System.out.println(paper.toString());
+				}
 			}
 
 			System.out.println("\nImages:");
-			List<Image> listI = disease.getImage();
+			List<Image> listI = dbManager.selectImageFromImageDisease(disease.getID());
 			for (Image image : listI) {
-				System.out.println(image.toString());
+				if (image != null) {
+					System.out.println(image.toString());
+				}
 			}
 
 			System.out.println("\nProcedures:");
-			List<Procedure> listPr = disease.getProcedure();
+			List<Procedure> listPr = jpaManager.readProcedureFromProcedureDisease(disease.getID());
 			for (Procedure procedure : listPr) {
-				System.out.println(procedure.toString());
+				if (procedure != null) {
+					System.out.println(procedure.toString());
+				}
 			}
 
 			try {
@@ -1800,18 +1937,27 @@ public class CommandLineUserInterface {
 		}
 	}
 
-	private static void showRelatedToDevice(String name) { //Me he quedado aquí rellenando los métodos y creando los necesarios en el JpaManager. Nacho.
+	private static void showRelatedToDevice(String name) {
 		String proceed = askIfViewRelated();
 		if (proceed.equalsIgnoreCase("y")) {
 			Device device = jpaManager.readDevice(name);
 
 			System.out.println("Procedures:");
-			System.out.println(device.getProcedure().toString());
+			List<Integer> listD = jpaManager.readProcedureRelatedToDevice(device.getID());
+			for (Integer id : listD) {
+				if (id != null) {
+					Procedure p = jpaManager.readProcedure(id);
+					System.out.println(p.toString());
+				}
+			}
 
 			System.out.println("\nPapers:");
-			List<Paper> listP = device.getPaper();
-			for (Paper paper : listP) {
-				System.out.println(paper.toString());
+			List<Integer> listP = jpaManager.readProcedureRelatedToDevice(device.getID());
+			for (Integer id : listP) {
+				if (id != null) {
+					Paper paper = jpaManager.readPaper(id);
+					System.out.println(paper.toString());
+				}
 			}
 
 			try {
@@ -1837,7 +1983,9 @@ public class CommandLineUserInterface {
 			System.out.println("\nDiseases:");
 			List<Disease> listD = jpaManager.readDiseaseRelatedToBodyPart(bodyPart.getID());
 			for (Disease disease : listD) {
-				System.out.println(disease.toString());
+				if (disease != null) {
+					System.out.println(disease.toString());
+				}
 			}
 			try {
 				System.out.println(
@@ -1861,9 +2009,10 @@ public class CommandLineUserInterface {
 
 			System.out.println("\nPapers:");
 			List<Paper> listP = jpaManager.readPaperFromPaperAuthor(author.getID());
-			System.out.println(listP.size());
 			for (Paper paper : listP) {
-				System.out.println(paper.toString());
+				if (paper != null) {
+					System.out.println(paper.toString());
+				}
 			}
 
 			try {
@@ -1902,23 +2051,33 @@ public class CommandLineUserInterface {
 			break;
 		}
 		case "body part": {
-			dbManager.selectBodyPart(id);
+			BodyPart bodyPart = dbManager.selectBodyPart(id);
+			showBodyPart(bodyPart.getName());
+			showRelatedToBodyPart(bodyPart.getName());
 			break;
 		}
 		case "device": {
-			dbManager.selectDevice(id);
+			Device device = dbManager.selectDevice(id);
+			showDevice(device.getName());
+			showRelatedToDevice(device.getName());
 			break;
 		}
 		case "disease": {
-			dbManager.selectDisease(id);
+			Disease disease = dbManager.selectDisease(id);
+			showDisease(disease.getName());
+			showRelatedToDisease(disease.getName());
 			break;
 		}
 		case "pathology": {
-			dbManager.selectDisease(id);
+			Disease disease = dbManager.selectDisease(id);
+			showDisease(disease.getName());
+			showRelatedToDisease(disease.getName());
 			break;
 		}
 		case "image": {
-			dbManager.selectImage(id);
+			Image image = dbManager.selectImage(id);
+			showImage(image.getDescription());
+			showRelatedToImage(image.getDescription());
 			break;
 		}
 		case "paper": {
@@ -1928,19 +2087,27 @@ public class CommandLineUserInterface {
 			break;
 		}
 		case "article": {
-			dbManager.selectPaper(id);
+			Paper paper = dbManager.selectPaper(id);
+			showPaper(paper.getTitle());
+			showRelatedToPaper(paper.getTitle());
 			break;
 		}
 		case "procedure": {
-			dbManager.selectProcedure(id);
+			Procedure procedure = dbManager.selectProcedure(id);
+			showProcedure(procedure.getName());
+			showRelatedToProcedure(procedure.getName());
 			break;
 		}
 		case "treatment": {
-			dbManager.selectProcedure(id);
+			Procedure procedure = dbManager.selectProcedure(id);
+			showProcedure(procedure.getName());
+			showRelatedToProcedure(procedure.getName());
 			break;
 		}
 		case "symptom": {
-			dbManager.selectSymptom(id);
+			Symptom symptom = dbManager.selectSymptom(id);
+			showSymptom(symptom.getName());
+			showRelatedToSymptom(symptom.getName());
 			break;
 		}
 		case "none": {
@@ -1969,11 +2136,8 @@ public class CommandLineUserInterface {
 			ex.printStackTrace();
 		}
 		XmlManager xmlm = new XmlManager(dbm);
-		
+
 		xmlm.marshalToXML(aut, fileName);
-		//The upper line gives an error because we are not passing a Result. I have not seen any Result in the code of Rodrigo.. Nacho
-		//File file = new File(fileName);
-		//xmlm.marshalToXML(aut, file);
 	}
 
 	private static void convertJava(DBManager dbm) {

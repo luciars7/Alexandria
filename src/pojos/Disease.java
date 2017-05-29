@@ -45,7 +45,7 @@ public class Disease implements Serializable {
 			@JoinColumn(name = "procedure", referencedColumnName = "ID") }, inverseJoinColumns = {
 					@JoinColumn(name = "disease", referencedColumnName = "ID") })
 	private List<Procedure> procedure;
-	
+
 	public Disease() {
 		this.image = new ArrayList<Image>();
 		this.symptom = new ArrayList<Symptom>();
@@ -92,7 +92,7 @@ public class Disease implements Serializable {
 		this.paper = new ArrayList<Paper>();
 		this.procedure = new ArrayList<Procedure>();
 	}
-	
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -104,7 +104,7 @@ public class Disease implements Serializable {
 	public void setBodypart(BodyPart bodypart) {
 		this.bodypart = bodypart;
 	}
-	
+
 	public BodyPart getBodyPart() {
 		return bodypart;
 	}
@@ -120,7 +120,7 @@ public class Disease implements Serializable {
 	public void removePaper(Paper paper) {
 		this.paper.remove(paper);
 	}
-	
+
 	public List<Paper> getPaper() {
 		return paper;
 	}
