@@ -24,89 +24,103 @@ public class Paper implements Serializable {
 	private List<Author> author;
 	@ManyToMany(mappedBy = "paper")
 	private List<Disease> disease;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "device")
-	private Device device;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "procedure")
-	private Procedure procedure;
+	@OneToMany(mappedBy = "paper")
+	private List<Device> device;
+	@OneToMany(mappedBy = "paper")
+	private List<Procedure> procedure;
 	@OneToMany(mappedBy = "paper")
 	private List<Image> image;
+	
 	public Paper() {
 		this.disease = new ArrayList<Disease>();
 		this.author = new ArrayList<Author>();
 		this.image = new ArrayList<Image>();
+		this.procedure = new ArrayList<Procedure>();
+		this.device = new ArrayList<Device>();
+
 	}
 
 	public Paper(String title, String source) {
-
 		this.title = title;
-
 		this.source = source;
-
 		this.disease = new ArrayList<Disease>();
-
 		this.author = new ArrayList<Author>();
-
 		this.image = new ArrayList<Image>();
-
+		this.procedure = new ArrayList<Procedure>();
+		this.device = new ArrayList<Device>();
 	}
 
 	public Paper(int iD, String title, String source) {
-
 		ID = iD;
-
 		this.title = title;
-
 		this.source = source;
-
 		this.disease = new ArrayList<Disease>();
-
 		this.author = new ArrayList<Author>();
-
 		this.image = new ArrayList<Image>();
-
+		this.procedure = new ArrayList<Procedure>();
+		this.device = new ArrayList<Device>();
+		
 	}
 
 	public Paper(String title, String source, List<Author> author, List<Disease> disease) {
-
 		super();
-
 		this.title = title;
-
 		this.source = source;
-
 		this.author = author;
-
 		this.disease = disease;
-
 		this.image = new ArrayList<Image>();
-
+		this.procedure = new ArrayList<Procedure>();
+		this.device = new ArrayList<Device>();
 	}
 
-	public Device getDevice() {
+	public List<Device> getDevice() {
 
 		return device;
 
 	}
 
-	public void setDevice(Device device) {
+	public void setDevice(List<Device> device) {
 
 		this.device = device;
 
 	}
 
-	public Procedure getProcedure() {
+	public void addDevice(Device d) {
+
+		this.device.add(d);
+
+	}
+
+	public void removeDevice(Device d) {
+
+		this.device.remove(d);
+
+	}
+	
+	public List<Procedure> getProcedure() {
 
 		return procedure;
 
 	}
 
-	public void setProcedure(Procedure procedure) {
+	public void setProcedure(List<Procedure> procedure) {
 
 		this.procedure = procedure;
 
 	}
+	
+	public void addProcedure(Procedure p) {
+
+		this.procedure.add(p);
+
+	}
+
+	public void removeProcedure(Procedure p) {
+
+		this.procedure.remove(p);
+
+	}
+
 
 	public static long getSerialversionuid() {
 

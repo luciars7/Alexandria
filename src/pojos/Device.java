@@ -27,11 +27,12 @@ public class Device implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "procedure")
 	private Procedure procedure;
-	@OneToMany(mappedBy = "device")
-	private List<Paper> paper;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "paper")
+	private Paper paper;
 	
 	public Device() {
-		this.paper = new ArrayList<Paper>();
+		
 	}
 
 	public Device(int iD, String name, String type, float price, String brand) {
@@ -46,8 +47,6 @@ public class Device implements Serializable {
 
 		this.brand = brand;
 
-		this.paper = new ArrayList<Paper>();
-
 	}
 
 	public Device(String name, String type, float price, String brand) {
@@ -60,11 +59,9 @@ public class Device implements Serializable {
 
 		this.brand = brand;
 
-		this.paper = new ArrayList<Paper>();
-
 	}
 
-	public Device(String name, String type, float price, String brand, Procedure procedure, List<Paper> paper) {
+	public Device(String name, String type, float price, String brand, Procedure procedure, Paper paper) {
 
 		super();
 
@@ -116,27 +113,15 @@ public class Device implements Serializable {
 
 	}
 
-	public List<Paper> getPaper() {
+	public Paper getPaper() {
 
 		return paper;
 
 	}
 
-	public void setPaper(List<Paper> paper) {
+	public void setPaper(Paper paper) {
 
 		this.paper = paper;
-
-	}
-
-	public void addPaper(Paper paper) {
-
-		this.paper.add(paper);
-
-	}
-
-	public void removePaper(Paper paper) {
-
-		this.paper.remove(paper);
 
 	}
 

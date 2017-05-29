@@ -7,6 +7,7 @@ import pojos.*;
 
 
 //¿ON DELETE CASCADE? ¿Tiene sentido para alguna tabla?
+//Relaciones 1-n. Sólo se crea una fila. ¿Cómo recuperar si se tienen varias pero con distinto id para el mismo objeto?
 
 public class DBManager {
 
@@ -560,8 +561,7 @@ public class DBManager {
 			// Create tables: begin
 			Statement stmt1 = c.createStatement();
 			String sql1 = "CREATE TABLE paper" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "title TEXT UNIQUE,"
-					+ "source TEXT," + "device INTEGER REFERENCES device (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-					+ "procedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
+					+ "source TEXT)"; 
 			stmt1.executeUpdate(sql1);
 			stmt1.close();
 
@@ -587,19 +587,14 @@ public class DBManager {
 			Statement stmt5 = c.createStatement();
 			String sql5 = "CREATE TABLE device" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT UNIQUE,"
 					+ "type TEXT ," + "price FLOAT," + "brand TEXT,"
-					+ "procedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE"
-					+ "paper INTEGER REFERENCES paper (ID) ON UPDATE CASCADE ON DELETE CASCADE)"; // Brand
-																											// is
-																											// being
-																											// inserted
-																											// as
-																											// null.
+					+ "paper INTEGER REFERENCES paper (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
+					+ "procedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE)"; 
 			stmt5.executeUpdate(sql5);
 			stmt5.close();
 
 			Statement stmt6 = c.createStatement();
 			String sql6 = "CREATE TABLE image" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "description TEXT UNIQUE,"
-					+ "type TEXT," + "size TEXT," + "image BLOOB,"
+					+ "type TEXT," + "size TEXT," + "image BLOB,"
 					+ "paper INTEGER REFERENCES paper (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 			stmt6.executeUpdate(sql6);
 			stmt6.close();
@@ -612,7 +607,7 @@ public class DBManager {
 
 			Statement stmt8 = c.createStatement();
 			String sql8 = "CREATE TABLE procedure" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT UNIQUE,"
-					+ "description TEXT)";
+					+ "description TEXT," + "paper INTEGER REFERENCES paper (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 			stmt8.executeUpdate(sql8);
 			stmt8.close();
 
@@ -628,6 +623,7 @@ public class DBManager {
 			String sql10 = "CREATE TABLE paperauthor"
 					+ "(paper INTEGER REFERENCES paper (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
 					+ "author INTEGER REFERENCES author (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
+					//+ "CONSTRAINT paperauthor_pk PRIMARY KEY (paper, author))"; //Hay que lograr que la primary key funcione.
 					+ "PRIMARY KEY (paper, author))";
 			stmt10.executeUpdate(sql10);
 			stmt10.close();
@@ -1074,10 +1070,23 @@ public class DBManager {
 			System.out.println(e.getMessage());
 		}
 	}
+	
+	public void updateDeviceWithPaper(Integer device_id, Integer paper_id) {
+		try {
+			String sql = "UPDATE device SET paper = ? WHERE ID = ?";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setInt(1, paper_id);
+			prep.setInt(2, device_id);
+			prep.executeUpdate();
+			prep.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
 
 	public void updateDisease(Integer disease_id, String newDescription, Integer newBodyPart) {
 		try {
-			String sql = "UPDATE disease SET description = ?, BodyPart = ? WHERE ID = ?";
+			String sql = "UPDATE disease SET description = ?, bodypart = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
 			prep.setString(1, newDescription);
 			prep.setInt(2, newBodyPart);
@@ -1103,25 +1112,12 @@ public class DBManager {
 		}
 	}
 
-	public void updatePaperWithADevice(Integer id, Integer device) {
+	public void updateProcedureWithPaper(Integer procedure_id, Integer paper_id) {
 		try {
-			String sql = "UPDATE paper SET device = ? WHERE ID = ?";
+			String sql = "UPDATE procedure SET paper = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
-			prep.setInt(1, device);
-			prep.setInt(2, id);
-			prep.executeUpdate();
-			prep.close();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-	}
-
-	public void updatePaperWithAProcedure(Integer id, Integer procedure) {
-		try {
-			String sql = "UPDATE paper SET procedure = ? WHERE ID = ?";
-			PreparedStatement prep = c.prepareStatement(sql);
-			prep.setInt(1, procedure);
-			prep.setInt(2, id);
+			prep.setInt(1, paper_id);
+			prep.setInt(2, procedure_id);
 			prep.executeUpdate();
 			prep.close();
 		} catch (Exception e) {
