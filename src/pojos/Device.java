@@ -1,8 +1,6 @@
 package pojos;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -26,7 +24,7 @@ public class Device implements Serializable {
 	private Procedure procedure;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "paper")
-	private List<Paper> paper;
+	private Paper paper;
 	
 	public Device() {
 		
@@ -38,7 +36,7 @@ public class Device implements Serializable {
 		this.type = type;
 		this.price = price;
 		this.brand = brand;
-		this.paper = new ArrayList<Paper>();
+		this.paper = new Paper();
 	}
 
 	public Device(String name, String type, float price, String brand) {
@@ -46,9 +44,9 @@ public class Device implements Serializable {
 		this.type = type;
 		this.price = price;
 		this.brand = brand;
-		this.paper = new ArrayList<Paper>();
+		this.paper = new Paper();
 	}
-	public Device(String name, String type, float price, String brand, Procedure procedure, List<Paper> paper) {
+	public Device(String name, String type, float price, String brand, Procedure procedure, Paper paper) {
 		super();
 		this.name = name;
 		this.type = type;
@@ -78,20 +76,12 @@ public class Device implements Serializable {
 		this.procedure = procedure;
 	}
 
-	public List<Paper> getPaper() {
+	public Paper getPaper() {
 		return paper;
 	}
 
-	public void setPaper(List<Paper> paper) {
+	public void setPaper(Paper paper) {
 		this.paper = paper;
-	}
-
-	public void addPaper(Paper paper) {
-		this.paper.add(paper);
-	}
-
-	public void removePaper(Paper paper) {
-		this.paper.remove(paper);
 	}
 
 	public void setprice(float price) {
