@@ -721,7 +721,7 @@ public class DBManager {
 			Statement stmtSeq = c.createStatement();
 			String sqlSeq = "";
 			sqlSeq = "INSERT INTO device (name, type, price, brand) VALUES ('" + device.getName() + "', '"
-					+ device.getType() + "', '" + device.getprice() + "', '" + device.getBrand() + "')";
+					+ device.getType() + "', '" + device.getPrice() + "', '" + device.getBrand() + "')";
 			stmtSeq.executeUpdate(sqlSeq);
 			stmtSeq.close();
 		} catch (SQLException ex) {

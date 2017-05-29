@@ -565,7 +565,7 @@ public class CommandLineUserInterface {
 		for (Integer id2 : id) {
 			Paper paper = dbManager.selectPaper(id2);
 			device.setPaper(paper);
-			paper.addDevice(device);
+			paper.setDevice(device);
 			dbManager.updateDeviceWithPaper(device.getID(), paper.getID());
 		}
 	}
@@ -948,7 +948,7 @@ public class CommandLineUserInterface {
 		for (Integer id2 : id) {
 			Device device = dbManager.selectDevice(id2);
 			device.setPaper(paper);
-			paper.addDevice(device);
+			paper.setDevice(device);
 			dbManager.updateDeviceWithPaper(device.getID(), paper.getID());
 		}
 
@@ -1529,7 +1529,7 @@ public class CommandLineUserInterface {
 
 			if (list.size() == 0) {
 
-				System.out.println("Error searching for the symptoms.");
+				System.out.println("Error searching for the devices.");
 
 			} else {
 
@@ -1573,7 +1573,7 @@ public class CommandLineUserInterface {
 
 			if (listD.size() == 0) {
 
-				System.out.println("Error searching for the symptoms.");
+				System.out.println("Error searching for the diseases.");
 
 			} else {
 
