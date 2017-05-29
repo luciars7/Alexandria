@@ -25,7 +25,7 @@ public class Paper implements Serializable {
 	@ManyToMany(mappedBy = "paper")
 	private List<Disease> disease;
 	@OneToMany(mappedBy = "paper")
-	private List<Device> device;
+	private Device device;
 	@OneToMany(mappedBy = "paper")
 	private List<Procedure> procedure;
 	@OneToMany(mappedBy = "paper")
@@ -36,8 +36,7 @@ public class Paper implements Serializable {
 		this.author = new ArrayList<Author>();
 		this.image = new ArrayList<Image>();
 		this.procedure = new ArrayList<Procedure>();
-		this.device = new ArrayList<Device>();
-
+		this.device = new Device();
 	}
 
 	public Paper(String title, String source) {
@@ -47,7 +46,7 @@ public class Paper implements Serializable {
 		this.author = new ArrayList<Author>();
 		this.image = new ArrayList<Image>();
 		this.procedure = new ArrayList<Procedure>();
-		this.device = new ArrayList<Device>();
+		this.device = new Device();
 	}
 
 	public Paper(int iD, String title, String source) {
@@ -58,7 +57,7 @@ public class Paper implements Serializable {
 		this.author = new ArrayList<Author>();
 		this.image = new ArrayList<Image>();
 		this.procedure = new ArrayList<Procedure>();
-		this.device = new ArrayList<Device>();
+		this.device = new Device();
 	}
 
 	public Paper(String title, String source, List<Author> author, List<Disease> disease) {
@@ -74,11 +73,11 @@ public class Paper implements Serializable {
 		return serialVersionUID;
 	}
 	
-	public List<Device> getDevice() {
+	public Device getDevice() {
 		return device;
 	}
 	
-	public void setDevice(List<Device> device) {
+	public void setDevice(Device device) {
 		this.device = device;
 	}
 
