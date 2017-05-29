@@ -1589,7 +1589,7 @@ public class CommandLineUserInterface {
 
 			if (list.size() == 0) {
 
-				System.out.println("Error searching for the symptoms.");
+				System.out.println("Error searching for the devices.");
 
 			} else {
 
@@ -1633,7 +1633,7 @@ public class CommandLineUserInterface {
 
 			if (listD.size() == 0) {
 
-				System.out.println("Error searching for the symptoms.");
+				System.out.println("Error searching for the diseases.");
 
 			} else {
 
