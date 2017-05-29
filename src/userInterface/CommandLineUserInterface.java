@@ -273,115 +273,62 @@ public class CommandLineUserInterface {
 	}
 
 	private static void deleteEntity() {
-
 		System.out.print("\nPlease, select the type of item you want to delete: ");
-
 		System.out.println("\n1.) Author");
-
 		System.out.println("2.) Body part");
-
 		System.out.println("3.) Device");
-
 		System.out.println("4.) Disease or pathology");
-
 		System.out.println("5.) Image");
-
 		System.out.println("6.) Paper or article");
-
 		System.out.println("7.) Procedure or treatment");
-
 		System.out.println("8.) Symptom");
-
 		System.out.println("9.) Return to the main menu...");
-
 		System.out.print("\nOption: ");
-
 		try {
-
 			read = console.readLine();
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
 
 		Integer option = Integer.parseInt(read);
 
 		switch (option) {
-
 		case 1: {
-
 			deleteAuthor();
-
 			return;
-
 		}
-
 		case 2: {
-
 			deleteBodyPart();
-
 			return;
-
 		}
-
 		case 3: {
-
 			deleteDevice();
-
 			return;
-
 		}
-
 		case 4: {
-
 			deleteDisease();
-
 			return;
-
 		}
-
 		case 5: {
-
 			deleteImage();
-
 			return;
-
 		}
-
 		case 6: {
-
 			deletePaper();
-
 			return;
-
 		}
-
 		case 7: {
-
 			deleteProcedure();
-
 			return;
-
 		}
-
 		case 8: {
-
 			deleteSymptom();
-
 			return;
-
 		}
-
 		case 9: {
-
 			return;
-
 		}
-
 		}
-
 	}
 
 	public static String askForName() {
@@ -617,9 +564,9 @@ public class CommandLineUserInterface {
 		}
 		for (Integer id2 : id) {
 			Paper paper = dbManager.selectPaper(id2);
-			device.addPaper(paper);
-			paper.setDevice(device);
-			dbManager.updatePaperWithADevice(paper.getID(), device.getID());
+			device.setPaper(paper);
+			paper.addDevice(device);
+			dbManager.updateDeviceWithPaper(device.getID(), paper.getID());
 		}
 	}
 
@@ -1000,9 +947,9 @@ public class CommandLineUserInterface {
 		}
 		for (Integer id2 : id) {
 			Device device = dbManager.selectDevice(id2);
-			device.addPaper(paper);
-			paper.setDevice(device);
-			dbManager.updatePaperWithADevice(paper.getID(), device.getID());
+			device.setPaper(paper);
+			paper.addDevice(device);
+			dbManager.updateDeviceWithPaper(device.getID(), paper.getID());
 		}
 
 		System.out.println("\nProceeding to show all available procedures...");
@@ -1027,9 +974,9 @@ public class CommandLineUserInterface {
 		}
 		for (Integer id2 : id) {
 			Procedure procedure = dbManager.selectProcedure(id2);
-			procedure.addPaper(paper);
-			paper.setProcedure(procedure);
-			dbManager.updatePaperWithAProcedure(paper.getID(), procedure.getID());
+			procedure.setPaper(paper);
+			paper.addProcedure(procedure);
+			dbManager.updateProcedureWithPaper(procedure.getID(), paper.getID());
 		}
 
 		System.out.println("\nProceeding to show all available images...");
@@ -1140,9 +1087,9 @@ public class CommandLineUserInterface {
 		}
 		for (Integer id2 : id) {
 			Paper paper = dbManager.selectPaper(id2);
-			procedure.addPaper(paper);
-			paper.setProcedure(procedure);
-			dbManager.updatePaperWithAProcedure(paper.getID(), procedure.getID());
+			procedure.setPaper(paper);
+			paper.addProcedure(procedure);
+			dbManager.updateProcedureWithPaper(procedure.getID(), paper.getID());
 		}
 
 		System.out.println("\nProceeding to show all available devices...");
@@ -1234,19 +1181,12 @@ public class CommandLineUserInterface {
 	public static void showSymptom(String name) {
 		ArrayList<Symptom> list = dbManager.selectSymptom(name);
 		if (list == null) {
-
 			System.out.println("Error searching for the author(s).");
-
 		} else {
-
 			for (Symptom symptom : list) {
-
 				System.out.println(symptom);
-
 			}
-
 		}
-
 	}
 
 	private static void deleteAuthor() {
@@ -1761,13 +1701,13 @@ public class CommandLineUserInterface {
 		String proceed = askIfViewRelated();
 		if (proceed.equalsIgnoreCase("y")) {
 			Paper paper = jpaManager.readPaper(name);
-			
+
 			System.out.println("Authors:");
 			List<Author> listA = paper.getAuthor();
-			for(Author author : listA){
-				System.out.println(""+author.toString());
+			for (Author author : listA) {
+				System.out.println("" + author.toString());
 			}
-			
+
 			try {
 				System.out.println(
 						"\nPlease, select the category and ID  of the item you want to view (Example: [paper,1]).");
@@ -1895,7 +1835,7 @@ public class CommandLineUserInterface {
 			BodyPart bodyPart = jpaManager.readBodyPart(name);
 
 			System.out.println("\nDiseases:");
-			List<Disease> listD = bodyPart.getDisease();
+			List<Disease> listD = jpaManager.readDiseaseRelatedToBodyPart(bodyPart.getID());
 			for (Disease disease : listD) {
 				System.out.println(disease.toString());
 			}
@@ -1920,7 +1860,8 @@ public class CommandLineUserInterface {
 			Author author = jpaManager.readAuthor(name);
 
 			System.out.println("\nPapers:");
-			List<Paper> listP = author.getPaper();
+			List<Paper> listP = jpaManager.readPaperFromPaperAuthor(author.getID());
+			System.out.println(listP.size());
 			for (Paper paper : listP) {
 				System.out.println(paper.toString());
 			}

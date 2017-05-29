@@ -24,12 +24,10 @@ public class Paper implements Serializable {
 	private List<Author> author;
 	@ManyToMany(mappedBy = "paper")
 	private List<Disease> disease;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "device")
-	private Device device;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "procedure")
-	private Procedure procedure;
+	@OneToMany(mappedBy = "paper")
+	private List<Device> device;
+	@OneToMany(mappedBy = "paper")
+	private List<Procedure> procedure;
 	@OneToMany(mappedBy = "paper")
 	private List<Image> image;
 	
@@ -37,6 +35,9 @@ public class Paper implements Serializable {
 		this.disease = new ArrayList<Disease>();
 		this.author = new ArrayList<Author>();
 		this.image = new ArrayList<Image>();
+		this.procedure = new ArrayList<Procedure>();
+		this.device = new ArrayList<Device>();
+
 	}
 
 	public Paper(String title, String source) {
@@ -45,6 +46,8 @@ public class Paper implements Serializable {
 		this.disease = new ArrayList<Disease>();
 		this.author = new ArrayList<Author>();
 		this.image = new ArrayList<Image>();
+		this.procedure = new ArrayList<Procedure>();
+		this.device = new ArrayList<Device>();
 	}
 
 	public Paper(int iD, String title, String source) {
@@ -54,6 +57,8 @@ public class Paper implements Serializable {
 		this.disease = new ArrayList<Disease>();
 		this.author = new ArrayList<Author>();
 		this.image = new ArrayList<Image>();
+		this.procedure = new ArrayList<Procedure>();
+		this.device = new ArrayList<Device>();
 	}
 
 	public Paper(String title, String source, List<Author> author, List<Disease> disease) {
@@ -68,21 +73,29 @@ public class Paper implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
-	public Device getDevice() {
+	
+	public List<Device> getDevice() {
 		return device;
 	}
-
-	public void setDevice(Device device) {
+	
+	public void setDevice(List<Device> device) {
 		this.device = device;
 	}
 
-	public Procedure getProcedure() {
+	public List<Procedure> getProcedure() {
 		return procedure;
 	}
 
-	public void setProcedure(Procedure procedure) {
+	public void setProcedure(List<Procedure> procedure) {
 		this.procedure = procedure;
+	}
+	
+	public void addProcedure(Procedure p) {
+		this.procedure.add(p);
+	}
+
+	public void removeProcedure(Procedure p) {
+		this.procedure.remove(p);
 	}
 
 	public List<Image> getImage() {

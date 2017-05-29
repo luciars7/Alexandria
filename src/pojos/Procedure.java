@@ -27,14 +27,14 @@ public class Procedure implements Serializable {
 	private String description;
 	@ManyToMany(mappedBy = "procedure")
 	private List<Disease> disease;
-	@OneToMany(mappedBy = "procedure")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "paper")
 	private List<Paper> paper;
 	@OneToMany(mappedBy = "procedure")
 	private List<Device> device;
 	
 	public Procedure() {
 		this.disease = new ArrayList<Disease>();
-		this.paper = new ArrayList<Paper>();
 		this.device = new ArrayList<Device>();
 	}
 
