@@ -27,20 +27,23 @@ public class XmlManager {
 			Marshaller marshaller = jaxbContext.createMarshaller();
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 			File file = new File (fileName);
-			marshaller.marshal(author, file);			
+			marshaller.marshal(author, file);
+			//Printout
+			System.out.println("\nMarshalling complete.\nThe new XML file looks like this:\n");
 			marshaller.marshal(author, System.out);
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void unmarshalToJava(String aut, String fileName) {
+	public void unmarshalToJava(String fileName) {
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(Author.class);
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 			File XMLfile = new File(fileName);
 			Author autor =(Author) unmarshaller.unmarshal(XMLfile);
 			// Printout
+			System.out.println("\nUnmarshalling complete.\nThe recovered author looks like this:\n");
 			System.out.println(autor);
 		} catch (JAXBException e) {
 			e.printStackTrace();

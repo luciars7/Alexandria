@@ -48,8 +48,8 @@ public class CommandLineUserInterface {
 		System.out.println("2.) Delete item.");
 		System.out.println("3.) View item.");
 		System.out.println("4.) Modify item.");
-		System.out.println("5.) Convert author table to a XML file");
-		System.out.println("6.) Convert author table to a Java file");
+		System.out.println("5.) Convert a Java author to a XML file.");
+		System.out.println("6.) Convert a XML author to a Java file.");
 		System.out.println("99.) Exit.");
 		System.out.print("\nOption: ");
 		try {
@@ -78,11 +78,15 @@ public class CommandLineUserInterface {
 			break;
 		}
 		case 5: {
-			convertXML(dbManager);
+			// convertXML(dbManager); No hace falta pasarles el dbManager porque
+			// es un atributo de la clase y todos lo smétodso pueden acceder a
+			// él.
+			convertXML();
 			break;
 		}
 		case 6: {
-			convertJava(dbManager);
+			// convertJava(dbManager);
+			convertJava();
 			break;
 		}
 		case 99: {
@@ -2116,32 +2120,31 @@ public class CommandLineUserInterface {
 		}
 	}
 
-	private static void convertXML(DBManager dbm) {
+	private static void convertXML() {
 		List<Author> authors = dbManager.selectAuthor("all");
 		for (Author a : authors) {
 			System.out.println(a.getID() + ": " + a.getName());
 		}
 		String aut = "";
-		System.out.print("Choose an author to turn into an XML file (write their name):");
+		String fileName = "";
+		System.out.print("Write the author's name (none to go back):");
 		try {
 			aut = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String fileName = "";
-		System.out.println("write the path of the file where it is going to be saved: ");
-		try {
+			if (aut.equalsIgnoreCase("none")) {
+				return;
+			}
+			System.out.println("Write the path of the file where it is going to be saved: ");
 			fileName = console.readLine();
-		} catch (IOException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		XmlManager xmlm = new XmlManager(dbm);
+		XmlManager xmlm = new XmlManager(dbManager);
 
 		xmlm.marshalToXML(aut, fileName);
 	}
 
-	private static void convertJava(DBManager dbm) {
-		List<Author> authors = dbManager.selectAuthor("all");
+	private static void convertJava() {
+		/*List<Author> authors = dbManager.selectAuthor("all");
 		for (Author a : authors) {
 			System.out.println(a.getID() + ": " + a.getName());
 		}
@@ -2151,16 +2154,16 @@ public class CommandLineUserInterface {
 			aut = console.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 		String fileName = "";
-		System.out.println("write the path of the file where it is going to be saved: ");
+		System.out.print("Write the path of the XML file: ");
 		try {
 			fileName = console.readLine();
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
-		XmlManager xmlm = new XmlManager(dbm);
-		xmlm.unmarshalToJava(aut, fileName);
+		XmlManager xmlm = new XmlManager(dbManager);
+		xmlm.unmarshalToJava(fileName);
 	}
 
 }

@@ -195,16 +195,6 @@ public class JpaManager {
 		return procedure;
 	}
 
-	/*
-	 * public static List<Object> readPersonalizedString(String selection,
-	 * String table, String attribute, String value) { Query q1 =
-	 * em.createNativeQuery("SELECT ? FROM ? WHERE ? = ?", Procedure.class);
-	 * q1.setParameter(1, "%" + selection + "%"); q1.setParameter(2, "%" + table
-	 * + "%"); q1.setParameter(3, "%" + attribute + "%"); q1.setParameter(4, "%"
-	 * + value + "%"); List<Object> objects = (List<Object>) q1.getResultList();
-	 * return objects; }
-	 */
-
 	// READS N-N
 	// ------------------------------------------------------------------------------------------------
 	public static List<Paper> readPaperFromPaperAuthor(Integer author_id) {
