@@ -168,7 +168,7 @@ public class JpaManager {
 	}
 
 	public static Image readImage(int image_id) {
-		Query q1 = em.createNativeQuery("SELECT * FROM image WHERE id = ?", Image.class);
+		Query q1 = em.createNativeQuery("SELECT * FROM image WHERE ID = ?", Image.class);
 		q1.setParameter(1, image_id);
 		Image image = (Image) q1.getSingleResult();
 		return image;
@@ -296,18 +296,79 @@ public class JpaManager {
 		List<Symptom> ids = (List<Symptom>) q1.getResultList();
 		return ids;
 	}
-	
+
 	// READS 1-N
 	// ------------------------------------------------------------------------------------------------
 	public static List<Disease> readDiseaseRelatedToBodyPart(Integer bodyPart_id) {
-		Query q1 = em.createNativeQuery(
-				"SELECT * FROM disease WHERE bodypart = ?",
-				Disease.class);
+		Query q1 = em.createNativeQuery("SELECT * FROM disease WHERE bodypart = ?", Disease.class);
 		q1.setParameter(1, bodyPart_id);
 		List<Disease> ids = (List<Disease>) q1.getResultList();
 		return ids;
 	}
-	
+
+	public static List<Integer> readProcedureRelatedToDevice(Integer device_id) {
+		Query q1 = em.createNativeQuery("SELECT procedure FROM device WHERE id = ?");
+		q1.setParameter(1, device_id);
+		List<Integer> ids = (List<Integer>) q1.getResultList();
+		return ids;
+	}
+
+	public static List<Integer> readPaperRelatedToDevice(Integer device_id) {
+		Query q1 = em.createNativeQuery("SELECT paper FROM device WHERE id = ?");
+		q1.setParameter(1, device_id);
+		List<Integer> ids = (List<Integer>) q1.getResultList();
+		return ids;
+	}
+
+	public static List<Integer> readBodyPartRelatedToDisease(Integer disease_id) {
+		Query q1 = em.createNativeQuery("SELECT bodypart FROM disease WHERE id = ?");
+		q1.setParameter(1, disease_id);
+		List<Integer> ids = (List<Integer>) q1.getResultList();
+		return ids;
+	}
+
+	public static List<Integer> readPaperRelatedToImage(Integer image_id) {
+		Query q1 = em.createNativeQuery("SELECT paper FROM image WHERE id = ?");
+		q1.setParameter(1, image_id);
+		List<Integer> ids = (List<Integer>) q1.getResultList();
+		return ids;
+	}
+
+	public static List<Integer> readImageRelatedToPaper(Integer paper_id) {
+		Query q1 = em.createNativeQuery("SELECT ID FROM image WHERE paper = ?");
+		q1.setParameter(1, paper_id);
+		List<Integer> ids = (List<Integer>) q1.getResultList();
+		return ids;
+	}
+
+	public static List<Integer> readProcedureRelatedToPaper(Integer paper_id) {
+		Query q1 = em.createNativeQuery("SELECT ID FROM procedure WHERE paper = ?");
+		q1.setParameter(1, paper_id);
+		List<Integer> ids = (List<Integer>) q1.getResultList();
+		return ids;
+	}
+
+	public static List<Integer> readDeviceRelatedToPaper(Integer paper_id) {
+		Query q1 = em.createNativeQuery("SELECT ID FROM device WHERE paper = ?");
+		q1.setParameter(1, paper_id);
+		List<Integer> ids = (List<Integer>) q1.getResultList();
+		return ids;
+	}
+
+	public static List<Integer> readPaperRelatedToProcedure(Integer procedure_id) {
+		Query q1 = em.createNativeQuery("SELECT paper FROM procedure WHERE id = ?");
+		q1.setParameter(1, procedure_id);
+		List<Integer> ids = (List<Integer>) q1.getResultList();
+		return ids;
+	}
+
+	public static List<Integer> readDeviceRelatedToProcedure(Integer procedure_id) {
+		Query q1 = em.createNativeQuery("SELECT ID FROM device WHERE procedure = ?");
+		q1.setParameter(1, procedure_id);
+		List<Integer> ids = (List<Integer>) q1.getResultList();
+		return ids;
+	}
+
 	// CREATES
 	// ------------------------------------------------------------------------------------------------
 	public void createSymptomJPA(Symptom symptom) {

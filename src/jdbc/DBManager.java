@@ -385,6 +385,36 @@ public class DBManager {
 		}
 		return image;
 	}
+	
+
+	public ArrayList<Image> selectImageFromImageDisease(Integer disease_id) {
+		ArrayList<Image> list = null;
+		try {
+			list = new ArrayList<Image>();
+			Statement stmt = c.createStatement();
+			
+				String sql = "SELECT * FROM image as i INNER JOIN imagedisease as imdis ON i.ID = imdis.image INNER JOIN disease as d ON d.ID = imdis.disease WHERE d.ID = '" + disease_id + "'";
+				ResultSet rs9 = stmt.executeQuery(sql);// Works as an iterator.
+				//We need to use the number of the columns because the ID is ambiguous with the JOINs.
+				while (rs9.next()) {
+					int id = rs9.getInt(1);
+					String description = rs9.getString(2);
+					String type = rs9.getString(3);
+					String size = rs9.getString(4);
+					byte[] image = rs9.getBytes(5);
+					//Paper paper = (Paper) this.selectPaper(rs9.getInt("paper"));
+					//list.add(new Image(id, description, type, size, image, paper));
+					list.add(new Image(id, description, type, size, image));
+				}
+				if (rs9 != null) {
+					rs9.close();
+				}
+			stmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 
 	public ArrayList<Paper> selectPaper(String NAME) {
 		ArrayList<Paper> list = null;
@@ -421,6 +451,8 @@ public class DBManager {
 		}
 		return list;
 	}
+	
+	
 
 	public Paper selectPaper(Integer id) {
 		Paper paper = null;
@@ -774,7 +806,7 @@ public class DBManager {
 
 		} catch (IOException e) {
 
-			System.out.println("Something went wrong... Try using a valid route.");
+			System.out.println("\nSomething went wrong... Try using a valid route.");
 
 			return null;
 
