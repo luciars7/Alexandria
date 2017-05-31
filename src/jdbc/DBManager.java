@@ -44,6 +44,22 @@ public class DBManager {
 		}
 	}
 
+	public JFrame getEditorFrame() {
+		return editorFrame;
+	}
+
+	public void setEditorFrame(JFrame editorFrame) {
+		this.editorFrame = editorFrame;
+	}
+
+	public static Connection getC() {
+		return c;
+	}
+
+	public static void setC(Connection c) {
+		DBManager.c = c;
+	}
+
 	public static boolean checkTables() {
 		DatabaseMetaData dbm;
 		try {
