@@ -37,21 +37,18 @@ public class BodyPart implements Serializable {
 	}
 
 	public BodyPart(String name, String location) {
-
 		super();
-
 		this.name = name;
-
 		this.location = location;
-
 		this.disease = new ArrayList<Disease>();
-
+	}
+	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public List<Disease> getDisease() {
-
 		return disease;
-
 	}
 
 	public void addDisease(Disease disease) {
@@ -59,105 +56,61 @@ public class BodyPart implements Serializable {
 	}
 
 	public void removeDisease(Disease disease) {
-
 		this.disease.remove(disease);
-
 	}
 
 	public void setDisease(List<Disease> disease) {
-
 		this.disease = disease;
-
-	}
-
-	public static long getSerialversionuid() {
-
-		return serialVersionUID;
-
 	}
 
 	public int getID() {
-
 		return ID;
-
 	}
 
 	public void setID(int ID) {
-
 		this.ID = ID;
-
 	}
 
 	public String getName() {
-
 		return name;
-
 	}
 
 	public void setName(String name) {
-
 		this.name = name;
-
 	}
 
 	public String getLocation() {
-
 		return location;
-
 	}
 
 	public void setLocation(String location) {
-
 		this.location = location;
-
 	}
 
 	@Override
-
 	public int hashCode() {
-
 		final int prime = 31;
-
 		int result = 1;
-
 		result = prime * result + ID;
-
 		return result;
-
 	}
 
 	@Override
-
 	public boolean equals(Object obj) {
-
 		if (this == obj)
-
 			return true;
-
 		if (obj == null)
-
 			return false;
-
 		if (getClass() != obj.getClass())
-
 			return false;
-
 		BodyPart other = (BodyPart) obj;
-
 		if (ID != other.ID)
-
 			return false;
-
 		return true;
-
 	}
 
 	@Override
-
 	public String toString() {
-
-		return "[ID=" + ID + ", name=" + name + ", location=" + location + "]";
-
+		return "[ID = " + ID + ", name = " + name + ", location = " + location + "]";
 	}
-
 }
