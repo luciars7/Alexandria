@@ -156,7 +156,7 @@ public class XmlManager {
 	}
 	
 	// UNMARSHALLERS --------------------------------------------------------------------------------------
-	public void unmarshalToJava(String fileName) {
+	public void unmarshalToJavaAuthor(String fileName) {
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(Author.class);
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
@@ -165,6 +165,104 @@ public class XmlManager {
 			// Printout
 			System.out.println("\nUnmarshalling complete.\nThe recovered author looks like this:\n");
 			System.out.println(autor);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void unmarshalToJavaBodyPart(String fileName) {
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(BodyPart.class);
+			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+			File XMLfile = new File(fileName);
+			BodyPart bp =(BodyPart) unmarshaller.unmarshal(XMLfile);
+			// Printout
+			System.out.println("\nUnmarshalling complete.\nThe recovered author looks like this:\n");
+			System.out.println(bp);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void unmarshalToJavaDevice(String fileName) {
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(Device.class);
+			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+			File XMLfile = new File(fileName);
+			Device d =(Device) unmarshaller.unmarshal(XMLfile);
+			// Printout
+			System.out.println("\nUnmarshalling complete.\nThe recovered author looks like this:\n");
+			System.out.println(d);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void unmarshalToJavaDisease(String fileName) {
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(Disease.class);
+			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+			File XMLfile = new File(fileName);
+			Disease d =(Disease) unmarshaller.unmarshal(XMLfile);
+			// Printout
+			System.out.println("\nUnmarshalling complete.\nThe recovered author looks like this:\n");
+			System.out.println(d);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void unmarshalToJavaImage(String fileName) {
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(Image.class);
+			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+			File XMLfile = new File(fileName);
+			Image i =(Image) unmarshaller.unmarshal(XMLfile);
+			// Printout
+			System.out.println("\nUnmarshalling complete.\nThe recovered author looks like this:\n");
+			System.out.println(i);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void unmarshalToJavaPaper(String fileName) {
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(Paper.class);
+			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+			File XMLfile = new File(fileName);
+			Paper p =(Paper) unmarshaller.unmarshal(XMLfile);
+			// Printout
+			System.out.println("\nUnmarshalling complete.\nThe recovered author looks like this:\n");
+			System.out.println(p);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void unmarshalToJavaProcedure(String fileName) {
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(Procedure.class);
+			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+			File XMLfile = new File(fileName);
+			Procedure p =(Procedure) unmarshaller.unmarshal(XMLfile);
+			// Printout
+			System.out.println("\nUnmarshalling complete.\nThe recovered author looks like this:\n");
+			System.out.println(p);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void unmarshalToJavaSymptom(String fileName) {
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(Symptom.class);
+			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+			File XMLfile = new File(fileName);
+			Symptom s =(Symptom) unmarshaller.unmarshal(XMLfile);
+			// Printout
+			System.out.println("\nUnmarshalling complete.\nThe recovered author looks like this:\n");
+			System.out.println(s);
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}

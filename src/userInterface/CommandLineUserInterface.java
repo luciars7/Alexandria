@@ -86,7 +86,7 @@ public class CommandLineUserInterface {
 		}
 		case 6: {
 			// convertJava(dbManager);
-			convertJava();
+			convertJAVA();
 			break;
 		}
 		case 99: {
@@ -2175,7 +2175,6 @@ public class CommandLineUserInterface {
 			break;
 		}
 		}
-
 	}
 
 	private static void convertXMLAuthor() {
@@ -2361,19 +2360,66 @@ public class CommandLineUserInterface {
 
 		xmlm.marshalToXMLSymptom(s, fileName);
 	}
-
-	private static void convertJava() {
-		/*List<Author> authors = dbManager.selectAuthor("all");
-		for (Author a : authors) {
-			System.out.println(a.getID() + ": " + a.getName());
-		}
-		String aut = "";
-		System.out.print("Choose an author to turn into an Java file:");
+	
+	private static void convertJAVA() {
+		System.out.print("\nPlease, select the item you want to convert: ");
+		System.out.println("\n1.) Author");
+		System.out.println("2.) Body part");
+		System.out.println("3.) Device");
+		System.out.println("4.) Disease or pathology");
+		System.out.println("5.) Image");
+		System.out.println("6.) Paper or article");
+		System.out.println("7.) Procedure or treatment");
+		System.out.println("8.) Symptom");
+		System.out.println("9.) Return to the main menu...");
+		System.out.print("\nOption: ");
 		try {
-			aut = console.readLine();
+			read = console.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}*/
+		}
+		Integer option = Integer.parseInt(read);
+		switch (option) {
+		case 1: {
+			convertJavaAuthor();
+			break;
+		}
+		case 2: {
+			convertJavaBodyPart();
+			break;
+		}
+		case 3: {
+			convertJavaDevice();
+			break;
+		}
+		case 4: {
+			convertJavaDisease();
+			break;
+		}
+		case 5: {
+			convertJavaImage();
+			break;
+		}
+		case 6: {
+			convertJavaPaper();
+			break;
+		}
+		case 7: {
+			convertJavaProcedure();
+			break;
+		}
+		case 8: {
+			convertJavaSymptom();
+			break;
+		}
+		case 9: {
+			break;
+		}
+		}
+
+	}
+
+	private static void convertJavaAuthor() {
 		String fileName = "";
 		System.out.print("Write the path of the XML file: ");
 		try {
@@ -2382,7 +2428,90 @@ public class CommandLineUserInterface {
 			ex.printStackTrace();
 		}
 		XmlManager xmlm = new XmlManager(dbManager);
-		xmlm.unmarshalToJava(fileName);
+		xmlm.unmarshalToJavaAuthor(fileName);
 	}
-
+	
+	private static void convertJavaBodyPart() {
+		String fileName = "";
+		System.out.print("Write the path of the XML file: ");
+		try {
+			fileName = console.readLine();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		XmlManager xmlm = new XmlManager(dbManager);
+		xmlm.unmarshalToJavaBodyPart(fileName);
+	}
+	
+	private static void convertJavaDevice() {
+		String fileName = "";
+		System.out.print("Write the path of the XML file: ");
+		try {
+			fileName = console.readLine();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		XmlManager xmlm = new XmlManager(dbManager);
+		xmlm.unmarshalToJavaDevice(fileName);
+	}
+	
+	private static void convertJavaDisease() {
+		String fileName = "";
+		System.out.print("Write the path of the XML file: ");
+		try {
+			fileName = console.readLine();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		XmlManager xmlm = new XmlManager(dbManager);
+		xmlm.unmarshalToJavaDisease(fileName);
+	}
+	
+	private static void convertJavaImage() {
+		String fileName = "";
+		System.out.print("Write the path of the XML file: ");
+		try {
+			fileName = console.readLine();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		XmlManager xmlm = new XmlManager(dbManager);
+		xmlm.unmarshalToJavaImage(fileName);
+	}
+	
+	private static void convertJavaPaper() {
+		String fileName = "";
+		System.out.print("Write the path of the XML file: ");
+		try {
+			fileName = console.readLine();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		XmlManager xmlm = new XmlManager(dbManager);
+		xmlm.unmarshalToJavaPaper(fileName);
+	}
+	
+	private static void convertJavaProcedure() {
+		String fileName = "";
+		System.out.print("Write the path of the XML file: ");
+		try {
+			fileName = console.readLine();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		XmlManager xmlm = new XmlManager(dbManager);
+		xmlm.unmarshalToJavaProcedure(fileName);
+	}
+	
+	private static void convertJavaSymptom() {
+		String fileName = "";
+		System.out.print("Write the path of the XML file: ");
+		try {
+			fileName = console.readLine();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		XmlManager xmlm = new XmlManager(dbManager);
+		xmlm.unmarshalToJavaSymptom(fileName);
+	}
 }
