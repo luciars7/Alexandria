@@ -29,7 +29,7 @@ import pojos.Image;
 import pojos.Paper;
 import pojos.Procedure;
 import pojos.Symptom;
-import xml.XmlManager;
+import xmls.XmlManager;
 
 import javax.swing.JTable;
 import javax.swing.JTextField;

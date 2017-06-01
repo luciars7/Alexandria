@@ -1,4 +1,4 @@
-package xml;
+package xmls;
 
 import jdbc.*;
 import java.io.File;

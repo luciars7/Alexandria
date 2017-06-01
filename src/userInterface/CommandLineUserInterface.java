@@ -8,7 +8,7 @@ import javax.persistence.Query;
 import jdbc.DBManager;
 import jpa.JpaManager;
 import pojos.*;
-import xml.XmlManager;
+import xmls.XmlManager;
 
 //Sustituir en OSWD.
 public class CommandLineUserInterface {

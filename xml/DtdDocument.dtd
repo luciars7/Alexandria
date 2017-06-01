@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Alexandria [
+	<!ELEMENT Alexandria (Paper)*>
+	<!ELEMENT Paper (Title, Source, Authors, Diseases?, Devices?, Procedures?, Images?)>
+	<!ATTLIST Paper id CDATA #REQUIRED>
+	<!ELEMENT Title (#PCDATA)>
+	<!ELEMENT Source (#PCDATA)>
+	<!ELEMENT Authors (Author+)>
+	<!ELEMENT Author>
+	<!ATTLIST Author id CDATA #REQUIRED
+				     name CDATA #IMPLIED>
+	<!ELEMENT Diseases (Disease+)>
+	<!ELEMENT Disease>
+	<!ATTLIST Disease id CDATA #REQUIRED
+				      name CDATA #REQUIRED>
+	<!ELEMENT Devices (Device+)>
+	<!ELEMENT Device>
+	<!ATTLIST Device id CDATA #REQUIRED
+				      name CDATA #REQUIRED>
+	<!ELEMENT Procedures (Procedure+)>
+	<!ELEMENT Procedure>
+	<!ATTLIST Procedure id CDATA #REQUIRED
+				      name CDATA #REQUIRED>
+	<!ELEMENT Images (Image+)>
+	<!ELEMENT Image>
+	<!ATTLIST Image id CDATA #REQUIRED>
+]>

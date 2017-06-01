@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Alexandria>
+	<Paper id = "001">
+		<Title> The mystery of ELA </Title>
+		<Source> Science Today </Source>
+		<Author id = "001" name = "Paco Ramirez" />
+		<Disease id = "002" name = "ELA" />
+	</Paper>
+	<Paper id = "002">
+		<Title> New surgical prosthetic limbs </Title>
+		<Source> Science Mag </Source>
+		<Author id = "001" name = "Matthew Hutson" />
+		<Device id = "001" name = "Prosthetic limb" />
+		<Image id = "014"/>
+	</Paper>
+	<Paper id = "003">
+		<Title> Titanium Ribs </Title>
+		<Source> PMC </Source>
+		<Author id = "007" name = "Isabel Simal" />
+		<Device id = "014" name = "Titanium ribs" />
+		<Procedure id = "002" name = "Artificial limbs implant" />
+	</Paper>
+	<Paper id = "004">
+		<Title> Leukemia </Title>
+		<Source> Medical News Today </Source>
+		<Author id = "019" name = "Chrsitian Nordqvist" />
+		<Disease id = "020" name = "Leukemia" />
+		<Device id = "004" name = "X-RaysMac"/>
+		<Procedure id = "023" name = "Radiation therapy"/>
+		<Image id = "073" />
+	</Paper>
+	<Paper id = "005">
+		<Title> First-Try Pneumonia Antibiotics </Title>
+		<Source> St. Louis Post-Dispatch </Source>
+		<Author id = "" name = "Dr. James McKinnell" />
+		<Disease id = "003" name = "Pneumonia" />
+	</Paper>
+</Alexandria>

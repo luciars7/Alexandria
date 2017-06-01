@@ -1,4 +1,4 @@
-package xml;
+package xmls;
 
 import java.io.File;
 
@@ -7,7 +7,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-public class Xml2HtmlReport {
+public class Xml2HtmlPaper {
 	
 	/**
 	 * Simple transformation method. You can use it in your project.
@@ -15,7 +15,7 @@ public class Xml2HtmlReport {
 	 * @param xsltPath - Absolute path to xslt file.
 	 * @param resultDir - Directory where you want to put resulting files.
 	 */
-	public static void simpleTransform(String sourcePath, String xsltPath,String resultDir) {
+	public static void simpleTransform(String sourcePath, String xsltPath, String resultDir) {
 		TransformerFactory tFactory = TransformerFactory.newInstance();
 		try {
 			Transformer transformer = tFactory.newTransformer(new StreamSource(new File(xsltPath)));
@@ -26,7 +26,6 @@ public class Xml2HtmlReport {
 	}
 
 	public static void main(String[] args) {
-		simpleTransform("./xmls/External-Report.xml", "./xmls/Report-Style.xslt", "./xmls/External-Report.html");
-
+		simpleTransform("./xml/XmlDocument.xml", "./xml/PaperStyle.xslt", "./xml/htmlPaper.html");
 	}
 }
