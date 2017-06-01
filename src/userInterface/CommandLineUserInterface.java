@@ -1611,7 +1611,7 @@ public class CommandLineUserInterface {
 
 				if (listBP == null) {
 
-					System.out.println("Error searching for the symptoms.");
+					System.out.println("Error searching for the body parts.");
 
 				} else {
 
@@ -1649,7 +1649,7 @@ public class CommandLineUserInterface {
 
 			if (listI.size() == 0) {
 
-				System.out.println("Error searching for the symptoms.");
+				System.out.println("Error searching for the images.");
 
 			} else {
 
