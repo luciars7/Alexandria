@@ -1997,6 +1997,10 @@ public class GraphicUserInterface extends JFrame {
 
 	private static void deleteAuthor() {
 		int row = mainTable.getSelectedRow();
+		if(row == -1){
+			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
+			return;
+		}
 		int id = (Integer) mainTable.getValueAt(row, 0);
 		dbManager.deleteAuthor(id);
 		paintAuthors();
@@ -2004,6 +2008,10 @@ public class GraphicUserInterface extends JFrame {
 
 	private static void deleteBodyPart() {
 		int row = mainTable.getSelectedRow();
+		if(row == -1){
+			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
+			return;
+		}
 		int id = (Integer) mainTable.getValueAt(row, 0);
 		dbManager.deleteBodyPart(id);
 		paintBodyParts();
@@ -2011,6 +2019,10 @@ public class GraphicUserInterface extends JFrame {
 
 	private static void deleteDevice() {
 		int row = mainTable.getSelectedRow();
+		if(row == -1){
+			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
+			return;
+		}
 		int id = (Integer) mainTable.getValueAt(row, 0);
 		dbManager.deleteDevice(id);
 		paintDevices();
@@ -2018,6 +2030,10 @@ public class GraphicUserInterface extends JFrame {
 
 	private static void deleteDisease() {
 		int row = mainTable.getSelectedRow();
+		if(row == -1){
+			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
+			return;
+		}
 		int id = (Integer) mainTable.getValueAt(row, 0);
 		dbManager.deleteDisease(id);
 		paintDiseases();
@@ -2025,6 +2041,10 @@ public class GraphicUserInterface extends JFrame {
 
 	private static void deleteImage() {
 		int row = mainTable.getSelectedRow();
+		if(row == -1){
+			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
+			return;
+		}
 		int id = (Integer) mainTable.getValueAt(row, 0);
 		dbManager.deleteImage(id);
 		paintImages();
@@ -2032,6 +2052,9 @@ public class GraphicUserInterface extends JFrame {
 
 	private static void deletePaper() {
 		int row = mainTable.getSelectedRow();
+		if(row == -1){
+			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
+		return;}
 		int id = (Integer) mainTable.getValueAt(row, 0);
 		dbManager.deletePaper(id);
 		paintPapers();
@@ -2039,6 +2062,9 @@ public class GraphicUserInterface extends JFrame {
 
 	private static void deleteProcedure() {
 		int row = mainTable.getSelectedRow();
+		if(row == -1){
+			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
+		return;}
 		int id = (Integer) mainTable.getValueAt(row, 0);
 		dbManager.deleteProcedure(id);
 		paintProcedures();
@@ -2046,192 +2072,32 @@ public class GraphicUserInterface extends JFrame {
 
 	private static void deleteSymptom() {
 		int row = mainTable.getSelectedRow();
+		if(row == -1){
+			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
+		return;}
 		int id = (Integer) mainTable.getValueAt(row, 0);
 		dbManager.deleteSymptom(id);
 		paintSymptoms();
 	}
 
 	private static void modifyAuthor() {
-		try {
-			ArrayList<Author> list = dbManager.selectAuthor("all");
-			if (list == null) {
-				System.out.println("Error searching for the authors.");
-			} else {
-				for (Author author : list) {
-					System.out.println(author);
-				}
-				showAuthor("all");
-				System.out.println("Which is the author that you want to modify?" + "\nWrite its ID number:");
-				String read = console.readLine();
-				Integer authorId = Integer.parseInt(read);
-				System.out.println("Write the new author's association:");
-				String newAssociation = console.readLine();
-				dbManager.updateAuthor(authorId, newAssociation);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
 	}
 
 	private static void modifyDevice() {
 
-		try {
-
-			ArrayList<Device> list = dbManager.selectDevice("all");
-
-			if (list.size() == 0) {
-
-				System.out.println("Error searching for the devices.");
-
-			} else {
-
-				for (Device device : list) {
-
-					System.out.println(device);
-
-				}
-
-				System.out.println("Which is the device that you want to modify?" + "\nWrite its ID number:");
-
-				String read = console.readLine();
-
-				Integer deviceId = Integer.parseInt(read);
-
-				System.out.println("Write the new devices's price:");
-
-				read = console.readLine();
-
-				Float newPrice = Float.parseFloat(read);
-
-				System.out.println("Write the new device's brand name:");
-
-				String newBrand = console.readLine();
-
-				dbManager.updateDevice(deviceId, newPrice, newBrand);
-
-			}
-
-		} catch (IOException e) {
-
-			e.printStackTrace();
-
-		}
-
 	}
 
 	private static void modifyDisease() {
-		try {
-			ArrayList<Disease> listD = dbManager.selectDisease("all");
-
-			if (listD.size() == 0) {
-
-				System.out.println("Error searching for the diseases.");
-
-			} else {
-
-				for (Disease disease : listD) {
-
-					System.out.println(disease);
-
-				}
-
-				System.out.println("Which is the disease that you want to modify?" + "\nWrite its ID number:");
-
-				String read = console.readLine();
-
-				Integer diseaseId = Integer.parseInt(read);
-
-				System.out.println("Write the new disease's procedure:");
-
-				String newProcedure = console.readLine();
-
-				System.out.println("Write the new disease's body part:");
-
-				ArrayList<BodyPart> listBP = dbManager.selectBodyPart("all");
-
-				if (listBP == null) {
-
-					System.out.println("Error searching for the symptoms.");
-
-				} else {
-
-					for (BodyPart bodypart : listBP) {
-
-						System.out.println(bodypart);
-
-					}
-
-					System.out.println("Which is the body part related to this disease?" + "\nWrite its ID number:");
-
-					read = console.readLine();
-
-					Integer newBodyPart = Integer.parseInt(read);
-
-					dbManager.updateDisease(diseaseId, newProcedure, newBodyPart);
-
-				}
-
-			}
-
-		} catch (IOException e) {
-
-			e.printStackTrace();
-
-		}
 
 	}
 
 	private static void modifyImage() {
 
-		try {
-
-			ArrayList<Image> listI = dbManager.selectImage("all");
-
-			if (listI.size() == 0) {
-
-				System.out.println("Error searching for the symptoms.");
-
-			} else {
-
-				for (Image image : listI) {
-
-					System.out.println(image);
-
-				}
-				System.out.println("Which is the image that you want to modify?" + "\nWrite its ID number:");
-				String read = console.readLine();
-				Integer imageId = Integer.parseInt(read);
-				System.out.println("Write the new image's description:");
-				String newDescription = console.readLine();
-				System.out.println("Write the new disease's paper:");
-				ArrayList<Paper> listP = dbManager.selectPaper("all");
-				System.out.println("Which is the paper related to this disease?" + "\nWrite its ID number:");
-				read = console.readLine();
-				Integer newPaper = Integer.parseInt(read);
-				dbManager.updateImage(imageId, newDescription, newPaper);
-			}
-
-		} catch (IOException e) {
-
-			e.printStackTrace();
-
-		}
-
 	}
 
 	private static void modifyProcedure() {
-		try {
-			showProcedure("all");
-			System.out.println("\nWhich is the procedure that you want to modify?" + "\nWrite its ID number:");
-			read = console.readLine();
-			Integer procedureId = Integer.parseInt(read);
-			System.out.println("Write the new procedure's description:");
-			String newDescription = console.readLine();
-			jpaManager.updateProcedureJPA(procedureId, newDescription);
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+		
 
 	}
 
