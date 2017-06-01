@@ -2,6 +2,8 @@ package pojos;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 
@@ -14,16 +16,23 @@ public class Device implements Serializable {
 	@Id
 	@GeneratedValue(generator = "device")
 	@TableGenerator(name = "device", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "device")
+	@XmlAttribute
 	private int ID;
+	@XmlAttribute
 	private String name;
+	@XmlTransient
 	private String type;
+	@XmlTransient
 	private float price;
+	@XmlTransient
 	private String brand;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "procedure")
+	@XmlTransient
 	private Procedure procedure;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "paper")
+	@XmlTransient
 	private Paper paper;
 	
 	public Device() {

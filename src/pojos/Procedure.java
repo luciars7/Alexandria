@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 
@@ -21,16 +23,20 @@ public class Procedure implements Serializable {
 	@GeneratedValue(generator = "procedure")
 
 	@TableGenerator(name = "procedure", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "procedure")
-
+	@XmlAttribute
 	private int ID;
+	@XmlAttribute
 	private String name;
+	@XmlTransient
 	private String description;
 	@ManyToMany(mappedBy = "procedure")
 	private List<Disease> disease;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "paper")
+	@XmlTransient
 	private Paper paper;
 	@OneToMany(mappedBy = "procedure")
+	@XmlTransient
 	private List<Device> device;
 	
 	public Procedure() {

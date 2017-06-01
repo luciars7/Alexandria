@@ -2,14 +2,24 @@ package pojos;
 
 import java.io.Serializable;
 
+
 import java.util.ArrayList;
 
 import java.util.List;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "author")
+@XmlType(propOrder={"ID","name","origin","association","paper"})
 @Entity
-
 @Table(name = "paper")
 
 public class Paper implements Serializable {
@@ -17,18 +27,26 @@ public class Paper implements Serializable {
 	@Id
 	@GeneratedValue(generator = "paper")
 	@TableGenerator(name = "paper", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "paper")
+	@XmlAttribute
 	private int ID;
+	@XmlElement
 	private String title;
+	@XmlElement
 	private String source;
 	@ManyToMany(mappedBy = "paper")
+	@XmlElement
 	private List<Author> author;
 	@ManyToMany(mappedBy = "paper")
+	@XmlElement
 	private List<Disease> disease;
 	@OneToMany(mappedBy = "paper")
+	@XmlElement
 	private List<Device> device;
 	@OneToMany(mappedBy = "paper")
+	@XmlElement
 	private List<Procedure> procedure;
 	@OneToMany(mappedBy = "paper")
+	@XmlElement
 	private List<Image> image;
 	
 	public Paper() {

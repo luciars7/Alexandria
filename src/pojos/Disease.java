@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 
@@ -19,31 +21,39 @@ public class Disease implements Serializable {
 	@Id
 	@GeneratedValue(generator = "disease")
 	@TableGenerator(name = "disease", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "disease")
+	@XmlAttribute
 	private int ID;
+	@XmlAttribute
 	private String name;
+	@XmlTransient
 	private String description;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "bodypart")
+	@XmlTransient
 	private BodyPart bodypart;
 	@ManyToMany
 	@JoinTable(name = "symptomdisease", joinColumns = {
 			@JoinColumn(name = "symptom", referencedColumnName = "ID") }, inverseJoinColumns = {
 					@JoinColumn(name = "disease", referencedColumnName = "ID") })
+	@XmlTransient
 	private List<Symptom> symptom;
 	@ManyToMany
 	@JoinTable(name = "paperdisease", joinColumns = {
 			@JoinColumn(name = "paper", referencedColumnName = "ID") }, inverseJoinColumns = {
 					@JoinColumn(name = "disease", referencedColumnName = "ID") })
+	@XmlTransient
 	private List<Paper> paper;
 	@ManyToMany
 	@JoinTable(name = "imagedisease", joinColumns = {
 			@JoinColumn(name = "image", referencedColumnName = "ID") }, inverseJoinColumns = {
 					@JoinColumn(name = "disease", referencedColumnName = "ID") })
+	@XmlTransient
 	private List<Image> image;
 	@ManyToMany
 	@JoinTable(name = "proceduredisease", joinColumns = {
 			@JoinColumn(name = "procedure", referencedColumnName = "ID") }, inverseJoinColumns = {
 					@JoinColumn(name = "disease", referencedColumnName = "ID") })
+	@XmlTransient
 	private List<Procedure> procedure;
 
 	public Disease() {
