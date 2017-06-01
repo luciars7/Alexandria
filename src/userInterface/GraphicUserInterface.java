@@ -34,6 +34,7 @@ import xmls.XmlManager;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.JScrollPane;
 import javax.swing.JRadioButton;
 import javax.swing.AbstractButton;
@@ -47,9 +48,11 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.awt.image.ImageFilter;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.border.BevelBorder;
 
 public class GraphicUserInterface extends JFrame {
@@ -58,6 +61,7 @@ public class GraphicUserInterface extends JFrame {
 	static JpaManager jpaManager = null;
 	static BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
 	static String read = null;
+	static File file;
 
 	private static JPanel contentPane;
 	private static ButtonGroup buttonGroupPojos = new ButtonGroup();
@@ -72,7 +76,6 @@ public class GraphicUserInterface extends JFrame {
 				try {
 					GraphicUserInterface frame = new GraphicUserInterface();
 					paintAuthors();
-					// buttonGroupPojos.add(buttonAuthors);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -232,6 +235,30 @@ public class GraphicUserInterface extends JFrame {
 					addBodyPart();
 					break;
 				}
+				case "Devices": {
+					addDevice();
+					break;
+				}
+				case "Diseases": {
+					addDisease();
+					break;
+				}
+				case "Images": {
+					addImage();
+					break;
+				}
+				case "Papers": {
+					addPaper();
+					break;
+				}
+				case "Procedures": {
+					addProcedure();
+					break;
+				}
+				case "Symptoms": {
+					addSymptom();
+					break;
+				}
 				}
 
 			}
@@ -244,13 +271,53 @@ public class GraphicUserInterface extends JFrame {
 		panel_1.add(modifyElementButton);
 
 		JButton deleteElementButton = new JButton("Delete element");
+		deleteElementButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+					String selectedButton = getSelectedButtonText();
+					switch (selectedButton) {
+					case "Authors": {
+						deleteAuthor();
+						break;
+					}
+					case "Body parts": {
+						deleteBodyPart();
+						break;
+					}
+					case "Devices": {
+						deleteDevice();
+						break;
+					}
+					case "Diseases": {
+						deleteDisease();
+						break;
+					}
+					case "Images": {
+						deleteImage();
+						break;
+					}
+					case "Papers": {
+						deletePaper();
+						break;
+					}
+					case "Procedures": {
+						deleteProcedure();
+						break;
+					}
+					case "Symptoms": {
+						deleteSymptom();
+						break;
+					}
+					}
+			}
+		});
 		deleteElementButton.setBounds(336, 11, 145, 23);
 		panel_1.add(deleteElementButton);
 		modifyElementButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
+
+	public void actionPerformed(ActionEvent arg0) {
 	}
+
+	});}
 
 	public String getSelectedButtonText() {
 		for (Enumeration<AbstractButton> buttons = buttonGroupPojos.getElements(); buttons.hasMoreElements();) {
@@ -376,7 +443,6 @@ public class GraphicUserInterface extends JFrame {
 			tableModel.addRow(row);
 		}
 		mainTable.repaint();
-
 	}
 
 	public static void paintProcedures() {
@@ -435,163 +501,6 @@ public class GraphicUserInterface extends JFrame {
 		}
 	}
 
-	private static void newEntity() {
-		System.out.print("\nPlease, select the type of item you want to create: ");
-		System.out.println("\n1.) Author");
-		System.out.println("2.) Body part");
-		System.out.println("3.) Device");
-		System.out.println("4.) Disease or pathology");
-		System.out.println("5.) Image");
-		System.out.println("6.) Paper or article");
-		System.out.println("7.) Procedure or treatment");
-		System.out.println("8.) Symptom");
-		System.out.println("9.) Return to the main menu...");
-		System.out.print("\nOption: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		Integer option = Integer.parseInt(read);
-		switch (option) {
-		case 1: {
-			addAuthor();
-			break;
-		}
-		case 2: {
-			addBodyPart();
-			break;
-		}
-		case 3: {
-			addDevice();
-			break;
-		}
-		case 4: {
-			addDisease();
-			break;
-		}
-		case 5: {
-			addImage();
-			break;
-		}
-		case 6: {
-			addPaper();
-			break;
-		}
-		case 7: {
-			addProcedure();
-			break;
-		}
-		case 8: {
-			addSymptom();
-			break;
-		}
-		case 9: {
-			break;
-		}
-		}
-
-	}
-
-	public static void showEntity() {
-		System.out.print("\nPlease, select the type of item you want to view: ");
-		System.out.println("\n1.) Author");
-		System.out.println("2.) Body part");
-		System.out.println("3.) Device");
-		System.out.println("4.) Disease or pathology");
-		System.out.println("5.) Image");
-		System.out.println("6.) Paper or article");
-		System.out.println("7.) Procedure or treatment");
-		System.out.println("8.) Symptom");
-		System.out.println("9.) Return to the main menu...");
-		System.out.print("\nOption: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		Integer option = Integer.parseInt(read);
-		switch (option) {
-		case 1: {
-			System.out.println("Which author do you want to see?");
-			String name = askForName();
-			showAuthor(name);
-			if (!name.equalsIgnoreCase("all")) {
-				showRelatedToAuthor(name);
-			}
-			return;
-		}
-		case 2: {
-			System.out.println("Which body part do you want to see?");
-			String name = askForName();
-			showBodyPart(name);
-			if (!name.equalsIgnoreCase("all")) {
-				showRelatedToBodyPart(name);
-			}
-			return;
-		}
-		case 3: {
-			System.out.println("Which device do you want to see?");
-			String name = askForName();
-			showDevice(name);
-			if (!name.equalsIgnoreCase("all")) {
-				showRelatedToDevice(name);
-			}
-			return;
-		}
-		case 4: {
-			System.out.println("Which disease do you want to see?");
-			String name = askForName();
-			showDisease(name);
-			if (!name.equalsIgnoreCase("all")) {
-				showRelatedToDisease(name);
-			}
-			return;
-		}
-		case 5: {
-			System.out.println("Which image do you want to see?");
-			String name = askForName();
-			showImage(name);
-			if (!name.equalsIgnoreCase("all")) {
-				showRelatedToImage(name);
-			}
-			return;
-		}
-		case 6: {
-			System.out.println("Which paper do you want to see?");
-			String name = askForName();
-			showPaper(name);
-			if (!name.equalsIgnoreCase("all")) {
-				showRelatedToPaper(name);
-			}
-			return;
-		}
-		case 7: {
-			System.out.println("Which procedure do you want to see?");
-			String name = askForName();
-			showProcedure(name);
-			if (!name.equalsIgnoreCase("all")) {
-				showRelatedToProcedure(name);
-			}
-			return;
-		}
-		case 8: {
-			System.out.println("Which symptom do you want to see?");
-			String name = askForName();
-			showSymptom(name);
-			if (!name.equalsIgnoreCase("all")) {
-				showRelatedToSymptom(name);
-			}
-			return;
-		}
-		case 9: {
-			return;
-		}
-		}
-
-	}
-
 	public static String askForName() {
 
 		System.out.print("Please, provide a name or write «all» to view: ");
@@ -613,10 +522,6 @@ public class GraphicUserInterface extends JFrame {
 	}
 
 	public static void addAuthor() {
-		jFrameNewAuthor();
-	}
-
-	public static void jFrameNewAuthor() {
 		JPanel contentPane;
 		JTextField textFieldName;
 		JTextField textFieldOrigin;
@@ -726,13 +631,8 @@ public class GraphicUserInterface extends JFrame {
 				Author author = new Author(name, origin, association);
 				dbManager.insertIntoAuthor(author);
 				author = dbManager.selectAuthor(name).get(0);
-				/*
-				 * Paper paper = (Paper)list.getSelectedValue();
-				 * dbManager.insertpaperauthor(paper.getID(), author.getID());
-				 */
-				// ArrayList<Paper> paper = new ArrayList<Paper>();
 				int[] selected = list.getSelectedIndices();
-				for (int i: selected) {
+				for (int i : selected) {
 					Paper paper = (Paper) list.getModel().getElementAt(i);
 					dbManager.insertpaperauthor(paper.getID(), author.getID());
 				}
@@ -761,7 +661,18 @@ public class GraphicUserInterface extends JFrame {
 		contentPane.add(btnCancel, gbc_btnCancel);
 	}
 
-	public static void jFrameNewBodyPart() {
+	public static void showAuthor(String name) {
+		ArrayList<Author> list = dbManager.selectAuthor(name);
+		if (list == null) {
+			System.out.println("Error searching for the author(s).");
+		} else {
+			for (Author author : list) {
+				System.out.println(author);
+			}
+		}
+	}
+
+	public static void addBodyPart() {
 		JFrame frame = new JFrame();
 		frame.setVisible(true);
 		JPanel contentPane;
@@ -818,7 +729,7 @@ public class GraphicUserInterface extends JFrame {
 		gbc_textFieldLocation.gridy = 1;
 		contentPane.add(textFieldLocation, gbc_textFieldLocation);
 		textFieldLocation.setColumns(10);
-		
+
 		lblRelatedElemts = new JLabel("Related elements");
 		GridBagConstraints gbc_lblRelatedElemts = new GridBagConstraints();
 		gbc_lblRelatedElemts.insets = new Insets(0, 0, 5, 5);
@@ -832,7 +743,7 @@ public class GraphicUserInterface extends JFrame {
 		gbc_lblDiseases.gridx = 0;
 		gbc_lblDiseases.gridy = 5;
 		contentPane.add(lblDiseases, gbc_lblDiseases);
-		
+
 		ArrayList<Disease> diseases = dbManager.selectDisease("all");
 		listDiseases = new JList(diseases.toArray());
 		listDiseases.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -882,296 +793,425 @@ public class GraphicUserInterface extends JFrame {
 		contentPane.add(btnCancel, gbc_btnCancel);
 	}
 
-	public static void showAuthor(String name) {
-		ArrayList<Author> list = dbManager.selectAuthor(name);
-		if (list == null) {
-			System.out.println("Error searching for the author(s).");
-		} else {
-			for (Author author : list) {
-				System.out.println(author);
-			}
-		}
-	}
-
-	public static void addBodyPart() {
-		jFrameNewBodyPart();
-	}
-
-	public static void showBodyPart(String name) {
-		ArrayList<BodyPart> list = dbManager.selectBodyPart(name);
-		if (list == null) {
-			System.out.println("Error searching for the body part(s).");
-		} else {
-			for (BodyPart bodyPart : list) {
-				System.out.println(bodyPart);
-			}
-		}
-	}
-
 	public static void addDevice() {
-		System.out.print("Name: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String name = read;
-		System.out.print("Type: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String type = read;
-		System.out.print("Price: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		float price = Float.parseFloat(read);
-		System.out.print("Brand: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String brand = read;
-		Device device = new Device(name, type, price, brand);
-		dbManager.insertIntoDevice(device);
-		System.out.println("Device inserted correctly.");
-		device = dbManager.selectDevice(name).get(0);
+		JPanel contentPane;
+		JTextField textFieldName;
+		JTextField textFieldType;
+		JButton btnCancel;
+		JLabel lblPrice;
+		JTextField textFieldPrice;
+		JLabel lblBrand;
+		JTextField textFieldBrand;
+		JLabel lblRelatedElements;
+		JLabel lblProcedures;
+		JList listProcedures;
+		JLabel lblPapers;
+		JList listPapers;
+		JFrame frame = new JFrame();
+		frame.setVisible(true);
 
-		System.out.println("\nProceeding to show all available procedures...");
-		showProcedure("all");
-		System.out.println("Please, select the id of the procedures you want to relate this device with.");
-		System.out.println("Select 0 for none or to finish.");
-		System.out.print("Option: ");
-		ArrayList<Integer> id = new ArrayList<Integer>();
-		int opcion = 1;
-		while (opcion != 0) {
-			try {
-				read = console.readLine();
-				opcion = Integer.parseInt(read);
-				if (opcion != 0) {
-					id.add(opcion);
-				} else {
-					break;
+		frame.setTitle("New Device");
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		frame.setBounds(100, 100, 309, 430);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		frame.setContentPane(contentPane);
+		GridBagLayout gbl_contentPane = new GridBagLayout();
+		gbl_contentPane.columnWidths = new int[] { 0, 0, 0 };
+		gbl_contentPane.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_contentPane.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+		gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0,
+				0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		contentPane.setLayout(gbl_contentPane);
+
+		JLabel labelName = new JLabel("Name");
+		GridBagConstraints gbc_labelName = new GridBagConstraints();
+		gbc_labelName.insets = new Insets(0, 0, 5, 5);
+		gbc_labelName.anchor = GridBagConstraints.EAST;
+		gbc_labelName.gridx = 0;
+		gbc_labelName.gridy = 0;
+		contentPane.add(labelName, gbc_labelName);
+
+		textFieldName = new JTextField();
+		GridBagConstraints gbc_textFieldName = new GridBagConstraints();
+		gbc_textFieldName.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldName.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldName.gridx = 1;
+		gbc_textFieldName.gridy = 0;
+		contentPane.add(textFieldName, gbc_textFieldName);
+		textFieldName.setColumns(10);
+
+		JLabel labelType = new JLabel("Type");
+		GridBagConstraints gbc_labelType = new GridBagConstraints();
+		gbc_labelType.anchor = GridBagConstraints.EAST;
+		gbc_labelType.insets = new Insets(0, 0, 5, 5);
+		gbc_labelType.gridx = 0;
+		gbc_labelType.gridy = 1;
+		contentPane.add(labelType, gbc_labelType);
+
+		textFieldType = new JTextField();
+		GridBagConstraints gbc_textFieldType = new GridBagConstraints();
+		gbc_textFieldType.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldType.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldType.gridx = 1;
+		gbc_textFieldType.gridy = 1;
+		contentPane.add(textFieldType, gbc_textFieldType);
+		textFieldType.setColumns(10);
+
+		lblPrice = new JLabel("Price");
+		GridBagConstraints gbc_lblPrice = new GridBagConstraints();
+		gbc_lblPrice.anchor = GridBagConstraints.EAST;
+		gbc_lblPrice.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPrice.gridx = 0;
+		gbc_lblPrice.gridy = 2;
+		contentPane.add(lblPrice, gbc_lblPrice);
+
+		textFieldPrice = new JTextField();
+		GridBagConstraints gbc_textFieldPrice = new GridBagConstraints();
+		gbc_textFieldPrice.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldPrice.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldPrice.gridx = 1;
+		gbc_textFieldPrice.gridy = 2;
+		contentPane.add(textFieldPrice, gbc_textFieldPrice);
+		textFieldPrice.setColumns(10);
+
+		lblBrand = new JLabel("Brand");
+		GridBagConstraints gbc_lblBrand = new GridBagConstraints();
+		gbc_lblBrand.anchor = GridBagConstraints.EAST;
+		gbc_lblBrand.insets = new Insets(0, 0, 5, 5);
+		gbc_lblBrand.gridx = 0;
+		gbc_lblBrand.gridy = 3;
+		contentPane.add(lblBrand, gbc_lblBrand);
+
+		textFieldBrand = new JTextField();
+		GridBagConstraints gbc_textFieldBrand = new GridBagConstraints();
+		gbc_textFieldBrand.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldBrand.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldBrand.gridx = 1;
+		gbc_textFieldBrand.gridy = 3;
+		contentPane.add(textFieldBrand, gbc_textFieldBrand);
+		textFieldBrand.setColumns(10);
+
+		lblRelatedElements = new JLabel("Related elements");
+		GridBagConstraints gbc_lblRelatedElements = new GridBagConstraints();
+		gbc_lblRelatedElements.insets = new Insets(0, 0, 5, 5);
+		gbc_lblRelatedElements.gridx = 0;
+		gbc_lblRelatedElements.gridy = 6;
+		contentPane.add(lblRelatedElements, gbc_lblRelatedElements);
+
+		lblProcedures = new JLabel("Procedures");
+		GridBagConstraints gbc_lblProcedures = new GridBagConstraints();
+		gbc_lblProcedures.insets = new Insets(0, 0, 5, 5);
+		gbc_lblProcedures.gridx = 0;
+		gbc_lblProcedures.gridy = 7;
+		contentPane.add(lblProcedures, gbc_lblProcedures);
+
+		ArrayList<Procedure> procedure = dbManager.selectProcedure("all");
+		listProcedures = new JList(procedure.toArray());
+		listProcedures.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		GridBagConstraints gbc_listProcedures = new GridBagConstraints();
+		gbc_listProcedures.insets = new Insets(0, 0, 5, 0);
+		gbc_listProcedures.fill = GridBagConstraints.BOTH;
+		gbc_listProcedures.gridx = 1;
+		gbc_listProcedures.gridy = 7;
+		contentPane.add(listProcedures, gbc_listProcedures);
+
+		lblPapers = new JLabel("Papers");
+		GridBagConstraints gbc_lblPapers = new GridBagConstraints();
+		gbc_lblPapers.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPapers.gridx = 0;
+		gbc_lblPapers.gridy = 8;
+		contentPane.add(lblPapers, gbc_lblPapers);
+
+		ArrayList<Paper> papers = dbManager.selectPaper("all");
+		listPapers = new JList(papers.toArray());
+		listPapers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		GridBagConstraints gbc_listPapers = new GridBagConstraints();
+		gbc_listPapers.insets = new Insets(0, 0, 5, 0);
+		gbc_listPapers.fill = GridBagConstraints.BOTH;
+		gbc_listPapers.gridx = 1;
+		gbc_listPapers.gridy = 8;
+		contentPane.add(listPapers, gbc_listPapers);
+
+		JButton addButton = new JButton("Add");
+		addButton.setHorizontalAlignment(SwingConstants.LEFT);
+		addButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String name = textFieldName.getText();
+				String type = textFieldType.getText();
+				Float price = Float.parseFloat(textFieldPrice.getText());
+				String brand = textFieldBrand.getText();
+				Device device = new Device(name, type, price, brand);
+				dbManager.insertIntoDevice(device);
+				device = dbManager.selectDevice(name).get(0);
+				int[] selected = listProcedures.getSelectedIndices();
+				for (int i : selected) {
+					Procedure procedure = (Procedure) listProcedures.getModel().getElementAt(i);
+					device.setProcedure(procedure);
+					procedure.addDevice(device);
+					dbManager.updateDeviceWithProcedure(device.getID(), procedure.getID());
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		for (Integer id2 : id) {
-			Procedure procedure = dbManager.selectProcedure(id2);
-			device.setProcedure(procedure);
-			procedure.addDevice(device);
-			dbManager.updateDeviceWithProcedure(device.getID(), procedure.getID());
-		}
-
-		System.out.println("\nProceeding to show all available papers...");
-		showPaper("all");
-		System.out.println("Please, select the id of the papers you want to relate this device with.");
-		System.out.println("Select 0 for none or to finish.");
-		System.out.print("Option: ");
-		id = new ArrayList<Integer>();
-		int opcion2 = 1;
-		while (opcion2 != 0) {
-			try {
-				read = console.readLine();
-				opcion2 = Integer.parseInt(read);
-				if (opcion2 != 0) {
-					id.add(opcion2);
-				} else {
-					break;
+				selected = listPapers.getSelectedIndices();
+				for (int i : selected) {
+					Paper paper = (Paper) listPapers.getModel().getElementAt(i);
+					device.setPaper(paper);
+					paper.addDevice(device);
+					dbManager.updateDeviceWithPaper(device.getID(), paper.getID());
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
+				frame.setVisible(false);
+				frame.dispose();
+				paintDevices();
 			}
-		}
-		for (Integer id2 : id) {
-			Paper paper = dbManager.selectPaper(id2);
-			device.setPaper(paper);
-			paper.addDevice(device);
-			dbManager.updateDeviceWithPaper(device.getID(), paper.getID());
-		}
-	}
+		});
+		GridBagConstraints gbc_addButton = new GridBagConstraints();
+		gbc_addButton.insets = new Insets(0, 0, 5, 5);
+		gbc_addButton.gridx = 0;
+		gbc_addButton.gridy = 11;
+		contentPane.add(addButton, gbc_addButton);
 
-	public static void showDevice(String name) {
-		ArrayList<Device> list = dbManager.selectDevice(name);
-		if (list == null) {
-			System.out.println("Error searching for the device(s).");
-		} else {
-			for (Device device : list) {
-				System.out.println(device);
+		btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				frame.dispose();
 			}
-		}
+		});
+		GridBagConstraints gbc_btnCancel = new GridBagConstraints();
+		gbc_btnCancel.insets = new Insets(0, 0, 5, 5);
+		gbc_btnCancel.gridx = 0;
+		gbc_btnCancel.gridy = 12;
+		contentPane.add(btnCancel, gbc_btnCancel);
 	}
 
 	public static void addDisease() {
-		System.out.print("Name: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String name = read;
-		System.out.print("Description: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String description = read;
-		Disease disease = new Disease(name, description);
-		dbManager.insertIntoDisease(disease);
-		System.out.println("Disease inserted correctly.");
-		disease = dbManager.selectDisease(name).get(0);
+		JPanel contentPane;
+		JTextField textFieldName;
+		JTextField textFieldDescription;
+		JButton btnCancel;
+		JLabel lblRelatedElements;
+		JLabel lblBodyParts;
+		JList listBodyParts;
+		JLabel lblSymptoms;
+		JList listSymptoms;
+		JLabel lblProcedures;
+		JList listProcedures;
+		JLabel lblPapers;
+		JList listPapers;
+		JLabel lblImages;
+		JList listImages;
 
-		System.out.println("\nProceeding to show all available body parts...");
-		showBodyPart("all");
-		System.out.println("Please, select the id of the body parts you want to relate this disease with.");
-		System.out.println("Select 0 for none or to finish.");
-		System.out.print("Option: ");
-		ArrayList<Integer> id = new ArrayList<Integer>();
-		int opcion = 1;
-		while (opcion != 0) {
-			try {
-				read = console.readLine();
-				opcion = Integer.parseInt(read);
-				if (opcion != 0) {
-					id.add(opcion);
-				} else {
-					break;
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		for (Integer id2 : id) {
-			BodyPart bodyPart = dbManager.selectBodyPart(id2);
-			bodyPart.addDisease(disease);
-			disease.setBodyPart(bodyPart);
-			dbManager.updateDisease(disease.getID(), disease.getDescription(), bodyPart.getID());
-		}
-		System.out.println("\nProceeding to show all available symptoms...");
-		showSymptom("all");
-		System.out.println("Please, select the id of the symptoms you want to relate this disease with.");
-		System.out.println("Select 0 for none or to finish.");
-		System.out.print("Option: ");
-		id = new ArrayList<Integer>();
-		opcion = 1;
-		while (opcion != 0) {
-			try {
-				read = console.readLine();
-				opcion = Integer.parseInt(read);
-				if (opcion != 0) {
-					id.add(opcion);
-				} else {
-					break;
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		for (Integer id2 : id) {
-			Symptom symptom = dbManager.selectSymptom(id2);
-			symptom.addDisease(disease);
-			disease.addSymptom(symptom);
-			dbManager.insertsymptomdisease(symptom.getID(), disease.getID());
-		}
+		JFrame frame = new JFrame();
+		frame.setVisible(true);
 
-		System.out.println("\nProceeding to show all available papers...");
-		showPaper("all");
-		System.out.println("Please, select the id of the papers you want to relate this disease with.");
-		System.out.println("Select 0 for none or to finish.");
-		System.out.print("Option: ");
-		id = new ArrayList<Integer>();
-		opcion = 1;
-		while (opcion != 0) {
-			try {
-				read = console.readLine();
-				opcion = Integer.parseInt(read);
-				if (opcion != 0) {
-					id.add(opcion);
-				} else {
-					break;
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		for (Integer id2 : id) {
-			Paper paper = dbManager.selectPaper(id2);
-			paper.addDisease(disease);
-			disease.addPaper(paper);
-			dbManager.insertpaperdisease(paper.getID(), disease.getID());
-		}
+		frame.setTitle("New Disease");
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		frame.setBounds(100, 100, 309, 427);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		frame.setContentPane(contentPane);
+		GridBagLayout gbl_contentPane = new GridBagLayout();
+		gbl_contentPane.columnWidths = new int[] { 0, 0, 0 };
+		gbl_contentPane.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_contentPane.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+		gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0,
+				0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		contentPane.setLayout(gbl_contentPane);
 
-		System.out.println("\nProceeding to show all available images...");
-		showImage("all");
-		System.out.println("Please, select the id of the images you want to relate this disease with.");
-		System.out.println("Select 0 for none or to finish.");
-		System.out.print("Option: ");
-		id = new ArrayList<Integer>();
-		opcion = 1;
-		while (opcion != 0) {
-			try {
-				read = console.readLine();
-				opcion = Integer.parseInt(read);
-				if (opcion != 0) {
-					id.add(opcion);
-				} else {
-					break;
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		for (Integer id2 : id) {
-			Image image = dbManager.selectImage(id2);
-			image.addDisease(disease);
-			disease.addImage(image);
-			dbManager.insertimagedisease(image.getID(), disease.getID());
-		}
+		JLabel labelName = new JLabel("Name");
+		GridBagConstraints gbc_labelName = new GridBagConstraints();
+		gbc_labelName.insets = new Insets(0, 0, 5, 5);
+		gbc_labelName.anchor = GridBagConstraints.EAST;
+		gbc_labelName.gridx = 0;
+		gbc_labelName.gridy = 0;
+		contentPane.add(labelName, gbc_labelName);
 
-		System.out.println("\nProceeding to show all available procedures...");
-		showProcedure("all");
-		System.out.println("Please, select the id of the procedures you want to relate this disease with.");
-		System.out.println("Select 0 for none or to finish.");
-		System.out.print("Option: ");
-		id = new ArrayList<Integer>();
-		opcion = 1;
-		while (opcion != 0) {
-			try {
-				read = console.readLine();
-				opcion = Integer.parseInt(read);
-				if (opcion != 0) {
-					id.add(opcion);
-				} else {
-					break;
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		for (Integer id2 : id) {
-			Procedure procedure = dbManager.selectProcedure(id2);
-			disease.addProcedure(procedure);
-			procedure.addDisease(disease);
-			dbManager.insertproceduredisease(procedure.getID(), disease.getID());
-		}
-	}
+		textFieldName = new JTextField();
+		GridBagConstraints gbc_textFieldName = new GridBagConstraints();
+		gbc_textFieldName.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldName.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldName.gridx = 1;
+		gbc_textFieldName.gridy = 0;
+		contentPane.add(textFieldName, gbc_textFieldName);
+		textFieldName.setColumns(10);
 
-	public static void showDisease(String name) {
-		ArrayList<Disease> list = dbManager.selectDisease(name);
-		if (list == null) {
-			System.out.println("Error searching for the disease(s).");
-		} else {
-			for (Disease disease : list) {
-				System.out.println(disease);
+		JLabel labelDescription = new JLabel("Description");
+		GridBagConstraints gbc_labelDescription = new GridBagConstraints();
+		gbc_labelDescription.anchor = GridBagConstraints.EAST;
+		gbc_labelDescription.insets = new Insets(0, 0, 5, 5);
+		gbc_labelDescription.gridx = 0;
+		gbc_labelDescription.gridy = 1;
+		contentPane.add(labelDescription, gbc_labelDescription);
+
+		textFieldDescription = new JTextField();
+		GridBagConstraints gbc_textFieldDescription = new GridBagConstraints();
+		gbc_textFieldDescription.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldDescription.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldDescription.gridx = 1;
+		gbc_textFieldDescription.gridy = 1;
+		contentPane.add(textFieldDescription, gbc_textFieldDescription);
+		textFieldDescription.setColumns(10);
+
+		lblRelatedElements = new JLabel("Related elements");
+		GridBagConstraints gbc_lblRelatedElements = new GridBagConstraints();
+		gbc_lblRelatedElements.insets = new Insets(0, 0, 5, 5);
+		gbc_lblRelatedElements.gridx = 0;
+		gbc_lblRelatedElements.gridy = 5;
+		contentPane.add(lblRelatedElements, gbc_lblRelatedElements);
+
+		lblBodyParts = new JLabel("Body parts");
+		GridBagConstraints gbc_lblBodyParts = new GridBagConstraints();
+		gbc_lblBodyParts.insets = new Insets(0, 0, 5, 5);
+		gbc_lblBodyParts.gridx = 0;
+		gbc_lblBodyParts.gridy = 7;
+		contentPane.add(lblBodyParts, gbc_lblBodyParts);
+
+		ArrayList<BodyPart> bodyParts = dbManager.selectBodyPart("all");
+		listBodyParts = new JList(bodyParts.toArray());
+		listBodyParts.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		GridBagConstraints gbc_listBodyParts = new GridBagConstraints();
+		gbc_listBodyParts.insets = new Insets(0, 0, 5, 0);
+		gbc_listBodyParts.fill = GridBagConstraints.BOTH;
+		gbc_listBodyParts.gridx = 1;
+		gbc_listBodyParts.gridy = 7;
+		contentPane.add(listBodyParts, gbc_listBodyParts);
+
+		lblSymptoms = new JLabel("Symptoms");
+		GridBagConstraints gbc_lblSymptoms = new GridBagConstraints();
+		gbc_lblSymptoms.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSymptoms.gridx = 0;
+		gbc_lblSymptoms.gridy = 8;
+		contentPane.add(lblSymptoms, gbc_lblSymptoms);
+
+		ArrayList<Symptom> symptoms = dbManager.selectSymptom("all");
+		listSymptoms = new JList(symptoms.toArray());
+		listSymptoms.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		GridBagConstraints gbc_listSymptoms = new GridBagConstraints();
+		gbc_listSymptoms.insets = new Insets(0, 0, 5, 0);
+		gbc_listSymptoms.fill = GridBagConstraints.BOTH;
+		gbc_listSymptoms.gridx = 1;
+		gbc_listSymptoms.gridy = 8;
+		contentPane.add(listSymptoms, gbc_listSymptoms);
+
+		lblProcedures = new JLabel("Procedures");
+		GridBagConstraints gbc_lblProcedures = new GridBagConstraints();
+		gbc_lblProcedures.insets = new Insets(0, 0, 5, 5);
+		gbc_lblProcedures.gridx = 0;
+		gbc_lblProcedures.gridy = 9;
+		contentPane.add(lblProcedures, gbc_lblProcedures);
+
+		ArrayList<Procedure> procedures = dbManager.selectProcedure("all");
+		listProcedures = new JList(procedures.toArray());
+		listProcedures.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		GridBagConstraints gbc_listProcedures = new GridBagConstraints();
+		gbc_listProcedures.insets = new Insets(0, 0, 5, 0);
+		gbc_listProcedures.fill = GridBagConstraints.BOTH;
+		gbc_listProcedures.gridx = 1;
+		gbc_listProcedures.gridy = 9;
+		contentPane.add(listProcedures, gbc_listProcedures);
+
+		lblPapers = new JLabel("Papers");
+		GridBagConstraints gbc_lblPapers = new GridBagConstraints();
+		gbc_lblPapers.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPapers.gridx = 0;
+		gbc_lblPapers.gridy = 10;
+		contentPane.add(lblPapers, gbc_lblPapers);
+
+		ArrayList<Paper> papers = dbManager.selectPaper("all");
+		listPapers = new JList(papers.toArray());
+		listPapers.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		GridBagConstraints gbc_listPapers = new GridBagConstraints();
+		gbc_listPapers.insets = new Insets(0, 0, 5, 0);
+		gbc_listPapers.fill = GridBagConstraints.BOTH;
+		gbc_listPapers.gridx = 1;
+		gbc_listPapers.gridy = 10;
+		contentPane.add(listPapers, gbc_listPapers);
+
+		lblImages = new JLabel("Images");
+		GridBagConstraints gbc_lblImages = new GridBagConstraints();
+		gbc_lblImages.insets = new Insets(0, 0, 5, 5);
+		gbc_lblImages.gridx = 0;
+		gbc_lblImages.gridy = 11;
+		contentPane.add(lblImages, gbc_lblImages);
+
+		ArrayList<Image> images = dbManager.selectImage("all");
+		listImages = new JList(images.toArray());
+		listImages.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		GridBagConstraints gbc_listImages = new GridBagConstraints();
+		gbc_listImages.insets = new Insets(0, 0, 5, 0);
+		gbc_listImages.fill = GridBagConstraints.BOTH;
+		gbc_listImages.gridx = 1;
+		gbc_listImages.gridy = 11;
+		contentPane.add(listImages, gbc_listImages);
+
+		JButton addButton = new JButton("Add");
+		addButton.setHorizontalAlignment(SwingConstants.LEFT);
+		addButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String name = textFieldName.getText();
+				String description = textFieldDescription.getText();
+				Disease disease = new Disease(name, description);
+				dbManager.insertIntoDisease(disease);
+				disease = dbManager.selectDisease(name).get(0);
+				int[] selected = listBodyParts.getSelectedIndices();
+				for (int i : selected) {
+					BodyPart bodyPart = dbManager.selectBodyPart(i);
+					bodyPart.addDisease(disease);
+					disease.setBodyPart(bodyPart);
+					dbManager.updateDisease(disease.getID(), disease.getDescription(), bodyPart.getID());
+				}
+				selected = listSymptoms.getSelectedIndices();
+				for (int i : selected) {
+					Symptom symptom = dbManager.selectSymptom(i);
+					symptom.addDisease(disease);
+					disease.addSymptom(symptom);
+					dbManager.insertsymptomdisease(symptom.getID(), disease.getID());
+				}
+				selected = listProcedures.getSelectedIndices();
+				for (int i : selected) {
+					Procedure procedure = dbManager.selectProcedure(i);
+					disease.addProcedure(procedure);
+					procedure.addDisease(disease);
+					dbManager.insertproceduredisease(procedure.getID(), disease.getID());
+				}
+				selected = listPapers.getSelectedIndices();
+				for (int i : selected) {
+					Paper paper = dbManager.selectPaper(i);
+					paper.addDisease(disease);
+					disease.addPaper(paper);
+					dbManager.insertpaperdisease(paper.getID(), disease.getID());
+				}
+				selected = listImages.getSelectedIndices();
+				for (int i : selected) {
+					Image image = dbManager.selectImage(i);
+					image.addDisease(disease);
+					disease.addImage(image);
+					dbManager.insertimagedisease(image.getID(), disease.getID());
+				}
+
+				frame.setVisible(false);
+				frame.dispose();
+				paintDiseases();
 			}
-		}
+		});
+		GridBagConstraints gbc_addButton = new GridBagConstraints();
+		gbc_addButton.insets = new Insets(0, 0, 5, 5);
+		gbc_addButton.gridx = 0;
+		gbc_addButton.gridy = 13;
+		contentPane.add(addButton, gbc_addButton);
+
+		btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				frame.setVisible(false);
+				frame.dispose();
+			}
+		});
+		GridBagConstraints gbc_btnCancel = new GridBagConstraints();
+		gbc_btnCancel.insets = new Insets(0, 0, 5, 5);
+		gbc_btnCancel.gridx = 0;
+		gbc_btnCancel.gridy = 14;
+		contentPane.add(btnCancel, gbc_btnCancel);
 	}
 
 	public static byte[] askForImagePath(byte[] p) {
@@ -1191,754 +1231,824 @@ public class GraphicUserInterface extends JFrame {
 	}
 
 	public static void addImage() {
-		System.out.print("Description: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String description = read;
-		System.out.print("Type: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String type = read;
-		System.out.print("Size (Ex.: microscopic): ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String size = read;
-		/*
-		 * .out.
-		 * print("Please, write the address of the file you want to upload: ");
-		 * try { read = console.readLine(); } catch (IOException e) {
-		 * e.printStackTrace(); } String imageAdress = read; File photo = new
-		 * File(imageAdress); byte[] p = dbManager.stringtobyte(photo);
-		 */
-		byte[] p = askForImagePath(null);
-		Image image = new Image(description, type, size, p);
-		dbManager.insertIntoImage(image);
-		System.out.println("Image inserted.");
-		image = dbManager.selectImage(description).get(0);
 
-		System.out.println("\nProceeding to show all available papers...");
-		showPaper("all");
-		System.out.println("Please, select the id of the papers you want to relate this image with.");
-		System.out.println("Select 0 for none or to finish.");
-		System.out.print("Option: ");
-		ArrayList<Integer> id = new ArrayList<Integer>();
-		int opcion = 1;
-		while (opcion != 0) {
-			try {
-				read = console.readLine();
-				opcion = Integer.parseInt(read);
-				if (opcion != 0) {
-					id.add(opcion);
-				} else {
-					break;
+		JPanel contentPane;
+		JTextField textFieldDescription;
+		JButton btnCancel;
+		JLabel lblRelatedElements;
+		JLabel lblType;
+		JTextField textFieldType;
+		JLabel lblSize;
+		JTextField textFieldSize;
+		JLabel lblImage;
+		JButton btnGetPath;
+		JLabel lblPapers;
+		JList listPapers;
+		JScrollPane scrollPane;
+		JLabel lblDiseases;
+		JList listDiseases;
+		JScrollPane scrollPane_1;
+
+		JFrame frame = new JFrame();
+		frame.setVisible(true);
+
+		frame.setTitle("New Image");
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		frame.setBounds(100, 100, 309, 575);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		frame.setContentPane(contentPane);
+		GridBagLayout gbl_contentPane = new GridBagLayout();
+		gbl_contentPane.columnWidths = new int[] { 0, 0, 0 };
+		gbl_contentPane.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_contentPane.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+		gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
+		contentPane.setLayout(gbl_contentPane);
+
+		JLabel labelDescription = new JLabel("Description");
+		GridBagConstraints gbc_labelDescription = new GridBagConstraints();
+		gbc_labelDescription.anchor = GridBagConstraints.EAST;
+		gbc_labelDescription.insets = new Insets(0, 0, 5, 5);
+		gbc_labelDescription.gridx = 0;
+		gbc_labelDescription.gridy = 0;
+		contentPane.add(labelDescription, gbc_labelDescription);
+
+		textFieldDescription = new JTextField();
+		GridBagConstraints gbc_textFieldDescription = new GridBagConstraints();
+		gbc_textFieldDescription.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldDescription.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldDescription.gridx = 1;
+		gbc_textFieldDescription.gridy = 0;
+		contentPane.add(textFieldDescription, gbc_textFieldDescription);
+		textFieldDescription.setColumns(10);
+
+		lblType = new JLabel("Type");
+		GridBagConstraints gbc_lblType = new GridBagConstraints();
+		gbc_lblType.anchor = GridBagConstraints.EAST;
+		gbc_lblType.insets = new Insets(0, 0, 5, 5);
+		gbc_lblType.gridx = 0;
+		gbc_lblType.gridy = 1;
+		contentPane.add(lblType, gbc_lblType);
+
+		textFieldType = new JTextField();
+		GridBagConstraints gbc_textFieldType = new GridBagConstraints();
+		gbc_textFieldType.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldType.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldType.gridx = 1;
+		gbc_textFieldType.gridy = 1;
+		contentPane.add(textFieldType, gbc_textFieldType);
+		textFieldType.setColumns(10);
+
+		lblSize = new JLabel("Size");
+		GridBagConstraints gbc_lblSize = new GridBagConstraints();
+		gbc_lblSize.anchor = GridBagConstraints.EAST;
+		gbc_lblSize.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSize.gridx = 0;
+		gbc_lblSize.gridy = 2;
+		contentPane.add(lblSize, gbc_lblSize);
+
+		textFieldSize = new JTextField();
+		GridBagConstraints gbc_textFieldSize = new GridBagConstraints();
+		gbc_textFieldSize.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldSize.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldSize.gridx = 1;
+		gbc_textFieldSize.gridy = 2;
+		contentPane.add(textFieldSize, gbc_textFieldSize);
+		textFieldSize.setColumns(10);
+
+		lblImage = new JLabel("Image");
+		GridBagConstraints gbc_lblImage = new GridBagConstraints();
+		gbc_lblImage.insets = new Insets(0, 0, 5, 5);
+		gbc_lblImage.gridx = 0;
+		gbc_lblImage.gridy = 3;
+		contentPane.add(lblImage, gbc_lblImage);
+
+		btnGetPath = new JButton("GetPath");
+		btnGetPath.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				file = obtenerRuta(1);
+			}
+		});
+		GridBagConstraints gbc_btnGetPath = new GridBagConstraints();
+		gbc_btnGetPath.insets = new Insets(0, 0, 5, 0);
+		gbc_btnGetPath.gridx = 1;
+		gbc_btnGetPath.gridy = 3;
+		contentPane.add(btnGetPath, gbc_btnGetPath);
+
+		lblRelatedElements = new JLabel("Related elements");
+		GridBagConstraints gbc_lblRelatedElements = new GridBagConstraints();
+		gbc_lblRelatedElements.insets = new Insets(0, 0, 5, 5);
+		gbc_lblRelatedElements.gridx = 0;
+		gbc_lblRelatedElements.gridy = 4;
+		contentPane.add(lblRelatedElements, gbc_lblRelatedElements);
+
+		lblPapers = new JLabel("Papers");
+		GridBagConstraints gbc_lblPapers = new GridBagConstraints();
+		gbc_lblPapers.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPapers.gridx = 0;
+		gbc_lblPapers.gridy = 5;
+		contentPane.add(lblPapers, gbc_lblPapers);
+
+		scrollPane = new JScrollPane();
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPane.gridx = 1;
+		gbc_scrollPane.gridy = 5;
+		contentPane.add(scrollPane, gbc_scrollPane);
+
+		ArrayList<Paper> papers = dbManager.selectPaper("all");
+		listPapers = new JList(papers.toArray());
+		listPapers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		scrollPane.setViewportView(listPapers);
+
+		lblDiseases = new JLabel("Diseases");
+		GridBagConstraints gbc_lblDiseases = new GridBagConstraints();
+		gbc_lblDiseases.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDiseases.gridx = 0;
+		gbc_lblDiseases.gridy = 6;
+		contentPane.add(lblDiseases, gbc_lblDiseases);
+
+		scrollPane_1 = new JScrollPane();
+		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
+		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPane_1.gridx = 1;
+		gbc_scrollPane_1.gridy = 6;
+		contentPane.add(scrollPane_1, gbc_scrollPane_1);
+
+		ArrayList<Disease> diseases = dbManager.selectDisease("all");
+		listDiseases = new JList(diseases.toArray());
+		listDiseases.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		scrollPane_1.setViewportView(listDiseases);
+
+		JButton addButton = new JButton("Add");
+		addButton.setHorizontalAlignment(SwingConstants.LEFT);
+		addButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String description = textFieldDescription.getText();
+				String type = textFieldType.getText();
+				String size = textFieldSize.getText();
+				byte[] photo = dbManager.stringtobyte(file);
+				Image image = new Image(description, type, size, photo);
+				dbManager.insertIntoImage(image);
+				image = dbManager.selectImage(description).get(0);
+				int[] selected = listPapers.getSelectedIndices();
+				for (int i : selected) {
+					Paper paper = dbManager.selectPaper(i);
+					paper.addImage(image);
+					image.setPaper(paper);
+					dbManager.updateImage(image.getID(), image.getDescription(), paper.getID());
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		for (Integer id2 : id) {
-			Paper paper = dbManager.selectPaper(id2);
-			paper.addImage(image);
-			image.setPaper(paper);
-			dbManager.updateImage(image.getID(), image.getDescription(), paper.getID());
-		}
-
-		System.out.println("\nProceeding to show all available diseases...");
-		showDisease("all");
-		System.out.println("Please, select the id of the diseases you want to relate this image with.");
-		System.out.println("Select 0 for none or to finish.");
-		System.out.print("Option: ");
-		id = new ArrayList<Integer>();
-		opcion = 1;
-		while (opcion != 0) {
-			try {
-				read = console.readLine();
-				opcion = Integer.parseInt(read);
-				if (opcion != 0) {
-					id.add(opcion);
-				} else {
-					break;
+				selected = listDiseases.getSelectedIndices();
+				for (int i : selected) {
+					Disease disease = dbManager.selectDisease(i);
+					image.addDisease(disease);
+					disease.addImage(image);
+					dbManager.insertimagedisease(image.getID(), disease.getID());
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		for (Integer id2 : id) {
-			Disease disease = dbManager.selectDisease(id2);
-			image.addDisease(disease);
-			disease.addImage(image);
-			dbManager.insertimagedisease(image.getID(), disease.getID());
-		}
-	}
 
-	public static void showImage(String name) {
-		ArrayList<Image> list = dbManager.selectImage(name);
-		if (list == null) {
-			System.out.println("Error searching for the image(s).");
-		} else {
-			for (Image image : list) {
-				System.out.println(image);
+				frame.setVisible(false);
+				frame.dispose();
+				paintImages();
 			}
-		}
+		});
+		GridBagConstraints gbc_addButton = new GridBagConstraints();
+		gbc_addButton.insets = new Insets(0, 0, 5, 5);
+		gbc_addButton.gridx = 0;
+		gbc_addButton.gridy = 7;
+		contentPane.add(addButton, gbc_addButton);
+
+		btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				frame.dispose();
+			}
+		});
+		GridBagConstraints gbc_btnCancel = new GridBagConstraints();
+		gbc_btnCancel.insets = new Insets(0, 0, 0, 5);
+		gbc_btnCancel.gridx = 0;
+		gbc_btnCancel.gridy = 8;
+		contentPane.add(btnCancel, gbc_btnCancel);
 	}
 
 	public static void addPaper() {
-		System.out.print("Title: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String title = read;
-		System.out.print("Source: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String source = read;
-		Paper paper = new Paper(title, source);
-		dbManager.insertIntoPaper(paper);
-		System.out.println("Paper inserted.");
-		paper = dbManager.selectPaper(title).get(0); // We can now access the
-														// id.
+		JPanel contentPane;
+		JTextField textFieldTitle;
+		JButton btnCancel;
+		JLabel lblRelatedElements;
+		JLabel lblSource;
+		JTextField textFieldSource;
+		JLabel lblDiseases;
+		JList listDiseases;
+		JScrollPane scrollPane;
+		JLabel lblProcedures;
+		JList listProcedures;
+		JScrollPane scrollPane_1;
+		JLabel lblDevices;
+		JList listDevices;
+		JScrollPane scrollPane_2;
+		JLabel lblAuthors;
+		JList listAuthors;
+		JScrollPane scrollPane_3;
+		JLabel lblImages;
+		JList listImages;
+		JScrollPane scrollPane_4;
 
-		System.out.println("\nProceeding to show all available authors...");
-		showAuthor("all");
-		System.out.println("Please, select the id of the authors you want to relate this paper with.");
-		System.out.println("Select 0 for none or to finish.");
-		System.out.print("Option: ");
-		ArrayList<Integer> id = new ArrayList<Integer>();
-		int option = 1;
-		while (option != 0) {
-			try {
-				read = console.readLine();
-				option = Integer.parseInt(read);
-				if (option != 0) {
-					id.add(option);
-				}
-				if (option == 0) {
-					break;
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		for (Integer id2 : id) {
-			Author author = dbManager.selectAuthor(id2);
-			paper.addAuthor(author);
-			author.addPaper(paper);
-			dbManager.insertpaperauthor(paper.getID(), author.getID());
-		}
+		JFrame frame = new JFrame();
+		frame.setVisible(true);
 
-		System.out.println("\nProceeding to show all available diseases...");
-		showDisease("all");
-		System.out.println("Please, select the id of the diseases you want to relate this paper with.");
-		System.out.println("Select 0 for none or to finish.");
-		System.out.print("Option: ");
-		id = new ArrayList<Integer>();
-		option = 1;
-		while (option != 0) {
-			try {
-				read = console.readLine();
-				option = Integer.parseInt(read);
-				if (option != 0) {
-					id.add(option);
-				} else {
-					break;
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		for (Integer id2 : id) {
-			Disease disease = dbManager.selectDisease(id2);
-			paper.addDisease(disease);
-			disease.addPaper(paper);
-			dbManager.insertpaperdisease(paper.getID(), disease.getID());
-		}
+		frame.setTitle("New Paper");
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		frame.setBounds(100, 100, 309, 575);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		frame.setContentPane(contentPane);
+		GridBagLayout gbl_contentPane = new GridBagLayout();
+		gbl_contentPane.columnWidths = new int[] { 0, 0, 0 };
+		gbl_contentPane.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_contentPane.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+		gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0,
+				Double.MIN_VALUE };
+		contentPane.setLayout(gbl_contentPane);
 
-		System.out.println("\nProceeding to show all available devices...");
-		showDevice("all");
-		System.out.println("Please, select the id of the devices you want to relate this paper with.");
-		System.out.println("Select 0 for none or to finish.");
-		System.out.print("Option: ");
-		id = new ArrayList<Integer>();
-		option = 1;
-		while (option != 0) {
-			try {
-				read = console.readLine();
-				option = Integer.parseInt(read);
-				if (option != 0) {
-					id.add(option);
-				} else {
-					break;
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		for (Integer id2 : id) {
-			Device device = dbManager.selectDevice(id2);
-			device.setPaper(paper);
-			paper.addDevice(device);
-			dbManager.updateDeviceWithPaper(device.getID(), paper.getID());
-		}
+		JLabel labelTitle = new JLabel("Title");
+		GridBagConstraints gbc_labelTitle = new GridBagConstraints();
+		gbc_labelTitle.anchor = GridBagConstraints.EAST;
+		gbc_labelTitle.insets = new Insets(0, 0, 5, 5);
+		gbc_labelTitle.gridx = 0;
+		gbc_labelTitle.gridy = 0;
+		contentPane.add(labelTitle, gbc_labelTitle);
 
-		System.out.println("\nProceeding to show all available procedures...");
-		showProcedure("all");
-		System.out.println("Please, select the id of the procedures you want to relate this paper with.");
-		System.out.println("Select 0 for none or to finish.");
-		System.out.print("Option: ");
-		id = new ArrayList<Integer>();
-		option = 1;
-		while (option != 0) {
-			try {
-				read = console.readLine();
-				option = Integer.parseInt(read);
-				if (option != 0) {
-					id.add(option);
-				} else {
-					break;
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		for (Integer id2 : id) {
-			Procedure procedure = dbManager.selectProcedure(id2);
-			procedure.setPaper(paper);
-			paper.addProcedure(procedure);
-			dbManager.updateProcedureWithPaper(procedure.getID(), paper.getID());
-		}
+		textFieldTitle = new JTextField();
+		GridBagConstraints gbc_textFieldTitle = new GridBagConstraints();
+		gbc_textFieldTitle.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldTitle.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldTitle.gridx = 1;
+		gbc_textFieldTitle.gridy = 0;
+		contentPane.add(textFieldTitle, gbc_textFieldTitle);
+		textFieldTitle.setColumns(10);
 
-		System.out.println("\nProceeding to show all available images...");
-		showImage("all");
-		System.out.println("Please, select the id of the images you want to relate this paper with.");
-		System.out.println("Select 0 for none or to finish.");
-		System.out.print("Option: ");
-		id = new ArrayList<Integer>();
-		option = 1;
-		while (option != 0) {
-			try {
-				read = console.readLine();
-				option = Integer.parseInt(read);
-				if (option != 0) {
-					id.add(option);
-				} else {
-					break;
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		for (Integer id2 : id) {
-			Image image = dbManager.selectImage(id2);
-			paper.addImage(image);
-			image.setPaper(paper);
-			dbManager.updateImage(image.getID(), image.getDescription(), paper.getID());
-		}
-	}
+		lblSource = new JLabel("Source");
+		GridBagConstraints gbc_lblSource = new GridBagConstraints();
+		gbc_lblSource.anchor = GridBagConstraints.EAST;
+		gbc_lblSource.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSource.gridx = 0;
+		gbc_lblSource.gridy = 1;
+		contentPane.add(lblSource, gbc_lblSource);
 
-	public static void showPaper(String name) {
-		ArrayList<Paper> list = dbManager.selectPaper(name);
-		if (list == null) {
-			System.out.println("Error searching for the paper(s).");
-		} else {
-			for (Paper paper : list) {
-				System.out.println(paper);
+		textFieldSource = new JTextField();
+		GridBagConstraints gbc_textFieldSource = new GridBagConstraints();
+		gbc_textFieldSource.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldSource.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldSource.gridx = 1;
+		gbc_textFieldSource.gridy = 1;
+		contentPane.add(textFieldSource, gbc_textFieldSource);
+		textFieldSource.setColumns(10);
+
+		lblRelatedElements = new JLabel("Related elements");
+		GridBagConstraints gbc_lblRelatedElements = new GridBagConstraints();
+		gbc_lblRelatedElements.insets = new Insets(0, 0, 5, 5);
+		gbc_lblRelatedElements.gridx = 0;
+		gbc_lblRelatedElements.gridy = 2;
+		contentPane.add(lblRelatedElements, gbc_lblRelatedElements);
+
+		lblDiseases = new JLabel("Diseases");
+		GridBagConstraints gbc_lblDiseases = new GridBagConstraints();
+		gbc_lblDiseases.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDiseases.gridx = 0;
+		gbc_lblDiseases.gridy = 3;
+		contentPane.add(lblDiseases, gbc_lblDiseases);
+
+		scrollPane = new JScrollPane();
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPane.gridx = 1;
+		gbc_scrollPane.gridy = 3;
+		contentPane.add(scrollPane, gbc_scrollPane);
+
+		ArrayList<Disease> diseases = dbManager.selectDisease("all");
+		listDiseases = new JList(diseases.toArray());
+		listDiseases.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		scrollPane.setViewportView(listDiseases);
+
+		lblProcedures = new JLabel("Procedures");
+		GridBagConstraints gbc_lblProcedures = new GridBagConstraints();
+		gbc_lblProcedures.insets = new Insets(0, 0, 5, 5);
+		gbc_lblProcedures.gridx = 0;
+		gbc_lblProcedures.gridy = 4;
+		contentPane.add(lblProcedures, gbc_lblProcedures);
+
+		scrollPane_1 = new JScrollPane();
+		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
+		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPane_1.gridx = 1;
+		gbc_scrollPane_1.gridy = 4;
+		contentPane.add(scrollPane_1, gbc_scrollPane_1);
+
+		ArrayList<Procedure> procedures = dbManager.selectProcedure("all");
+		listProcedures = new JList(procedures.toArray());
+		listProcedures.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		scrollPane_1.setViewportView(listProcedures);
+
+		lblDevices = new JLabel("Devices");
+		GridBagConstraints gbc_lblDevices = new GridBagConstraints();
+		gbc_lblDevices.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDevices.gridx = 0;
+		gbc_lblDevices.gridy = 5;
+		contentPane.add(lblDevices, gbc_lblDevices);
+
+		scrollPane_2 = new JScrollPane();
+		GridBagConstraints gbc_scrollPane_2 = new GridBagConstraints();
+		gbc_scrollPane_2.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_2.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPane_2.gridx = 1;
+		gbc_scrollPane_2.gridy = 5;
+		contentPane.add(scrollPane_2, gbc_scrollPane_2);
+
+		ArrayList<Device> devices = dbManager.selectDevice("all");
+		listDevices = new JList(devices.toArray());
+		listDevices.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		scrollPane_2.setViewportView(listDevices);
+
+		lblAuthors = new JLabel("Authors");
+		GridBagConstraints gbc_lblAuthors = new GridBagConstraints();
+		gbc_lblAuthors.insets = new Insets(0, 0, 5, 5);
+		gbc_lblAuthors.gridx = 0;
+		gbc_lblAuthors.gridy = 6;
+		contentPane.add(lblAuthors, gbc_lblAuthors);
+
+		scrollPane_3 = new JScrollPane();
+		GridBagConstraints gbc_scrollPane_3 = new GridBagConstraints();
+		gbc_scrollPane_3.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_3.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPane_3.gridx = 1;
+		gbc_scrollPane_3.gridy = 6;
+		contentPane.add(scrollPane_3, gbc_scrollPane_3);
+
+		ArrayList<Author> authors = dbManager.selectAuthor("all");
+		listAuthors = new JList(authors.toArray());
+		listAuthors.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		scrollPane_3.setViewportView(listAuthors);
+
+		lblImages = new JLabel("Images");
+		GridBagConstraints gbc_lblImages = new GridBagConstraints();
+		gbc_lblImages.insets = new Insets(0, 0, 5, 5);
+		gbc_lblImages.gridx = 0;
+		gbc_lblImages.gridy = 7;
+		contentPane.add(lblImages, gbc_lblImages);
+
+		scrollPane_4 = new JScrollPane();
+		GridBagConstraints gbc_scrollPane_4 = new GridBagConstraints();
+		gbc_scrollPane_4.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_4.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPane_4.gridx = 1;
+		gbc_scrollPane_4.gridy = 7;
+		contentPane.add(scrollPane_4, gbc_scrollPane_4);
+
+		ArrayList<Image> images = dbManager.selectImage("all");
+		listImages = new JList(images.toArray());
+		listImages.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		scrollPane_4.setViewportView(listImages);
+
+		JButton addButton = new JButton("Add");
+		addButton.setHorizontalAlignment(SwingConstants.LEFT);
+		addButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String title = textFieldTitle.getText();
+				String source = textFieldSource.getText();
+				Paper paper = new Paper(title, source);
+				dbManager.insertIntoPaper(paper);
+				paper = dbManager.selectPaper(title).get(0);
+				int[] selected = listDiseases.getSelectedIndices();
+				for (int i : selected) {
+					Disease disease = dbManager.selectDisease(i);
+					paper.addDisease(disease);
+					disease.addPaper(paper);
+					dbManager.insertpaperdisease(paper.getID(), disease.getID());
+				}
+				selected = listProcedures.getSelectedIndices();
+				for (int i : selected) {
+					Procedure procedure = dbManager.selectProcedure(i);
+					procedure.setPaper(paper);
+					paper.addProcedure(procedure);
+					dbManager.updateProcedureWithPaper(procedure.getID(), paper.getID());
+				}
+				selected = listDevices.getSelectedIndices();
+				for (int i : selected) {
+					Device device = dbManager.selectDevice(i);
+					device.setPaper(paper);
+					paper.addDevice(device);
+					dbManager.updateDeviceWithPaper(device.getID(), paper.getID());
+				}
+				selected = listAuthors.getSelectedIndices();
+				for (int i : selected) {
+					Author author = dbManager.selectAuthor(i);
+					paper.addAuthor(author);
+					author.addPaper(paper);
+					dbManager.insertpaperauthor(paper.getID(), author.getID());
+				}
+				selected = listImages.getSelectedIndices();
+				for (int i : selected) {
+					Image image = dbManager.selectImage(i);
+					paper.addImage(image);
+					image.setPaper(paper);
+					dbManager.updateImage(image.getID(), image.getDescription(), paper.getID());
+				}
+				frame.setVisible(false);
+				frame.dispose();
+				paintPapers();
 			}
-		}
+		});
+		GridBagConstraints gbc_addButton = new GridBagConstraints();
+		gbc_addButton.insets = new Insets(0, 0, 5, 5);
+		gbc_addButton.gridx = 0;
+		gbc_addButton.gridy = 8;
+		contentPane.add(addButton, gbc_addButton);
+
+		btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				frame.dispose();
+			}
+		});
+		GridBagConstraints gbc_btnCancel = new GridBagConstraints();
+		gbc_btnCancel.insets = new Insets(0, 0, 0, 5);
+		gbc_btnCancel.gridx = 0;
+		gbc_btnCancel.gridy = 9;
+		contentPane.add(btnCancel, gbc_btnCancel);
+
 	}
 
 	public static void addProcedure() {
-		System.out.print("Name: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String name = read;
-		System.out.print("Description: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String description = read;
-		Procedure procedure = new Procedure(name, description);
-		dbManager.insertIntoProcedure(procedure);
-		System.out.println("Procedure inserted.");
-		procedure = dbManager.selectProcedure(name).get(0);
 
-		System.out.println("\nProceeding to show all available diseases...");
-		showDisease("all");
-		System.out.println("Please, select the id of the diseases you want to relate this procedure with.");
-		System.out.println("Select 0 for none or to finish.");
-		System.out.print("Option: ");
-		ArrayList<Integer> id = new ArrayList<Integer>();
-		int option = 1;
-		while (option != 0) {
-			try {
-				read = console.readLine();
-				option = Integer.parseInt(read);
-				if (option != 0) {
-					id.add(option);
-				} else {
-					break;
+		JPanel contentPane;
+		JTextField textFieldName;
+		JButton btnCancel;
+		JLabel lblRelatedElements;
+		JLabel lblName;
+		JTextField textFieldDescription;
+		JLabel lblDiseases;
+		JLabel lblDevices;
+		JList listDiseases;
+		JList listDevices;
+		JLabel lblPapers;
+		JList listPapers;
+		JLabel lblDescription;
+
+		JFrame frame = new JFrame();
+		frame.setVisible(true);
+
+		frame.setTitle("New Procedure");
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		frame.setBounds(100, 100, 309, 575);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		frame.setContentPane(contentPane);
+		GridBagLayout gbl_contentPane = new GridBagLayout();
+		gbl_contentPane.columnWidths = new int[] { 0, 0, 0 };
+		gbl_contentPane.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_contentPane.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+		gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0,
+				Double.MIN_VALUE };
+		contentPane.setLayout(gbl_contentPane);
+
+		JLabel labelName = new JLabel("Name");
+		GridBagConstraints gbc_labelName = new GridBagConstraints();
+		gbc_labelName.anchor = GridBagConstraints.EAST;
+		gbc_labelName.insets = new Insets(0, 0, 5, 5);
+		gbc_labelName.gridx = 0;
+		gbc_labelName.gridy = 0;
+		contentPane.add(labelName, gbc_labelName);
+
+		textFieldName = new JTextField();
+		GridBagConstraints gbc_textFieldName = new GridBagConstraints();
+		gbc_textFieldName.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldName.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldName.gridx = 1;
+		gbc_textFieldName.gridy = 0;
+		contentPane.add(textFieldName, gbc_textFieldName);
+		textFieldName.setColumns(10);
+
+		lblDescription = new JLabel("Description");
+		GridBagConstraints gbc_lblDescription = new GridBagConstraints();
+		gbc_lblDescription.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDescription.anchor = GridBagConstraints.EAST;
+		gbc_lblDescription.gridx = 0;
+		gbc_lblDescription.gridy = 1;
+		contentPane.add(lblDescription, gbc_lblDescription);
+
+		textFieldDescription = new JTextField();
+		GridBagConstraints gbc_textFieldDescription = new GridBagConstraints();
+		gbc_textFieldDescription.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldDescription.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldDescription.gridx = 1;
+		gbc_textFieldDescription.gridy = 1;
+		contentPane.add(textFieldDescription, gbc_textFieldDescription);
+		textFieldDescription.setColumns(10);
+
+		lblRelatedElements = new JLabel("Related elements");
+		GridBagConstraints gbc_lblRelatedElements = new GridBagConstraints();
+		gbc_lblRelatedElements.insets = new Insets(0, 0, 5, 5);
+		gbc_lblRelatedElements.gridx = 0;
+		gbc_lblRelatedElements.gridy = 2;
+		contentPane.add(lblRelatedElements, gbc_lblRelatedElements);
+
+		lblDiseases = new JLabel("Diseases");
+		GridBagConstraints gbc_lblDiseases = new GridBagConstraints();
+		gbc_lblDiseases.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDiseases.gridx = 0;
+		gbc_lblDiseases.gridy = 3;
+		contentPane.add(lblDiseases, gbc_lblDiseases);
+
+		ArrayList<Disease> diseases = dbManager.selectDisease("all");
+		listDiseases = new JList(diseases.toArray());
+		listDiseases.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		GridBagConstraints gbc_listDiseases = new GridBagConstraints();
+		gbc_listDiseases.insets = new Insets(0, 0, 5, 0);
+		gbc_listDiseases.fill = GridBagConstraints.BOTH;
+		gbc_listDiseases.gridx = 1;
+		gbc_listDiseases.gridy = 3;
+		contentPane.add(listDiseases, gbc_listDiseases);
+
+		lblDevices = new JLabel("Devices");
+		GridBagConstraints gbc_lblDevices = new GridBagConstraints();
+		gbc_lblDevices.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDevices.gridx = 0;
+		gbc_lblDevices.gridy = 4;
+		contentPane.add(lblDevices, gbc_lblDevices);
+
+		ArrayList<Device> devices = dbManager.selectDevice("all");
+		listDevices = new JList(devices.toArray());
+		listDevices.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		GridBagConstraints gbc_listDevices = new GridBagConstraints();
+		gbc_listDevices.insets = new Insets(0, 0, 5, 0);
+		gbc_listDevices.fill = GridBagConstraints.BOTH;
+		gbc_listDevices.gridx = 1;
+		gbc_listDevices.gridy = 4;
+		contentPane.add(listDevices, gbc_listDevices);
+
+		lblPapers = new JLabel("Papers");
+		GridBagConstraints gbc_lblPapers = new GridBagConstraints();
+		gbc_lblPapers.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPapers.gridx = 0;
+		gbc_lblPapers.gridy = 5;
+		contentPane.add(lblPapers, gbc_lblPapers);
+
+		ArrayList<Paper> papers = dbManager.selectPaper("all");
+		listPapers = new JList(papers.toArray());
+		listPapers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		GridBagConstraints gbc_listPapers = new GridBagConstraints();
+		gbc_listPapers.insets = new Insets(0, 0, 5, 0);
+		gbc_listPapers.fill = GridBagConstraints.BOTH;
+		gbc_listPapers.gridx = 1;
+		gbc_listPapers.gridy = 5;
+		contentPane.add(listPapers, gbc_listPapers);
+
+		JButton addButton = new JButton("Add");
+		addButton.setHorizontalAlignment(SwingConstants.LEFT);
+		addButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String name = textFieldName.getText();
+				String description = textFieldDescription.getText();
+				Procedure procedure = new Procedure(name, description);
+				dbManager.insertIntoProcedure(procedure);
+				procedure = dbManager.selectProcedure(name).get(0);
+				int[] selected = listDiseases.getSelectedIndices();
+				for (int i : selected) {
+					Disease disease = dbManager.selectDisease(i);
+					procedure.addDisease(disease);
+					disease.addProcedure(procedure);
+					dbManager.insertproceduredisease(procedure.getID(), disease.getID());
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		for (Integer id2 : id) {
-			Disease disease = dbManager.selectDisease(id2);
-			procedure.addDisease(disease);
-			disease.addProcedure(procedure);
-			dbManager.insertproceduredisease(procedure.getID(), disease.getID());
-		}
-
-		System.out.println("\nProceeding to show all available papers...");
-		showPaper("all");
-		System.out.println("Please, select the id of the papers you want to relate this procedure with.");
-		System.out.println("Select 0 for none or to finish.");
-		System.out.print("Option: ");
-		id = new ArrayList<Integer>();
-		option = 1;
-		while (option != 0) {
-			try {
-				read = console.readLine();
-				option = Integer.parseInt(read);
-				if (option != 0) {
-					id.add(option);
-				} else {
-					break;
+				selected = listDevices.getSelectedIndices();
+				for (int i : selected) {
+					Device device = dbManager.selectDevice(i);
+					procedure.addDevice(device);
+					device.setProcedure(procedure);
+					dbManager.updateDeviceWithProcedure(device.getID(), procedure.getID());
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		for (Integer id2 : id) {
-			Paper paper = dbManager.selectPaper(id2);
-			procedure.setPaper(paper);
-			paper.addProcedure(procedure);
-			dbManager.updateProcedureWithPaper(procedure.getID(), paper.getID());
-		}
-
-		System.out.println("\nProceeding to show all available devices...");
-		showDevice("all");
-		System.out.println("Please, select the id of the devices you want to relate this procedure with.");
-		System.out.println("Select 0 for none or to finish.");
-		System.out.print("Option: ");
-		id = new ArrayList<Integer>();
-		option = 1;
-		while (option != 0) {
-			try {
-				read = console.readLine();
-				option = Integer.parseInt(read);
-				if (option != 0) {
-					id.add(option);
-				} else {
-					break;
+				selected = listPapers.getSelectedIndices();
+				for (int i : selected) {
+					Paper paper = dbManager.selectPaper(i);
+					procedure.setPaper(paper);
+					paper.addProcedure(procedure);
+					dbManager.updateProcedureWithPaper(procedure.getID(), paper.getID());
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		for (Integer id2 : id) {
-			Device device = dbManager.selectDevice(id2);
-			procedure.addDevice(device);
-			device.setProcedure(procedure);
-			dbManager.updateDeviceWithProcedure(device.getID(), procedure.getID());
-		}
 
-	}
-
-	public static void showProcedure(String name) {
-		ArrayList<Procedure> list = dbManager.selectProcedure(name);
-		if (list == null) {
-			System.out.println("Error searching for the procedure(s).");
-		} else {
-			for (Procedure procedure : list) {
-				System.out.println(procedure);
+				frame.setVisible(false);
+				frame.dispose();
+				paintProcedures();
 			}
-		}
+		});
+		GridBagConstraints gbc_addButton = new GridBagConstraints();
+		gbc_addButton.insets = new Insets(0, 0, 5, 5);
+		gbc_addButton.gridx = 0;
+		gbc_addButton.gridy = 8;
+		contentPane.add(addButton, gbc_addButton);
+
+		btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				frame.dispose();
+			}
+		});
+		GridBagConstraints gbc_btnCancel = new GridBagConstraints();
+		gbc_btnCancel.insets = new Insets(0, 0, 0, 5);
+		gbc_btnCancel.gridx = 0;
+		gbc_btnCancel.gridy = 9;
+		contentPane.add(btnCancel, gbc_btnCancel);
 	}
 
 	public static void addSymptom() {
-		System.out.print("Name: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String name = read;
-		System.out.print("Description: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String description = read;
-		Symptom symptom = new Symptom(name, description);
-		jpaManager.createSymptomJPA(symptom);
-		System.out.println("Symptom inserted");
-		symptom = jpaManager.readSymptom(name);
+		JPanel contentPane;
+		JTextField textFieldName;
+		JButton btnCancel;
+		JLabel lblRelatedElements;
+		JLabel lblName;
+		JTextField textFieldDescription;
+		JLabel lblDiseases;
+		JList listDiseases;
+		JLabel lblDescription;
 
-		System.out.println("\nProceeding to show all available diseases...");
-		showDisease("all");
-		System.out.print("Select the id of the related disease (0 for none): ");
-		ArrayList<Integer> id = new ArrayList<Integer>();
-		int option = 1;
-		while (option != 0) {
-			try {
-				read = console.readLine();
-				option = Integer.parseInt(read);
-				if (option != 0) {
-					id.add(option);
-				} else {
-					break;
+		JFrame frame = new JFrame();
+		frame.setVisible(true);
+
+		frame.setTitle("New Symptom");
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		frame.setBounds(100, 100, 309, 461);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		frame.setContentPane(contentPane);
+		GridBagLayout gbl_contentPane = new GridBagLayout();
+		gbl_contentPane.columnWidths = new int[] { 0, 0, 0 };
+		gbl_contentPane.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_contentPane.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+		gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0,
+				Double.MIN_VALUE };
+		contentPane.setLayout(gbl_contentPane);
+
+		JLabel labelName = new JLabel("Name");
+		GridBagConstraints gbc_labelName = new GridBagConstraints();
+		gbc_labelName.anchor = GridBagConstraints.EAST;
+		gbc_labelName.insets = new Insets(0, 0, 5, 5);
+		gbc_labelName.gridx = 0;
+		gbc_labelName.gridy = 0;
+		contentPane.add(labelName, gbc_labelName);
+
+		textFieldName = new JTextField();
+		GridBagConstraints gbc_textFieldName = new GridBagConstraints();
+		gbc_textFieldName.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldName.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldName.gridx = 1;
+		gbc_textFieldName.gridy = 0;
+		contentPane.add(textFieldName, gbc_textFieldName);
+		textFieldName.setColumns(10);
+
+		lblDescription = new JLabel("Description");
+		GridBagConstraints gbc_lblDescription = new GridBagConstraints();
+		gbc_lblDescription.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDescription.anchor = GridBagConstraints.EAST;
+		gbc_lblDescription.gridx = 0;
+		gbc_lblDescription.gridy = 1;
+		contentPane.add(lblDescription, gbc_lblDescription);
+
+		textFieldDescription = new JTextField();
+		GridBagConstraints gbc_textFieldDescription = new GridBagConstraints();
+		gbc_textFieldDescription.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldDescription.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldDescription.gridx = 1;
+		gbc_textFieldDescription.gridy = 1;
+		contentPane.add(textFieldDescription, gbc_textFieldDescription);
+		textFieldDescription.setColumns(10);
+
+		lblRelatedElements = new JLabel("Related elements");
+		GridBagConstraints gbc_lblRelatedElements = new GridBagConstraints();
+		gbc_lblRelatedElements.insets = new Insets(0, 0, 5, 5);
+		gbc_lblRelatedElements.gridx = 0;
+		gbc_lblRelatedElements.gridy = 2;
+		contentPane.add(lblRelatedElements, gbc_lblRelatedElements);
+
+		lblDiseases = new JLabel("Diseases");
+		GridBagConstraints gbc_lblDiseases = new GridBagConstraints();
+		gbc_lblDiseases.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDiseases.gridx = 0;
+		gbc_lblDiseases.gridy = 3;
+		contentPane.add(lblDiseases, gbc_lblDiseases);
+
+		ArrayList<Disease> diseases = dbManager.selectDisease("all");
+		listDiseases = new JList(diseases.toArray());
+		listDiseases.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		GridBagConstraints gbc_listDiseases = new GridBagConstraints();
+		gbc_listDiseases.insets = new Insets(0, 0, 5, 0);
+		gbc_listDiseases.fill = GridBagConstraints.BOTH;
+		gbc_listDiseases.gridx = 1;
+		gbc_listDiseases.gridy = 3;
+		contentPane.add(listDiseases, gbc_listDiseases);
+
+		JButton addButton = new JButton("Add");
+		addButton.setHorizontalAlignment(SwingConstants.LEFT);
+		addButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String name = textFieldName.getText();
+				String description = textFieldDescription.getText();
+				Symptom symptom = new Symptom(name, description);
+				dbManager.insertIntoSymptom(symptom);
+				symptom = dbManager.selectSymptom(name).get(0);
+				int[] selected = listDiseases.getSelectedIndices();
+				for (int i : selected) {
+					Disease disease = dbManager.selectDisease(i);
+					symptom.addDisease(disease);
+					disease.addSymptom(symptom);
+					dbManager.insertsymptomdisease(symptom.getID(), disease.getID());
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		for (Integer id2 : id) {
-			Disease disease = dbManager.selectDisease(id2);
-			symptom.addDisease(disease);
-			disease.addSymptom(symptom);
-			dbManager.insertsymptomdisease(symptom.getID(), disease.getID());
-		}
-	}
 
-	public static void showSymptom(String name) {
-		ArrayList<Symptom> list = dbManager.selectSymptom(name);
-		if (list == null) {
-			System.out.println("Error searching for the author(s).");
-		} else {
-			for (Symptom symptom : list) {
-				System.out.println(symptom);
+				frame.setVisible(false);
+				frame.dispose();
+				paintSymptoms();
 			}
-		}
+		});
+		GridBagConstraints gbc_addButton = new GridBagConstraints();
+		gbc_addButton.insets = new Insets(0, 0, 5, 5);
+		gbc_addButton.gridx = 0;
+		gbc_addButton.gridy = 8;
+		contentPane.add(addButton, gbc_addButton);
+
+		btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				frame.dispose();
+			}
+		});
+		GridBagConstraints gbc_btnCancel = new GridBagConstraints();
+		gbc_btnCancel.insets = new Insets(0, 0, 0, 5);
+		gbc_btnCancel.gridx = 0;
+		gbc_btnCancel.gridy = 9;
+		contentPane.add(btnCancel, gbc_btnCancel);
 	}
 
 	private static void deleteAuthor() {
-
-		ArrayList<Author> list = dbManager.selectAuthor("all");
-
-		if (list == null) {
-
-			System.out.println("Error searching for the authors.");
-
-		} else {
-
-			for (Author author : list) {
-
-				System.out.println(author);
-
-			}
-
-			System.out.print("\nPlease, write the ID of the author you want to delete. Write «0» to go back: ");
-
-			try {
-
-				read = console.readLine();
-
-			} catch (IOException e) {
-
-				e.printStackTrace();
-
-			}
-
-			int id = Integer.parseInt(read);
-
-			if (id == 0) {
-
-				return;
-
-			} else {
-
-				dbManager.deleteAuthor(id);
-
-			}
-
-		}
-
+		int row = mainTable.getSelectedRow();
+		int id = (Integer) mainTable.getValueAt(row, 0);
+		dbManager.deleteAuthor(id);
+		paintAuthors();
 	}
 
 	private static void deleteBodyPart() {
-		ArrayList<BodyPart> list = dbManager.selectBodyPart("all");
-		if (list == null) {
-			System.out.println("Error searching for the body parts.");
-		} else {
-			for (BodyPart bodypart : list) {
-				System.out.println(bodypart);
-			}
-			System.out.print("\nPlease, write the ID of the body part you want to delete. Write «0» to go back: ");
-			try {
-				read = console.readLine();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			int id = Integer.parseInt(read);
-			if (id == 0) {
-				return;
-			} else {
-				dbManager.deleteBodyPart(id);
-			}
-		}
+		int row = mainTable.getSelectedRow();
+		int id = (Integer) mainTable.getValueAt(row, 0);
+		dbManager.deleteBodyPart(id);
+		paintBodyParts();
 	}
 
 	private static void deleteDevice() {
-		ArrayList<Device> list = dbManager.selectDevice("all");
-		if (list == null) {
-			System.out.println("Error searching for the devices.");
-		} else {
-			for (Device device : list) {
-				System.out.println(device);
-			}
-			System.out.print("\nPlease, write the ID of the device you want to delete. Write «0» to go back: ");
-			try {
-				read = console.readLine();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			int id = Integer.parseInt(read);
-			if (id == 0) {
-				return;
-			} else {
-				dbManager.deleteDevice(id);
-			}
-		}
+		int row = mainTable.getSelectedRow();
+		int id = (Integer) mainTable.getValueAt(row, 0);
+		dbManager.deleteDevice(id);
+		paintDevices();
 	}
 
 	private static void deleteDisease() {
-		ArrayList<Disease> list = dbManager.selectDisease("all");
-		if (list == null) {
-			System.out.println("Error searching for the diseases.");
-		} else {
-			for (Disease disease : list) {
-				System.out.println(disease);
-			}
-			System.out.print("\nPlease, write the ID of the disease you want to delete. Write «0» to go back: ");
-			try {
-				read = console.readLine();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			int id = Integer.parseInt(read);
-			if (id == 0) {
-				return;
-			} else {
-				dbManager.deleteDisease(id);
-			}
-		}
+		int row = mainTable.getSelectedRow();
+		int id = (Integer) mainTable.getValueAt(row, 0);
+		dbManager.deleteDisease(id);
+		paintDiseases();
 	}
 
 	private static void deleteImage() {
-
-		ArrayList<Image> list = dbManager.selectImage("all");
-
-		if (list == null) {
-
-			System.out.println("Error searching for the images.");
-
-		} else {
-
-			for (Image image : list) {
-
-				System.out.println(image);
-
-			}
-
-			System.out.print("\nPlease, write the ID of the image you want to delete. Write «0» to go back: ");
-
-			try {
-
-				read = console.readLine();
-
-			} catch (IOException e) {
-
-				e.printStackTrace();
-
-			}
-
-			int id = Integer.parseInt(read);
-
-			if (id == 0) {
-
-				return;
-
-			} else {
-
-				dbManager.deleteImage(id);
-
-			}
-
-		}
-
+		int row = mainTable.getSelectedRow();
+		int id = (Integer) mainTable.getValueAt(row, 0);
+		dbManager.deleteImage(id);
+		paintImages();
 	}
 
 	private static void deletePaper() {
-
-		ArrayList<Paper> list = dbManager.selectPaper("all");
-
-		if (list == null) {
-
-			System.out.println("Error searching for the papers.");
-
-		} else {
-
-			for (Paper paper : list) {
-
-				System.out.println(paper);
-
-			}
-
-			System.out.print("\nPlease, write the ID of the paper you want to delete. Write «0» to go back: ");
-
-			try {
-
-				read = console.readLine();
-
-			} catch (IOException e) {
-
-				e.printStackTrace();
-
-			}
-
-			int id = Integer.parseInt(read);
-
-			if (id == 0) {
-
-				return;
-
-			} else {
-
-				dbManager.deletePaper(id);
-
-			}
-
-		}
-
+		int row = mainTable.getSelectedRow();
+		int id = (Integer) mainTable.getValueAt(row, 0);
+		dbManager.deletePaper(id);
+		paintPapers();
 	}
 
 	private static void deleteProcedure() {
-		ArrayList<Procedure> list = dbManager.selectProcedure("all");
-		if (list == null) {
-			System.out.println("Error searching for the procedures.");
-		} else {
-			for (Procedure procedure : list) {
-				System.out.println(procedure);
-			}
-			System.out.print("\nPlease, write the ID of the procedure you want to delete. Write «0» to go back: ");
-			try {
-				read = console.readLine();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			int id = Integer.parseInt(read);
-			if (id == 0) {
-				return;
-			} else {
-				jpaManager.deleteProcedureJPA(id);
-			}
-		}
+		int row = mainTable.getSelectedRow();
+		int id = (Integer) mainTable.getValueAt(row, 0);
+		dbManager.deleteProcedure(id);
+		paintProcedures();
 	}
 
 	private static void deleteSymptom() {
-
-		ArrayList<Symptom> list = dbManager.selectSymptom("all");
-
-		if (list == null) {
-
-			System.out.println("Error searching for the symptoms.");
-
-		} else {
-
-			for (Symptom symptom : list) {
-
-				System.out.println(symptom);
-
-			}
-
-			System.out.print("\nPlease, write the ID of the symptom you want to delete. Write «0» to go back: ");
-
-			try {
-
-				read = console.readLine();
-
-			} catch (IOException e) {
-
-				e.printStackTrace();
-
-			}
-
-			int id = Integer.parseInt(read);
-
-			if (id == 0) {
-
-				return;
-
-			} else {
-
-				dbManager.deleteSymptom(id);
-
-			}
-
-		}
-
-	}
-
-	private static void updateMenu() {
-		System.out.print("\nPlease, select the type of item you want to modify: ");
-		System.out.println("\n1.) Author");
-		System.out.println("2.) Device");
-		System.out.println("3.) Disease or pathology");
-		System.out.println("4.) Image");
-		System.out.println("5.) Procedure or treatment");
-		System.out.println("6.) Return to the main menu...");
-		System.out.print("\nOption: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		Integer option = Integer.parseInt(read);
-		switch (option) {
-		case 1: {
-			modifyAuthor();
-			return;
-		}
-		case 2: {
-			modifyDevice();
-			return;
-		}
-		case 3: {
-			modifyDisease();
-			return;
-		}
-		case 4: {
-			modifyImage();
-			return;
-		}
-		case 5: {
-			modifyProcedure();
-			return;
-		}
-		case 6: {
-			return;
-		}
-		}
+		int row = mainTable.getSelectedRow();
+		int id = (Integer) mainTable.getValueAt(row, 0);
+		dbManager.deleteSymptom(id);
+		paintSymptoms();
 	}
 
 	private static void modifyAuthor() {
@@ -2878,5 +2988,41 @@ public class GraphicUserInterface extends JFrame {
 		}
 		XmlManager xmlm = new XmlManager(dbManager);
 		xmlm.unmarshalToJavaSymptom(fileName);
+	}
+
+	public static File obtenerRuta(int opcion) {
+		int respuesta;
+		File ruta = new File("");
+		JFileChooser buscadorDeArchivos = new JFileChooser();
+		buscadorDeArchivos.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		// Se crea un jfilechooser que sólo acepte archivos. El usuario decide
+		// si para cargar o guardar.
+		switch (opcion) {
+		case 1: {
+			respuesta = buscadorDeArchivos.showOpenDialog(null);
+			if (respuesta == JFileChooser.APPROVE_OPTION) {
+				ruta = buscadorDeArchivos.getSelectedFile();
+			} // Se obtiene una ruta para abrir un archivo.
+			if (respuesta == JFileChooser.CANCEL_OPTION) {
+				System.out.println("No se ha escogido una ruta.");
+				ruta = null;
+			}
+			break;
+		}
+		case 2: {
+			respuesta = buscadorDeArchivos.showSaveDialog(null);
+			if (respuesta == JFileChooser.APPROVE_OPTION) {
+				ruta = buscadorDeArchivos.getSelectedFile();
+			} // Se obtiene una ruta para guardar un archivo.
+			if (respuesta == JFileChooser.CANCEL_OPTION) {
+				System.out.println("No se ha escogido una ruta.");
+				ruta = null;
+			}
+			break;
+		}
+		}
+		buscadorDeArchivos.invalidate();
+		System.out.println(ruta.getAbsolutePath());
+		return ruta;
 	}
 }

@@ -9,6 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 
@@ -21,17 +23,24 @@ public class Image implements Serializable {
 	@Id
 	@GeneratedValue(generator = "image")
 	@TableGenerator(name = "image", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "image")
+	@XmlAttribute
 	private int ID;
+	@XmlTransient
 	private String description;
+	@XmlTransient
 	private String type;
+	@XmlTransient
 	private String size;
 	@Basic (fetch = FetchType.LAZY)
 	@Lob
+	@XmlTransient
 	private byte[] image;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "paper")
+	@XmlTransient
 	private Paper paper;
 	@ManyToMany(mappedBy = "image")
+	@XmlTransient
 	private List<Disease> disease;
 
 	public Image() {
