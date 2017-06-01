@@ -61,8 +61,7 @@ public class CommandLineUserInterface {
 		int option = Integer.parseInt(read);
 		switch (option) {
 		case 1: {
-			newEntity(); // Ver en que relaciones 1-n pueden suprimirse bucles a
-							// la hora de relacionar ojetos entre sí.
+			newEntity(); 
 			break;
 		}
 		case 2: {
@@ -78,14 +77,10 @@ public class CommandLineUserInterface {
 			break;
 		}
 		case 5: {
-			// convertXML(dbManager); No hace falta pasarles el dbManager porque
-			// es un atributo de la clase y todos lo smétodso pueden acceder a
-			// él.
 			convertXML();
 			break;
 		}
 		case 6: {
-			// convertJava(dbManager);
 			convertJAVA();
 			break;
 		}

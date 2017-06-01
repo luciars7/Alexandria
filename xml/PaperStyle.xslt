@@ -17,14 +17,14 @@
       <th>Image</th>
       <xsl:for-each select="//Paper">
 	      <tr>
-	      <td><xsl:value-of select="@id" /></td>
-	      <td><xsl:value-of select="Title" /></td>
-	      <td><xsl:value-of select="Source" /></td>
-	      <td><xsl:value-of select="Author/@name" /></td>
-	      <td><xsl:value-of select="Disease/@name" /></td>
-	      <td><xsl:value-of select="Device/@name" /></td>
-	      <td><xsl:value-of select="Procedure/@name" /></td>
-	      <td><xsl:value-of select="Image/@id" /></td>
+		      <td><xsl:value-of select="@id" /></td>
+		      <td><xsl:value-of select="Title" /></td>
+		      <td><xsl:value-of select="Source" /></td>
+		      <td><xsl:value-of select="Author/@name" /></td>
+		      <td><xsl:value-of select="Disease/@name" /></td>
+		      <td><xsl:value-of select="Device/@name" /></td>
+		      <td><xsl:value-of select="Procedure/@name" /></td>
+		      <td><xsl:value-of select="Image/@id" /></td>
 	      </tr>
       </xsl:for-each>
    </table>
