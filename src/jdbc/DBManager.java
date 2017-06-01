@@ -1,16 +1,24 @@
 package jdbc;
 
+import java.awt.BorderLayout;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
+
 import pojos.*;
 
-
 //¿ON DELETE CASCADE? ¿Tiene sentido para alguna tabla?
-//Relaciones 1-n. Sólo se crea una fila. ¿Cómo recuperar si se tienen varias pero con distinto id para el mismo objeto?
 
 public class DBManager {
-
+	JFrame editorFrame;
 	static Connection c = null;
 
 	public DBManager() {
@@ -34,6 +42,22 @@ public class DBManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public JFrame getEditorFrame() {
+		return editorFrame;
+	}
+
+	public void setEditorFrame(JFrame editorFrame) {
+		this.editorFrame = editorFrame;
+	}
+
+	public static Connection getC() {
+		return c;
+	}
+
+	public static void setC(Connection c) {
+		DBManager.c = c;
 	}
 
 	public static boolean checkTables() {
@@ -81,11 +105,11 @@ public class DBManager {
 			} else {
 				String sql = "SELECT * FROM author WHERE name = '" + NAME + "'";
 				ResultSet rs1 = stmt.executeQuery(sql); // Works as an iterator.
-					int id = rs1.getInt("ID");
-					String name = rs1.getString("name");
-					String origin = rs1.getString("origin");
-					String association = rs1.getString("association");
-					list.add(new Author(id, name, origin, association));
+				int id = rs1.getInt("ID");
+				String name = rs1.getString("name");
+				String origin = rs1.getString("origin");
+				String association = rs1.getString("association");
+				list.add(new Author(id, name, origin, association));
 				if (rs1 != null) {
 					rs1.close();
 				}
@@ -139,10 +163,10 @@ public class DBManager {
 			} else {
 				String sql = "SELECT * FROM bodypart WHERE name = '" + NAME + "'";
 				ResultSet rs3 = stmt.executeQuery(sql); // Works as an iterator.
-					int id = rs3.getInt("ID");
-					String name = rs3.getString("name");
-					String location = rs3.getString("location");
-					list.add(new BodyPart(id, name, location));
+				int id = rs3.getInt("ID");
+				String name = rs3.getString("name");
+				String location = rs3.getString("location");
+				list.add(new BodyPart(id, name, location));
 				if (rs3 != null) {
 					rs3.close();
 				}
@@ -196,12 +220,12 @@ public class DBManager {
 			} else {
 				String sql = "SELECT * FROM device WHERE name = '" + NAME + "'";
 				ResultSet rs5 = stmt.executeQuery(sql); // Works as an iterator.
-					int id = rs5.getInt("ID");
-					String name = rs5.getString("name");
-					String type = rs5.getString("type");
-					float price = rs5.getFloat("price");
-					String brand = rs5.getString("brand");
-					list.add(new Device(id, name, type, price, brand));
+				int id = rs5.getInt("ID");
+				String name = rs5.getString("name");
+				String type = rs5.getString("type");
+				float price = rs5.getFloat("price");
+				String brand = rs5.getString("brand");
+				list.add(new Device(id, name, type, price, brand));
 				if (rs5 != null) {
 					rs5.close();
 				}
@@ -247,8 +271,9 @@ public class DBManager {
 					int id = rs7.getInt("ID");
 					String name = rs7.getString("name");
 					String description = rs7.getString("description");
-					//BodyPart bodypart = (BodyPart) selectBodyPart(rs7.getInt("bodypart"));
-					//list.add(new Disease(id, name, description, bodypart));
+					// BodyPart bodypart = (BodyPart)
+					// selectBodyPart(rs7.getInt("bodypart"));
+					// list.add(new Disease(id, name, description, bodypart));
 					list.add(new Disease(id, name, description));
 				}
 				if (rs7 != null) {
@@ -257,12 +282,13 @@ public class DBManager {
 			} else {
 				String sql = "SELECT * FROM disease WHERE name = '" + NAME + "'";
 				ResultSet rs7 = stmt.executeQuery(sql); // Works as an iterator.
-					int id = rs7.getInt("ID");
-					String name = rs7.getString("name");
-					String description = rs7.getString("description");
-					//BodyPart bodypart = (BodyPart) this.selectBodyPart(rs7.getInt("bodyPart"));
-					//list.add(new Disease(id, name, description, bodypart));
-					list.add(new Disease(id, name, description));
+				int id = rs7.getInt("ID");
+				String name = rs7.getString("name");
+				String description = rs7.getString("description");
+				// BodyPart bodypart = (BodyPart)
+				// this.selectBodyPart(rs7.getInt("bodyPart"));
+				// list.add(new Disease(id, name, description, bodypart));
+				list.add(new Disease(id, name, description));
 				if (rs7 != null) {
 					rs7.close();
 				}
@@ -283,8 +309,9 @@ public class DBManager {
 			int id3 = rs8.getInt("ID");
 			String name = rs8.getString("name");
 			String description = rs8.getString("description");
-			//BodyPart bodypart = (BodyPart) this.selectBodyPart(rs8.getInt("bodyPart"));
-			//disease = new Disease(id3, name, description, bodypart);
+			// BodyPart bodypart = (BodyPart)
+			// this.selectBodyPart(rs8.getInt("bodyPart"));
+			// disease = new Disease(id3, name, description, bodypart);
 			disease = new Disease(id3, name, description);
 			if (rs8 != null) {
 				rs8.close();
@@ -310,8 +337,10 @@ public class DBManager {
 					String type = rs9.getString("type");
 					String size = rs9.getString("size");
 					byte[] image = rs9.getBytes("image");
-					//Paper paper = (Paper) this.selectPaper(rs9.getInt("paper"));
-					//list.add(new Image(id, description, type, size, image, paper));
+					// Paper paper = (Paper)
+					// this.selectPaper(rs9.getInt("paper"));
+					// list.add(new Image(id, description, type, size, image,
+					// paper));
 					list.add(new Image(id, description, type, size, image));
 				}
 				if (rs9 != null) {
@@ -326,31 +355,17 @@ public class DBManager {
 					String type = rs9.getString("type");
 					String size = rs9.getString("size");
 					byte[] image = rs9.getBytes("image");
-					//Paper paper = (Paper) this.selectPaper(rs9.getInt("paper"));
-					//list.add(new Image(id, description, type, size, image, paper));
-					list.add(new Image(id, description, type, size, image));
-				
-					//El código de abajo podría servir para mostrar las imágenes en una ventana nueva.
-				    /*if (image!=null) {
-					ByteArrayInputStream blobIn = new ByteArrayInputStream(image);
-
-					// Show the photo
-					
-						ImageWindow window = new ImageWindow();
-					    window.showBlob(blobIn);
-					
-					// Write the photo in a file
-					/*else {
-						File outFile = new File("./photos/Output.png");
-						OutputStream blobOut = new FileOutputStream(outFile);
-						byte[] buffer = new byte[blobIn.available()];
-						blobIn.read(buffer);
-						blobIn.write(buffer);
-						blobIn.close();
-					}
-				}*/
+					// Paper paper = (Paper)
+					// this.selectPaper(rs9.getInt("paper"));
+					// list.add(new Image(id, description, type, size, image,
+					// paper));
+					Image i = new Image(id, description, type, size, image);
+					list.add(i);
+					/*if(image!=null){
+					ByteArrayInputStream blobIn = new ByteArrayInputStream(i.getImage());
+					showBlob(blobIn);}*/
 				}
-				
+
 				if (rs9 != null) {
 					rs9.close();
 				}
@@ -362,8 +377,33 @@ public class DBManager {
 		return list;
 	}
 
+	public void showBlob(final InputStream stream) {
+		
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				editorFrame = new JFrame("Image Window");
+				editorFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+				BufferedImage image = null;
+				try {
+					image = ImageIO.read(stream);
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.exit(1);
+				}
+				ImageIcon imageIcon = new ImageIcon(image);
+				JLabel jLabel = new JLabel();
+				jLabel.setIcon(imageIcon);
+				editorFrame.getContentPane().add(jLabel, BorderLayout.CENTER);
+
+				editorFrame.pack();
+				editorFrame.setLocationRelativeTo(null);
+				editorFrame.setVisible(true);
+			}
+		});
+	}
+
 	public Image selectImage(Integer id) {
-		Image image = null;
+		Image i = null;
 		try {
 			Statement stmt = c.createStatement();
 			String sql = "SELECT * FROM image WHERE ID = '" + id + "'";
@@ -373,9 +413,12 @@ public class DBManager {
 			String type = rs0.getString("type");
 			String size = rs0.getString("size");
 			byte[] imageB = rs0.getBytes("image");
-			//Paper paper = (Paper) this.selectPaper(rs0.getInt("paper"));
-			//image = new Image(id, description, type, size, imageB, paper);
-			image = new Image(id, description, type, size, imageB);
+			// Paper paper = (Paper) this.selectPaper(rs0.getInt("paper"));
+			// image = new Image(id, description, type, size, imageB, paper);
+			i = new Image(id, description, type, size, imageB);
+		/*	if(imageB!=null){
+			ByteArrayInputStream blobIn = new ByteArrayInputStream(i.getImage());
+			showBlob(blobIn);}*/
 			if (rs0 != null) {
 				rs0.close();
 			}
@@ -383,32 +426,34 @@ public class DBManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return image;
+		return i;
 	}
-	
 
 	public ArrayList<Image> selectImageFromImageDisease(Integer disease_id) {
 		ArrayList<Image> list = null;
 		try {
 			list = new ArrayList<Image>();
 			Statement stmt = c.createStatement();
-			
-				String sql = "SELECT * FROM image as i INNER JOIN imagedisease as imdis ON i.ID = imdis.image INNER JOIN disease as d ON d.ID = imdis.disease WHERE d.ID = '" + disease_id + "'";
-				ResultSet rs9 = stmt.executeQuery(sql);// Works as an iterator.
-				//We need to use the number of the columns because the ID is ambiguous with the JOINs.
-				while (rs9.next()) {
-					int id = rs9.getInt(1);
-					String description = rs9.getString(2);
-					String type = rs9.getString(3);
-					String size = rs9.getString(4);
-					byte[] image = rs9.getBytes(5);
-					//Paper paper = (Paper) this.selectPaper(rs9.getInt("paper"));
-					//list.add(new Image(id, description, type, size, image, paper));
-					list.add(new Image(id, description, type, size, image));
-				}
-				if (rs9 != null) {
-					rs9.close();
-				}
+
+			String sql = "SELECT * FROM image as i INNER JOIN imagedisease as imdis ON i.ID = imdis.image INNER JOIN disease as d ON d.ID = imdis.disease WHERE d.ID = '"
+					+ disease_id + "'";
+			ResultSet rs9 = stmt.executeQuery(sql);// Works as an iterator.
+			// We need to use the number of the columns because the ID is
+			// ambiguous with the JOINs.
+			while (rs9.next()) {
+				int id = rs9.getInt(1);
+				String description = rs9.getString(2);
+				String type = rs9.getString(3);
+				String size = rs9.getString(4);
+				byte[] image = rs9.getBytes(5);
+				// Paper paper = (Paper) this.selectPaper(rs9.getInt("paper"));
+				// list.add(new Image(id, description, type, size, image,
+				// paper));
+				list.add(new Image(id, description, type, size, image));
+			}
+			if (rs9 != null) {
+				rs9.close();
+			}
 			stmt.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -437,10 +482,10 @@ public class DBManager {
 				String sql = "SELECT * FROM paper WHERE title = '" + NAME + "'";
 				ResultSet rs11 = stmt.executeQuery(sql); // Works as an
 															// iterator.
-					int id = rs11.getInt("ID");
-					String title = rs11.getString("title");
-					String source = rs11.getString("source");
-					list.add(new Paper(id, title, source));
+				int id = rs11.getInt("ID");
+				String title = rs11.getString("title");
+				String source = rs11.getString("source");
+				list.add(new Paper(id, title, source));
 				if (rs11 != null) {
 					rs11.close();
 				}
@@ -451,8 +496,6 @@ public class DBManager {
 		}
 		return list;
 	}
-	
-	
 
 	public Paper selectPaper(Integer id) {
 		Paper paper = null;
@@ -496,10 +539,10 @@ public class DBManager {
 				String sql = "SELECT * FROM procedure WHERE name = '" + NAME + "'";
 				ResultSet rs13 = stmt.executeQuery(sql); // Works as an
 															// iterator.
-					int id = rs13.getInt("ID");
-					String name = rs13.getString("name");
-					String description = rs13.getString("description");
-					list.add(new Procedure(id, name, description));
+				int id = rs13.getInt("ID");
+				String name = rs13.getString("name");
+				String description = rs13.getString("description");
+				list.add(new Procedure(id, name, description));
 				if (rs13 != null) {
 					rs13.close();
 				}
@@ -553,10 +596,10 @@ public class DBManager {
 				String sql = "SELECT * FROM symptom WHERE name = '" + NAME + "'";
 				ResultSet rs15 = stmt.executeQuery(sql); // Works as an
 															// iterator.
-					int id = rs15.getInt("ID");
-					String name = rs15.getString("name");
-					String description = rs15.getString("description");
-					list.add(new Symptom(id, name, description));
+				int id = rs15.getInt("ID");
+				String name = rs15.getString("name");
+				String description = rs15.getString("description");
+				list.add(new Symptom(id, name, description));
 				if (rs15 != null) {
 					rs15.close();
 				}
@@ -593,7 +636,7 @@ public class DBManager {
 			// Create tables: begin
 			Statement stmt1 = c.createStatement();
 			String sql1 = "CREATE TABLE paper" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "title TEXT UNIQUE,"
-					+ "source TEXT)"; 
+					+ "source TEXT)";
 			stmt1.executeUpdate(sql1);
 			stmt1.close();
 
@@ -620,7 +663,7 @@ public class DBManager {
 			String sql5 = "CREATE TABLE device" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT UNIQUE,"
 					+ "type TEXT ," + "price FLOAT," + "brand TEXT,"
 					+ "paper INTEGER REFERENCES paper (ID) ON UPDATE CASCADE ON DELETE CASCADE,"
-					+ "procedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE)"; 
+					+ "procedure INTEGER REFERENCES procedure (ID) ON UPDATE CASCADE ON DELETE CASCADE)";
 			stmt5.executeUpdate(sql5);
 			stmt5.close();
 
@@ -1101,7 +1144,7 @@ public class DBManager {
 			System.out.println(e.getMessage());
 		}
 	}
-	
+
 	public void updateDeviceWithPaper(Integer device_id, Integer paper_id) {
 		try {
 			String sql = "UPDATE device SET paper = ? WHERE ID = ?";

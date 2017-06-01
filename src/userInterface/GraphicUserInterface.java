@@ -1,24 +1,76 @@
 package userInterface;
 
-import java.io.*;
-import java.sql.*;
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Query;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
 import jdbc.DBManager;
 import jpa.JpaManager;
-import pojos.*;
+import pojos.Author;
+import pojos.BodyPart;
+import pojos.Device;
+import pojos.Disease;
+import pojos.Image;
+import pojos.Paper;
+import pojos.Procedure;
+import pojos.Symptom;
 import xml.XmlManager;
 
-//Sustituir en OSWD.
-public class CommandLineUserInterface {
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
+import javax.swing.SwingConstants;
+import javax.swing.JRadioButtonMenuItem;
+import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
+
+public class GraphicUserInterface extends JFrame {
 	static Connection c = null;
 	static DBManager dbManager = null;
 	static JpaManager jpaManager = null;
 	static BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
 	static String read = null;
 
-	public static void main(String args[]) {
+	private JPanel contentPane;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private JTable mainTable;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GraphicUserInterface frame = new GraphicUserInterface();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public GraphicUserInterface() {
+		setTitle("Alexandria: a multidisciplinar library");
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Nacho\\Desktop\\9TpoMA9Lc.jpg"));
 		System.out.println("Establishing a connection with ALEXANDRIA...");
 		dbManager = new DBManager();
 		dbManager.connect(c);
@@ -28,7 +80,214 @@ public class CommandLineUserInterface {
 		System.out.println("New connection stablished.");
 		jpaManager = new JpaManager();
 		jpaManager.connect();
-		showMenu();
+		// showMenu();
+
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 641, 497);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+
+		JPanel buttonPane = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) buttonPane.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		buttonPane.setBounds(10, 11, 99, 244);
+		contentPane.add(buttonPane);
+
+		JRadioButton buttonAuthor = new JRadioButton("Authors");
+		buttonAuthor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("0");
+				String columns[] = { "ID", "name", "origin", "association" };
+				DefaultTableModel tableModelAuthor = new DefaultTableModel(columns, 0);
+				mainTable.setModel(tableModelAuthor);
+				ArrayList<Author> authors = dbManager.selectAuthor("all");
+				Object[] row = new Object[tableModelAuthor.getColumnCount()];
+				for (int i = 0; i < authors.size(); i++) {
+					row[0] = authors.get(i).getID();
+					row[1] = authors.get(i).getName();
+					row[2] = authors.get(i).getOrigin();
+					row[3] = authors.get(i).getAssociation();
+					tableModelAuthor.addRow(row);
+				}
+				mainTable.repaint();
+			}
+		});
+		buttonAuthor.setVerticalAlignment(SwingConstants.TOP);
+		buttonAuthor.setHorizontalAlignment(SwingConstants.LEFT);
+		buttonGroup.add(buttonAuthor);
+		buttonPane.add(buttonAuthor);
+
+		JRadioButton buttonBodyPart = new JRadioButton("Body parts");
+		buttonBodyPart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("1");
+				String columns[] = { "ID", "name", "location" };
+				DefaultTableModel tableModelBodyPart = new DefaultTableModel(columns, 0);
+				mainTable.setModel(tableModelBodyPart);
+				ArrayList<BodyPart> bodyParts = dbManager.selectBodyPart("all");
+				Object[] row = new Object[tableModelBodyPart.getColumnCount()];
+				for (int i = 0; i < bodyParts.size(); i++) {
+					row[0] = bodyParts.get(i).getID();
+					row[1] = bodyParts.get(i).getName();
+					row[2] = bodyParts.get(i).getLocation();
+					tableModelBodyPart.addRow(row);
+				}
+				mainTable.repaint();
+			}
+		});
+		buttonBodyPart.setVerticalAlignment(SwingConstants.TOP);
+		buttonBodyPart.setHorizontalAlignment(SwingConstants.LEFT);
+		buttonGroup.add(buttonBodyPart);
+		buttonPane.add(buttonBodyPart);
+
+		JRadioButton buttonDevices = new JRadioButton("Devices");
+		buttonDevices.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String columns[] = { "ID", "name", "type", "price", "brand" };
+				DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
+				mainTable.setModel(tableModel);
+				ArrayList<Device> devices = dbManager.selectDevice("all");
+				Object[] row = new Object[tableModel.getColumnCount()];
+				for (int i = 0; i < devices.size(); i++) {
+					row[0] = devices.get(i).getID();
+					row[1] = devices.get(i).getName();
+					row[2] = devices.get(i).getType();
+					row[3] = devices.get(i).getPrice();
+					row[4] = devices.get(i).getBrand();
+					tableModel.addRow(row);
+				}
+				mainTable.repaint();
+			}
+		});
+		buttonDevices.setVerticalAlignment(SwingConstants.TOP);
+		buttonDevices.setHorizontalAlignment(SwingConstants.LEFT);
+		buttonGroup.add(buttonDevices);
+		buttonPane.add(buttonDevices);
+
+		JRadioButton buttonDisease = new JRadioButton("Diseases");
+		buttonDisease.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String columns[] = { "ID", "name", "description" };
+				DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
+				mainTable.setModel(tableModel);
+				ArrayList<Disease> diseases = dbManager.selectDisease("all");
+				Object[] row = new Object[tableModel.getColumnCount()];
+				for (int i = 0; i < diseases.size(); i++) {
+					row[0] = diseases.get(i).getID();
+					row[1] = diseases.get(i).getName();
+					row[2] = diseases.get(i).getDescription();
+					tableModel.addRow(row);
+				}
+				mainTable.repaint();
+			}
+		});
+		buttonDisease.setVerticalAlignment(SwingConstants.TOP);
+		buttonDisease.setHorizontalAlignment(SwingConstants.LEFT);
+		buttonGroup.add(buttonDisease);
+		buttonPane.add(buttonDisease);
+
+		JRadioButton buttonImage = new JRadioButton("Images");
+		buttonImage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String columns[] = { "ID", "description", "type","size","image" };
+				DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
+				mainTable.setModel(tableModel);
+				ArrayList<Image> images = dbManager.selectImage("all");
+				Object[] row = new Object[tableModel.getColumnCount()];
+				for (int i = 0; i < images.size(); i++) {
+					row[0] = images.get(i).getID();
+					row[1] = images.get(i).getDescription();
+					row[2] = images.get(i).getType();
+					row[3] = images.get(i).getSize();
+					row[4] = images.get(i).getImage();
+					tableModel.addRow(row);
+				}
+				mainTable.repaint();
+			}
+		});
+		buttonImage.setVerticalAlignment(SwingConstants.TOP);
+		buttonImage.setHorizontalAlignment(SwingConstants.LEFT);
+		buttonGroup.add(buttonImage);
+		buttonPane.add(buttonImage);
+
+		JRadioButton buttonPaper = new JRadioButton("Papers");
+		buttonPaper.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String columns[] = { "ID", "title", "source" };
+				DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
+				mainTable.setModel(tableModel);
+				ArrayList<Paper> papers = dbManager.selectPaper("all");
+				Object[] row = new Object[tableModel.getColumnCount()];
+				for (int i = 0; i < papers.size(); i++) {
+					row[0] = papers.get(i).getID();
+					row[1] = papers.get(i).getTitle();
+					row[2] = papers.get(i).getSource();
+					tableModel.addRow(row);
+				}
+				mainTable.repaint();
+			}
+		});
+		buttonPaper.setVerticalAlignment(SwingConstants.TOP);
+		buttonPaper.setHorizontalAlignment(SwingConstants.LEFT);
+		buttonGroup.add(buttonPaper);
+		buttonPane.add(buttonPaper);
+
+		JRadioButton buttonProcedure = new JRadioButton("Procedures");
+		buttonProcedure.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String columns[] = { "ID", "name", "description" };
+				DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
+				mainTable.setModel(tableModel);
+				ArrayList<Procedure> procedures = dbManager.selectProcedure("all");
+				Object[] row = new Object[tableModel.getColumnCount()];
+				for (int i = 0; i < procedures.size(); i++) {
+					row[0] = procedures.get(i).getID();
+					row[1] = procedures.get(i).getName();
+					row[2] = procedures.get(i).getDescription();
+					tableModel.addRow(row);
+				}
+				mainTable.repaint();
+			}
+		});
+		buttonProcedure.setVerticalAlignment(SwingConstants.TOP);
+		buttonProcedure.setHorizontalAlignment(SwingConstants.LEFT);
+		buttonGroup.add(buttonProcedure);
+		buttonPane.add(buttonProcedure);
+
+		JRadioButton buttonSymptom = new JRadioButton("Symptoms");
+		buttonSymptom.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String columns[] = { "ID", "name", "description" };
+				DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
+				mainTable.setModel(tableModel);
+				ArrayList<Symptom> symptoms = dbManager.selectSymptom("all");
+				Object[] row = new Object[tableModel.getColumnCount()];
+				for (int i = 0; i < symptoms.size(); i++) {
+					row[0] = symptoms.get(i).getID();
+					row[1] = symptoms.get(i).getName();
+					row[2] = symptoms.get(i).getDescription();
+					tableModel.addRow(row);
+				}
+				mainTable.repaint();
+			}
+		});
+		buttonSymptom.setVerticalAlignment(SwingConstants.TOP);
+		buttonSymptom.setHorizontalAlignment(SwingConstants.LEFT);
+		buttonGroup.add(buttonSymptom);
+		buttonPane.add(buttonSymptom);
+
+		JPanel panel = new JPanel();
+		panel.setBounds(119, 266, 496, 88);
+		contentPane.add(panel);
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(124, 11, 491, 244);
+		contentPane.add(scrollPane);
+
+		mainTable = new JTable();
+		scrollPane.setViewportView(mainTable);
 	}
 
 	public static void checkTables() {
@@ -39,62 +298,6 @@ public class CommandLineUserInterface {
 		} else {
 			System.out.println("Tables didn't exist. They have been created.");
 		}
-	}
-
-	private static void showMenu() {
-		System.out.println("\n\n\n\nALEXANDRIA");
-		System.out.println("***********************");
-		System.out.println("1.) Add new item.");
-		System.out.println("2.) Delete item.");
-		System.out.println("3.) View item.");
-		System.out.println("4.) Modify item.");
-		System.out.println("5.) Convert JAVA item into XML file.");
-		System.out.println("6.) Convert XML file into JAVA item.");
-		System.out.println("99.) Exit.");
-		System.out.print("\nOption: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			System.out.print("AN ERROR OCURRED WHILE READING THE DATA.");
-			e.printStackTrace();
-		}
-		int option = Integer.parseInt(read);
-		switch (option) {
-		case 1: {
-			newEntity(); // Ver en que relaciones 1-n pueden suprimirse bucles a
-							// la hora de relacionar ojetos entre sí.
-			break;
-		}
-		case 2: {
-			deleteEntity();
-			break;
-		}
-		case 3: {
-			showEntity();
-			break;
-		}
-		case 4: {
-			updateMenu();
-			break;
-		}
-		case 5: {
-			// convertXML(dbManager); No hace falta pasarles el dbManager porque
-			// es un atributo de la clase y todos lo smétodso pueden acceder a
-			// él.
-			convertXML();
-			break;
-		}
-		case 6: {
-			// convertJava(dbManager);
-			convertJAVA();
-			break;
-		}
-		case 99: {
-			Exit();
-			break;
-		}
-		}
-		showMenu();
 	}
 
 	private static void Exit() {
@@ -2116,63 +2319,6 @@ public class CommandLineUserInterface {
 		}
 		case "none": {
 			return;
-		}
-		}
-	}
-	
-	private static void convertXML() {
-		System.out.print("\nPlease, select the item you want to convert: ");
-		System.out.println("\n1.) Author");
-		System.out.println("2.) Body part");
-		System.out.println("3.) Device");
-		System.out.println("4.) Disease or pathology");
-		System.out.println("5.) Image");
-		System.out.println("6.) Paper or article");
-		System.out.println("7.) Procedure or treatment");
-		System.out.println("8.) Symptom");
-		System.out.println("9.) Return to the main menu...");
-		System.out.print("\nOption: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		Integer option = Integer.parseInt(read);
-		switch (option) {
-		case 1: {
-			convertXMLAuthor();
-			break;
-		}
-		case 2: {
-			convertXMLBodyPart();
-			break;
-		}
-		case 3: {
-			convertXMLDevice();
-			break;
-		}
-		case 4: {
-			convertXMLDisease();
-			break;
-		}
-		case 5: {
-			convertXMLImage();
-			break;
-		}
-		case 6: {
-			convertXMLPaper();
-			break;
-		}
-		case 7: {
-			convertXMLProcedure();
-			break;
-		}
-		case 8: {
-			convertXMLSymptom();
-			break;
-		}
-		case 9: {
-			break;
 		}
 		}
 	}
