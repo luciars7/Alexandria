@@ -315,7 +315,45 @@ public class GraphicUserInterface extends JFrame {
 		modifyElementButton.addActionListener(new ActionListener() {
 
 	public void actionPerformed(ActionEvent arg0) {
-	}
+			String selectedButton = getSelectedButtonText();
+			switch (selectedButton) {
+			case "Authors": {
+				modifyAuthor();
+				break;
+			}
+			case "Body parts": {
+				JOptionPane.showMessageDialog(contentPane, "Body parts can not be modified.");
+				break;
+			}
+			case "Devices": {
+				modifyDevice();
+				break;
+			}
+			case "Diseases": {
+				modifyDisease();
+				break;
+			}
+			case "Images": {
+				modifyImage();
+				break;
+			}
+			case "Papers": {
+				JOptionPane.showMessageDialog(contentPane, "Papers can not be modified.");
+				break;
+			}
+			case "Procedures": {
+				modifyProcedure();
+				break;
+			}
+			case "Symptoms": {
+				JOptionPane.showMessageDialog(contentPane, "Symptoms can not be modified.");
+				break;
+			}
+			}
+
+		}
+	
+	
 
 	});}
 
@@ -1997,6 +2035,10 @@ public class GraphicUserInterface extends JFrame {
 
 	private static void deleteAuthor() {
 		int row = mainTable.getSelectedRow();
+		if(row == -1){
+			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
+			return;
+		}
 		int id = (Integer) mainTable.getValueAt(row, 0);
 		dbManager.deleteAuthor(id);
 		paintAuthors();
@@ -2004,6 +2046,10 @@ public class GraphicUserInterface extends JFrame {
 
 	private static void deleteBodyPart() {
 		int row = mainTable.getSelectedRow();
+		if(row == -1){
+			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
+			return;
+		}
 		int id = (Integer) mainTable.getValueAt(row, 0);
 		dbManager.deleteBodyPart(id);
 		paintBodyParts();
@@ -2011,6 +2057,10 @@ public class GraphicUserInterface extends JFrame {
 
 	private static void deleteDevice() {
 		int row = mainTable.getSelectedRow();
+		if(row == -1){
+			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
+			return;
+		}
 		int id = (Integer) mainTable.getValueAt(row, 0);
 		dbManager.deleteDevice(id);
 		paintDevices();
@@ -2018,6 +2068,10 @@ public class GraphicUserInterface extends JFrame {
 
 	private static void deleteDisease() {
 		int row = mainTable.getSelectedRow();
+		if(row == -1){
+			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
+			return;
+		}
 		int id = (Integer) mainTable.getValueAt(row, 0);
 		dbManager.deleteDisease(id);
 		paintDiseases();
@@ -2025,6 +2079,10 @@ public class GraphicUserInterface extends JFrame {
 
 	private static void deleteImage() {
 		int row = mainTable.getSelectedRow();
+		if(row == -1){
+			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
+			return;
+		}
 		int id = (Integer) mainTable.getValueAt(row, 0);
 		dbManager.deleteImage(id);
 		paintImages();
@@ -2032,6 +2090,9 @@ public class GraphicUserInterface extends JFrame {
 
 	private static void deletePaper() {
 		int row = mainTable.getSelectedRow();
+		if(row == -1){
+			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
+		return;}
 		int id = (Integer) mainTable.getValueAt(row, 0);
 		dbManager.deletePaper(id);
 		paintPapers();
@@ -2039,6 +2100,9 @@ public class GraphicUserInterface extends JFrame {
 
 	private static void deleteProcedure() {
 		int row = mainTable.getSelectedRow();
+		if(row == -1){
+			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
+		return;}
 		int id = (Integer) mainTable.getValueAt(row, 0);
 		dbManager.deleteProcedure(id);
 		paintProcedures();
@@ -2046,192 +2110,96 @@ public class GraphicUserInterface extends JFrame {
 
 	private static void deleteSymptom() {
 		int row = mainTable.getSelectedRow();
+		if(row == -1){
+			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
+		return;}
 		int id = (Integer) mainTable.getValueAt(row, 0);
 		dbManager.deleteSymptom(id);
 		paintSymptoms();
 	}
 
 	private static void modifyAuthor() {
-		try {
-			ArrayList<Author> list = dbManager.selectAuthor("all");
-			if (list == null) {
-				System.out.println("Error searching for the authors.");
-			} else {
-				for (Author author : list) {
-					System.out.println(author);
-				}
-				showAuthor("all");
-				System.out.println("Which is the author that you want to modify?" + "\nWrite its ID number:");
-				String read = console.readLine();
-				Integer authorId = Integer.parseInt(read);
-				System.out.println("Write the new author's association:");
-				String newAssociation = console.readLine();
-				dbManager.updateAuthor(authorId, newAssociation);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		int row = mainTable.getSelectedRow();
+		if(row == -1){
+			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
+		return;}
+		int id = (Integer) mainTable.getValueAt(row, 0);
+			 JTextField textFieldNewAssociation;
+							JFrame frame = new JFrame();
+							frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+				frame.setBounds(100, 100, 308, 168);
+				GridBagLayout gridBagLayout = new GridBagLayout();
+				gridBagLayout.columnWidths = new int[]{0, 0, 0};
+				gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
+				gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+				gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+				frame.getContentPane().setLayout(gridBagLayout);
+				
+				JLabel lblNewAssociation = new JLabel("New association");
+				GridBagConstraints gbc_lblNewAssociation = new GridBagConstraints();
+				gbc_lblNewAssociation.insets = new Insets(0, 0, 5, 5);
+				gbc_lblNewAssociation.anchor = GridBagConstraints.EAST;
+				gbc_lblNewAssociation.gridx = 0;
+				gbc_lblNewAssociation.gridy = 0;
+				frame.getContentPane().add(lblNewAssociation, gbc_lblNewAssociation);
+				
+				textFieldNewAssociation = new JTextField();
+				GridBagConstraints gbc_textFieldNewAssociation = new GridBagConstraints();
+				gbc_textFieldNewAssociation.insets = new Insets(0, 0, 5, 0);
+				gbc_textFieldNewAssociation.fill = GridBagConstraints.HORIZONTAL;
+				gbc_textFieldNewAssociation.gridx = 1;
+				gbc_textFieldNewAssociation.gridy = 0;
+				frame.getContentPane().add(textFieldNewAssociation, gbc_textFieldNewAssociation);
+				textFieldNewAssociation.setColumns(10);
+				
+				JButton btnAddChanges = new JButton("Add changes");
+				btnAddChanges.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						String association = textFieldNewAssociation.getText(); 
+						dbManager.updateAuthor(id, association);
+						frame.setVisible(false);
+						frame.dispose();
+						paintAuthors();
+					}
+				});
+				GridBagConstraints gbc_btnAddChanges = new GridBagConstraints();
+				gbc_btnAddChanges.insets = new Insets(0, 0, 5, 5);
+				gbc_btnAddChanges.gridx = 0;
+				gbc_btnAddChanges.gridy = 6;
+				frame.getContentPane().add(btnAddChanges, gbc_btnAddChanges);
+				
+				JButton btnCancel = new JButton("Cancel");
+				btnCancel.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						frame.setVisible(false);
+						frame.dispose();
+					}
+				});
+				GridBagConstraints gbc_btnCancel = new GridBagConstraints();
+				gbc_btnCancel.insets = new Insets(0, 0, 0, 5);
+				gbc_btnCancel.gridx = 0;
+				gbc_btnCancel.gridy = 7;
+				frame.getContentPane().add(btnCancel, gbc_btnCancel);
+		
+		
+		
 	}
 
 	private static void modifyDevice() {
 
-		try {
-
-			ArrayList<Device> list = dbManager.selectDevice("all");
-
-			if (list.size() == 0) {
-
-				System.out.println("Error searching for the devices.");
-
-			} else {
-
-				for (Device device : list) {
-
-					System.out.println(device);
-
-				}
-
-				System.out.println("Which is the device that you want to modify?" + "\nWrite its ID number:");
-
-				String read = console.readLine();
-
-				Integer deviceId = Integer.parseInt(read);
-
-				System.out.println("Write the new devices's price:");
-
-				read = console.readLine();
-
-				Float newPrice = Float.parseFloat(read);
-
-				System.out.println("Write the new device's brand name:");
-
-				String newBrand = console.readLine();
-
-				dbManager.updateDevice(deviceId, newPrice, newBrand);
-
-			}
-
-		} catch (IOException e) {
-
-			e.printStackTrace();
-
-		}
-
 	}
 
 	private static void modifyDisease() {
-		try {
-			ArrayList<Disease> listD = dbManager.selectDisease("all");
-
-			if (listD.size() == 0) {
-
-				System.out.println("Error searching for the diseases.");
-
-			} else {
-
-				for (Disease disease : listD) {
-
-					System.out.println(disease);
-
-				}
-
-				System.out.println("Which is the disease that you want to modify?" + "\nWrite its ID number:");
-
-				String read = console.readLine();
-
-				Integer diseaseId = Integer.parseInt(read);
-
-				System.out.println("Write the new disease's procedure:");
-
-				String newProcedure = console.readLine();
-
-				System.out.println("Write the new disease's body part:");
-
-				ArrayList<BodyPart> listBP = dbManager.selectBodyPart("all");
-
-				if (listBP == null) {
-
-					System.out.println("Error searching for the symptoms.");
-
-				} else {
-
-					for (BodyPart bodypart : listBP) {
-
-						System.out.println(bodypart);
-
-					}
-
-					System.out.println("Which is the body part related to this disease?" + "\nWrite its ID number:");
-
-					read = console.readLine();
-
-					Integer newBodyPart = Integer.parseInt(read);
-
-					dbManager.updateDisease(diseaseId, newProcedure, newBodyPart);
-
-				}
-
-			}
-
-		} catch (IOException e) {
-
-			e.printStackTrace();
-
-		}
 
 	}
 
 	private static void modifyImage() {
 
-		try {
-
-			ArrayList<Image> listI = dbManager.selectImage("all");
-
-			if (listI.size() == 0) {
-
-				System.out.println("Error searching for the symptoms.");
-
-			} else {
-
-				for (Image image : listI) {
-
-					System.out.println(image);
-
-				}
-				System.out.println("Which is the image that you want to modify?" + "\nWrite its ID number:");
-				String read = console.readLine();
-				Integer imageId = Integer.parseInt(read);
-				System.out.println("Write the new image's description:");
-				String newDescription = console.readLine();
-				System.out.println("Write the new disease's paper:");
-				ArrayList<Paper> listP = dbManager.selectPaper("all");
-				System.out.println("Which is the paper related to this disease?" + "\nWrite its ID number:");
-				read = console.readLine();
-				Integer newPaper = Integer.parseInt(read);
-				dbManager.updateImage(imageId, newDescription, newPaper);
-			}
-
-		} catch (IOException e) {
-
-			e.printStackTrace();
-
-		}
-
 	}
 
 	private static void modifyProcedure() {
-		try {
-			showProcedure("all");
-			System.out.println("\nWhich is the procedure that you want to modify?" + "\nWrite its ID number:");
-			read = console.readLine();
-			Integer procedureId = Integer.parseInt(read);
-			System.out.println("Write the new procedure's description:");
-			String newDescription = console.readLine();
-			jpaManager.updateProcedureJPA(procedureId, newDescription);
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+		
 
 	}
 
