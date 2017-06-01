@@ -1178,38 +1178,17 @@ public class DBManager {
 		}
 	}
 
-	public void updateProcedure(Integer procedure_id, String newDescription) {///// Preguntar
-
-		///// a
-
-		///// Lucía
-
-		///// por
-
-		///// el
-
-		///// name.
-
+	public void updateProcedure(Integer procedure_id, String newDescription) {
 		try {
-
-			String sql = "UPDATE procedure SET name = ?, description = ? WHERE ID = ?";
-
+			String sql = "UPDATE procedure SET description = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
-
 			prep.setString(1, newDescription);
-
 			prep.setInt(2, procedure_id);
-
 			prep.executeUpdate();
-
 			prep.close();
-
 		} catch (Exception e) {
-
 			System.out.println(e.getMessage());
-
 		}
-
 	}
 
 	// Symptoms will always be symptoms. If they change the old ones are going

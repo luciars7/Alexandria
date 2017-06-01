@@ -273,89 +273,88 @@ public class GraphicUserInterface extends JFrame {
 		JButton deleteElementButton = new JButton("Delete element");
 		deleteElementButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-					String selectedButton = getSelectedButtonText();
-					switch (selectedButton) {
-					case "Authors": {
-						deleteAuthor();
-						break;
-					}
-					case "Body parts": {
-						deleteBodyPart();
-						break;
-					}
-					case "Devices": {
-						deleteDevice();
-						break;
-					}
-					case "Diseases": {
-						deleteDisease();
-						break;
-					}
-					case "Images": {
-						deleteImage();
-						break;
-					}
-					case "Papers": {
-						deletePaper();
-						break;
-					}
-					case "Procedures": {
-						deleteProcedure();
-						break;
-					}
-					case "Symptoms": {
-						deleteSymptom();
-						break;
-					}
-					}
+				String selectedButton = getSelectedButtonText();
+				switch (selectedButton) {
+				case "Authors": {
+					deleteAuthor();
+					break;
+				}
+				case "Body parts": {
+					deleteBodyPart();
+					break;
+				}
+				case "Devices": {
+					deleteDevice();
+					break;
+				}
+				case "Diseases": {
+					deleteDisease();
+					break;
+				}
+				case "Images": {
+					deleteImage();
+					break;
+				}
+				case "Papers": {
+					deletePaper();
+					break;
+				}
+				case "Procedures": {
+					deleteProcedure();
+					break;
+				}
+				case "Symptoms": {
+					deleteSymptom();
+					break;
+				}
+				}
 			}
 		});
 		deleteElementButton.setBounds(336, 11, 145, 23);
 		panel_1.add(deleteElementButton);
 		modifyElementButton.addActionListener(new ActionListener() {
 
-	public void actionPerformed(ActionEvent arg0) {
-			String selectedButton = getSelectedButtonText();
-			switch (selectedButton) {
-			case "Authors": {
-				modifyAuthor();
-				break;
-			}
-			case "Body parts": {
-				JOptionPane.showMessageDialog(contentPane, "Body parts can not be modified.");
-				break;
-			}
-			case "Devices": {
-				modifyDevice();
-				break;
-			}
-			case "Diseases": {
-				modifyDisease();
-				break;
-			}
-			case "Images": {
-				modifyImage();
-				break;
-			}
-			case "Papers": {
-				JOptionPane.showMessageDialog(contentPane, "Papers can not be modified.");
-				break;
-			}
-			case "Procedures": {
-				modifyProcedure();
-				break;
-			}
-			case "Symptoms": {
-				JOptionPane.showMessageDialog(contentPane, "Symptoms can not be modified.");
-				break;
-			}
+			public void actionPerformed(ActionEvent arg0) {
+				String selectedButton = getSelectedButtonText();
+				switch (selectedButton) {
+				case "Authors": {
+					modifyAuthor();
+					break;
+				}
+				case "Body parts": {
+					JOptionPane.showMessageDialog(contentPane, "Body parts can not be modified.");
+					break;
+				}
+				case "Devices": {
+					modifyDevice();
+					break;
+				}
+				case "Diseases": {
+					modifyDisease();
+					break;
+				}
+				case "Images": {
+					modifyImage();
+					break;
+				}
+				case "Papers": {
+					JOptionPane.showMessageDialog(contentPane, "Papers can not be modified.");
+					break;
+				}
+				case "Procedures": {
+					modifyProcedure();
+					break;
+				}
+				case "Symptoms": {
+					JOptionPane.showMessageDialog(contentPane, "Symptoms can not be modified.");
+					break;
+				}
+				}
+
 			}
 
-		}
-	
-	
-
-	});}
+		});
+	}
 
 	public String getSelectedButtonText() {
 		for (Enumeration<AbstractButton> buttons = buttonGroupPojos.getElements(); buttons.hasMoreElements();) {
@@ -697,17 +696,6 @@ public class GraphicUserInterface extends JFrame {
 		gbc_btnCancel.gridx = 0;
 		gbc_btnCancel.gridy = 8;
 		contentPane.add(btnCancel, gbc_btnCancel);
-	}
-
-	public static void showAuthor(String name) {
-		ArrayList<Author> list = dbManager.selectAuthor(name);
-		if (list == null) {
-			System.out.println("Error searching for the author(s).");
-		} else {
-			for (Author author : list) {
-				System.out.println(author);
-			}
-		}
 	}
 
 	public static void addBodyPart() {
@@ -2035,7 +2023,7 @@ public class GraphicUserInterface extends JFrame {
 
 	private static void deleteAuthor() {
 		int row = mainTable.getSelectedRow();
-		if(row == -1){
+		if (row == -1) {
 			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
 			return;
 		}
@@ -2046,7 +2034,7 @@ public class GraphicUserInterface extends JFrame {
 
 	private static void deleteBodyPart() {
 		int row = mainTable.getSelectedRow();
-		if(row == -1){
+		if (row == -1) {
 			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
 			return;
 		}
@@ -2057,7 +2045,7 @@ public class GraphicUserInterface extends JFrame {
 
 	private static void deleteDevice() {
 		int row = mainTable.getSelectedRow();
-		if(row == -1){
+		if (row == -1) {
 			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
 			return;
 		}
@@ -2068,7 +2056,7 @@ public class GraphicUserInterface extends JFrame {
 
 	private static void deleteDisease() {
 		int row = mainTable.getSelectedRow();
-		if(row == -1){
+		if (row == -1) {
 			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
 			return;
 		}
@@ -2079,7 +2067,7 @@ public class GraphicUserInterface extends JFrame {
 
 	private static void deleteImage() {
 		int row = mainTable.getSelectedRow();
-		if(row == -1){
+		if (row == -1) {
 			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
 			return;
 		}
@@ -2090,9 +2078,10 @@ public class GraphicUserInterface extends JFrame {
 
 	private static void deletePaper() {
 		int row = mainTable.getSelectedRow();
-		if(row == -1){
+		if (row == -1) {
 			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
-		return;}
+			return;
+		}
 		int id = (Integer) mainTable.getValueAt(row, 0);
 		dbManager.deletePaper(id);
 		paintPapers();
@@ -2100,9 +2089,10 @@ public class GraphicUserInterface extends JFrame {
 
 	private static void deleteProcedure() {
 		int row = mainTable.getSelectedRow();
-		if(row == -1){
+		if (row == -1) {
 			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
-		return;}
+			return;
+		}
 		int id = (Integer) mainTable.getValueAt(row, 0);
 		dbManager.deleteProcedure(id);
 		paintProcedures();
@@ -2110,9 +2100,10 @@ public class GraphicUserInterface extends JFrame {
 
 	private static void deleteSymptom() {
 		int row = mainTable.getSelectedRow();
-		if(row == -1){
+		if (row == -1) {
 			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
-		return;}
+			return;
+		}
 		int id = (Integer) mainTable.getValueAt(row, 0);
 		dbManager.deleteSymptom(id);
 		paintSymptoms();
@@ -2120,87 +2111,413 @@ public class GraphicUserInterface extends JFrame {
 
 	private static void modifyAuthor() {
 		int row = mainTable.getSelectedRow();
-		if(row == -1){
+		if (row == -1) {
 			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
-		return;}
+			return;
+		}
 		int id = (Integer) mainTable.getValueAt(row, 0);
-			 JTextField textFieldNewAssociation;
-							JFrame frame = new JFrame();
-							frame.setVisible(true);
-			frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-				frame.setBounds(100, 100, 308, 168);
-				GridBagLayout gridBagLayout = new GridBagLayout();
-				gridBagLayout.columnWidths = new int[]{0, 0, 0};
-				gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-				gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-				gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-				frame.getContentPane().setLayout(gridBagLayout);
-				
-				JLabel lblNewAssociation = new JLabel("New association");
-				GridBagConstraints gbc_lblNewAssociation = new GridBagConstraints();
-				gbc_lblNewAssociation.insets = new Insets(0, 0, 5, 5);
-				gbc_lblNewAssociation.anchor = GridBagConstraints.EAST;
-				gbc_lblNewAssociation.gridx = 0;
-				gbc_lblNewAssociation.gridy = 0;
-				frame.getContentPane().add(lblNewAssociation, gbc_lblNewAssociation);
-				
-				textFieldNewAssociation = new JTextField();
-				GridBagConstraints gbc_textFieldNewAssociation = new GridBagConstraints();
-				gbc_textFieldNewAssociation.insets = new Insets(0, 0, 5, 0);
-				gbc_textFieldNewAssociation.fill = GridBagConstraints.HORIZONTAL;
-				gbc_textFieldNewAssociation.gridx = 1;
-				gbc_textFieldNewAssociation.gridy = 0;
-				frame.getContentPane().add(textFieldNewAssociation, gbc_textFieldNewAssociation);
-				textFieldNewAssociation.setColumns(10);
-				
-				JButton btnAddChanges = new JButton("Add changes");
-				btnAddChanges.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						String association = textFieldNewAssociation.getText(); 
-						dbManager.updateAuthor(id, association);
-						frame.setVisible(false);
-						frame.dispose();
-						paintAuthors();
-					}
-				});
-				GridBagConstraints gbc_btnAddChanges = new GridBagConstraints();
-				gbc_btnAddChanges.insets = new Insets(0, 0, 5, 5);
-				gbc_btnAddChanges.gridx = 0;
-				gbc_btnAddChanges.gridy = 6;
-				frame.getContentPane().add(btnAddChanges, gbc_btnAddChanges);
-				
-				JButton btnCancel = new JButton("Cancel");
-				btnCancel.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						frame.setVisible(false);
-						frame.dispose();
-					}
-				});
-				GridBagConstraints gbc_btnCancel = new GridBagConstraints();
-				gbc_btnCancel.insets = new Insets(0, 0, 0, 5);
-				gbc_btnCancel.gridx = 0;
-				gbc_btnCancel.gridy = 7;
-				frame.getContentPane().add(btnCancel, gbc_btnCancel);
-		
-		
-		
+		JTextField textFieldNewAssociation;
+		JFrame frame = new JFrame();
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		frame.setBounds(100, 100, 308, 168);
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[] { 0, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		frame.getContentPane().setLayout(gridBagLayout);
+
+		JLabel lblNewAssociation = new JLabel("New association");
+		GridBagConstraints gbc_lblNewAssociation = new GridBagConstraints();
+		gbc_lblNewAssociation.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewAssociation.anchor = GridBagConstraints.EAST;
+		gbc_lblNewAssociation.gridx = 0;
+		gbc_lblNewAssociation.gridy = 0;
+		frame.getContentPane().add(lblNewAssociation, gbc_lblNewAssociation);
+
+		textFieldNewAssociation = new JTextField();
+		GridBagConstraints gbc_textFieldNewAssociation = new GridBagConstraints();
+		gbc_textFieldNewAssociation.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldNewAssociation.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldNewAssociation.gridx = 1;
+		gbc_textFieldNewAssociation.gridy = 0;
+		frame.getContentPane().add(textFieldNewAssociation, gbc_textFieldNewAssociation);
+		textFieldNewAssociation.setColumns(10);
+
+		JButton btnAddChanges = new JButton("Add changes");
+		btnAddChanges.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String association = textFieldNewAssociation.getText();
+				dbManager.updateAuthor(id, association);
+				frame.setVisible(false);
+				frame.dispose();
+				paintAuthors();
+			}
+		});
+		GridBagConstraints gbc_btnAddChanges = new GridBagConstraints();
+		gbc_btnAddChanges.insets = new Insets(0, 0, 5, 5);
+		gbc_btnAddChanges.gridx = 0;
+		gbc_btnAddChanges.gridy = 6;
+		frame.getContentPane().add(btnAddChanges, gbc_btnAddChanges);
+
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				frame.dispose();
+			}
+		});
+		GridBagConstraints gbc_btnCancel = new GridBagConstraints();
+		gbc_btnCancel.insets = new Insets(0, 0, 0, 5);
+		gbc_btnCancel.gridx = 0;
+		gbc_btnCancel.gridy = 7;
+		frame.getContentPane().add(btnCancel, gbc_btnCancel);
 	}
 
 	private static void modifyDevice() {
+		int row = mainTable.getSelectedRow();
+		if (row == -1) {
+			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
+			return;
+		}
+		int id = (Integer) mainTable.getValueAt(row, 0);
+		JTextField textFieldNewPrice;
+		JTextField textFieldNewBrand;
 
+		JFrame frame = new JFrame();
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		frame.setBounds(100, 100, 308, 180);
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[] { 0, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		frame.getContentPane().setLayout(gridBagLayout);
+
+		JLabel lblNewPrice = new JLabel("New price");
+		GridBagConstraints gbc_lblNewPrice = new GridBagConstraints();
+		gbc_lblNewPrice.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewPrice.anchor = GridBagConstraints.EAST;
+		gbc_lblNewPrice.gridx = 0;
+		gbc_lblNewPrice.gridy = 0;
+		frame.getContentPane().add(lblNewPrice, gbc_lblNewPrice);
+
+		textFieldNewPrice = new JTextField();
+		GridBagConstraints gbc_textFieldNewPrice = new GridBagConstraints();
+		gbc_textFieldNewPrice.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldNewPrice.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldNewPrice.gridx = 1;
+		gbc_textFieldNewPrice.gridy = 0;
+		frame.getContentPane().add(textFieldNewPrice, gbc_textFieldNewPrice);
+		textFieldNewPrice.setColumns(10);
+
+		JLabel lblNewBrand = new JLabel("New brand");
+		GridBagConstraints gbc_lblNewBrand = new GridBagConstraints();
+		gbc_lblNewBrand.anchor = GridBagConstraints.EAST;
+		gbc_lblNewBrand.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewBrand.gridx = 0;
+		gbc_lblNewBrand.gridy = 1;
+		frame.getContentPane().add(lblNewBrand, gbc_lblNewBrand);
+
+		textFieldNewBrand = new JTextField();
+		GridBagConstraints gbc_textFieldNewBrand = new GridBagConstraints();
+		gbc_textFieldNewBrand.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldNewBrand.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldNewBrand.gridx = 1;
+		gbc_textFieldNewBrand.gridy = 1;
+		frame.getContentPane().add(textFieldNewBrand, gbc_textFieldNewBrand);
+		textFieldNewBrand.setColumns(10);
+
+		JButton btnAddChanges = new JButton("Add changes");
+		btnAddChanges.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Float price = Float.parseFloat(textFieldNewPrice.getText());
+				String brand = textFieldNewBrand.getText();
+				dbManager.updateDevice(id, price, brand);
+				frame.setVisible(false);
+				frame.dispose();
+				paintDevices();
+			}
+		});
+		GridBagConstraints gbc_btnAddChanges = new GridBagConstraints();
+		gbc_btnAddChanges.insets = new Insets(0, 0, 5, 5);
+		gbc_btnAddChanges.gridx = 0;
+		gbc_btnAddChanges.gridy = 6;
+		frame.getContentPane().add(btnAddChanges, gbc_btnAddChanges);
+
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				frame.dispose();
+			}
+		});
+		GridBagConstraints gbc_btnCancel = new GridBagConstraints();
+		gbc_btnCancel.insets = new Insets(0, 0, 0, 5);
+		gbc_btnCancel.gridx = 0;
+		gbc_btnCancel.gridy = 7;
+		frame.getContentPane().add(btnCancel, gbc_btnCancel);
 	}
 
 	private static void modifyDisease() {
+		int row = mainTable.getSelectedRow();
+		if (row == -1) {
+			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
+			return;
+		}
+		int id = (Integer) mainTable.getValueAt(row, 0);
+
+		JFrame frame = new JFrame();
+		frame.setVisible(true);
+
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		frame.setBounds(100, 100, 308, 375);
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[] { 0, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		frame.getContentPane().setLayout(gridBagLayout);
+
+		JLabel lblNewBodyPart = new JLabel("New body part");
+		GridBagConstraints gbc_lblNewBodyPart = new GridBagConstraints();
+		gbc_lblNewBodyPart.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewBodyPart.gridx = 0;
+		gbc_lblNewBodyPart.gridy = 1;
+		frame.getContentPane().add(lblNewBodyPart, gbc_lblNewBodyPart);
+
+		ArrayList<BodyPart> bodyParts = dbManager.selectBodyPart("all");
+		JList listBodyParts = new JList(bodyParts.toArray());
+		listBodyParts.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		GridBagConstraints gbc_listBodyParts = new GridBagConstraints();
+		gbc_listBodyParts.insets = new Insets(0, 0, 5, 0);
+		gbc_listBodyParts.fill = GridBagConstraints.BOTH;
+		gbc_listBodyParts.gridx = 1;
+		gbc_listBodyParts.gridy = 1;
+		frame.getContentPane().add(listBodyParts, gbc_listBodyParts);
+
+		JLabel lblNewProcedure = new JLabel("New procedure");
+		GridBagConstraints gbc_lblNewProcedure = new GridBagConstraints();
+		gbc_lblNewProcedure.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewProcedure.gridx = 0;
+		gbc_lblNewProcedure.gridy = 2;
+		frame.getContentPane().add(lblNewProcedure, gbc_lblNewProcedure);
+
+		ArrayList<Procedure> procedures = dbManager.selectProcedure("all");
+		JList listProcedure = new JList(procedures.toArray());
+		listProcedure.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		GridBagConstraints gbc_listProcedure = new GridBagConstraints();
+		gbc_listProcedure.insets = new Insets(0, 0, 5, 0);
+		gbc_listProcedure.fill = GridBagConstraints.BOTH;
+		gbc_listProcedure.gridx = 1;
+		gbc_listProcedure.gridy = 2;
+		frame.getContentPane().add(listProcedure, gbc_listProcedure);
+
+		JButton btnAddChanges = new JButton("Add changes");
+		btnAddChanges.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Disease disease = dbManager.selectDisease(id);
+				int[] selected = listBodyParts.getSelectedIndices();
+				for (int i : selected) {
+					BodyPart bodyPart = dbManager.selectBodyPart(i);
+					bodyPart.addDisease(disease);
+					disease.setBodyPart(bodyPart);
+					dbManager.updateDisease(disease.getID(), disease.getDescription(), bodyPart.getID());
+				}
+
+				selected = listProcedure.getSelectedIndices();
+				for (int i : selected) {
+					Procedure procedure = dbManager.selectProcedure(i);
+					disease.addProcedure(procedure);
+					procedure.addDisease(disease);
+					dbManager.insertproceduredisease(procedure.getID(), disease.getID());
+				}
+
+				frame.setVisible(false);
+				frame.dispose();
+				paintDiseases();
+			}
+		});
+		GridBagConstraints gbc_btnAddChanges = new GridBagConstraints();
+		gbc_btnAddChanges.insets = new Insets(0, 0, 5, 5);
+		gbc_btnAddChanges.gridx = 0;
+		gbc_btnAddChanges.gridy = 6;
+		frame.getContentPane().add(btnAddChanges, gbc_btnAddChanges);
+
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				frame.dispose();
+			}
+		});
+		GridBagConstraints gbc_btnCancel = new GridBagConstraints();
+		gbc_btnCancel.insets = new Insets(0, 0, 0, 5);
+		gbc_btnCancel.gridx = 0;
+		gbc_btnCancel.gridy = 7;
+		frame.getContentPane().add(btnCancel, gbc_btnCancel);
 
 	}
 
 	private static void modifyImage() {
+		int row = mainTable.getSelectedRow();
+		if (row == -1) {
+			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
+			return;
+		}
+		int id = (Integer) mainTable.getValueAt(row, 0);
 
+		JTextField textFieldDescription;
+		JFrame frame = new JFrame();
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		frame.setBounds(100, 100, 308, 238);
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[] { 0, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		frame.getContentPane().setLayout(gridBagLayout);
+
+		JLabel lblNewDescription = new JLabel("New description");
+		GridBagConstraints gbc_lblNewDescription = new GridBagConstraints();
+		gbc_lblNewDescription.anchor = GridBagConstraints.EAST;
+		gbc_lblNewDescription.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewDescription.gridx = 0;
+		gbc_lblNewDescription.gridy = 1;
+		frame.getContentPane().add(lblNewDescription, gbc_lblNewDescription);
+
+		textFieldDescription = new JTextField();
+		GridBagConstraints gbc_textFieldDescription = new GridBagConstraints();
+		gbc_textFieldDescription.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldDescription.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldDescription.gridx = 1;
+		gbc_textFieldDescription.gridy = 1;
+		frame.getContentPane().add(textFieldDescription, gbc_textFieldDescription);
+		textFieldDescription.setColumns(10);
+
+		JLabel lblNewPaper = new JLabel("New paper");
+		GridBagConstraints gbc_lblNewPaper = new GridBagConstraints();
+		gbc_lblNewPaper.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewPaper.gridx = 0;
+		gbc_lblNewPaper.gridy = 3;
+		frame.getContentPane().add(lblNewPaper, gbc_lblNewPaper);
+
+		ArrayList<Paper> papers = dbManager.selectPaper("all");
+		JList listPaper = new JList(papers.toArray());
+		listPaper.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		GridBagConstraints gbc_listPaper = new GridBagConstraints();
+		gbc_listPaper.insets = new Insets(0, 0, 5, 0);
+		gbc_listPaper.fill = GridBagConstraints.BOTH;
+		gbc_listPaper.gridx = 1;
+		gbc_listPaper.gridy = 3;
+		frame.getContentPane().add(listPaper, gbc_listPaper);
+
+		JButton btnAddChanges = new JButton("Add changes");
+		btnAddChanges.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Image image = dbManager.selectImage(id);
+				String description = textFieldDescription.getText();
+
+				int[] selected = listPaper.getSelectedIndices();
+				for (int i : selected) {
+					Paper paper = dbManager.selectPaper(i);
+					dbManager.updateImage(id, description, paper.getID());
+				}
+				frame.setVisible(false);
+				frame.dispose();
+				paintImages();
+
+			}
+		});
+		GridBagConstraints gbc_btnAddChanges = new GridBagConstraints();
+		gbc_btnAddChanges.insets = new Insets(0, 0, 5, 5);
+		gbc_btnAddChanges.gridx = 0;
+		gbc_btnAddChanges.gridy = 6;
+		frame.getContentPane().add(btnAddChanges, gbc_btnAddChanges);
+
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				frame.dispose();
+			}
+		});
+		GridBagConstraints gbc_btnCancel = new GridBagConstraints();
+		gbc_btnCancel.insets = new Insets(0, 0, 0, 5);
+		gbc_btnCancel.gridx = 0;
+		gbc_btnCancel.gridy = 7;
+		frame.getContentPane().add(btnCancel, gbc_btnCancel);
 	}
 
 	private static void modifyProcedure() {
-		
+		int row = mainTable.getSelectedRow();
+		if (row == -1) {
+			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
+			return;
+		}
+		int id = (Integer) mainTable.getValueAt(row, 0);
 
+		JTextField textFieldDescription;
+
+		JFrame frame = new JFrame();
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		frame.setBounds(100, 100, 308, 154);
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[] { 0, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		frame.getContentPane().setLayout(gridBagLayout);
+
+		JLabel lblNewDescription = new JLabel("New description");
+		GridBagConstraints gbc_lblNewDescription = new GridBagConstraints();
+		gbc_lblNewDescription.anchor = GridBagConstraints.EAST;
+		gbc_lblNewDescription.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewDescription.gridx = 0;
+		gbc_lblNewDescription.gridy = 1;
+		frame.getContentPane().add(lblNewDescription, gbc_lblNewDescription);
+
+		textFieldDescription = new JTextField();
+		GridBagConstraints gbc_textFieldDescription = new GridBagConstraints();
+		gbc_textFieldDescription.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldDescription.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldDescription.gridx = 1;
+		gbc_textFieldDescription.gridy = 1;
+		frame.getContentPane().add(textFieldDescription, gbc_textFieldDescription);
+		textFieldDescription.setColumns(10);
+
+		JButton btnAddChanges = new JButton("Add changes");
+		btnAddChanges.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String description = textFieldDescription.getText();
+				dbManager.updateProcedure(id, description);
+				frame.setVisible(false);
+				frame.dispose();
+				paintProcedures();
+			}
+		});
+		GridBagConstraints gbc_btnAddChanges = new GridBagConstraints();
+		gbc_btnAddChanges.insets = new Insets(0, 0, 5, 5);
+		gbc_btnAddChanges.gridx = 0;
+		gbc_btnAddChanges.gridy = 6;
+		frame.getContentPane().add(btnAddChanges, gbc_btnAddChanges);
+
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				frame.dispose();
+			}
+		});
+		GridBagConstraints gbc_btnCancel = new GridBagConstraints();
+		gbc_btnCancel.insets = new Insets(0, 0, 0, 5);
+		gbc_btnCancel.gridx = 0;
+		gbc_btnCancel.gridy = 7;
+		frame.getContentPane().add(btnCancel, gbc_btnCancel);
 	}
 
 	private static void showRelatedToSymptom(String name) {
