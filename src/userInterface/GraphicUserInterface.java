@@ -8,9 +8,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -28,15 +32,25 @@ import pojos.Symptom;
 import xml.XmlManager;
 
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
 import javax.swing.JRadioButton;
+import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 import javax.swing.JRadioButtonMenuItem;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
+import javax.swing.JButton;
+import javax.swing.border.BevelBorder;
 
 public class GraphicUserInterface extends JFrame {
 	static Connection c = null;
@@ -45,9 +59,9 @@ public class GraphicUserInterface extends JFrame {
 	static BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
 	static String read = null;
 
-	private JPanel contentPane;
-	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private JTable mainTable;
+	private static JPanel contentPane;
+	private static ButtonGroup buttonGroupPojos = new ButtonGroup();
+	private static JTable mainTable;
 
 	/**
 	 * Launch the application.
@@ -57,6 +71,8 @@ public class GraphicUserInterface extends JFrame {
 			public void run() {
 				try {
 					GraphicUserInterface frame = new GraphicUserInterface();
+					paintAuthors();
+					// buttonGroupPojos.add(buttonAuthors);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -90,192 +106,99 @@ public class GraphicUserInterface extends JFrame {
 		contentPane.setLayout(null);
 
 		JPanel buttonPane = new JPanel();
+		buttonPane.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		FlowLayout flowLayout = (FlowLayout) buttonPane.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
-		buttonPane.setBounds(10, 11, 99, 244);
+		buttonPane.setBounds(10, 11, 104, 244);
 		contentPane.add(buttonPane);
 
 		JRadioButton buttonAuthor = new JRadioButton("Authors");
+		buttonAuthor.setSelected(true);
 		buttonAuthor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("0");
-				String columns[] = { "ID", "name", "origin", "association" };
-				DefaultTableModel tableModelAuthor = new DefaultTableModel(columns, 0);
-				mainTable.setModel(tableModelAuthor);
-				ArrayList<Author> authors = dbManager.selectAuthor("all");
-				Object[] row = new Object[tableModelAuthor.getColumnCount()];
-				for (int i = 0; i < authors.size(); i++) {
-					row[0] = authors.get(i).getID();
-					row[1] = authors.get(i).getName();
-					row[2] = authors.get(i).getOrigin();
-					row[3] = authors.get(i).getAssociation();
-					tableModelAuthor.addRow(row);
-				}
-				mainTable.repaint();
+				paintAuthors();
 			}
 		});
 		buttonAuthor.setVerticalAlignment(SwingConstants.TOP);
 		buttonAuthor.setHorizontalAlignment(SwingConstants.LEFT);
-		buttonGroup.add(buttonAuthor);
+		buttonGroupPojos.add(buttonAuthor);
 		buttonPane.add(buttonAuthor);
 
 		JRadioButton buttonBodyPart = new JRadioButton("Body parts");
 		buttonBodyPart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("1");
-				String columns[] = { "ID", "name", "location" };
-				DefaultTableModel tableModelBodyPart = new DefaultTableModel(columns, 0);
-				mainTable.setModel(tableModelBodyPart);
-				ArrayList<BodyPart> bodyParts = dbManager.selectBodyPart("all");
-				Object[] row = new Object[tableModelBodyPart.getColumnCount()];
-				for (int i = 0; i < bodyParts.size(); i++) {
-					row[0] = bodyParts.get(i).getID();
-					row[1] = bodyParts.get(i).getName();
-					row[2] = bodyParts.get(i).getLocation();
-					tableModelBodyPart.addRow(row);
-				}
-				mainTable.repaint();
+				paintBodyParts();
 			}
 		});
 		buttonBodyPart.setVerticalAlignment(SwingConstants.TOP);
 		buttonBodyPart.setHorizontalAlignment(SwingConstants.LEFT);
-		buttonGroup.add(buttonBodyPart);
+		buttonGroupPojos.add(buttonBodyPart);
 		buttonPane.add(buttonBodyPart);
 
 		JRadioButton buttonDevices = new JRadioButton("Devices");
 		buttonDevices.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String columns[] = { "ID", "name", "type", "price", "brand" };
-				DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
-				mainTable.setModel(tableModel);
-				ArrayList<Device> devices = dbManager.selectDevice("all");
-				Object[] row = new Object[tableModel.getColumnCount()];
-				for (int i = 0; i < devices.size(); i++) {
-					row[0] = devices.get(i).getID();
-					row[1] = devices.get(i).getName();
-					row[2] = devices.get(i).getType();
-					row[3] = devices.get(i).getPrice();
-					row[4] = devices.get(i).getBrand();
-					tableModel.addRow(row);
-				}
-				mainTable.repaint();
+				paintDevices();
 			}
 		});
 		buttonDevices.setVerticalAlignment(SwingConstants.TOP);
 		buttonDevices.setHorizontalAlignment(SwingConstants.LEFT);
-		buttonGroup.add(buttonDevices);
+		buttonGroupPojos.add(buttonDevices);
 		buttonPane.add(buttonDevices);
 
 		JRadioButton buttonDisease = new JRadioButton("Diseases");
 		buttonDisease.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String columns[] = { "ID", "name", "description" };
-				DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
-				mainTable.setModel(tableModel);
-				ArrayList<Disease> diseases = dbManager.selectDisease("all");
-				Object[] row = new Object[tableModel.getColumnCount()];
-				for (int i = 0; i < diseases.size(); i++) {
-					row[0] = diseases.get(i).getID();
-					row[1] = diseases.get(i).getName();
-					row[2] = diseases.get(i).getDescription();
-					tableModel.addRow(row);
-				}
-				mainTable.repaint();
+				paintDiseases();
 			}
 		});
 		buttonDisease.setVerticalAlignment(SwingConstants.TOP);
 		buttonDisease.setHorizontalAlignment(SwingConstants.LEFT);
-		buttonGroup.add(buttonDisease);
+		buttonGroupPojos.add(buttonDisease);
 		buttonPane.add(buttonDisease);
 
 		JRadioButton buttonImage = new JRadioButton("Images");
 		buttonImage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String columns[] = { "ID", "description", "type","size","image" };
-				DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
-				mainTable.setModel(tableModel);
-				ArrayList<Image> images = dbManager.selectImage("all");
-				Object[] row = new Object[tableModel.getColumnCount()];
-				for (int i = 0; i < images.size(); i++) {
-					row[0] = images.get(i).getID();
-					row[1] = images.get(i).getDescription();
-					row[2] = images.get(i).getType();
-					row[3] = images.get(i).getSize();
-					row[4] = images.get(i).getImage();
-					tableModel.addRow(row);
-				}
-				mainTable.repaint();
+				paintImages();
 			}
 		});
 		buttonImage.setVerticalAlignment(SwingConstants.TOP);
 		buttonImage.setHorizontalAlignment(SwingConstants.LEFT);
-		buttonGroup.add(buttonImage);
+		buttonGroupPojos.add(buttonImage);
 		buttonPane.add(buttonImage);
 
 		JRadioButton buttonPaper = new JRadioButton("Papers");
 		buttonPaper.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String columns[] = { "ID", "title", "source" };
-				DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
-				mainTable.setModel(tableModel);
-				ArrayList<Paper> papers = dbManager.selectPaper("all");
-				Object[] row = new Object[tableModel.getColumnCount()];
-				for (int i = 0; i < papers.size(); i++) {
-					row[0] = papers.get(i).getID();
-					row[1] = papers.get(i).getTitle();
-					row[2] = papers.get(i).getSource();
-					tableModel.addRow(row);
-				}
-				mainTable.repaint();
+				paintPapers();
 			}
 		});
 		buttonPaper.setVerticalAlignment(SwingConstants.TOP);
 		buttonPaper.setHorizontalAlignment(SwingConstants.LEFT);
-		buttonGroup.add(buttonPaper);
+		buttonGroupPojos.add(buttonPaper);
 		buttonPane.add(buttonPaper);
 
 		JRadioButton buttonProcedure = new JRadioButton("Procedures");
 		buttonProcedure.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String columns[] = { "ID", "name", "description" };
-				DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
-				mainTable.setModel(tableModel);
-				ArrayList<Procedure> procedures = dbManager.selectProcedure("all");
-				Object[] row = new Object[tableModel.getColumnCount()];
-				for (int i = 0; i < procedures.size(); i++) {
-					row[0] = procedures.get(i).getID();
-					row[1] = procedures.get(i).getName();
-					row[2] = procedures.get(i).getDescription();
-					tableModel.addRow(row);
-				}
-				mainTable.repaint();
+				paintProcedures();
 			}
 		});
 		buttonProcedure.setVerticalAlignment(SwingConstants.TOP);
 		buttonProcedure.setHorizontalAlignment(SwingConstants.LEFT);
-		buttonGroup.add(buttonProcedure);
+		buttonGroupPojos.add(buttonProcedure);
 		buttonPane.add(buttonProcedure);
 
 		JRadioButton buttonSymptom = new JRadioButton("Symptoms");
 		buttonSymptom.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String columns[] = { "ID", "name", "description" };
-				DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
-				mainTable.setModel(tableModel);
-				ArrayList<Symptom> symptoms = dbManager.selectSymptom("all");
-				Object[] row = new Object[tableModel.getColumnCount()];
-				for (int i = 0; i < symptoms.size(); i++) {
-					row[0] = symptoms.get(i).getID();
-					row[1] = symptoms.get(i).getName();
-					row[2] = symptoms.get(i).getDescription();
-					tableModel.addRow(row);
-				}
-				mainTable.repaint();
+				paintSymptoms();
 			}
 		});
 		buttonSymptom.setVerticalAlignment(SwingConstants.TOP);
 		buttonSymptom.setHorizontalAlignment(SwingConstants.LEFT);
-		buttonGroup.add(buttonSymptom);
+		buttonGroupPojos.add(buttonSymptom);
 		buttonPane.add(buttonSymptom);
 
 		JPanel panel = new JPanel();
@@ -283,11 +206,61 @@ public class GraphicUserInterface extends JFrame {
 		contentPane.add(panel);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(124, 11, 491, 244);
+		scrollPane.setViewportBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		scrollPane.setBounds(124, 11, 491, 190);
 		contentPane.add(scrollPane);
 
 		mainTable = new JTable();
 		scrollPane.setViewportView(mainTable);
+
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panel_1.setBounds(124, 212, 491, 43);
+		contentPane.add(panel_1);
+		panel_1.setLayout(null);
+
+		JButton newEntityButton = new JButton("Add element");
+		newEntityButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String selectedButton = getSelectedButtonText();
+				switch (selectedButton) {
+				case "Authors": {
+					addAuthor();
+					break;
+				}
+				case "Body parts": {
+					addBodyPart();
+					break;
+				}
+				}
+
+			}
+		});
+		newEntityButton.setBounds(10, 11, 153, 23);
+		panel_1.add(newEntityButton);
+
+		JButton modifyElementButton = new JButton("Modify element");
+		modifyElementButton.setBounds(173, 11, 153, 23);
+		panel_1.add(modifyElementButton);
+
+		JButton deleteElementButton = new JButton("Delete element");
+		deleteElementButton.setBounds(336, 11, 145, 23);
+		panel_1.add(deleteElementButton);
+		modifyElementButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+	}
+
+	public String getSelectedButtonText() {
+		for (Enumeration<AbstractButton> buttons = buttonGroupPojos.getElements(); buttons.hasMoreElements();) {
+			AbstractButton button = buttons.nextElement();
+			if (button.isSelected()) {
+				return button.getText();
+			}
+		}
+
+		return null;
 	}
 
 	public static void checkTables() {
@@ -296,8 +269,147 @@ public class GraphicUserInterface extends JFrame {
 		if (result == true) {
 			System.out.println("Tables already exist.");
 		} else {
-			System.out.println("Tables didn't exist. They have been created.");
+			JOptionPane.showMessageDialog(contentPane, "Tables didn't exist. They have been created.");
 		}
+	}
+
+	public static void paintAuthors() {
+		System.out.println("0");
+		String columns[] = { "ID", "name", "origin", "association" };
+		DefaultTableModel tableModelAuthor = new DefaultTableModel(columns, 0);
+		mainTable.setModel(tableModelAuthor);
+		ArrayList<Author> authors = dbManager.selectAuthor("all");
+		Object[] row = new Object[tableModelAuthor.getColumnCount()];
+		for (int i = 0; i < authors.size(); i++) {
+			row[0] = authors.get(i).getID();
+			row[1] = authors.get(i).getName();
+			row[2] = authors.get(i).getOrigin();
+			row[3] = authors.get(i).getAssociation();
+			tableModelAuthor.addRow(row);
+		}
+		mainTable.repaint();
+	}
+
+	public static void paintBodyParts() {
+
+		String columns[] = { "ID", "name", "location" };
+		DefaultTableModel tableModelBodyPart = new DefaultTableModel(columns, 0);
+		mainTable.setModel(tableModelBodyPart);
+		ArrayList<BodyPart> bodyParts = dbManager.selectBodyPart("all");
+		Object[] row = new Object[tableModelBodyPart.getColumnCount()];
+		for (int i = 0; i < bodyParts.size(); i++) {
+			row[0] = bodyParts.get(i).getID();
+			row[1] = bodyParts.get(i).getName();
+			row[2] = bodyParts.get(i).getLocation();
+			tableModelBodyPart.addRow(row);
+		}
+		mainTable.repaint();
+
+	}
+
+	public static void paintDevices() {
+
+		String columns[] = { "ID", "name", "type", "price", "brand" };
+		DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
+		mainTable.setModel(tableModel);
+		ArrayList<Device> devices = dbManager.selectDevice("all");
+		Object[] row = new Object[tableModel.getColumnCount()];
+		for (int i = 0; i < devices.size(); i++) {
+			row[0] = devices.get(i).getID();
+			row[1] = devices.get(i).getName();
+			row[2] = devices.get(i).getType();
+			row[3] = devices.get(i).getPrice();
+			row[4] = devices.get(i).getBrand();
+			tableModel.addRow(row);
+		}
+		mainTable.repaint();
+
+	}
+
+	public static void paintDiseases() {
+
+		String columns[] = { "ID", "name", "description" };
+		DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
+		mainTable.setModel(tableModel);
+		ArrayList<Disease> diseases = dbManager.selectDisease("all");
+		Object[] row = new Object[tableModel.getColumnCount()];
+		for (int i = 0; i < diseases.size(); i++) {
+			row[0] = diseases.get(i).getID();
+			row[1] = diseases.get(i).getName();
+			row[2] = diseases.get(i).getDescription();
+			tableModel.addRow(row);
+		}
+		mainTable.repaint();
+
+	}
+
+	public static void paintImages() {
+
+		String columns[] = { "ID", "description", "type", "size", "image" };
+		DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
+		mainTable.setModel(tableModel);
+		ArrayList<Image> images = dbManager.selectImage("all");
+		Object[] row = new Object[tableModel.getColumnCount()];
+		for (int i = 0; i < images.size(); i++) {
+			row[0] = images.get(i).getID();
+			row[1] = images.get(i).getDescription();
+			row[2] = images.get(i).getType();
+			row[3] = images.get(i).getSize();
+			row[4] = images.get(i).getImage();
+			tableModel.addRow(row);
+		}
+		mainTable.repaint();
+
+	}
+
+	public static void paintPapers() {
+
+		String columns[] = { "ID", "title", "source" };
+		DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
+		mainTable.setModel(tableModel);
+		ArrayList<Paper> papers = dbManager.selectPaper("all");
+		Object[] row = new Object[tableModel.getColumnCount()];
+		for (int i = 0; i < papers.size(); i++) {
+			row[0] = papers.get(i).getID();
+			row[1] = papers.get(i).getTitle();
+			row[2] = papers.get(i).getSource();
+			tableModel.addRow(row);
+		}
+		mainTable.repaint();
+
+	}
+
+	public static void paintProcedures() {
+
+		String columns[] = { "ID", "name", "description" };
+		DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
+		mainTable.setModel(tableModel);
+		ArrayList<Procedure> procedures = dbManager.selectProcedure("all");
+		Object[] row = new Object[tableModel.getColumnCount()];
+		for (int i = 0; i < procedures.size(); i++) {
+			row[0] = procedures.get(i).getID();
+			row[1] = procedures.get(i).getName();
+			row[2] = procedures.get(i).getDescription();
+			tableModel.addRow(row);
+		}
+		mainTable.repaint();
+
+	}
+
+	public static void paintSymptoms() {
+		String columns[] = { "ID", "name", "description" };
+		DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
+		mainTable.setModel(tableModel);
+		ArrayList<Symptom> symptoms = dbManager.selectSymptom("all");
+		Object[] row = new Object[tableModel.getColumnCount()];
+		for (int i = 0; i < symptoms.size(); i++) {
+			row[0] = symptoms.get(i).getID();
+			row[1] = symptoms.get(i).getName();
+			row[2] = symptoms.get(i).getDescription();
+			tableModel.addRow(row);
+		}
+		mainTable.repaint();
+
 	}
 
 	private static void Exit() {
@@ -480,65 +592,6 @@ public class GraphicUserInterface extends JFrame {
 
 	}
 
-	private static void deleteEntity() {
-		System.out.print("\nPlease, select the type of item you want to delete: ");
-		System.out.println("\n1.) Author");
-		System.out.println("2.) Body part");
-		System.out.println("3.) Device");
-		System.out.println("4.) Disease or pathology");
-		System.out.println("5.) Image");
-		System.out.println("6.) Paper or article");
-		System.out.println("7.) Procedure or treatment");
-		System.out.println("8.) Symptom");
-		System.out.println("9.) Return to the main menu...");
-		System.out.print("\nOption: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		Integer option = Integer.parseInt(read);
-
-		switch (option) {
-		case 1: {
-			deleteAuthor();
-			return;
-		}
-		case 2: {
-			deleteBodyPart();
-			return;
-		}
-		case 3: {
-			deleteDevice();
-			return;
-		}
-		case 4: {
-			deleteDisease();
-			return;
-		}
-		case 5: {
-			deleteImage();
-			return;
-		}
-		case 6: {
-			deletePaper();
-			return;
-		}
-		case 7: {
-			deleteProcedure();
-			return;
-		}
-		case 8: {
-			deleteSymptom();
-			return;
-		}
-		case 9: {
-			return;
-		}
-		}
-	}
-
 	public static String askForName() {
 
 		System.out.print("Please, provide a name or write «all» to view: ");
@@ -560,61 +613,273 @@ public class GraphicUserInterface extends JFrame {
 	}
 
 	public static void addAuthor() {
-		System.out.print("Name (must be unique): ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String name = read;
-		System.out.print("Nationality: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String origin = read;
-		System.out.print("Association: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String association = read;
-		Author author = new Author(name, origin, association);
-		dbManager.insertIntoAuthor(author);
-		System.out.println("Author inserted correctly.");
-		author = dbManager.selectAuthor(name).get(0); // Name is unique, so we
-														// will always retrieve
-														// only one. We use name
-														// because we can not
-														// access the id.
-		System.out.println("\nProceeding to show all available papers...");
-		showPaper("all");
-		System.out.println("Please, select the id of the papers you want to relate this author with.");
-		System.out.println("Select 0 for none or to finish.");
-		System.out.print("Option: ");
-		ArrayList<Integer> id = new ArrayList<Integer>();
-		int opcion = 1;
-		while (opcion != 0) {
-			try {
-				read = console.readLine();
-				opcion = Integer.parseInt(read);
-				if (opcion != 0) {
-					id.add(opcion);
-				} else {
-					break;
+		jFrameNewAuthor();
+	}
+
+	public static void jFrameNewAuthor() {
+		JPanel contentPane;
+		JTextField textFieldName;
+		JTextField textFieldOrigin;
+		JTextField textFieldAssociation;
+		JButton btnCancel;
+		JLabel lblRelatedElemts;
+		JLabel lblPapers;
+		JList list;
+		JFrame frame = new JFrame();
+		frame.setVisible(true);
+		frame.setTitle("New author");
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		frame.setBounds(100, 100, 309, 430);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		frame.setContentPane(contentPane);
+		GridBagLayout gbl_contentPane = new GridBagLayout();
+		gbl_contentPane.columnWidths = new int[] { 0, 0, 0 };
+		gbl_contentPane.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_contentPane.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+		gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+				0.0, 0.0, Double.MIN_VALUE };
+		contentPane.setLayout(gbl_contentPane);
+
+		JLabel labelName = new JLabel("Name");
+		GridBagConstraints gbc_labelName = new GridBagConstraints();
+		gbc_labelName.insets = new Insets(0, 0, 5, 5);
+		gbc_labelName.anchor = GridBagConstraints.EAST;
+		gbc_labelName.gridx = 0;
+		gbc_labelName.gridy = 0;
+		contentPane.add(labelName, gbc_labelName);
+
+		textFieldName = new JTextField();
+		GridBagConstraints gbc_textFieldName = new GridBagConstraints();
+		gbc_textFieldName.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldName.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldName.gridx = 1;
+		gbc_textFieldName.gridy = 0;
+		contentPane.add(textFieldName, gbc_textFieldName);
+		textFieldName.setColumns(10);
+
+		JLabel labelOrigin = new JLabel("Origin");
+		GridBagConstraints gbc_labelOrigin = new GridBagConstraints();
+		gbc_labelOrigin.anchor = GridBagConstraints.EAST;
+		gbc_labelOrigin.insets = new Insets(0, 0, 5, 5);
+		gbc_labelOrigin.gridx = 0;
+		gbc_labelOrigin.gridy = 1;
+		contentPane.add(labelOrigin, gbc_labelOrigin);
+
+		textFieldOrigin = new JTextField();
+		GridBagConstraints gbc_textFieldOrigin = new GridBagConstraints();
+		gbc_textFieldOrigin.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldOrigin.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldOrigin.gridx = 1;
+		gbc_textFieldOrigin.gridy = 1;
+		contentPane.add(textFieldOrigin, gbc_textFieldOrigin);
+		textFieldOrigin.setColumns(10);
+
+		JLabel labelAssociation = new JLabel("Association");
+		GridBagConstraints gbc_labelAssociation = new GridBagConstraints();
+		gbc_labelAssociation.anchor = GridBagConstraints.EAST;
+		gbc_labelAssociation.insets = new Insets(0, 0, 5, 5);
+		gbc_labelAssociation.gridx = 0;
+		gbc_labelAssociation.gridy = 2;
+		contentPane.add(labelAssociation, gbc_labelAssociation);
+
+		textFieldAssociation = new JTextField();
+		GridBagConstraints gbc_textFieldAssociation = new GridBagConstraints();
+		gbc_textFieldAssociation.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldAssociation.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldAssociation.gridx = 1;
+		gbc_textFieldAssociation.gridy = 2;
+		contentPane.add(textFieldAssociation, gbc_textFieldAssociation);
+		textFieldAssociation.setColumns(10);
+
+		lblRelatedElemts = new JLabel("Related elements");
+		GridBagConstraints gbc_lblRelatedElemts = new GridBagConstraints();
+		gbc_lblRelatedElemts.insets = new Insets(0, 0, 5, 5);
+		gbc_lblRelatedElemts.gridx = 0;
+		gbc_lblRelatedElemts.gridy = 4;
+		contentPane.add(lblRelatedElemts, gbc_lblRelatedElemts);
+
+		lblPapers = new JLabel("Papers");
+		GridBagConstraints gbc_lblPapers = new GridBagConstraints();
+		gbc_lblPapers.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPapers.gridx = 0;
+		gbc_lblPapers.gridy = 5;
+		contentPane.add(lblPapers, gbc_lblPapers);
+
+		ArrayList<Paper> papers = dbManager.selectPaper("all");
+		list = new JList(papers.toArray());
+		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		GridBagConstraints gbc_list = new GridBagConstraints();
+		gbc_list.insets = new Insets(0, 0, 5, 0);
+		gbc_list.fill = GridBagConstraints.BOTH;
+		gbc_list.gridx = 1;
+		gbc_list.gridy = 5;
+		contentPane.add(list, gbc_list);
+
+		JButton addButton = new JButton("Add");
+		addButton.setHorizontalAlignment(SwingConstants.LEFT);
+		addButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String name = textFieldName.getText();
+				String association = textFieldOrigin.getText();
+				String origin = textFieldAssociation.getText();
+				Author author = new Author(name, origin, association);
+				dbManager.insertIntoAuthor(author);
+				author = dbManager.selectAuthor(name).get(0);
+				/*
+				 * Paper paper = (Paper)list.getSelectedValue();
+				 * dbManager.insertpaperauthor(paper.getID(), author.getID());
+				 */
+				// ArrayList<Paper> paper = new ArrayList<Paper>();
+				int[] selected = list.getSelectedIndices();
+				for (int i: selected) {
+					Paper paper = (Paper) list.getModel().getElementAt(i);
+					dbManager.insertpaperauthor(paper.getID(), author.getID());
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
+				frame.setVisible(false);
+				frame.dispose();
+				paintAuthors();
 			}
-		}
-		for (Integer id2 : id) {
-			dbManager.insertpaperauthor(id2, author.getID());
-			Paper paper = dbManager.selectPaper(id2);
-			author.addPaper(paper);
-			paper.addAuthor(author);
-		}
+		});
+		GridBagConstraints gbc_addButton = new GridBagConstraints();
+		gbc_addButton.insets = new Insets(0, 0, 5, 5);
+		gbc_addButton.gridx = 0;
+		gbc_addButton.gridy = 7;
+		contentPane.add(addButton, gbc_addButton);
+
+		btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				frame.dispose();
+			}
+		});
+		GridBagConstraints gbc_btnCancel = new GridBagConstraints();
+		gbc_btnCancel.insets = new Insets(0, 0, 5, 5);
+		gbc_btnCancel.gridx = 0;
+		gbc_btnCancel.gridy = 8;
+		contentPane.add(btnCancel, gbc_btnCancel);
+	}
+
+	public static void jFrameNewBodyPart() {
+		JFrame frame = new JFrame();
+		frame.setVisible(true);
+		JPanel contentPane;
+		JTextField textFieldName;
+		JTextField textFieldLocation;
+		JButton btnCancel;
+		JLabel lblRelatedElemts;
+		JLabel lblDiseases;
+		JList listDiseases;
+		frame.setTitle("New Disease");
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		frame.setBounds(100, 100, 309, 430);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		frame.setContentPane(contentPane);
+		GridBagLayout gbl_contentPane = new GridBagLayout();
+		gbl_contentPane.columnWidths = new int[] { 0, 0, 0 };
+		gbl_contentPane.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_contentPane.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+		gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+				0.0, 0.0, Double.MIN_VALUE };
+		contentPane.setLayout(gbl_contentPane);
+
+		JLabel labelName = new JLabel("Name");
+		GridBagConstraints gbc_labelName = new GridBagConstraints();
+		gbc_labelName.insets = new Insets(0, 0, 5, 5);
+		gbc_labelName.anchor = GridBagConstraints.EAST;
+		gbc_labelName.gridx = 0;
+		gbc_labelName.gridy = 0;
+		contentPane.add(labelName, gbc_labelName);
+
+		textFieldName = new JTextField();
+		GridBagConstraints gbc_textFieldName = new GridBagConstraints();
+		gbc_textFieldName.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldName.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldName.gridx = 1;
+		gbc_textFieldName.gridy = 0;
+		contentPane.add(textFieldName, gbc_textFieldName);
+		textFieldName.setColumns(10);
+
+		JLabel labelLocation = new JLabel("Location");
+		GridBagConstraints gbc_labelLocation = new GridBagConstraints();
+		gbc_labelLocation.anchor = GridBagConstraints.EAST;
+		gbc_labelLocation.insets = new Insets(0, 0, 5, 5);
+		gbc_labelLocation.gridx = 0;
+		gbc_labelLocation.gridy = 1;
+		contentPane.add(labelLocation, gbc_labelLocation);
+
+		textFieldLocation = new JTextField();
+		GridBagConstraints gbc_textFieldLocation = new GridBagConstraints();
+		gbc_textFieldLocation.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldLocation.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldLocation.gridx = 1;
+		gbc_textFieldLocation.gridy = 1;
+		contentPane.add(textFieldLocation, gbc_textFieldLocation);
+		textFieldLocation.setColumns(10);
+		
+		lblRelatedElemts = new JLabel("Related elements");
+		GridBagConstraints gbc_lblRelatedElemts = new GridBagConstraints();
+		gbc_lblRelatedElemts.insets = new Insets(0, 0, 5, 5);
+		gbc_lblRelatedElemts.gridx = 0;
+		gbc_lblRelatedElemts.gridy = 4;
+		contentPane.add(lblRelatedElemts, gbc_lblRelatedElemts);
+
+		lblDiseases = new JLabel("Diseases");
+		GridBagConstraints gbc_lblDiseases = new GridBagConstraints();
+		gbc_lblDiseases.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDiseases.gridx = 0;
+		gbc_lblDiseases.gridy = 5;
+		contentPane.add(lblDiseases, gbc_lblDiseases);
+		
+		ArrayList<Disease> diseases = dbManager.selectDisease("all");
+		listDiseases = new JList(diseases.toArray());
+		listDiseases.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		GridBagConstraints gbc_listDiseases = new GridBagConstraints();
+		gbc_listDiseases.insets = new Insets(0, 0, 5, 0);
+		gbc_listDiseases.fill = GridBagConstraints.BOTH;
+		gbc_listDiseases.gridx = 1;
+		gbc_listDiseases.gridy = 5;
+		contentPane.add(listDiseases, gbc_listDiseases);
+
+		JButton addButton = new JButton("Add");
+		addButton.setHorizontalAlignment(SwingConstants.LEFT);
+		addButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String name = textFieldName.getText();
+				String location = textFieldLocation.getText();
+				BodyPart bodyPart = new BodyPart(name, location);
+				dbManager.insertIntoBodyPart(bodyPart);
+				bodyPart = dbManager.selectBodyPart(name).get(0);
+				int[] selected = listDiseases.getSelectedIndices();
+				for (int i : selected) {
+					Disease disease = (Disease) listDiseases.getModel().getElementAt(i);
+					dbManager.updateDisease(disease.getID(), disease.getDescription(), bodyPart.getID());
+				}
+				frame.setVisible(false);
+				frame.dispose();
+				paintBodyParts();
+			}
+		});
+		GridBagConstraints gbc_addButton = new GridBagConstraints();
+		gbc_addButton.insets = new Insets(0, 0, 5, 5);
+		gbc_addButton.gridx = 0;
+		gbc_addButton.gridy = 7;
+		contentPane.add(addButton, gbc_addButton);
+
+		btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				frame.dispose();
+			}
+		});
+		GridBagConstraints gbc_btnCancel = new GridBagConstraints();
+		gbc_btnCancel.insets = new Insets(0, 0, 5, 5);
+		gbc_btnCancel.gridx = 0;
+		gbc_btnCancel.gridy = 8;
+		contentPane.add(btnCancel, gbc_btnCancel);
 	}
 
 	public static void showAuthor(String name) {
@@ -629,53 +894,7 @@ public class GraphicUserInterface extends JFrame {
 	}
 
 	public static void addBodyPart() {
-		System.out.print("Name (must be unique): ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String name = read;
-		System.out.print("Location: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String location = read;
-		BodyPart bodyPart = new BodyPart(name, location);
-		dbManager.insertIntoBodyPart(bodyPart);
-		bodyPart = dbManager.selectBodyPart(name).get(0); // Name is unique, so
-															// it will always
-															// retrieve only
-															// one.
-		System.out.println("Body part inserted correctly.");
-		System.out.println("\nProceeding to show all available diseases...");
-		showDisease("all");
-		System.out.println("Please, select the id of the diseases you want to relate this body part with.");
-		System.out.println("Select 0 for none or to finish.");
-		System.out.print("Option: ");
-		ArrayList<Integer> id = new ArrayList<Integer>();
-		int opcion = 1;
-		while (opcion != 0) {
-			try {
-				read = console.readLine();
-				opcion = Integer.parseInt(read);
-				if (opcion != 0) {
-					id.add(opcion);
-				} else {
-					break;
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		for (Integer id2 : id) {
-			Disease disease = dbManager.selectDisease(id2);
-			bodyPart.addDisease(disease);
-			disease.setBodypart(bodyPart);
-			dbManager.updateDisease(id2, disease.getDescription(), bodyPart.getID());
-		}
+		jFrameNewBodyPart();
 	}
 
 	public static void showBodyPart(String name) {
@@ -2345,7 +2564,7 @@ public class GraphicUserInterface extends JFrame {
 
 		xmlm.marshalToXMLAuthor(aut, fileName);
 	}
-	
+
 	private static void convertXMLBodyPart() {
 		List<BodyPart> bodyparts = dbManager.selectBodyPart("all");
 		for (BodyPart bp : bodyparts) {
@@ -2368,7 +2587,7 @@ public class GraphicUserInterface extends JFrame {
 
 		xmlm.marshalToXMLBodyPart(bodyp, fileName);
 	}
-	
+
 	private static void convertXMLDevice() {
 		List<Device> devices = dbManager.selectDevice("all");
 		for (Device d : devices) {
@@ -2391,7 +2610,7 @@ public class GraphicUserInterface extends JFrame {
 
 		xmlm.marshalToXMLDevice(d, fileName);
 	}
-	
+
 	private static void convertXMLDisease() {
 		List<Disease> diseases = dbManager.selectDisease("all");
 		for (Disease d : diseases) {
@@ -2414,7 +2633,7 @@ public class GraphicUserInterface extends JFrame {
 
 		xmlm.marshalToXMLDisease(d, fileName);
 	}
-	
+
 	private static void convertXMLImage() {
 		List<Image> images = dbManager.selectImage("all");
 		for (Image i : images) {
@@ -2437,7 +2656,7 @@ public class GraphicUserInterface extends JFrame {
 
 		xmlm.marshalToXMLImage(i, fileName);
 	}
-	
+
 	private static void convertXMLPaper() {
 		List<Paper> papers = dbManager.selectPaper("all");
 		for (Paper p : papers) {
@@ -2460,7 +2679,7 @@ public class GraphicUserInterface extends JFrame {
 
 		xmlm.marshalToXMLPaper(p, fileName);
 	}
-	
+
 	private static void convertXMLProcedure() {
 		List<Procedure> procedures = dbManager.selectProcedure("all");
 		for (Procedure p : procedures) {
@@ -2483,7 +2702,7 @@ public class GraphicUserInterface extends JFrame {
 
 		xmlm.marshalToXMLProcedure(p, fileName);
 	}
-	
+
 	private static void convertXMLSymptom() {
 		List<Symptom> symptoms = dbManager.selectSymptom("all");
 		for (Symptom s : symptoms) {
@@ -2506,7 +2725,7 @@ public class GraphicUserInterface extends JFrame {
 
 		xmlm.marshalToXMLSymptom(s, fileName);
 	}
-	
+
 	private static void convertJAVA() {
 		System.out.print("\nPlease, select the item you want to convert: ");
 		System.out.println("\n1.) Author");
@@ -2576,7 +2795,7 @@ public class GraphicUserInterface extends JFrame {
 		XmlManager xmlm = new XmlManager(dbManager);
 		xmlm.unmarshalToJavaAuthor(fileName);
 	}
-	
+
 	private static void convertJavaBodyPart() {
 		String fileName = "";
 		System.out.print("Write the path of the XML file: ");
@@ -2588,7 +2807,7 @@ public class GraphicUserInterface extends JFrame {
 		XmlManager xmlm = new XmlManager(dbManager);
 		xmlm.unmarshalToJavaBodyPart(fileName);
 	}
-	
+
 	private static void convertJavaDevice() {
 		String fileName = "";
 		System.out.print("Write the path of the XML file: ");
@@ -2600,7 +2819,7 @@ public class GraphicUserInterface extends JFrame {
 		XmlManager xmlm = new XmlManager(dbManager);
 		xmlm.unmarshalToJavaDevice(fileName);
 	}
-	
+
 	private static void convertJavaDisease() {
 		String fileName = "";
 		System.out.print("Write the path of the XML file: ");
@@ -2612,7 +2831,7 @@ public class GraphicUserInterface extends JFrame {
 		XmlManager xmlm = new XmlManager(dbManager);
 		xmlm.unmarshalToJavaDisease(fileName);
 	}
-	
+
 	private static void convertJavaImage() {
 		String fileName = "";
 		System.out.print("Write the path of the XML file: ");
@@ -2624,7 +2843,7 @@ public class GraphicUserInterface extends JFrame {
 		XmlManager xmlm = new XmlManager(dbManager);
 		xmlm.unmarshalToJavaImage(fileName);
 	}
-	
+
 	private static void convertJavaPaper() {
 		String fileName = "";
 		System.out.print("Write the path of the XML file: ");
@@ -2636,7 +2855,7 @@ public class GraphicUserInterface extends JFrame {
 		XmlManager xmlm = new XmlManager(dbManager);
 		xmlm.unmarshalToJavaPaper(fileName);
 	}
-	
+
 	private static void convertJavaProcedure() {
 		String fileName = "";
 		System.out.print("Write the path of the XML file: ");
@@ -2648,7 +2867,7 @@ public class GraphicUserInterface extends JFrame {
 		XmlManager xmlm = new XmlManager(dbManager);
 		xmlm.unmarshalToJavaProcedure(fileName);
 	}
-	
+
 	private static void convertJavaSymptom() {
 		String fileName = "";
 		System.out.print("Write the path of the XML file: ");
