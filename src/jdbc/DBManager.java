@@ -3,6 +3,8 @@ package jdbc;
 import java.awt.BorderLayout;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.*;
 import java.util.*;
 
@@ -309,9 +311,6 @@ public class DBManager {
 			int id3 = rs8.getInt("ID");
 			String name = rs8.getString("name");
 			String description = rs8.getString("description");
-			// BodyPart bodypart = (BodyPart)
-			// this.selectBodyPart(rs8.getInt("bodyPart"));
-			// disease = new Disease(id3, name, description, bodypart);
 			disease = new Disease(id3, name, description);
 			if (rs8 != null) {
 				rs8.close();
@@ -834,49 +833,29 @@ public class DBManager {
 	}
 
 	public byte[] stringtobyte(File p) {
-
 		try {
-
-			InputStream streamBlob = new FileInputStream(p);
-
+			/*InputStream streamBlob = new FileInputStream(p);
 			byte[] bytesBlob = new byte[streamBlob.available()];
-
 			streamBlob.read(bytesBlob);
-
-			streamBlob.close();
-
+			streamBlob.close();*/
+			byte[] bytesBlob = Files.readAllBytes(p.toPath());
 			return bytesBlob;
-
 		} catch (IOException e) {
-
 			System.out.println("\nSomething went wrong... Try using a valid route.");
-
 			return null;
-
 		}
-
 	}
 
 	public void insertIntoPaper(Paper paper) {
-
 		try {
-
 			Statement stmtSeq = c.createStatement();
-
 			String sqlSeq = "INSERT INTO paper (title, source) VALUES ('" + paper.getTitle() + "', '"
-
 					+ paper.getSource() + "')";
-
 			stmtSeq.executeUpdate(sqlSeq);
-
 			stmtSeq.close();
-
 		} catch (SQLException ex) {
-
 			ex.printStackTrace();
-
 		}
-
 	}
 
 	public void insertIntoProcedure(Procedure procedure) {
