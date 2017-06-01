@@ -315,7 +315,45 @@ public class GraphicUserInterface extends JFrame {
 		modifyElementButton.addActionListener(new ActionListener() {
 
 	public void actionPerformed(ActionEvent arg0) {
-	}
+			String selectedButton = getSelectedButtonText();
+			switch (selectedButton) {
+			case "Authors": {
+				modifyAuthor();
+				break;
+			}
+			case "Body parts": {
+				JOptionPane.showMessageDialog(contentPane, "Body parts can not be modified.");
+				break;
+			}
+			case "Devices": {
+				modifyDevice();
+				break;
+			}
+			case "Diseases": {
+				modifyDisease();
+				break;
+			}
+			case "Images": {
+				modifyImage();
+				break;
+			}
+			case "Papers": {
+				JOptionPane.showMessageDialog(contentPane, "Papers can not be modified.");
+				break;
+			}
+			case "Procedures": {
+				modifyProcedure();
+				break;
+			}
+			case "Symptoms": {
+				JOptionPane.showMessageDialog(contentPane, "Symptoms can not be modified.");
+				break;
+			}
+			}
+
+		}
+	
+	
 
 	});}
 
@@ -2081,6 +2119,70 @@ public class GraphicUserInterface extends JFrame {
 	}
 
 	private static void modifyAuthor() {
+		int row = mainTable.getSelectedRow();
+		if(row == -1){
+			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
+		return;}
+		int id = (Integer) mainTable.getValueAt(row, 0);
+			 JTextField textFieldNewAssociation;
+							JFrame frame = new JFrame();
+							frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+				frame.setBounds(100, 100, 308, 168);
+				GridBagLayout gridBagLayout = new GridBagLayout();
+				gridBagLayout.columnWidths = new int[]{0, 0, 0};
+				gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
+				gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+				gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+				frame.getContentPane().setLayout(gridBagLayout);
+				
+				JLabel lblNewAssociation = new JLabel("New association");
+				GridBagConstraints gbc_lblNewAssociation = new GridBagConstraints();
+				gbc_lblNewAssociation.insets = new Insets(0, 0, 5, 5);
+				gbc_lblNewAssociation.anchor = GridBagConstraints.EAST;
+				gbc_lblNewAssociation.gridx = 0;
+				gbc_lblNewAssociation.gridy = 0;
+				frame.getContentPane().add(lblNewAssociation, gbc_lblNewAssociation);
+				
+				textFieldNewAssociation = new JTextField();
+				GridBagConstraints gbc_textFieldNewAssociation = new GridBagConstraints();
+				gbc_textFieldNewAssociation.insets = new Insets(0, 0, 5, 0);
+				gbc_textFieldNewAssociation.fill = GridBagConstraints.HORIZONTAL;
+				gbc_textFieldNewAssociation.gridx = 1;
+				gbc_textFieldNewAssociation.gridy = 0;
+				frame.getContentPane().add(textFieldNewAssociation, gbc_textFieldNewAssociation);
+				textFieldNewAssociation.setColumns(10);
+				
+				JButton btnAddChanges = new JButton("Add changes");
+				btnAddChanges.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						String association = textFieldNewAssociation.getText(); 
+						dbManager.updateAuthor(id, association);
+						frame.setVisible(false);
+						frame.dispose();
+						paintAuthors();
+					}
+				});
+				GridBagConstraints gbc_btnAddChanges = new GridBagConstraints();
+				gbc_btnAddChanges.insets = new Insets(0, 0, 5, 5);
+				gbc_btnAddChanges.gridx = 0;
+				gbc_btnAddChanges.gridy = 6;
+				frame.getContentPane().add(btnAddChanges, gbc_btnAddChanges);
+				
+				JButton btnCancel = new JButton("Cancel");
+				btnCancel.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						frame.setVisible(false);
+						frame.dispose();
+					}
+				});
+				GridBagConstraints gbc_btnCancel = new GridBagConstraints();
+				gbc_btnCancel.insets = new Insets(0, 0, 0, 5);
+				gbc_btnCancel.gridx = 0;
+				gbc_btnCancel.gridy = 7;
+				frame.getContentPane().add(btnCancel, gbc_btnCancel);
+		
+		
 		
 	}
 
