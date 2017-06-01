@@ -1191,10 +1191,7 @@ public class CommandLineUserInterface {
 			}
 		}
 		for (Integer id2 : id) {
-			Disease disease = dbManager.selectDisease(id2);
-			symptom.addDisease(disease);
-			disease.addSymptom(symptom);
-			dbManager.insertsymptomdisease(symptom.getID(), disease.getID());
+			
 		}
 	}
 

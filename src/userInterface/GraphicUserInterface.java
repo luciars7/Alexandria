@@ -271,13 +271,53 @@ public class GraphicUserInterface extends JFrame {
 		panel_1.add(modifyElementButton);
 
 		JButton deleteElementButton = new JButton("Delete element");
+		deleteElementButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+					String selectedButton = getSelectedButtonText();
+					switch (selectedButton) {
+					case "Authors": {
+						deleteAuthor();
+						break;
+					}
+					case "Body parts": {
+						deleteBodyPart();
+						break;
+					}
+					case "Devices": {
+						deleteDevice();
+						break;
+					}
+					case "Diseases": {
+						deleteDisease();
+						break;
+					}
+					case "Images": {
+						deleteImage();
+						break;
+					}
+					case "Papers": {
+						deletePaper();
+						break;
+					}
+					case "Procedures": {
+						deleteProcedure();
+						break;
+					}
+					case "Symptoms": {
+						deleteSymptom();
+						break;
+					}
+					}
+			}
+		});
 		deleteElementButton.setBounds(336, 11, 145, 23);
 		panel_1.add(deleteElementButton);
 		modifyElementButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
+
+	public void actionPerformed(ActionEvent arg0) {
 	}
+
+	});}
 
 	public String getSelectedButtonText() {
 		for (Enumeration<AbstractButton> buttons = buttonGroupPojos.getElements(); buttons.hasMoreElements();) {
@@ -1929,7 +1969,7 @@ public class GraphicUserInterface extends JFrame {
 					disease.addSymptom(symptom);
 					dbManager.insertsymptomdisease(symptom.getID(), disease.getID());
 				}
-				
+
 				frame.setVisible(false);
 				frame.dispose();
 				paintSymptoms();
@@ -1945,7 +1985,7 @@ public class GraphicUserInterface extends JFrame {
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-			frame.dispose();
+				frame.dispose();
 			}
 		});
 		GridBagConstraints gbc_btnCancel = new GridBagConstraints();
@@ -1956,271 +1996,59 @@ public class GraphicUserInterface extends JFrame {
 	}
 
 	private static void deleteAuthor() {
-
-		ArrayList<Author> list = dbManager.selectAuthor("all");
-
-		if (list == null) {
-
-			System.out.println("Error searching for the authors.");
-
-		} else {
-
-			for (Author author : list) {
-
-				System.out.println(author);
-
-			}
-
-			System.out.print("\nPlease, write the ID of the author you want to delete. Write «0» to go back: ");
-
-			try {
-
-				read = console.readLine();
-
-			} catch (IOException e) {
-
-				e.printStackTrace();
-
-			}
-
-			int id = Integer.parseInt(read);
-
-			if (id == 0) {
-
-				return;
-
-			} else {
-
-				dbManager.deleteAuthor(id);
-
-			}
-
-		}
-
+		int row = mainTable.getSelectedRow();
+		int id = (Integer) mainTable.getValueAt(row, 0);
+		dbManager.deleteAuthor(id);
+		paintAuthors();
 	}
 
 	private static void deleteBodyPart() {
-		ArrayList<BodyPart> list = dbManager.selectBodyPart("all");
-		if (list == null) {
-			System.out.println("Error searching for the body parts.");
-		} else {
-			for (BodyPart bodypart : list) {
-				System.out.println(bodypart);
-			}
-			System.out.print("\nPlease, write the ID of the body part you want to delete. Write «0» to go back: ");
-			try {
-				read = console.readLine();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			int id = Integer.parseInt(read);
-			if (id == 0) {
-				return;
-			} else {
-				dbManager.deleteBodyPart(id);
-			}
-		}
+		int row = mainTable.getSelectedRow();
+		int id = (Integer) mainTable.getValueAt(row, 0);
+		dbManager.deleteBodyPart(id);
+		paintBodyParts();
 	}
 
 	private static void deleteDevice() {
-		ArrayList<Device> list = dbManager.selectDevice("all");
-		if (list == null) {
-			System.out.println("Error searching for the devices.");
-		} else {
-			for (Device device : list) {
-				System.out.println(device);
-			}
-			System.out.print("\nPlease, write the ID of the device you want to delete. Write «0» to go back: ");
-			try {
-				read = console.readLine();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			int id = Integer.parseInt(read);
-			if (id == 0) {
-				return;
-			} else {
-				dbManager.deleteDevice(id);
-			}
-		}
+		int row = mainTable.getSelectedRow();
+		int id = (Integer) mainTable.getValueAt(row, 0);
+		dbManager.deleteDevice(id);
+		paintDevices();
 	}
 
 	private static void deleteDisease() {
-		ArrayList<Disease> list = dbManager.selectDisease("all");
-		if (list == null) {
-			System.out.println("Error searching for the diseases.");
-		} else {
-			for (Disease disease : list) {
-				System.out.println(disease);
-			}
-			System.out.print("\nPlease, write the ID of the disease you want to delete. Write «0» to go back: ");
-			try {
-				read = console.readLine();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			int id = Integer.parseInt(read);
-			if (id == 0) {
-				return;
-			} else {
-				dbManager.deleteDisease(id);
-			}
-		}
+		int row = mainTable.getSelectedRow();
+		int id = (Integer) mainTable.getValueAt(row, 0);
+		dbManager.deleteDisease(id);
+		paintDiseases();
 	}
 
 	private static void deleteImage() {
-
-		ArrayList<Image> list = dbManager.selectImage("all");
-
-		if (list == null) {
-
-			System.out.println("Error searching for the images.");
-
-		} else {
-
-			for (Image image : list) {
-
-				System.out.println(image);
-
-			}
-
-			System.out.print("\nPlease, write the ID of the image you want to delete. Write «0» to go back: ");
-
-			try {
-
-				read = console.readLine();
-
-			} catch (IOException e) {
-
-				e.printStackTrace();
-
-			}
-
-			int id = Integer.parseInt(read);
-
-			if (id == 0) {
-
-				return;
-
-			} else {
-
-				dbManager.deleteImage(id);
-
-			}
-
-		}
-
+		int row = mainTable.getSelectedRow();
+		int id = (Integer) mainTable.getValueAt(row, 0);
+		dbManager.deleteImage(id);
+		paintImages();
 	}
 
 	private static void deletePaper() {
-
-		ArrayList<Paper> list = dbManager.selectPaper("all");
-
-		if (list == null) {
-
-			System.out.println("Error searching for the papers.");
-
-		} else {
-
-			for (Paper paper : list) {
-
-				System.out.println(paper);
-
-			}
-
-			System.out.print("\nPlease, write the ID of the paper you want to delete. Write «0» to go back: ");
-
-			try {
-
-				read = console.readLine();
-
-			} catch (IOException e) {
-
-				e.printStackTrace();
-
-			}
-
-			int id = Integer.parseInt(read);
-
-			if (id == 0) {
-
-				return;
-
-			} else {
-
-				dbManager.deletePaper(id);
-
-			}
-
-		}
-
+		int row = mainTable.getSelectedRow();
+		int id = (Integer) mainTable.getValueAt(row, 0);
+		dbManager.deletePaper(id);
+		paintPapers();
 	}
 
 	private static void deleteProcedure() {
-		ArrayList<Procedure> list = dbManager.selectProcedure("all");
-		if (list == null) {
-			System.out.println("Error searching for the procedures.");
-		} else {
-			for (Procedure procedure : list) {
-				System.out.println(procedure);
-			}
-			System.out.print("\nPlease, write the ID of the procedure you want to delete. Write «0» to go back: ");
-			try {
-				read = console.readLine();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			int id = Integer.parseInt(read);
-			if (id == 0) {
-				return;
-			} else {
-				jpaManager.deleteProcedureJPA(id);
-			}
-		}
+		int row = mainTable.getSelectedRow();
+		int id = (Integer) mainTable.getValueAt(row, 0);
+		dbManager.deleteProcedure(id);
+		paintProcedures();
 	}
 
 	private static void deleteSymptom() {
-
-		ArrayList<Symptom> list = dbManager.selectSymptom("all");
-
-		if (list == null) {
-
-			System.out.println("Error searching for the symptoms.");
-
-		} else {
-
-			for (Symptom symptom : list) {
-
-				System.out.println(symptom);
-
-			}
-
-			System.out.print("\nPlease, write the ID of the symptom you want to delete. Write «0» to go back: ");
-
-			try {
-
-				read = console.readLine();
-
-			} catch (IOException e) {
-
-				e.printStackTrace();
-
-			}
-
-			int id = Integer.parseInt(read);
-
-			if (id == 0) {
-
-				return;
-
-			} else {
-
-				dbManager.deleteSymptom(id);
-
-			}
-
-		}
-
+		int row = mainTable.getSelectedRow();
+		int id = (Integer) mainTable.getValueAt(row, 0);
+		dbManager.deleteSymptom(id);
+		paintSymptoms();
 	}
 
 	private static void modifyAuthor() {
