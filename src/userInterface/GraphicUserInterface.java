@@ -29,6 +29,7 @@ import pojos.Image;
 import pojos.Paper;
 import pojos.Procedure;
 import pojos.Symptom;
+import xmls.Xml2HtmlPaper;
 import xmls.XmlManager;
 
 import javax.swing.JTable;
@@ -422,6 +423,46 @@ public class GraphicUserInterface extends JFrame {
 		panel_2.add(btnToJava);
 
 		JButton btnToHtml = new JButton("To HTML");
+		btnToHtml.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String selectedButton = getSelectedButtonText();
+				switch (selectedButton) {
+				case "Authors": {
+					JOptionPane.showMessageDialog(contentPane, "This option is only available for papers.");
+					break;					
+				}
+				case "Body parts": {
+					JOptionPane.showMessageDialog(contentPane, "This option is only available for papers.");
+					break;
+				}
+				case "Devices": {
+					JOptionPane.showMessageDialog(contentPane, "This option is only available for papers.");
+					break;
+				}
+				case "Diseases": {
+					JOptionPane.showMessageDialog(contentPane, "This option is only available for papers.");
+					break;
+				}
+				case "Images": {
+					JOptionPane.showMessageDialog(contentPane, "This option is only available for papers.");
+					break;
+				}
+				case "Papers": {
+					showHTML();
+					break;
+				}
+				case "Procedures": {
+					JOptionPane.showMessageDialog(contentPane, "This option is only available for papers.");
+					break;
+				}
+				case "Symptoms": {
+					JOptionPane.showMessageDialog(contentPane, "This option is only available for papers.");
+					break;
+				}
+				}
+
+			}
+		});
 		btnToHtml.setBounds(10, 79, 84, 23);
 		panel_2.add(btnToHtml);
 		modifyElementButton.addActionListener(new ActionListener() {
@@ -3050,7 +3091,7 @@ public class GraphicUserInterface extends JFrame {
 		Author author = dbManager.selectAuthor(id);
 
 		final JPanel contentPanel = new JPanel();
-		JTextField textFieldFile; 
+		JTextField textFieldFile;
 
 		JFrame dialog = new JFrame();
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -3105,7 +3146,6 @@ public class GraphicUserInterface extends JFrame {
 			}
 		}
 
-		
 	}
 
 	private static void convertXMLBodyPart() {
@@ -3329,7 +3369,7 @@ public class GraphicUserInterface extends JFrame {
 
 	private static void convertJavaAuthor() {
 		final JPanel contentPanel = new JPanel();
-		JTextField textFieldFile; 
+		JTextField textFieldFile;
 
 		JFrame dialog = new JFrame();
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -3364,7 +3404,7 @@ public class GraphicUserInterface extends JFrame {
 						Author author = xmlm.unmarshalToJavaAuthor(fileName);
 						dialog.setVisible(false);
 						dialog.dispose();
-						JOptionPane.showMessageDialog(contentPane, "Java author created: "+author.toString());
+						JOptionPane.showMessageDialog(contentPane, "Java author created: " + author.toString());
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -3468,6 +3508,11 @@ public class GraphicUserInterface extends JFrame {
 		}
 		XmlManager xmlm = new XmlManager(dbManager);
 		xmlm.unmarshalToJavaSymptom(fileName);
+	}
+	
+	public static void showHTML(){
+		Xml2HtmlPaper.simpleTransform("./xml/XmlDocument.xml", "./xml/PaperStyle.xslt", "./xml/htmlPaper.html");
+		JOptionPane.showMessageDialog(contentPane, "The file has been created. It should be in the xml folder.");
 	}
 
 }
