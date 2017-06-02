@@ -61,7 +61,7 @@ public class CommandLineUserInterface {
 		int option = Integer.parseInt(read);
 		switch (option) {
 		case 1: {
-			newEntity(); 
+			newEntity();
 			break;
 		}
 		case 2: {
@@ -1186,7 +1186,7 @@ public class CommandLineUserInterface {
 			}
 		}
 		for (Integer id2 : id) {
-			
+
 		}
 	}
 
@@ -1534,149 +1534,99 @@ public class CommandLineUserInterface {
 	}
 
 	private static void modifyDevice() {
-
 		try {
-
 			ArrayList<Device> list = dbManager.selectDevice("all");
-
 			if (list.size() == 0) {
-
 				System.out.println("Error searching for the devices.");
-
 			} else {
-
 				for (Device device : list) {
-
 					System.out.println(device);
-
 				}
-
 				System.out.println("Which is the device that you want to modify?" + "\nWrite its ID number:");
-
 				String read = console.readLine();
-
 				Integer deviceId = Integer.parseInt(read);
-
 				System.out.println("Write the new devices's price:");
-
 				read = console.readLine();
-
 				Float newPrice = Float.parseFloat(read);
-
 				System.out.println("Write the new device's brand name:");
-
 				String newBrand = console.readLine();
-
 				dbManager.updateDevice(deviceId, newPrice, newBrand);
-
 			}
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 	}
 
 	private static void modifyDisease() {
 		try {
 			ArrayList<Disease> listD = dbManager.selectDisease("all");
-
 			if (listD.size() == 0) {
-
 				System.out.println("Error searching for the diseases.");
-
 			} else {
-
 				for (Disease disease : listD) {
-
 					System.out.println(disease);
-
 				}
-
-				System.out.println("Which is the disease that you want to modify?" + "\nWrite its ID number:");
-
+				System.out.print("Which is the disease that you want to modify?" + "\nWrite its ID number:");
 				String read = console.readLine();
-
 				Integer diseaseId = Integer.parseInt(read);
-
-				System.out.println("Write the new disease's procedure:");
-
-				String newProcedure = console.readLine();
-
-				System.out.println("Write the new disease's body part:");
-
-				ArrayList<BodyPart> listBP = dbManager.selectBodyPart("all");
-
-				if (listBP == null) {
-
-					System.out.println("Error searching for the body parts.");
-
-				} else {
-
-					for (BodyPart bodypart : listBP) {
-
-						System.out.println(bodypart);
-
-					}
-
-					System.out.println("Which is the body part related to this disease?" + "\nWrite its ID number:");
-
-					read = console.readLine();
-
-					Integer newBodyPart = Integer.parseInt(read);
-
-					dbManager.updateDisease(diseaseId, newProcedure, newBodyPart);
-
+				Disease disease = dbManager.selectDisease(diseaseId);
+				System.out.println("\nProcedures:");
+				ArrayList<Procedure> listPr = dbManager.selectProcedure("all");
+				for (Procedure pr : listPr) {
+					System.out.println(pr.toString());
 				}
+				System.out.print("Which is the procedure related to this disease?" + "\nWrite its ID number:");
+				read = console.readLine();
+				Integer pr_id = Integer.parseInt(read);
+				dbManager.insertproceduredisease(pr_id, disease.getID());
 
+				System.out.println("\nBody parts:");
+				ArrayList<BodyPart> listBP = dbManager.selectBodyPart("all");
+				if (listBP == null) {
+					System.out.println("Error searching for the body parts.");
+				} else {
+					for (BodyPart bodypart : listBP) {
+						System.out.println(bodypart);
+					}
+					System.out.println("Which is the body part related to this disease?" + "\nWrite its ID number:");
+					read = console.readLine();
+					Integer newBodyPart = Integer.parseInt(read);
+					dbManager.updateDisease(disease.getID(), disease.getDescription(), newBodyPart);
+				}
 			}
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 	}
 
 	private static void modifyImage() {
-
+		System.out.println("\nImages:");
 		try {
-
 			ArrayList<Image> listI = dbManager.selectImage("all");
-
 			if (listI.size() == 0) {
-
 				System.out.println("Error searching for the images.");
-
 			} else {
-
 				for (Image image : listI) {
-
 					System.out.println(image);
-
 				}
 				System.out.println("Which is the image that you want to modify?" + "\nWrite its ID number:");
 				String read = console.readLine();
 				Integer imageId = Integer.parseInt(read);
-				System.out.println("Write the new image's description:");
+				System.out.println("\nWrite the new image's description:");
 				String newDescription = console.readLine();
-				System.out.println("Write the new disease's paper:");
+				System.out.println("Papers:");
 				ArrayList<Paper> listP = dbManager.selectPaper("all");
+				for(Paper paper : listP){
+					System.out.println(paper.toString());
+				}
 				System.out.println("Which is the paper related to this disease?" + "\nWrite its ID number:");
 				read = console.readLine();
 				Integer newPaper = Integer.parseInt(read);
 				dbManager.updateImage(imageId, newDescription, newPaper);
 			}
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 	}
 
 	private static void modifyProcedure() {
@@ -1689,7 +1639,6 @@ public class CommandLineUserInterface {
 			String newDescription = console.readLine();
 			jpaManager.updateProcedureJPA(procedureId, newDescription);
 		} catch (IOException e) {
-
 			e.printStackTrace();
 		}
 
@@ -2111,7 +2060,7 @@ public class CommandLineUserInterface {
 		}
 		}
 	}
-	
+
 	private static void convertXML() {
 		System.out.print("\nPlease, select the item you want to convert: ");
 		System.out.println("\n1.) Author");
@@ -2191,7 +2140,7 @@ public class CommandLineUserInterface {
 
 		xmlm.marshalToXMLAuthor(aut, fileName);
 	}
-	
+
 	private static void convertXMLBodyPart() {
 		List<BodyPart> bodyparts = dbManager.selectBodyPart("all");
 		for (BodyPart bp : bodyparts) {
@@ -2214,7 +2163,7 @@ public class CommandLineUserInterface {
 
 		xmlm.marshalToXMLBodyPart(bodyp, fileName);
 	}
-	
+
 	private static void convertXMLDevice() {
 		List<Device> devices = dbManager.selectDevice("all");
 		for (Device d : devices) {
@@ -2237,7 +2186,7 @@ public class CommandLineUserInterface {
 
 		xmlm.marshalToXMLDevice(d, fileName);
 	}
-	
+
 	private static void convertXMLDisease() {
 		List<Disease> diseases = dbManager.selectDisease("all");
 		for (Disease d : diseases) {
@@ -2260,7 +2209,7 @@ public class CommandLineUserInterface {
 
 		xmlm.marshalToXMLDisease(d, fileName);
 	}
-	
+
 	private static void convertXMLImage() {
 		List<Image> images = dbManager.selectImage("all");
 		for (Image i : images) {
@@ -2283,7 +2232,7 @@ public class CommandLineUserInterface {
 
 		xmlm.marshalToXMLImage(i, fileName);
 	}
-	
+
 	private static void convertXMLPaper() {
 		List<Paper> papers = dbManager.selectPaper("all");
 		for (Paper p : papers) {
@@ -2306,7 +2255,7 @@ public class CommandLineUserInterface {
 
 		xmlm.marshalToXMLPaper(p, fileName);
 	}
-	
+
 	private static void convertXMLProcedure() {
 		List<Procedure> procedures = dbManager.selectProcedure("all");
 		for (Procedure p : procedures) {
@@ -2329,7 +2278,7 @@ public class CommandLineUserInterface {
 
 		xmlm.marshalToXMLProcedure(p, fileName);
 	}
-	
+
 	private static void convertXMLSymptom() {
 		List<Symptom> symptoms = dbManager.selectSymptom("all");
 		for (Symptom s : symptoms) {
@@ -2352,7 +2301,7 @@ public class CommandLineUserInterface {
 
 		xmlm.marshalToXMLSymptom(s, fileName);
 	}
-	
+
 	private static void convertJAVA() {
 		System.out.print("\nPlease, select the item you want to convert: ");
 		System.out.println("\n1.) Author");
@@ -2422,7 +2371,7 @@ public class CommandLineUserInterface {
 		XmlManager xmlm = new XmlManager(dbManager);
 		xmlm.unmarshalToJavaAuthor(fileName);
 	}
-	
+
 	private static void convertJavaBodyPart() {
 		String fileName = "";
 		System.out.print("Write the path of the XML file: ");
@@ -2434,7 +2383,7 @@ public class CommandLineUserInterface {
 		XmlManager xmlm = new XmlManager(dbManager);
 		xmlm.unmarshalToJavaBodyPart(fileName);
 	}
-	
+
 	private static void convertJavaDevice() {
 		String fileName = "";
 		System.out.print("Write the path of the XML file: ");
@@ -2446,7 +2395,7 @@ public class CommandLineUserInterface {
 		XmlManager xmlm = new XmlManager(dbManager);
 		xmlm.unmarshalToJavaDevice(fileName);
 	}
-	
+
 	private static void convertJavaDisease() {
 		String fileName = "";
 		System.out.print("Write the path of the XML file: ");
@@ -2458,7 +2407,7 @@ public class CommandLineUserInterface {
 		XmlManager xmlm = new XmlManager(dbManager);
 		xmlm.unmarshalToJavaDisease(fileName);
 	}
-	
+
 	private static void convertJavaImage() {
 		String fileName = "";
 		System.out.print("Write the path of the XML file: ");
@@ -2470,7 +2419,7 @@ public class CommandLineUserInterface {
 		XmlManager xmlm = new XmlManager(dbManager);
 		xmlm.unmarshalToJavaImage(fileName);
 	}
-	
+
 	private static void convertJavaPaper() {
 		String fileName = "";
 		System.out.print("Write the path of the XML file: ");
@@ -2482,7 +2431,7 @@ public class CommandLineUserInterface {
 		XmlManager xmlm = new XmlManager(dbManager);
 		xmlm.unmarshalToJavaPaper(fileName);
 	}
-	
+
 	private static void convertJavaProcedure() {
 		String fileName = "";
 		System.out.print("Write the path of the XML file: ");
@@ -2494,7 +2443,7 @@ public class CommandLineUserInterface {
 		XmlManager xmlm = new XmlManager(dbManager);
 		xmlm.unmarshalToJavaProcedure(fileName);
 	}
-	
+
 	private static void convertJavaSymptom() {
 		String fileName = "";
 		System.out.print("Write the path of the XML file: ");
