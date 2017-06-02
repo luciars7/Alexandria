@@ -10,8 +10,9 @@ import javax.persistence.*;
 
 import javax.xml.bind.annotation.*;
 
+@XmlRootElement(name = "author")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder={"ID","name","origin","association","paper"})
+//@XmlType(propOrder={"ID","name","origin","association","paper"})
 @Entity
 @Table(name = "author")
 

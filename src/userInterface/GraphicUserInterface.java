@@ -52,6 +52,7 @@ import java.awt.image.ImageFilter;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.border.BevelBorder;
 
@@ -205,7 +206,7 @@ public class GraphicUserInterface extends JFrame {
 		buttonPane.add(buttonSymptom);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(119, 266, 496, 88);
+		panel.setBounds(124, 266, 491, 181);
 		contentPane.add(panel);
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -312,6 +313,71 @@ public class GraphicUserInterface extends JFrame {
 		});
 		deleteElementButton.setBounds(336, 11, 145, 23);
 		panel_1.add(deleteElementButton);
+
+		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panel_2.setBounds(10, 266, 104, 181);
+		contentPane.add(panel_2);
+		panel_2.setLayout(null);
+
+		JButton btnToXml = new JButton("To XML");
+		btnToXml.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String selectedButton = getSelectedButtonText();
+				switch (selectedButton) {
+				case "Authors": {
+					convertXMLAuthor();
+					break;
+				}
+				case "Body parts": {
+					JOptionPane.showMessageDialog(contentPane,
+							"This option is only available for authors. Please, select one.");
+					break;
+				}
+				case "Devices": {
+					JOptionPane.showMessageDialog(contentPane,
+							"This option is only available for authors. Please, select one.");
+					break;
+				}
+				case "Diseases": {
+					JOptionPane.showMessageDialog(contentPane,
+							"This option is only available for authors. Please, select one.");
+					break;
+				}
+				case "Images": {
+					JOptionPane.showMessageDialog(contentPane,
+							"This option is only available for authors. Please, select one.");
+					break;
+				}
+				case "Papers": {
+					JOptionPane.showMessageDialog(contentPane,
+							"This option is only available for authors. Please, select one.");
+					break;
+				}
+				case "Procedures": {
+					JOptionPane.showMessageDialog(contentPane,
+							"This option is only available for authors. Please, select one.");
+					break;
+				}
+				case "Symptoms": {
+					JOptionPane.showMessageDialog(contentPane,
+							"This option is only available for authors. Please, select one.");
+					break;
+				}
+				}
+
+			}
+		});
+		btnToXml.setBounds(10, 11, 84, 23);
+		panel_2.add(btnToXml);
+
+		JButton btnToJava = new JButton("To Java");
+		btnToJava.setBounds(10, 45, 84, 23);
+		panel_2.add(btnToJava);
+
+		JButton btnToHtml = new JButton("To HTML");
+		btnToHtml.setBounds(10, 79, 84, 23);
+		panel_2.add(btnToHtml);
 		modifyElementButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
@@ -539,23 +605,14 @@ public class GraphicUserInterface extends JFrame {
 	}
 
 	public static String askForName() {
-
 		System.out.print("Please, provide a name or write «all» to view: ");
-
 		try {
-
 			read = console.readLine();
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 		String name = read;
-
 		return name;
-
 	}
 
 	public static void addAuthor() {
@@ -2938,26 +2995,71 @@ public class GraphicUserInterface extends JFrame {
 	}
 
 	private static void convertXMLAuthor() {
-		List<Author> authors = dbManager.selectAuthor("all");
-		for (Author a : authors) {
-			System.out.println(a.getID() + ": " + a.getName());
+		int row = mainTable.getSelectedRow();
+		if (row == -1) {
+			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
+			return;
 		}
-		String aut = "";
-		String fileName = "";
-		System.out.print("Write the author's name (none to go back):");
-		try {
-			aut = console.readLine();
-			if (aut.equalsIgnoreCase("none")) {
-				return;
-			}
-			System.out.println("Write the path of the file where it is going to be saved: ");
-			fileName = console.readLine();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		XmlManager xmlm = new XmlManager(dbManager);
+		int id = (Integer) mainTable.getValueAt(row, 0);
+		Author author = dbManager.selectAuthor(id);
 
-		xmlm.marshalToXMLAuthor(aut, fileName);
+		final JPanel contentPanel = new JPanel();
+		JTextField textFieldFile; 
+
+		JFrame dialog = new JFrame();
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.setVisible(true);
+
+		dialog.setBounds(100, 100, 379, 124);
+		dialog.getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		dialog.getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(null);
+		{
+			JLabel lblFilesLocation = new JLabel("File's location:");
+			lblFilesLocation.setBounds(10, 13, 95, 14);
+			contentPanel.add(lblFilesLocation);
+		}
+		{
+			textFieldFile = new JTextField();
+			textFieldFile.setBounds(108, 10, 245, 20);
+			contentPanel.add(textFieldFile);
+			textFieldFile.setColumns(10);
+		}
+		{
+			JPanel buttonPane = new JPanel();
+			buttonPane.setLayout(new FlowLayout(FlowLayout.LEFT));
+			dialog.getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			{
+				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						String fileName = textFieldFile.getText();
+						XmlManager xmlm = new XmlManager(dbManager);
+						xmlm.marshalToXMLAuthor(author.getName(), fileName);
+						dialog.setVisible(false);
+						dialog.dispose();
+						JOptionPane.showMessageDialog(contentPane, "XML created.");
+					}
+				});
+				okButton.setActionCommand("OK");
+				buttonPane.add(okButton);
+				dialog.getRootPane().setDefaultButton(okButton);
+			}
+			{
+				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dialog.setVisible(false);
+						dialog.dispose();
+					}
+				});
+				cancelButton.setActionCommand("Cancel");
+				buttonPane.add(cancelButton);
+			}
+		}
+
+		
 	}
 
 	private static void convertXMLBodyPart() {
@@ -3275,39 +3377,4 @@ public class GraphicUserInterface extends JFrame {
 		xmlm.unmarshalToJavaSymptom(fileName);
 	}
 
-	public static File obtenerRuta(int opcion) {
-		int respuesta;
-		File ruta = new File("");
-		JFileChooser buscadorDeArchivos = new JFileChooser();
-		buscadorDeArchivos.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		// Se crea un jfilechooser que sólo acepte archivos. El usuario decide
-		// si para cargar o guardar.
-		switch (opcion) {
-		case 1: {
-			respuesta = buscadorDeArchivos.showOpenDialog(null);
-			if (respuesta == JFileChooser.APPROVE_OPTION) {
-				ruta = buscadorDeArchivos.getSelectedFile();
-			} // Se obtiene una ruta para abrir un archivo.
-			if (respuesta == JFileChooser.CANCEL_OPTION) {
-				System.out.println("No se ha escogido una ruta.");
-				ruta = null;
-			}
-			break;
-		}
-		case 2: {
-			respuesta = buscadorDeArchivos.showSaveDialog(null);
-			if (respuesta == JFileChooser.APPROVE_OPTION) {
-				ruta = buscadorDeArchivos.getSelectedFile();
-			} // Se obtiene una ruta para guardar un archivo.
-			if (respuesta == JFileChooser.CANCEL_OPTION) {
-				System.out.println("No se ha escogido una ruta.");
-				ruta = null;
-			}
-			break;
-		}
-		}
-		buscadorDeArchivos.invalidate();
-		System.out.println(ruta.getAbsolutePath());
-		return ruta;
-	}
 }
