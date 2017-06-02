@@ -1795,13 +1795,12 @@ public class CommandLineUserInterface {
 			System.out.println("Papers:");
 			List<Integer> listP = jpaManager.readPaperRelatedToImage(image.getID());
 			for (Integer id : listP) {
-				if (id != null) {
 					if (id != null) {
 						Paper paper = jpaManager.readPaper(id);
 						System.out.println(paper.toString());
 					}
 				}
-			}
+			
 
 			System.out.println("\nDiseases:");
 			List<Disease> listD = jpaManager.readDiseaseFromImageDisease(image.getID());

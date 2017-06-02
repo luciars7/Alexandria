@@ -411,13 +411,8 @@ public class DBManager {
 			String description = rs0.getString("description");
 			String type = rs0.getString("type");
 			String size = rs0.getString("size");
-			byte[] imageB = rs0.getBytes("image");
-			// Paper paper = (Paper) this.selectPaper(rs0.getInt("paper"));
-			// image = new Image(id, description, type, size, imageB, paper);
+			byte[] imageB = rs0.getBytes("image");	
 			i = new Image(id, description, type, size, imageB);
-		/*	if(imageB!=null){
-			ByteArrayInputStream blobIn = new ByteArrayInputStream(i.getImage());
-			showBlob(blobIn);}*/
 			if (rs0 != null) {
 				rs0.close();
 			}
