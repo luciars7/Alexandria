@@ -8,6 +8,7 @@ import javax.persistence.Query;
 import jdbc.DBManager;
 import jpa.JpaManager;
 import pojos.*;
+import xmls.Xml2HtmlPaper;
 import xmls.XmlManager;
 
 //Sustituir en OSWD.
@@ -50,6 +51,7 @@ public class CommandLineUserInterface {
 		System.out.println("4.) Modify item.");
 		System.out.println("5.) Convert JAVA item into XML file.");
 		System.out.println("6.) Convert XML file into JAVA item.");
+		System.out.println("7.) View a HTML example.");
 		System.out.println("99.) Exit.");
 		System.out.print("\nOption: ");
 		try {
@@ -82,6 +84,10 @@ public class CommandLineUserInterface {
 		}
 		case 6: {
 			convertJAVA();
+			break;
+		}
+		case 7: {
+			showHTML();
 			break;
 		}
 		case 99: {
@@ -2454,5 +2460,11 @@ public class CommandLineUserInterface {
 		}
 		XmlManager xmlm = new XmlManager(dbManager);
 		xmlm.unmarshalToJavaSymptom(fileName);
+	}
+	
+	public static void showHTML(){
+		System.out.println("Proceeding to create a HTML example (paper)...");
+		Xml2HtmlPaper.simpleTransform("./xml/XmlDocument.xml", "./xml/PaperStyle.xslt", "./xml/htmlPaper.html");
+		System.out.println("The file has been created. It should be in the xml folder.");
 	}
 }
