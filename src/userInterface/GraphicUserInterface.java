@@ -17,6 +17,8 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import jdbc.DBManager;
@@ -56,6 +58,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.border.BevelBorder;
+import javax.swing.JTextArea;
 
 public class GraphicUserInterface extends JFrame {
 	static Connection c = null;
@@ -68,6 +71,7 @@ public class GraphicUserInterface extends JFrame {
 	private static JPanel contentPane;
 	private static ButtonGroup buttonGroupPojos = new ButtonGroup();
 	private static JTable mainTable;
+	static JTextArea textAreaRelated;
 
 	/**
 	 * Launch the application.
@@ -104,7 +108,7 @@ public class GraphicUserInterface extends JFrame {
 		// showMenu();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 641, 497);
+		setBounds(100, 100, 641, 461);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -207,8 +211,14 @@ public class GraphicUserInterface extends JFrame {
 		buttonPane.add(buttonSymptom);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(124, 266, 491, 181);
+		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panel.setBounds(124, 266, 491, 149);
 		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		textAreaRelated = new JTextArea();
+		textAreaRelated.setBounds(10, 11, 471, 127);
+		panel.add(textAreaRelated);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -216,6 +226,12 @@ public class GraphicUserInterface extends JFrame {
 		contentPane.add(scrollPane);
 
 		mainTable = new JTable();
+		mainTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+	        public void valueChanged(ListSelectionEvent event) {
+	            //System.out.println(mainTable.getValueAt(mainTable.getSelectedRow(), 0).toString());
+	        }
+	    });
+		
 		scrollPane.setViewportView(mainTable);
 
 		JPanel panel_1 = new JPanel();
@@ -317,7 +333,7 @@ public class GraphicUserInterface extends JFrame {
 
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_2.setBounds(10, 266, 104, 181);
+		panel_2.setBounds(10, 266, 104, 149);
 		contentPane.add(panel_2);
 		panel_2.setLayout(null);
 
@@ -465,6 +481,51 @@ public class GraphicUserInterface extends JFrame {
 		});
 		btnToHtml.setBounds(10, 79, 84, 23);
 		panel_2.add(btnToHtml);
+		
+		JButton btnRelated = new JButton("Related");
+		btnRelated.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String selectedButton = getSelectedButtonText();
+				switch (selectedButton) {
+				case "Authors": {
+					showRelatedToAuthor();
+					break;
+				}
+				case "Body parts": {
+					JOptionPane.showMessageDialog(contentPane, "Body parts can not be modified.");
+					break;
+				}
+				case "Devices": {
+					modifyDevice();
+					break;
+				}
+				case "Diseases": {
+					modifyDisease();
+					break;
+				}
+				case "Images": {
+					modifyImage();
+					break;
+				}
+				case "Papers": {
+					JOptionPane.showMessageDialog(contentPane, "Papers can not be modified.");
+					break;
+				}
+				case "Procedures": {
+					modifyProcedure();
+					break;
+				}
+				case "Symptoms": {
+					JOptionPane.showMessageDialog(contentPane, "Symptoms can not be modified.");
+					break;
+				}
+				
+
+			}
+			}
+		});
+		btnRelated.setBounds(10, 113, 84, 23);
+		panel_2.add(btnRelated);
 		modifyElementButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
@@ -2941,146 +3002,49 @@ public class GraphicUserInterface extends JFrame {
 	}
 
 	private static void showRelatedToBodyPart(String name) {
-		String proceed = askIfViewRelated();
-		if (proceed.equalsIgnoreCase("y")) {
-			BodyPart bodyPart = jpaManager.readBodyPart(name);
-
-			System.out.println("\nDiseases:");
-			List<Disease> listD = jpaManager.readDiseaseRelatedToBodyPart(bodyPart.getID());
-			for (Disease disease : listD) {
-				if (disease != null) {
-					System.out.println(disease.toString());
-				}
-			}
-			try {
-				System.out.println(
-						"\nPlease, select the category and ID  of the item you want to view (Example: [paper,1]).");
-				System.out.println("Write [none,0] to leave.");
-				System.out.print("Category: ");
-				String category = console.readLine().toLowerCase();
-				System.out.print("ID: ");
-				int ID = Integer.parseInt(console.readLine());
-				viewRelated(category, ID);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	private static void showRelatedToAuthor(String name) {
-		String proceed = askIfViewRelated();
-		if (proceed.equalsIgnoreCase("y")) {
-			Author author = jpaManager.readAuthor(name);
-
-			System.out.println("\nPapers:");
-			List<Paper> listP = jpaManager.readPaperFromPaperAuthor(author.getID());
-			for (Paper paper : listP) {
-				if (paper != null) {
-					System.out.println(paper.toString());
-				}
-			}
-
-			try {
-				System.out.println(
-						"\nPlease, select the category and ID  of the item you want to view (Example: [paper,1]).");
-				System.out.println("Write [none,0] to leave.");
-				System.out.print("Category: ");
-				String category = console.readLine().toLowerCase();
-				System.out.print("ID: ");
-				int ID = Integer.parseInt(console.readLine());
-				viewRelated(category, ID);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	private static String askIfViewRelated() {
-		String answer = null;
-		System.out.println("\nWould you like to view a related item? (Y/N)");
-		try {
-			answer = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return answer;
-	}
-
-	private static void viewRelated(String category, int id) {
-
-		switch (category) {
-		case "author": {
-			Author author = dbManager.selectAuthor(id);
-			showAuthor(author.getName());
-			showRelatedToAuthor(author.getName());
-			break;
-		}
-		case "body part": {
-			BodyPart bodyPart = dbManager.selectBodyPart(id);
-			showBodyPart(bodyPart.getName());
-			showRelatedToBodyPart(bodyPart.getName());
-			break;
-		}
-		case "device": {
-			Device device = dbManager.selectDevice(id);
-			showDevice(device.getName());
-			showRelatedToDevice(device.getName());
-			break;
-		}
-		case "disease": {
-			Disease disease = dbManager.selectDisease(id);
-			showDisease(disease.getName());
-			showRelatedToDisease(disease.getName());
-			break;
-		}
-		case "pathology": {
-			Disease disease = dbManager.selectDisease(id);
-			showDisease(disease.getName());
-			showRelatedToDisease(disease.getName());
-			break;
-		}
-		case "image": {
-			Image image = dbManager.selectImage(id);
-			showImage(image.getDescription());
-			showRelatedToImage(image.getDescription());
-			break;
-		}
-		case "paper": {
-			Paper paper = dbManager.selectPaper(id);
-			showPaper(paper.getTitle());
-			showRelatedToPaper(paper.getTitle());
-			break;
-		}
-		case "article": {
-			Paper paper = dbManager.selectPaper(id);
-			showPaper(paper.getTitle());
-			showRelatedToPaper(paper.getTitle());
-			break;
-		}
-		case "procedure": {
-			Procedure procedure = dbManager.selectProcedure(id);
-			showProcedure(procedure.getName());
-			showRelatedToProcedure(procedure.getName());
-			break;
-		}
-		case "treatment": {
-			Procedure procedure = dbManager.selectProcedure(id);
-			showProcedure(procedure.getName());
-			showRelatedToProcedure(procedure.getName());
-			break;
-		}
-		case "symptom": {
-			Symptom symptom = dbManager.selectSymptom(id);
-			showSymptom(symptom.getName());
-			showRelatedToSymptom(symptom.getName());
-			break;
-		}
-		case "none": {
+		String relatedElements = "";
+		int row = mainTable.getSelectedRow();
+		if (row == -1) {
+			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
 			return;
 		}
+		int id = (Integer) mainTable.getValueAt(row, 0);
+		Author author = dbManager.selectBodyPart(id);
+		relatedElements = relatedElements+"Elements related to author "+author.getName()+"\n";
+		relatedElements = relatedElements+"\n"+"Papers:";
+		List<Paper> listP = jpaManager.readPaperFromPaperAuthor(author.getID());
+		for (Paper paper : listP) {
+			if (paper != null) {
+				relatedElements = relatedElements+"\n"+(paper.toString());
+			}
 		}
+		textAreaRelated.setText(relatedElements);
+		
+	}
 	}
 
+	private static void showRelatedToAuthor() {
+		String relatedElements = "";
+		int row = mainTable.getSelectedRow();
+		if (row == -1) {
+			JOptionPane.showMessageDialog(contentPane, "Please, select an element.");
+			return;
+		}
+		int id = (Integer) mainTable.getValueAt(row, 0);
+		Author author = dbManager.selectAuthor(id);
+		relatedElements = relatedElements+"Elements related to author "+author.getName()+"\n";
+		relatedElements = relatedElements+"\n"+"Papers:";
+		List<Paper> listP = jpaManager.readPaperFromPaperAuthor(author.getID());
+		for (Paper paper : listP) {
+			if (paper != null) {
+				relatedElements = relatedElements+"\n"+(paper.toString());
+			}
+		}
+		textAreaRelated.setText(relatedElements);
+		
+	}
+
+	
 	private static void convertXMLAuthor() {
 		int row = mainTable.getSelectedRow();
 		if (row == -1) {
@@ -3514,5 +3478,4 @@ public class GraphicUserInterface extends JFrame {
 		Xml2HtmlPaper.simpleTransform("./xml/XmlDocument.xml", "./xml/PaperStyle.xslt", "./xml/htmlPaper.html");
 		JOptionPane.showMessageDialog(contentPane, "The file has been created. It should be in the xml folder.");
 	}
-
 }
