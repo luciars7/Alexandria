@@ -3,6 +3,8 @@ package jdbc;
 import java.awt.BorderLayout;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.*;
 import java.util.*;
 
@@ -42,6 +44,22 @@ public class DBManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public JFrame getEditorFrame() {
+		return editorFrame;
+	}
+
+	public void setEditorFrame(JFrame editorFrame) {
+		this.editorFrame = editorFrame;
+	}
+
+	public static Connection getC() {
+		return c;
+	}
+
+	public static void setC(Connection c) {
+		DBManager.c = c;
 	}
 
 	public static boolean checkTables() {
@@ -293,9 +311,6 @@ public class DBManager {
 			int id3 = rs8.getInt("ID");
 			String name = rs8.getString("name");
 			String description = rs8.getString("description");
-			// BodyPart bodypart = (BodyPart)
-			// this.selectBodyPart(rs8.getInt("bodyPart"));
-			// disease = new Disease(id3, name, description, bodypart);
 			disease = new Disease(id3, name, description);
 			if (rs8 != null) {
 				rs8.close();
@@ -396,13 +411,8 @@ public class DBManager {
 			String description = rs0.getString("description");
 			String type = rs0.getString("type");
 			String size = rs0.getString("size");
-			byte[] imageB = rs0.getBytes("image");
-			// Paper paper = (Paper) this.selectPaper(rs0.getInt("paper"));
-			// image = new Image(id, description, type, size, imageB, paper);
+			byte[] imageB = rs0.getBytes("image");	
 			i = new Image(id, description, type, size, imageB);
-		/*	if(imageB!=null){
-			ByteArrayInputStream blobIn = new ByteArrayInputStream(i.getImage());
-			showBlob(blobIn);}*/
 			if (rs0 != null) {
 				rs0.close();
 			}
@@ -818,49 +828,29 @@ public class DBManager {
 	}
 
 	public byte[] stringtobyte(File p) {
-
 		try {
-
-			InputStream streamBlob = new FileInputStream(p);
-
+			/*InputStream streamBlob = new FileInputStream(p);
 			byte[] bytesBlob = new byte[streamBlob.available()];
-
 			streamBlob.read(bytesBlob);
-
-			streamBlob.close();
-
+			streamBlob.close();*/
+			byte[] bytesBlob = Files.readAllBytes(p.toPath());
 			return bytesBlob;
-
 		} catch (IOException e) {
-
 			System.out.println("\nSomething went wrong... Try using a valid route.");
-
 			return null;
-
 		}
-
 	}
 
 	public void insertIntoPaper(Paper paper) {
-
 		try {
-
 			Statement stmtSeq = c.createStatement();
-
 			String sqlSeq = "INSERT INTO paper (title, source) VALUES ('" + paper.getTitle() + "', '"
-
 					+ paper.getSource() + "')";
-
 			stmtSeq.executeUpdate(sqlSeq);
-
 			stmtSeq.close();
-
 		} catch (SQLException ex) {
-
 			ex.printStackTrace();
-
 		}
-
 	}
 
 	public void insertIntoProcedure(Procedure procedure) {
@@ -1183,38 +1173,17 @@ public class DBManager {
 		}
 	}
 
-	public void updateProcedure(Integer procedure_id, String newDescription) {///// Preguntar
-
-		///// a
-
-		///// Lucía
-
-		///// por
-
-		///// el
-
-		///// name.
-
+	public void updateProcedure(Integer procedure_id, String newDescription) {
 		try {
-
-			String sql = "UPDATE procedure SET name = ?, description = ? WHERE ID = ?";
-
+			String sql = "UPDATE procedure SET description = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
-
 			prep.setString(1, newDescription);
-
 			prep.setInt(2, procedure_id);
-
 			prep.executeUpdate();
-
 			prep.close();
-
 		} catch (Exception e) {
-
 			System.out.println(e.getMessage());
-
 		}
-
 	}
 
 	// Symptoms will always be symptoms. If they change the old ones are going

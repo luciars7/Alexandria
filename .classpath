@@ -5,5 +5,7 @@
 	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.8.7.jar"/>
 	<classpathentry kind="lib" path="lib/eclipselink-2.6.jar"/>
 	<classpathentry kind="lib" path="lib/javax.persistence_2.1.1.v201509150925.jar"/>
+	<classpathentry kind="lib" path="Resources/rs2xml.jar"/>
+	<classpathentry kind="lib" path="jgoodies-forms-1.8.0.jar" sourcepath="jgoodies-forms-1.8.0-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

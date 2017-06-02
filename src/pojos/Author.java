@@ -10,9 +10,9 @@ import javax.persistence.*;
 
 import javax.xml.bind.annotation.*;
 
-@XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "author")
-@XmlType(propOrder={"ID","name","origin","association","paper"})
+@XmlAccessorType(XmlAccessType.FIELD)
+//@XmlType(propOrder={"ID","name","origin","association","paper"})
 @Entity
 @Table(name = "author")
 
@@ -24,18 +24,17 @@ public class Author implements Serializable {
 	@TableGenerator(name = "author", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "author")
 	@XmlAttribute
 	private int ID;
-	@XmlElement
+	@XmlAttribute
 	private String name;
-	@XmlElement
+	@XmlTransient
 	private String origin;
-	@XmlElement
+	@XmlTransient
 	private String association;
 	@ManyToMany
 	@JoinTable(name = "paperauthor", joinColumns = {
 			@JoinColumn(name = "paper", referencedColumnName = "ID") }, inverseJoinColumns = {
 					@JoinColumn(name = "author", referencedColumnName = "ID") })
-	@XmlElement(name = "paper")
-	@XmlElementWrapper(name = "papers")
+	@XmlTransient
 	private List<Paper> paper;
 	
 	public Author() {

@@ -1,0 +1,25 @@
+<?version = "1.0" encoding = "UTF-8" standalone = "yes"?>
+<!ELEMENT Alexandria (Paper)*>
+<!ELEMENT Paper (Title , Source , Authors , Disease? , Devices? , Procedure? , Image?)>
+<!ATTLIST Paper id CDATA #REQUIRED>
+<!ELEMENT Title (#PCDATA)>
+<!ELEMENT Source (#PCDATA)>
+<!ELEMENT Authors (Author+)>
+<!ELEMENT Author EMPTY>
+<!ATTLIST Author id CDATA #REQUIRED
+			     name CDATA #REQUIRED>
+<!ELEMENT Diseases (Disease+)>
+<!ELEMENT Disease EMPTY>
+<!ATTLIST Disease id CDATA #REQUIRED
+			      name CDATA #REQUIRED>
+<!ELEMENT Devices (Device+)>
+<!ELEMENT Device EMPTY>
+<!ATTLIST Device id CDATA #REQUIRED
+			     name CDATA #REQUIRED>
+<!ELEMENT Images (Image+)>
+<!ELEMENT Image EMPTY>
+<!ATTLIST Image id CDATA #REQUIRED>
+<!ELEMENT Procedures (Procedure+)>
+<!ELEMENT Procedure EMPTY>
+<!ATTLIST Procedure id CDATA #REQUIRED
+			        name CDATA #REQUIRED>
