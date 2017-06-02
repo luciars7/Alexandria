@@ -23,8 +23,6 @@ public class CommandLineUserInterface {
 		dbManager = new DBManager();
 		dbManager.connect(c);
 		checkTables();
-		// Needs to be done before JPA creates the tables as it
-		// wishes.
 		System.out.println("New connection stablished.");
 		jpaManager = new JpaManager();
 		jpaManager.connect();
