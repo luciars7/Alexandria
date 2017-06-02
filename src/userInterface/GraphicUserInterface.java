@@ -372,6 +372,52 @@ public class GraphicUserInterface extends JFrame {
 		panel_2.add(btnToXml);
 
 		JButton btnToJava = new JButton("To Java");
+		btnToJava.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String selectedButton = getSelectedButtonText();
+				switch (selectedButton) {
+				case "Authors": {
+					convertJavaAuthor();
+					break;
+				}
+				case "Body parts": {
+					JOptionPane.showMessageDialog(contentPane,
+							"This option is only available for authors. Please, select one.");
+					break;
+				}
+				case "Devices": {
+					JOptionPane.showMessageDialog(contentPane,
+							"This option is only available for authors. Please, select one.");
+					break;
+				}
+				case "Diseases": {
+					JOptionPane.showMessageDialog(contentPane,
+							"This option is only available for authors. Please, select one.");
+					break;
+				}
+				case "Images": {
+					JOptionPane.showMessageDialog(contentPane,
+							"This option is only available for authors. Please, select one.");
+					break;
+				}
+				case "Papers": {
+					JOptionPane.showMessageDialog(contentPane,
+							"This option is only available for authors. Please, select one.");
+					break;
+				}
+				case "Procedures": {
+					JOptionPane.showMessageDialog(contentPane,
+							"This option is only available for authors. Please, select one.");
+					break;
+				}
+				case "Symptoms": {
+					JOptionPane.showMessageDialog(contentPane,
+							"This option is only available for authors. Please, select one.");
+					break;
+				}
+				}
+			}
+		});
 		btnToJava.setBounds(10, 45, 84, 23);
 		panel_2.add(btnToJava);
 
@@ -3282,15 +3328,62 @@ public class GraphicUserInterface extends JFrame {
 	}
 
 	private static void convertJavaAuthor() {
-		String fileName = "";
-		System.out.print("Write the path of the XML file: ");
-		try {
-			fileName = console.readLine();
-		} catch (IOException ex) {
-			ex.printStackTrace();
+		final JPanel contentPanel = new JPanel();
+		JTextField textFieldFile; 
+
+		JFrame dialog = new JFrame();
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.setVisible(true);
+
+		dialog.setBounds(100, 100, 379, 124);
+		dialog.getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		dialog.getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(null);
+		{
+			JLabel lblFilesLocation = new JLabel("File's location:");
+			lblFilesLocation.setBounds(10, 13, 95, 14);
+			contentPanel.add(lblFilesLocation);
 		}
-		XmlManager xmlm = new XmlManager(dbManager);
-		xmlm.unmarshalToJavaAuthor(fileName);
+		{
+			textFieldFile = new JTextField();
+			textFieldFile.setBounds(108, 10, 245, 20);
+			contentPanel.add(textFieldFile);
+			textFieldFile.setColumns(10);
+		}
+		{
+			JPanel buttonPane = new JPanel();
+			buttonPane.setLayout(new FlowLayout(FlowLayout.LEFT));
+			dialog.getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			{
+				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						String fileName = textFieldFile.getText();
+						XmlManager xmlm = new XmlManager(dbManager);
+						Author author = xmlm.unmarshalToJavaAuthor(fileName);
+						dialog.setVisible(false);
+						dialog.dispose();
+						JOptionPane.showMessageDialog(contentPane, "Java author created: "+author.toString());
+					}
+				});
+				okButton.setActionCommand("OK");
+				buttonPane.add(okButton);
+				dialog.getRootPane().setDefaultButton(okButton);
+			}
+			{
+				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dialog.setVisible(false);
+						dialog.dispose();
+					}
+				});
+				cancelButton.setActionCommand("Cancel");
+				buttonPane.add(cancelButton);
+			}
+		}
+
 	}
 
 	private static void convertJavaBodyPart() {

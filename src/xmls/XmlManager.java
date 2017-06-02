@@ -156,18 +156,20 @@ public class XmlManager {
 	}
 	
 	// UNMARSHALLERS --------------------------------------------------------------------------------------
-	public void unmarshalToJavaAuthor(String fileName) {
+	public Author unmarshalToJavaAuthor(String fileName) {
+		Author author=null;
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(Author.class);
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 			File XMLfile = new File(fileName);
-			Author autor =(Author) unmarshaller.unmarshal(XMLfile);
+			author =(Author) unmarshaller.unmarshal(XMLfile);
 			// Printout
 			System.out.println("\nUnmarshalling complete.\nThe recovered author looks like this:\n");
-			System.out.println(autor);
+			System.out.println(author);
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
+		return author;
 	}
 	
 	public void unmarshalToJavaBodyPart(String fileName) {
