@@ -2066,13 +2066,13 @@ public class CommandLineUserInterface {
 	private static void convertXML() {
 		System.out.print("\nPlease, select the item you want to convert: ");
 		System.out.println("\n1.) Author");
-		System.out.println("2.) Body part");
+		/*System.out.println("2.) Body part");
 		System.out.println("3.) Device");
 		System.out.println("4.) Disease or pathology");
 		System.out.println("5.) Image");
 		System.out.println("6.) Paper or article");
 		System.out.println("7.) Procedure or treatment");
-		System.out.println("8.) Symptom");
+		System.out.println("8.) Symptom");*/ //Not available in this version.
 		System.out.println("9.) Return to the main menu...");
 		System.out.print("\nOption: ");
 		try {
@@ -2086,7 +2086,7 @@ public class CommandLineUserInterface {
 			convertXMLAuthor();
 			break;
 		}
-		case 2: {
+		/*case 2: {
 			convertXMLBodyPart();
 			break;
 		}
@@ -2113,7 +2113,7 @@ public class CommandLineUserInterface {
 		case 8: {
 			convertXMLSymptom();
 			break;
-		}
+		}*/
 		case 9: {
 			break;
 		}
@@ -2307,13 +2307,13 @@ public class CommandLineUserInterface {
 	private static void convertJAVA() {
 		System.out.print("\nPlease, select the item you want to convert: ");
 		System.out.println("\n1.) Author");
-		System.out.println("2.) Body part");
+	/*	System.out.println("2.) Body part");
 		System.out.println("3.) Device");
 		System.out.println("4.) Disease or pathology");
 		System.out.println("5.) Image");
 		System.out.println("6.) Paper or article");
 		System.out.println("7.) Procedure or treatment");
-		System.out.println("8.) Symptom");
+		System.out.println("8.) Symptom");*/ //Not available in this version.
 		System.out.println("9.) Return to the main menu...");
 		System.out.print("\nOption: ");
 		try {
@@ -2327,7 +2327,7 @@ public class CommandLineUserInterface {
 			convertJavaAuthor();
 			break;
 		}
-		case 2: {
+		/*case 2: {
 			convertJavaBodyPart();
 			break;
 		}
@@ -2354,7 +2354,7 @@ public class CommandLineUserInterface {
 		case 8: {
 			convertJavaSymptom();
 			break;
-		}
+		}*/
 		case 9: {
 			break;
 		}
