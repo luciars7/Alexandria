@@ -11,7 +11,6 @@ import pojos.*;
 import xmls.Xml2HtmlPaper;
 import xmls.XmlManager;
 
-//Sustituir en OSWD.
 public class CommandLineUserInterface {
 	static Connection c = null;
 	static DBManager dbManager = null;

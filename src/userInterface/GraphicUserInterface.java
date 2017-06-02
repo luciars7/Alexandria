@@ -1465,208 +1465,144 @@ public class GraphicUserInterface extends JFrame {
 	}
 
 	public static void addImage() {
-
-		JPanel contentPane;
+		final JPanel contentPanel = new JPanel();
 		JTextField textFieldDescription;
-		JButton btnCancel;
-		JLabel lblRelatedElements;
-		JLabel lblType;
 		JTextField textFieldType;
-		JLabel lblSize;
 		JTextField textFieldSize;
-		JLabel lblImage;
-		JButton btnGetPath;
-		JLabel lblPapers;
-		JList listPapers;
-		JScrollPane scrollPane;
-		JLabel lblDiseases;
-		JList listDiseases;
-		JScrollPane scrollPane_1;
+		JTextField textFieldLocation;
 
-		JFrame frame = new JFrame();
-		frame.setVisible(true);
+		JFrame dialog = new JFrame();
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.setVisible(true);
 
-		frame.setTitle("New Image");
-		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		frame.setBounds(100, 100, 309, 575);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		frame.setContentPane(contentPane);
-		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[] { 0, 0, 0 };
-		gbl_contentPane.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		gbl_contentPane.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
-		gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
-		contentPane.setLayout(gbl_contentPane);
+		dialog.setBounds(100, 100, 270, 423);
+		dialog.getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		dialog.getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(null);
+		{
+			JLabel lblDescription = new JLabel("Description:");
+			lblDescription.setBounds(10, 13, 81, 14);
+			contentPanel.add(lblDescription);
+		}
+		{
+			textFieldDescription = new JTextField();
+			textFieldDescription.setBounds(121, 10, 123, 20);
+			contentPanel.add(textFieldDescription);
+			textFieldDescription.setColumns(10);
+		}
 
-		JLabel labelDescription = new JLabel("Description");
-		GridBagConstraints gbc_labelDescription = new GridBagConstraints();
-		gbc_labelDescription.anchor = GridBagConstraints.EAST;
-		gbc_labelDescription.insets = new Insets(0, 0, 5, 5);
-		gbc_labelDescription.gridx = 0;
-		gbc_labelDescription.gridy = 0;
-		contentPane.add(labelDescription, gbc_labelDescription);
-
-		textFieldDescription = new JTextField();
-		GridBagConstraints gbc_textFieldDescription = new GridBagConstraints();
-		gbc_textFieldDescription.insets = new Insets(0, 0, 5, 0);
-		gbc_textFieldDescription.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textFieldDescription.gridx = 1;
-		gbc_textFieldDescription.gridy = 0;
-		contentPane.add(textFieldDescription, gbc_textFieldDescription);
-		textFieldDescription.setColumns(10);
-
-		lblType = new JLabel("Type");
-		GridBagConstraints gbc_lblType = new GridBagConstraints();
-		gbc_lblType.anchor = GridBagConstraints.EAST;
-		gbc_lblType.insets = new Insets(0, 0, 5, 5);
-		gbc_lblType.gridx = 0;
-		gbc_lblType.gridy = 1;
-		contentPane.add(lblType, gbc_lblType);
+		JLabel lblType = new JLabel("Type:");
+		lblType.setBounds(10, 38, 46, 14);
+		contentPanel.add(lblType);
 
 		textFieldType = new JTextField();
-		GridBagConstraints gbc_textFieldType = new GridBagConstraints();
-		gbc_textFieldType.insets = new Insets(0, 0, 5, 0);
-		gbc_textFieldType.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textFieldType.gridx = 1;
-		gbc_textFieldType.gridy = 1;
-		contentPane.add(textFieldType, gbc_textFieldType);
+		textFieldType.setBounds(121, 35, 123, 20);
+		contentPanel.add(textFieldType);
 		textFieldType.setColumns(10);
 
-		lblSize = new JLabel("Size");
-		GridBagConstraints gbc_lblSize = new GridBagConstraints();
-		gbc_lblSize.anchor = GridBagConstraints.EAST;
-		gbc_lblSize.insets = new Insets(0, 0, 5, 5);
-		gbc_lblSize.gridx = 0;
-		gbc_lblSize.gridy = 2;
-		contentPane.add(lblSize, gbc_lblSize);
+		JLabel lblSize = new JLabel("Size:");
+		lblSize.setBounds(10, 63, 46, 14);
+		contentPanel.add(lblSize);
 
 		textFieldSize = new JTextField();
-		GridBagConstraints gbc_textFieldSize = new GridBagConstraints();
-		gbc_textFieldSize.insets = new Insets(0, 0, 5, 0);
-		gbc_textFieldSize.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textFieldSize.gridx = 1;
-		gbc_textFieldSize.gridy = 2;
-		contentPane.add(textFieldSize, gbc_textFieldSize);
+		textFieldSize.setBounds(121, 60, 123, 20);
+		contentPanel.add(textFieldSize);
 		textFieldSize.setColumns(10);
 
-		lblImage = new JLabel("Image");
-		GridBagConstraints gbc_lblImage = new GridBagConstraints();
-		gbc_lblImage.insets = new Insets(0, 0, 5, 5);
-		gbc_lblImage.gridx = 0;
-		gbc_lblImage.gridy = 3;
-		contentPane.add(lblImage, gbc_lblImage);
+		JLabel lblLocation = new JLabel("Location:");
+		lblLocation.setBounds(10, 88, 70, 14);
+		contentPanel.add(lblLocation);
 
-		btnGetPath = new JButton("GetPath");
-		btnGetPath.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				file = obtenerRuta(1);
-			}
-		});
-		GridBagConstraints gbc_btnGetPath = new GridBagConstraints();
-		gbc_btnGetPath.insets = new Insets(0, 0, 5, 0);
-		gbc_btnGetPath.gridx = 1;
-		gbc_btnGetPath.gridy = 3;
-		contentPane.add(btnGetPath, gbc_btnGetPath);
+		textFieldLocation = new JTextField();
+		textFieldLocation.setBounds(121, 85, 123, 20);
+		contentPanel.add(textFieldLocation);
+		textFieldLocation.setColumns(10);
 
-		lblRelatedElements = new JLabel("Related elements");
-		GridBagConstraints gbc_lblRelatedElements = new GridBagConstraints();
-		gbc_lblRelatedElements.insets = new Insets(0, 0, 5, 5);
-		gbc_lblRelatedElements.gridx = 0;
-		gbc_lblRelatedElements.gridy = 4;
-		contentPane.add(lblRelatedElements, gbc_lblRelatedElements);
+		JLabel lblRelatedElements = new JLabel("Related elements");
+		lblRelatedElements.setBounds(10, 130, 123, 14);
+		contentPanel.add(lblRelatedElements);
 
-		lblPapers = new JLabel("Papers");
-		GridBagConstraints gbc_lblPapers = new GridBagConstraints();
-		gbc_lblPapers.insets = new Insets(0, 0, 5, 5);
-		gbc_lblPapers.gridx = 0;
-		gbc_lblPapers.gridy = 5;
-		contentPane.add(lblPapers, gbc_lblPapers);
+		JLabel lblPapers = new JLabel("Papers:");
+		lblPapers.setBounds(10, 155, 81, 14);
+		contentPanel.add(lblPapers);
 
-		scrollPane = new JScrollPane();
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
-		gbc_scrollPane.gridx = 1;
-		gbc_scrollPane.gridy = 5;
-		contentPane.add(scrollPane, gbc_scrollPane);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(121, 154, 123, 80);
+		contentPanel.add(scrollPane);
 
 		ArrayList<Paper> papers = dbManager.selectPaper("all");
-		listPapers = new JList(papers.toArray());
+		JList listPapers = new JList(papers.toArray());
 		listPapers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(listPapers);
 
-		lblDiseases = new JLabel("Diseases");
-		GridBagConstraints gbc_lblDiseases = new GridBagConstraints();
-		gbc_lblDiseases.insets = new Insets(0, 0, 5, 5);
-		gbc_lblDiseases.gridx = 0;
-		gbc_lblDiseases.gridy = 6;
-		contentPane.add(lblDiseases, gbc_lblDiseases);
+		JLabel lblDiseases = new JLabel("Diseases:");
+		lblDiseases.setBounds(10, 251, 93, 14);
+		contentPanel.add(lblDiseases);
 
-		scrollPane_1 = new JScrollPane();
-		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
-		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 0);
-		gbc_scrollPane_1.gridx = 1;
-		gbc_scrollPane_1.gridy = 6;
-		contentPane.add(scrollPane_1, gbc_scrollPane_1);
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(120, 251, 124, 78);
+		contentPanel.add(scrollPane_1);
 
 		ArrayList<Disease> diseases = dbManager.selectDisease("all");
-		listDiseases = new JList(diseases.toArray());
+		JList listDiseases = new JList(diseases.toArray());
 		listDiseases.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		scrollPane_1.setViewportView(listDiseases);
-
-		JButton addButton = new JButton("Add");
-		addButton.setHorizontalAlignment(SwingConstants.LEFT);
-		addButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String description = textFieldDescription.getText();
-				String type = textFieldType.getText();
-				String size = textFieldSize.getText();
-				byte[] photo = dbManager.stringtobyte(file);
-				Image image = new Image(description, type, size, photo);
-				dbManager.insertIntoImage(image);
-				image = dbManager.selectImage(description).get(0);
-				int[] selected = listPapers.getSelectedIndices();
-				for (int i : selected) {
-					Paper paper = dbManager.selectPaper(i);
-					paper.addImage(image);
-					image.setPaper(paper);
-					dbManager.updateImage(image.getID(), image.getDescription(), paper.getID());
-				}
-				selected = listDiseases.getSelectedIndices();
-				for (int i : selected) {
-					Disease disease = dbManager.selectDisease(i);
-					image.addDisease(disease);
-					disease.addImage(image);
-					dbManager.insertimagedisease(image.getID(), disease.getID());
-				}
-
-				frame.setVisible(false);
-				frame.dispose();
-				paintImages();
+		{
+			JPanel buttonPane = new JPanel();
+			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			dialog.getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			{
+				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						String description = textFieldDescription.getText();
+						String type = textFieldType.getText();
+						String size = textFieldSize.getText();
+						String location = textFieldLocation.getText();
+						File file = new File(location);
+						byte[] p = dbManager.stringtobyte(file);
+						Image image  = new Image(description,type,size,p);
+						dbManager.insertIntoImage(image);
+						image = dbManager.selectImage(description).get(0);
+						int[] selected = listPapers.getSelectedIndices();
+						for (int i : selected) {
+							Paper paper = dbManager.selectPaper(i);
+							paper.addImage(image);
+							image.setPaper(paper);
+							dbManager.updateImage(image.getID(), image.getDescription(), paper.getID());
+						}
+						selected = listDiseases.getSelectedIndices();
+						for (int i : selected) {
+							Disease disease = dbManager.selectDisease(i);
+							image.addDisease(disease);
+							disease.addImage(image);
+							dbManager.insertimagedisease(image.getID(), disease.getID());
+						}
+						
+						dialog.setVisible(false);
+						dialog.dispose();
+						paintImages();
+					}
+				});
+				okButton.setActionCommand("OK");
+				buttonPane.add(okButton);
+				dialog.getRootPane().setDefaultButton(okButton);
 			}
-		});
-		GridBagConstraints gbc_addButton = new GridBagConstraints();
-		gbc_addButton.insets = new Insets(0, 0, 5, 5);
-		gbc_addButton.gridx = 0;
-		gbc_addButton.gridy = 7;
-		contentPane.add(addButton, gbc_addButton);
+			{
+				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
 
-		btnCancel = new JButton("Cancel");
-		btnCancel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frame.setVisible(false);
-				frame.dispose();
+					public void actionPerformed(ActionEvent e) {
+						dialog.setVisible(false);
+						dialog.dispose();
+					}
+
+				});
+				cancelButton.setActionCommand("Cancel");
+				buttonPane.add(cancelButton);
 			}
-		});
-		GridBagConstraints gbc_btnCancel = new GridBagConstraints();
-		gbc_btnCancel.insets = new Insets(0, 0, 0, 5);
-		gbc_btnCancel.gridx = 0;
-		gbc_btnCancel.gridy = 8;
-		contentPane.add(btnCancel, gbc_btnCancel);
+		}
 	}
 
 	public static void addPaper() {
@@ -2745,7 +2681,7 @@ public class GraphicUserInterface extends JFrame {
 				relatedElements = relatedElements + "\n" + disease.toString();
 			}
 		}
-		
+
 		textAreaRelated.setText(relatedElements);
 	}
 
@@ -2766,7 +2702,7 @@ public class GraphicUserInterface extends JFrame {
 				relatedElements = relatedElements + "\n" + disease.toString();
 			}
 		}
-		relatedElements = relatedElements + "\n" +  "Images:";
+		relatedElements = relatedElements + "\n" + "Images:";
 		List<Integer> listI = jpaManager.readPaperRelatedToProcedure(procedure.getID());
 		for (Integer i : listI) {
 			if (i != null) {
@@ -2782,7 +2718,7 @@ public class GraphicUserInterface extends JFrame {
 				relatedElements = relatedElements + "\n" + device.toString();
 			}
 		}
-		
+
 		textAreaRelated.setText(relatedElements);
 	}
 
@@ -2834,7 +2770,7 @@ public class GraphicUserInterface extends JFrame {
 				relatedElements = relatedElements + "\n" + device.toString();
 			}
 		}
-		
+
 		textAreaRelated.setText(relatedElements);
 	}
 
@@ -3042,10 +2978,12 @@ public class GraphicUserInterface extends JFrame {
 			{
 				JButton cancelButton = new JButton("Cancel");
 				cancelButton.addActionListener(new ActionListener() {
+
 					public void actionPerformed(ActionEvent e) {
 						dialog.setVisible(false);
 						dialog.dispose();
 					}
+
 				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
@@ -3215,64 +3153,6 @@ public class GraphicUserInterface extends JFrame {
 		xmlm.marshalToXMLSymptom(s, fileName);
 	}
 
-	private static void convertJAVA() {
-		System.out.print("\nPlease, select the item you want to convert: ");
-		System.out.println("\n1.) Author");
-		System.out.println("2.) Body part");
-		System.out.println("3.) Device");
-		System.out.println("4.) Disease or pathology");
-		System.out.println("5.) Image");
-		System.out.println("6.) Paper or article");
-		System.out.println("7.) Procedure or treatment");
-		System.out.println("8.) Symptom");
-		System.out.println("9.) Return to the main menu...");
-		System.out.print("\nOption: ");
-		try {
-			read = console.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		Integer option = Integer.parseInt(read);
-		switch (option) {
-		case 1: {
-			convertJavaAuthor();
-			break;
-		}
-		case 2: {
-			convertJavaBodyPart();
-			break;
-		}
-		case 3: {
-			convertJavaDevice();
-			break;
-		}
-		case 4: {
-			convertJavaDisease();
-			break;
-		}
-		case 5: {
-			convertJavaImage();
-			break;
-		}
-		case 6: {
-			convertJavaPaper();
-			break;
-		}
-		case 7: {
-			convertJavaProcedure();
-			break;
-		}
-		case 8: {
-			convertJavaSymptom();
-			break;
-		}
-		case 9: {
-			break;
-		}
-		}
-
-	}
-
 	private static void convertJavaAuthor() {
 		final JPanel contentPanel = new JPanel();
 		JTextField textFieldFile;
@@ -3320,10 +3200,12 @@ public class GraphicUserInterface extends JFrame {
 			{
 				JButton cancelButton = new JButton("Cancel");
 				cancelButton.addActionListener(new ActionListener() {
+
 					public void actionPerformed(ActionEvent e) {
 						dialog.setVisible(false);
 						dialog.dispose();
 					}
+
 				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
