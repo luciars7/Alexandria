@@ -13,7 +13,7 @@ public class JpaManager {
 	}
 
 	public void connect() {
-		em = Persistence.createEntityManagerFactory("company-provider").createEntityManager();
+		em = Persistence.createEntityManagerFactory("company-provider").createEntityManager(); //The entity manager is connected to the data base.
 		em.getTransaction().begin();
 		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
 		em.getTransaction().commit();
@@ -25,8 +25,8 @@ public class JpaManager {
 
 	// INSERTIONS INTO N-N TABLES
 	// ------------------------------------------------------------------------------------------------
-
 	public void insertsymtomdisease(int disease_id, int symptom_id) {
+		//Two foreign keys are inserted in a N-N table.
 		if (disease_id != 0 && symptom_id != 0) {
 			em.getTransaction().begin();
 			Disease disease = readDisease(disease_id);
@@ -84,6 +84,7 @@ public class JpaManager {
 	// READS
 	// ------------------------------------------------------------------------------------------------
 	public static Disease readDisease(int disease_id) {
+		//One single object is read from the corresponding table. Note the use of a unique attribute in order to select only one object.
 		Query q1 = em.createNativeQuery("SELECT * FROM disease WHERE id = ?", Disease.class);
 		q1.setParameter(1, disease_id);
 		Disease disease = (Disease) q1.getSingleResult();
@@ -91,6 +92,7 @@ public class JpaManager {
 	}
 
 	public static Disease readDisease(String disease_name) {
+		//This method does the same as the previous one but using other unique attribute. Having two unique attributes is useful because sometimes we may need to access an object without being able to use one of them.
 		Query q1 = em.createNativeQuery("SELECT * FROM disease WHERE name = ?", Disease.class);
 		q1.setParameter(1, disease_name);
 		Disease disease = (Disease) q1.getSingleResult();
@@ -198,6 +200,7 @@ public class JpaManager {
 	// READS N-N
 	// ------------------------------------------------------------------------------------------------
 	public static List<Paper> readPaperFromPaperAuthor(Integer author_id) {
+		//In order to read from a N-N table we need to use JOIN to avoid ambiguities. 
 		Query q1 = em.createNativeQuery(
 				"SELECT * FROM paper as p INNER JOIN paperauthor as pa ON p.ID = pa.paper INNER JOIN author as a ON a.ID = pa.author WHERE a.ID = ?",
 				Paper.class);
@@ -290,6 +293,7 @@ public class JpaManager {
 	// READS 1-N
 	// ------------------------------------------------------------------------------------------------
 	public static List<Disease> readDiseaseRelatedToBodyPart(Integer bodyPart_id) {
+		//We search for an object using one attribute. The object is recovered.
 		Query q1 = em.createNativeQuery("SELECT * FROM disease WHERE bodypart = ?", Disease.class);
 		q1.setParameter(1, bodyPart_id);
 		List<Disease> ids = (List<Disease>) q1.getResultList();
@@ -297,6 +301,7 @@ public class JpaManager {
 	}
 
 	public static List<Integer> readProcedureRelatedToDevice(Integer device_id) {
+		//We search for an object that is an attribute of another one. The id is recovered.
 		Query q1 = em.createNativeQuery("SELECT procedure FROM device WHERE id = ?");
 		q1.setParameter(1, device_id);
 		List<Integer> ids = (List<Integer>) q1.getResultList();
@@ -362,6 +367,7 @@ public class JpaManager {
 	// CREATES
 	// ------------------------------------------------------------------------------------------------
 	public void createSymptomJPA(Symptom symptom) {
+		//Stores an object in the data base.
 		em.getTransaction().begin();
 		em.persist(symptom);
 		em.getTransaction().commit();
@@ -369,8 +375,8 @@ public class JpaManager {
 
 	// DELETES
 	// ------------------------------------------------------------------------------------------------
-
 	public void deleteProcedureJPA(int procedure_id) {
+		//Deletes an object from the data base.
 		em.getTransaction().begin();
 		Procedure procedure = readProcedure(procedure_id);
 		em.remove(procedure);
@@ -379,8 +385,8 @@ public class JpaManager {
 
 	// UPDATES
 	// ------------------------------------------------------------------------------------------------
-
 	public void updateProcedureJPA(Integer procedure_id, String newDescription) {
+		//Modifies some attributes of one single object from the data base.
 		em.getTransaction().begin();
 		Procedure procedure = readProcedure(procedure_id);
 		procedure.setDescription(newDescription);

@@ -17,20 +17,23 @@ import javax.swing.WindowConstants;
 
 import pojos.*;
 
-//¿ON DELETE CASCADE? ¿Tiene sentido para alguna tabla?
-
 public class DBManager {
-	JFrame editorFrame;
-	static Connection c = null;
+	JFrame editorFrame; // This is used in a method for showing BLOBs. The
+						// method is not used.
+	static Connection c = null; // Connection to the database.
 
 	public DBManager() {
 
 	}
 
 	public void connect(Connection c) {
+		// The JDBC manager is created with a connection to the database.
 		try {
 			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:./db/alexandria.db");
+			c = DriverManager.getConnection("jdbc:sqlite:./db/alexandria.db"); // Location
+																				// of
+																				// the
+																				// database.
 			c.createStatement().execute("PRAGMA foreign_keys=ON");
 			this.c = c;
 		} catch (Exception e) {
@@ -63,6 +66,9 @@ public class DBManager {
 	}
 
 	public static boolean checkTables() {
+		// This method was found in the internet. Basically, it tries to access
+		// the first table that is created. If it can't, then no table has been
+		// created and we proceed to do so.
 		DatabaseMetaData dbm;
 		try {
 			dbm = c.getMetaData();
@@ -84,13 +90,13 @@ public class DBManager {
 
 	// SELECTS
 	// ------------------------------------------------------------------------------------------------
-
 	public ArrayList<Author> selectAuthor(String NAME) {
 		ArrayList<Author> list = null;
 		try {
-			// Retrieve data: begin
 			list = new ArrayList<Author>();
 			Statement stmt = c.createStatement();
+			// If the user wants to see all authors, we return a list containing
+			// all of them. Each attribute is recovered in a specific order.
 			if (NAME.equalsIgnoreCase("all")) {
 				String sql = "SELECT * FROM author";
 				ResultSet rs1 = stmt.executeQuery(sql);// Works as an iterator.
@@ -105,6 +111,9 @@ public class DBManager {
 					rs1.close();
 				}
 			} else {
+				// In this case we are using a list eventhough, being the name
+				// attribute unique, we are only going to recover one single
+				// object.
 				String sql = "SELECT * FROM author WHERE name = '" + NAME + "'";
 				ResultSet rs1 = stmt.executeQuery(sql); // Works as an iterator.
 				int id = rs1.getInt("ID");
@@ -124,6 +133,10 @@ public class DBManager {
 	}
 
 	public Author selectAuthor(Integer id) {
+		// This method works exactly as the second option of the previous one.
+		// In this case we search by the ID. It is useful to be able to search
+		// by two unique attributes because we have situations when we can not
+		// search by one of them.
 		Author author = null;
 		try {
 			Statement stmt = c.createStatement();
@@ -273,9 +286,6 @@ public class DBManager {
 					int id = rs7.getInt("ID");
 					String name = rs7.getString("name");
 					String description = rs7.getString("description");
-					// BodyPart bodypart = (BodyPart)
-					// selectBodyPart(rs7.getInt("bodypart"));
-					// list.add(new Disease(id, name, description, bodypart));
 					list.add(new Disease(id, name, description));
 				}
 				if (rs7 != null) {
@@ -287,9 +297,6 @@ public class DBManager {
 				int id = rs7.getInt("ID");
 				String name = rs7.getString("name");
 				String description = rs7.getString("description");
-				// BodyPart bodypart = (BodyPart)
-				// this.selectBodyPart(rs7.getInt("bodyPart"));
-				// list.add(new Disease(id, name, description, bodypart));
 				list.add(new Disease(id, name, description));
 				if (rs7 != null) {
 					rs7.close();
@@ -336,10 +343,6 @@ public class DBManager {
 					String type = rs9.getString("type");
 					String size = rs9.getString("size");
 					byte[] image = rs9.getBytes("image");
-					// Paper paper = (Paper)
-					// this.selectPaper(rs9.getInt("paper"));
-					// list.add(new Image(id, description, type, size, image,
-					// paper));
 					list.add(new Image(id, description, type, size, image));
 				}
 				if (rs9 != null) {
@@ -354,15 +357,8 @@ public class DBManager {
 					String type = rs9.getString("type");
 					String size = rs9.getString("size");
 					byte[] image = rs9.getBytes("image");
-					// Paper paper = (Paper)
-					// this.selectPaper(rs9.getInt("paper"));
-					// list.add(new Image(id, description, type, size, image,
-					// paper));
 					Image i = new Image(id, description, type, size, image);
 					list.add(i);
-					/*if(image!=null){
-					ByteArrayInputStream blobIn = new ByteArrayInputStream(i.getImage());
-					showBlob(blobIn);}*/
 				}
 
 				if (rs9 != null) {
@@ -377,7 +373,7 @@ public class DBManager {
 	}
 
 	public void showBlob(final InputStream stream) {
-		
+		// This method attempted to show BLOBs. It was not used in the end.
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				editorFrame = new JFrame("Image Window");
@@ -411,7 +407,7 @@ public class DBManager {
 			String description = rs0.getString("description");
 			String type = rs0.getString("type");
 			String size = rs0.getString("size");
-			byte[] imageB = rs0.getBytes("image");	
+			byte[] imageB = rs0.getBytes("image");
 			i = new Image(id, description, type, size, imageB);
 			if (rs0 != null) {
 				rs0.close();
@@ -424,6 +420,8 @@ public class DBManager {
 	}
 
 	public ArrayList<Image> selectImageFromImageDisease(Integer disease_id) {
+		// The concept is similar to the one of the previous methods but in this
+		// case we obtain the object from a N-N table.
 		ArrayList<Image> list = null;
 		try {
 			list = new ArrayList<Image>();
@@ -440,9 +438,6 @@ public class DBManager {
 				String type = rs9.getString(3);
 				String size = rs9.getString(4);
 				byte[] image = rs9.getBytes(5);
-				// Paper paper = (Paper) this.selectPaper(rs9.getInt("paper"));
-				// list.add(new Image(id, description, type, size, image,
-				// paper));
 				list.add(new Image(id, description, type, size, image));
 			}
 			if (rs9 != null) {
@@ -627,7 +622,7 @@ public class DBManager {
 
 	public static void createTables() {
 		try {
-			// Create tables: begin
+			// Creates the tables.
 			Statement stmt1 = c.createStatement();
 			String sql1 = "CREATE TABLE paper" + "(ID INTEGER PRIMARY KEY AUTOINCREMENT," + "title TEXT UNIQUE,"
 					+ "source TEXT)";
@@ -737,7 +732,9 @@ public class DBManager {
 			stmtSeq.executeUpdate(sqlSeq);
 			sqlSeq = "INSERT INTO sqlite_sequence (name, seq) VALUES ('symptom', 1)";
 			stmtSeq.executeUpdate(sqlSeq);
-			// We don't know if it also has to be done for the N-N tables.
+			// The last block of code is done to avoid problems with JPA.
+			// We don't know if it also has to be written for the N-N tables
+			// although probably not.
 			/*
 			 * sqlSeq =
 			 * "INSERT INTO sqlite_sequence (name, seq) VALUES ('symptomdisease', 1)"
@@ -759,8 +756,8 @@ public class DBManager {
 
 	// INSERTS
 	// ------------------------------------------------------------------------------------------------
-
 	public void insertIntoAuthor(Author author) {
+		// An object is inserted in the corresponding table.
 		try {
 			Statement stmtSeq = c.createStatement();
 			String sqlSeq = "INSERT INTO author (name,origin,association) VALUES ('" + author.getName() + "','"
@@ -829,10 +826,11 @@ public class DBManager {
 
 	public byte[] stringtobyte(File p) {
 		try {
-			/*InputStream streamBlob = new FileInputStream(p);
-			byte[] bytesBlob = new byte[streamBlob.available()];
-			streamBlob.read(bytesBlob);
-			streamBlob.close();*/
+			/*
+			 * InputStream streamBlob = new FileInputStream(p); byte[] bytesBlob
+			 * = new byte[streamBlob.available()]; streamBlob.read(bytesBlob);
+			 * streamBlob.close();
+			 */
 			byte[] bytesBlob = Files.readAllBytes(p.toPath());
 			return bytesBlob;
 		} catch (IOException e) {
@@ -854,25 +852,15 @@ public class DBManager {
 	}
 
 	public void insertIntoProcedure(Procedure procedure) {
-
 		try {
-
 			Statement stmtSeq = c.createStatement();
-
 			String sqlSeq = "INSERT INTO procedure (name, description) VALUES ('" + procedure.getName() + "', '"
-
 					+ procedure.getDescription() + "')";
-
 			stmtSeq.executeUpdate(sqlSeq);
-
 			stmtSeq.close();
-
 		} catch (SQLException ex) {
-
 			ex.printStackTrace();
-
 		}
-
 	}
 
 	public void insertIntoSymptom(Symptom symptom) {
@@ -888,189 +876,108 @@ public class DBManager {
 	}
 
 	// DELETIONS
-
 	// ------------------------------------------------------------------------------------------------
-
 	public void deleteAuthor(int author_id) {
-
+//An object is deleted from the corresponding table. Using a unique attribute makes things easier because we make sure that only the intended object is eliminated.
 		try {
-
 			String sql = "DELETE FROM author WHERE id=?";
-
 			PreparedStatement prep = c.prepareStatement(sql);
-
 			prep.setInt(1, author_id);
-
 			prep.executeUpdate();
-
 			prep.close();
-
 		} catch (Exception e) {
-
 			System.out.println(e.getMessage());
-
 		}
-
 	}
 
 	public void deleteBodyPart(int bodypart_id) {
-
 		try {
-
 			String sql = "DELETE FROM bodypart WHERE id=?";
-
 			PreparedStatement prep = c.prepareStatement(sql);
-
 			prep.setInt(1, bodypart_id);
-
 			prep.executeUpdate();
-
 			prep.close();
-
 		} catch (Exception e) {
-
 			System.out.println(e.getMessage());
-
 		}
-
 	}
 
 	public void deleteDisease(int disease_id) {
-
 		try {
-
 			String sql = "DELETE FROM disease WHERE id=?";
-
 			PreparedStatement prep = c.prepareStatement(sql);
-
 			prep.setInt(1, disease_id);
-
 			prep.executeUpdate();
-
 			prep.close();
-
 		} catch (Exception e) {
-
 			System.out.println(e.getMessage());
-
 		}
-
 	}
 
 	public void deleteImage(int image_id) {
-
 		try {
-
 			String sql = "DELETE FROM image WHERE id=?";
-
 			PreparedStatement prep = c.prepareStatement(sql);
-
 			prep.setInt(1, image_id);
-
 			prep.executeUpdate();
-
 			prep.close();
-
 		} catch (Exception e) {
-
 			System.out.println(e.getMessage());
-
 		}
-
 	}
 
 	public void deletePaper(int paper_id) {
-
 		try {
-
 			String sql = "DELETE FROM paper WHERE id=?";
-
 			PreparedStatement prep = c.prepareStatement(sql);
-
 			prep.setInt(1, paper_id);
-
 			prep.executeUpdate();
-
 			prep.close();
-
 		} catch (Exception e) {
-
 			System.out.println(e.getMessage());
-
 		}
-
 	}
-
+	
 	public void deleteProcedure(int procedure_id) {
-
 		try {
-
 			String sql = "DELETE FROM procedure WHERE id=?";
-
 			PreparedStatement prep = c.prepareStatement(sql);
-
 			prep.setInt(1, procedure_id);
-
 			prep.executeUpdate();
-
 			prep.close();
-
 		} catch (Exception e) {
-
 			System.out.println(e.getMessage());
-
 		}
-
 	}
-
+	
 	public void deleteDevice(int device_id) {
-
 		try {
-
 			String sql = "DELETE FROM device WHERE id=?";
-
 			PreparedStatement prep = c.prepareStatement(sql);
-
 			prep.setInt(1, device_id);
-
 			prep.executeUpdate();
-
 			prep.close();
-
 		} catch (Exception e) {
-
 			System.out.println(e.getMessage());
-
 		}
-
 	}
 
 	public void deleteSymptom(int symptom_id) {
-
 		try {
-
 			String sql = "DELETE FROM symptom WHERE id=?";
-
 			PreparedStatement prep = c.prepareStatement(sql);
-
 			prep.setInt(1, symptom_id);
-
 			prep.executeUpdate();
-
 			prep.close();
-
 		} catch (Exception e) {
-
 			System.out.println(e.getMessage());
-
 		}
-
 	}
 
 	// UPDATES
 	// ------------------------------------------------------------------------------------------------
-
 	public void updateAuthor(Integer author_id, String newAssociation) {
+		//One single object has some attributes modified. Note that we use a unique attribute in order to modify only one object.
 		try {
 			String sql = "UPDATE author SET association = ? WHERE ID = ?";
 			PreparedStatement prep = c.prepareStatement(sql);
@@ -1193,6 +1100,7 @@ public class DBManager {
 	// INSERTIONS INTO N-N TABLES
 	// ------------------------------------------------------------------------------------------------
 	public void insertpaperauthor(int paper, int author) {
+		//Two foreign keys are inserted in a N-N table. 
 		if (paper != 0 && author != 0) {
 			try {
 				String sql = "INSERT INTO paperauthor (paper, author) " + "VALUES (?,?);";

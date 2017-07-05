@@ -12,7 +12,7 @@ import xmls.Xml2HtmlPaper;
 import xmls.XmlManager;
 
 public class CommandLineUserInterface {
-	static Connection c = null;
+	static Connection c = null; //Connection to the database.
 	static DBManager dbManager = null;
 	static JpaManager jpaManager = null;
 	static BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
@@ -21,15 +21,16 @@ public class CommandLineUserInterface {
 	public static void main(String args[]) {
 		System.out.println("Establishing a connection with ALEXANDRIA...");
 		dbManager = new DBManager();
-		dbManager.connect(c);
-		checkTables();
+		dbManager.connect(c); //We create a JDBC manager and we connect it to the database.
+		checkTables(); //We check if the tables have been created. This has to be done before creating the JPA manager because it can creates the tables on its own in a non-desired way.
 		System.out.println("New connection stablished.");
 		jpaManager = new JpaManager();
-		jpaManager.connect();
+		jpaManager.connect(); //We create and connect a JPA manager.
 		showMenu();
 	}
 
 	public static void checkTables() {
+		//Checks if tables are created and informs the user.
 		System.out.println("Checking for the tables...");
 		boolean result = dbManager.checkTables();
 		if (result == true) {
@@ -96,6 +97,7 @@ public class CommandLineUserInterface {
 	}
 
 	private static void Exit() {
+		//Asks for confirmation and closes the connections of the managers to the database before closing the programme.
 		System.out.println("Proceeding to close the connection to ALEXANDRIA.");
 		System.out.println("Are you sure you want to continue? (Y/N)");
 		System.out.print("Option: ");
@@ -198,10 +200,11 @@ public class CommandLineUserInterface {
 		switch (option) {
 		case 1: {
 			System.out.println("Which author do you want to see?");
-			String name = askForName();
+			String name = askForName(); //Asks the user.
 			showAuthor(name);
 			if (!name.equalsIgnoreCase("all")) {
 				showRelatedToAuthor(name);
+				//If the user has chosen a specific object, the objects related to it are shown.
 			}
 			return;
 		}
@@ -335,27 +338,21 @@ public class CommandLineUserInterface {
 	}
 
 	public static String askForName() {
-
+		//The user can write a specific name or «all» to view a list. These options are handled in the corresponding methods.
 		System.out.print("Please, provide a name or write «all» to view: ");
-
 		try {
-
 			read = console.readLine();
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
-
 		}
-
 		String name = read;
-
 		return name;
 
 	}
 
 	public static void addAuthor() {
 		System.out.print("Name (must be unique): ");
+		//Using unique values for both the name and the id allows us to look for the wanted object in every situation.
 		try {
 			read = console.readLine();
 		} catch (IOException e) {
@@ -379,12 +376,11 @@ public class CommandLineUserInterface {
 		Author author = new Author(name, origin, association);
 		dbManager.insertIntoAuthor(author);
 		System.out.println("Author inserted correctly.");
-		author = dbManager.selectAuthor(name).get(0); // Name is unique, so we
-														// will always retrieve
-														// only one. We use name
-														// because we can not
-														// access the id.
+		author = dbManager.selectAuthor(name).get(0);
+		//Name is unique, so we will always retrieve only one. We use name because we do not know the id.
 		System.out.println("\nProceeding to show all available papers...");
+		//Now, the user is shown the possible objects he can relate the new inserted one with.
+		//The way the new relations are done depends on the type of relation the object share (N-N, N-1). See the UML for more information.
 		showPaper("all");
 		System.out.println("Please, select the id of the papers you want to relate this author with.");
 		System.out.println("Select 0 for none or to finish.");
@@ -413,6 +409,7 @@ public class CommandLineUserInterface {
 	}
 
 	public static void showAuthor(String name) {
+		//A list of objects is retrieved from the database. It can be composed of one or many.
 		ArrayList<Author> list = dbManager.selectAuthor(name);
 		if (list == null) {
 			System.out.println("Error searching for the author(s).");
@@ -440,10 +437,7 @@ public class CommandLineUserInterface {
 		String location = read;
 		BodyPart bodyPart = new BodyPart(name, location);
 		dbManager.insertIntoBodyPart(bodyPart);
-		bodyPart = dbManager.selectBodyPart(name).get(0); // Name is unique, so
-															// it will always
-															// retrieve only
-															// one.
+		bodyPart = dbManager.selectBodyPart(name).get(0); 
 		System.out.println("Body part inserted correctly.");
 		System.out.println("\nProceeding to show all available diseases...");
 		showDisease("all");
@@ -885,9 +879,7 @@ public class CommandLineUserInterface {
 		Paper paper = new Paper(title, source);
 		dbManager.insertIntoPaper(paper);
 		System.out.println("Paper inserted.");
-		paper = dbManager.selectPaper(title).get(0); // We can now access the
-														// id.
-
+		paper = dbManager.selectPaper(title).get(0); 
 		System.out.println("\nProceeding to show all available authors...");
 		showAuthor("all");
 		System.out.println("Please, select the id of the authors you want to relate this paper with.");
@@ -1205,47 +1197,27 @@ public class CommandLineUserInterface {
 	}
 
 	private static void deleteAuthor() {
-
+		//Lets the user decide which single object he wants to delete.
 		ArrayList<Author> list = dbManager.selectAuthor("all");
-
 		if (list == null) {
-
 			System.out.println("Error searching for the authors.");
-
 		} else {
-
 			for (Author author : list) {
-
 				System.out.println(author);
-
 			}
-
 			System.out.print("\nPlease, write the ID of the author you want to delete. Write «0» to go back: ");
-
 			try {
-
 				read = console.readLine();
-
 			} catch (IOException e) {
-
 				e.printStackTrace();
-
 			}
-
 			int id = Integer.parseInt(read);
-
 			if (id == 0) {
-
 				return;
-
 			} else {
-
 				dbManager.deleteAuthor(id);
-
 			}
-
 		}
-
 	}
 
 	private static void deleteBodyPart() {
@@ -1318,91 +1290,49 @@ public class CommandLineUserInterface {
 	}
 
 	private static void deleteImage() {
-
 		ArrayList<Image> list = dbManager.selectImage("all");
-
 		if (list == null) {
-
 			System.out.println("Error searching for the images.");
-
 		} else {
-
 			for (Image image : list) {
-
 				System.out.println(image);
-
 			}
-
 			System.out.print("\nPlease, write the ID of the image you want to delete. Write «0» to go back: ");
-
 			try {
-
 				read = console.readLine();
-
 			} catch (IOException e) {
-
 				e.printStackTrace();
-
 			}
-
 			int id = Integer.parseInt(read);
-
 			if (id == 0) {
-
 				return;
-
 			} else {
-
 				dbManager.deleteImage(id);
-
 			}
-
 		}
-
 	}
 
 	private static void deletePaper() {
-
 		ArrayList<Paper> list = dbManager.selectPaper("all");
-
 		if (list == null) {
-
 			System.out.println("Error searching for the papers.");
-
 		} else {
-
 			for (Paper paper : list) {
-
 				System.out.println(paper);
-
 			}
-
 			System.out.print("\nPlease, write the ID of the paper you want to delete. Write «0» to go back: ");
-
 			try {
-
 				read = console.readLine();
-
 			} catch (IOException e) {
-
 				e.printStackTrace();
-
 			}
-
 			int id = Integer.parseInt(read);
-
 			if (id == 0) {
-
 				return;
-
 			} else {
-
 				dbManager.deletePaper(id);
-
 			}
-
 		}
-
 	}
 
 	private static void deleteProcedure() {
@@ -1429,50 +1359,30 @@ public class CommandLineUserInterface {
 	}
 
 	private static void deleteSymptom() {
-
 		ArrayList<Symptom> list = dbManager.selectSymptom("all");
-
 		if (list == null) {
-
 			System.out.println("Error searching for the symptoms.");
-
 		} else {
-
 			for (Symptom symptom : list) {
-
 				System.out.println(symptom);
-
 			}
-
 			System.out.print("\nPlease, write the ID of the symptom you want to delete. Write «0» to go back: ");
-
 			try {
-
 				read = console.readLine();
-
 			} catch (IOException e) {
-
 				e.printStackTrace();
-
 			}
-
 			int id = Integer.parseInt(read);
-
 			if (id == 0) {
-
 				return;
-
 			} else {
-
 				dbManager.deleteSymptom(id);
-
 			}
-
 		}
-
 	}
 
 	private static void updateMenu() {
+		//In our case, only some objects can be modified.
 		System.out.print("\nPlease, select the type of item you want to modify: ");
 		System.out.println("\n1.) Author");
 		System.out.println("2.) Device");
@@ -1515,6 +1425,7 @@ public class CommandLineUserInterface {
 	}
 
 	private static void modifyAuthor() {
+		//The user can modify certain aspects of a chosen object.
 		try {
 			ArrayList<Author> list = dbManager.selectAuthor("all");
 			if (list == null) {
@@ -1648,6 +1559,7 @@ public class CommandLineUserInterface {
 	}
 
 	private static void showRelatedToSymptom(String name) {
+		//If the user agrees, the objects related to the one selected are shown.
 		String proceed = askIfViewRelated();
 		if (proceed.equalsIgnoreCase("y")) {
 			Symptom symptom = jpaManager.readSymptom(name);
@@ -1661,6 +1573,7 @@ public class CommandLineUserInterface {
 			}
 
 			try {
+				//Once the related objects are shown, the user is offered to view the information of one of them.
 				System.out.println(
 						"\nPlease, select the category and ID  of the item you want to view (Example: [paper,1]).");
 				System.out.println("Write [none,0] to leave.");
@@ -1978,6 +1891,7 @@ public class CommandLineUserInterface {
 	}
 
 	private static String askIfViewRelated() {
+		//This method simply returns the answer of the user.
 		String answer = null;
 		System.out.println("\nWould you like to view a related item? (Y/N)");
 		try {
@@ -1989,7 +1903,7 @@ public class CommandLineUserInterface {
 	}
 
 	private static void viewRelated(String category, int id) {
-
+		//The object is shown according to its category and chosen by its id.  Next, the objects related to it are shown.
 		switch (category) {
 		case "author": {
 			Author author = dbManager.selectAuthor(id);
@@ -2064,6 +1978,7 @@ public class CommandLineUserInterface {
 	}
 
 	private static void convertXML() {
+		//Only one option is available at the moment.
 		System.out.print("\nPlease, select the item you want to convert: ");
 		System.out.println("\n1.) Author");
 		/*System.out.println("2.) Body part");
@@ -2121,6 +2036,7 @@ public class CommandLineUserInterface {
 	}
 
 	private static void convertXMLAuthor() {
+		//The user selects an object and a path to store it. Afterwards, a XML manager converts the object into a XML file. 
 		List<Author> authors = dbManager.selectAuthor("all");
 		for (Author a : authors) {
 			System.out.println(a.getID() + ": " + a.getName());
@@ -2139,7 +2055,6 @@ public class CommandLineUserInterface {
 			ex.printStackTrace();
 		}
 		XmlManager xmlm = new XmlManager(dbManager);
-
 		xmlm.marshalToXMLAuthor(aut, fileName);
 	}
 
@@ -2305,6 +2220,7 @@ public class CommandLineUserInterface {
 	}
 
 	private static void convertJAVA() {
+		//Only one option is available at the moment.
 		System.out.print("\nPlease, select the item you want to convert: ");
 		System.out.println("\n1.) Author");
 	/*	System.out.println("2.) Body part");
@@ -2363,6 +2279,7 @@ public class CommandLineUserInterface {
 	}
 
 	private static void convertJavaAuthor() {
+		//Using a selected path, a XML file is converted into a java object using a XML manager.
 		String fileName = "";
 		System.out.print("Write the path of the XML file: ");
 		try {
